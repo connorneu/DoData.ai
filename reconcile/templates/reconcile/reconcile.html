@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Algorithm Design: Reconcile</title>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="static/reconcile.css">
+        <link rel="shortcut icon" href="#">
+    </head>
+    <body>
+
+        {% load static %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'static_jquery/js/jquery.js' %}"></script>
+        <script type="text/javascript" src="static/reconcile.js"></script>
+ 
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navheader">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar scroll</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Link
+                            </a>
+                            <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled">Link</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <br></br>
+
+        {{ data_dump|json_script:"data_dump" }}
+        <div class="accordion opacity-75" id="accordionExample" style="display:inline-block;">
+            <div class="accordion-item">
+                <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Data (Loaded)
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                        <strong>Uploaded Data</strong>
+                            <br></br>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">File 1 of 2</label>
+                                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary" id="loadedfile2">No file selected</a>      
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">File 2 of 2</label>
+                                <a href="#" class="list-group-item list-group-item-action list-group-item-secondary" id="loadedfile1">No file selected</a>
+                            </div>
+                            <button type="button" class="btn btn-warning">Change</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <!-- SECOND ACCORDION -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <span id="firstfileaccordiontext">Adjust Data</span>  
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <h1 id="adjustdata1header"></h1>                                      
+                        <h2 style="margin: 20px;" id="data1step1header">Select worksheet.<br>If data doesn't have sheets then select <b>Sheet1</b>.</h2>                       
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="data1selectsheetbutton" style="display:block; margin-left: auto;margin-right: auto;margin-bottom: 2%;">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="file1sheetdropdown"></ul>
+                        </div>
+                        <div id="adjust_second_step">          
+                            <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; " id="data1_table_reset">Reset</button>
+                            <div style="display:none;" id="data1_colheader_txt"><h2>If your headers are not on the first row, click on the row that has your headers. Otherwise, click Next.</h2></div>
+                            <div id="colselecttablediv" style="overflow-x:auto;display:none;">
+                                <table>
+                                    <tbody id="data1_tableid"></tbody>
+                                </table>
+                            </div>
+
+
+                            <div id="adjustdatablock" class="row">
+                                <div style="display:none;" id="yesconditions1" class="condition-block block"> 
+                                <h3 id="conditions1header" style="display:none;margin-top:2%">C O N D I T I O N S</h3> 
+                                    <div class="conditiondivcontainer" id="conditioncontainer1" style="display:none;">
+                                        
+                                        <div class="input-group mb-3" style="width:40px;margin-right:2%;">
+                                            <button class="btn btn-secondary dropdown-toggle condition-dropdown andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item">And</a></li>
+                                                <li><a class="dropdown-item">Or</a></li>
+                                            </ul>                                           
+                                        </div>
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle condition-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect1"></button>            
+                                            <ul class="dropdown-menu" id="conditiondropdowncols1"></ul>
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item">Equals</a></li>
+                                                <li><a class="dropdown-item">Contains</a></li>
+                                                <li><a class="dropdown-item">Between</a></li>
+                                                <li><a class="dropdown-item">Greater Than</a></li>
+                                                <li><a class="dropdown-item">Less Than</a></li>
+                                                <li><a class="dropdown-item">Not Equal To</a></li>
+                                                <li><a class="dropdown-item">Does Not Contain</a></li>
+                                            </ul>
+                                            <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                        </div>
+
+                                        <div class="input-group condition-input" style="display:none;" id="conditionand1">
+                                            <span class="input-group-text">and</span>
+                                            <input type="text" aria-label="Enter value" class="form-control condition-input">
+                                        </div>
+                                    </div>
+                                    <h2 id="condition1header" style="margin-top:2%;">Create conditions to filter data. Otherwise, click Next.</h2>
+                                    <button class="button-30" role="button" id="isaddconditions1" style="">Add Condition</button>
+                                </div>                                
+                            </div>
+
+                            <button type="button" class="btn btn-secondary btn-lg" style="display:none; margin-left: auto;margin-right: auto;margin-top: 2%;" id="data1_next_colselect">Next</button>
+
+                            <div class="dropdown">
+                                <h2 style="display:none;margin:20px;" id="data1_step2_column_values">Select the column containing the values to find in the second dataset.</h2>
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="data1selectcolumns" style="display:none;margin-left: auto;margin-right: auto;">
+                                Select Column
+                                </button>              
+                                <ul class="dropdown-menu" id="data1columns"></ul>
+                            </div>
+                            
+                            <div id="nextorbackbuttonsconditions">
+                                <button type="button" class="btn btn-warning" style="display:none; margin-left: auto;margin-right:auto;margin-top: 2%;" id="goback_header_select">Go Back</button>
+                                <button type="button" class="btn btn-secondary btn-lg" style="display:none; margin-left: auto;margin-right: auto;margin-top: 2%;" id="data1_next_conditions">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- THIRD ACCORDION -->
+
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <span id="secondfileaccordiontext">Adjust Data</span>  
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <h1 id="adjustdata2header"></h1>              
+                        <h2 style="margin: 20px;" id="data2step1header">Select the worksheet which contains the data you need to reconcile.</h2>                       
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="data2selectsheetbutton" style="display:block; margin-left: auto;margin-right: auto;margin-bottom: 2%;">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="file2sheetdropdown"></ul>
+                        </div>
+                        <div id="adjust_second_step">          
+                            <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; " id="data2_table_reset">Reset</button>
+                            <div style="display:none;" id="data2_colheader_txt"><p>If your headers are not on the first row, click on the row that has your headers. Otherwise, click Next.</p></div>
+                            <div id="colselecttablediv2" style="overflow-x:auto;display:none;">
+                                <table>
+                                    <tbody id="data2_tableid"></tbody>
+                                </table>
+                            </div>
+
+                     
+                            <button type="button" class="btn btn-secondary btn-lg" style="display:none; margin-left: auto;margin-right: auto;margin-top: 2%;" id="data2_next_colselect">Next</button>
+
+                            <div class="dropdown">
+                                <h3 style="display:none;margin-left: auto;margin-right: auto;" id="data2_step2_column_values">Select column containing values to find in first dataset.</h3>
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="data2selectcolumns" style="display:none;margin-left: auto;margin-right: auto;">
+                                Select Column
+                                </button>            
+                                <ul class="dropdown-menu" id="data2columns"></ul>
+                            </div>
+                            
+                            <div id="adjustdatablock" class="row">
+                                <div style="display:none;" id="yesconditions2" class="condition-block block"> 
+                                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; " id="data2_reset_conditions">Reset</button>
+                                    <div class="conditiondivcontainer" id="conditioncontainer2" style="display:none;margin-top:2%"> 
+
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle condition-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect2"></button>            
+                                            <ul class="dropdown-menu" id="conditiondropdowncols2"></ul>
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item">Equals</a></li>
+                                                <li><a class="dropdown-item">Contains</a></li>
+                                                <li><a class="dropdown-item">Between</a></li>
+                                                <li><a class="dropdown-item">Greater Than</a></li>
+                                                <li><a class="dropdown-item">Less Than</a></li>
+                                                <li><a class="dropdown-item">Not Equal To</a></li>
+                                                <li><a class="dropdown-item">Does Not Contain</a></li>
+                                            </ul>
+                                            <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                        </div>
+
+                                        <div class="input-group condition-input" style="display:none;" id="conditionand2">
+                                            <span class="input-group-text">and</span>
+                                            <input type="text" aria-label="Enter value" class="form-control condition-input">
+                                        </div>
+                                    </div>
+                                    <button class="button-30" role="button" id="isaddconditions2" style="margin-top: 2%;margin-left: auto;margin-right:auto;">Add Condition</button>
+                                </div>
+                            </div>
+                            <div id="nextorbackbuttonsconditions2">
+                                <button type="button" class="btn btn-warning" style="display:none; margin-left: auto;margin-right:auto;margin-top: 2%;" id="goback_header_select2">Go Back</button>
+                                <button type="button" class="btn btn-secondary btn-lg" style="display:none; margin-left: auto;margin-right: auto;margin-top: 2%;" id="data2_next_conditions">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="codebloxk">
+            <div class="typing-container">
+            <span id="sentence" class="sentence"></span>
+                <div>                    
+                    <span id="feature-text1"></span>
+                    <span id="feature-text2"></span>
+                </div>
+                <div>                    
+                    <span id="feature-text3"></span>
+                    <span id="feature-text4"></span>
+                </div> 
+                <span class="input-cursor"></span>
+            </div> 
+        </div>
+    </body>
+</html>

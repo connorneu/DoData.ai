@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'poppins',sans-serif;
+}
+
+body {
+background-color: #2b2b2b;
+margin: 0 auto;
+padding: 0;
+width: 100%;
+color: #595959;
+font: normal 13px/1.8em Tahoma, Arial, Helvetica, sans-serif;
+text-align: center;
+letter-spacing: 0.06em;
+}
+.feature-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: .75rem;
+
+}
+
+.icon-square {
+  width: 3rem;
+  height: 3rem;
+  border-radius: .75rem;
+}
+
+.text-shadow-1 { text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25); }
+.text-shadow-2 { text-shadow: 0 .25rem .5rem rgba(0, 0, 0, .25); }
+.text-shadow-3 { text-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .25); }
+
+.card-cover {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.feature-icon-small {
+  width: 3rem;
+  height: 3rem;
+}
+h2 {
+    color: #f0f7f2;
+}
+h3 {
+     color: #f4f0f7;
+}
+p {
+    color: #bab4bf;
+    font-size: 15px;
+}
+.feature-icon{
+
+    border-top: 20px solid #7b21cf;
+    border-bottom: 20px solid #7b21cf;
+    border-left: 20px solid #7b21cf;
+    border-right: 20px solid #7b21cf;
+}
+.bi.bi-square-half {
+    background-color: #7b21cf;
+}
+.bi.bi-layout-wtf {
+    background-color: #7b21cf;
+}
+.bi.bi-files {
+    background-color: #7b21cf;
+}
+.icon-link {
+
+    color: #ac51fc;
+    font-size: 18px;
+
+
+}
+.animate__animated:hover{
+    animation-play-state: running;
+}
+.animate__animated{
+    animation-play-state: paused;
+}
