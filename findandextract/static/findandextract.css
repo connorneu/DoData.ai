@@ -15,6 +15,7 @@
 html {
     height: auto;
     min-height: 100%;
+    
 }
 body {
     background: black;
@@ -24,6 +25,12 @@ body {
     height: 100%;
     text-align: center;
     letter-spacing: 0.06em;
+}
+.typecontainer{
+    display:block;
+    max-height:350px;
+    overflow:hidden;
+    
 }
 h1{
     font-size: 24px;
@@ -76,12 +83,6 @@ span{
 .actionfyi{
     text-align : center;;
 }
-
-/*conditions*/
-
-
-
-
 
 /*carot*/
 pre {
@@ -456,10 +457,8 @@ margin-top:1%;
 .node:hover circle {
     fill: #fff;
     stroke: black;
-    stroke-width: 10px;
-    filter:blur(20px);
-    filter: blur(10px) drop-shadow(5px 5px 12px rgb(51,32,93));
-
+    stroke-width: 5px;
+    filter: blur(2px) drop-shadow(6px 2px 4px rgb(51,32,93));
 }
 
 .node text {
@@ -475,6 +474,10 @@ margin-top:1%;
     transition: opacity 0.3s ease-in-out;
     margin:200px; 
     border-radius:50%;
+    display:none;
+}
+.node:hover image{
+    display:inline;
 }
 .link {
     fill: none;

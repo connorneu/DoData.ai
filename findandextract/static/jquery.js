@@ -6,19 +6,32 @@ primary_file_name = null;
 primary_file_sheets = [];
 primary_sheet_name = null;
 secondary_file_name = null;
-seconday_file_sheets = [];
 secondary_sheet_name = null;
+third_file_name = null;
+third_sheet_name = null;
+fourth_file_name = null;
+fourth_sheet_name = null;
 createTable_values1 = '';
 createTable_values2 = '';
+createTable_values3 = '';
+createTable_values4 = '';
 condition_arr = [];
 condition_arr2 = [];
+condition_arr3 = [];
+condition_arr4 = [];
 table_html_obj_arr = null;
 table_html_obj_arr2 = null;
+table_html_obj_arr3 = null;
+table_html_obj_arr4 = null;
 primary_header_row = 0;
 secondary_header_row = 0;
+third_header_row = 0;
+fourth_header_row = 0;
 input_type = null;
 input_num = null;
 algorithm_type = null;
+newline_scroll = 50;
+start_scrolling_after = 10;
 
 
 // COLLAPSABLE FUCKING THING YOU DON T KUNDERSTAND
@@ -45,26 +58,22 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     }
 });
 
-
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
   
-return new Promise((resolve, reject) => {    
-    id_new = '#feature-text' + carousel_num;
-    carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
-    var carousel_result = carousel(carousel_obj)
-    
-    if (carousel_result) {
-        //carousel_num++;  
-        resolve(carousel_result);
-    }
-    else {
-        //carousel_num++;  
-        reject(carousel_result);
-    }
-    })
-    
+    return new Promise((resolve, reject) => {    
+        id_new = '#feature-text' + carousel_num;
+        carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
+        var carousel_result = carousel(carousel_obj)  
+        if (carousel_result) {
+            //carousel_num++;  
+            resolve(carousel_result);
+        }
+        else {
+            //carousel_num++;  
+            reject(carousel_result);
+        }
+    })   
 }
-
 
 async function typeSentence(sentence, eleRef, delay =00) {
   const letters = sentence.split("");
@@ -104,6 +113,7 @@ function waitForMs(ms) {
 
 async function carousel(carousel_obj) {
     carousel_num++;  
+    console.log(carousel_num);
     create_carousel_elem(carousel_obj);  // if elem doesn't exist create it
     //only run functions that update text params until after text is written
     for(var j=0;j<carousel_obj.func.length;j++)
@@ -112,7 +122,11 @@ async function carousel(carousel_obj) {
         if (carousel_obj.func[j] != null) {
             //if function includes then append result to carouselList - THIS WILL BE AN ISSUE because it only appends to end of text
             if (carousel_obj.func[j].includes('update_item_text_params')) {
+                var text_obj_type = typeof carousel_obj.text
                 carousel_obj.text += eval(carousel_obj.func[j])
+                if (text_obj_type === 'object'){
+                    carousel_obj.text = [carousel_obj.text]
+                }
             }
         }
     }
@@ -135,7 +149,15 @@ async function carousel(carousel_obj) {
                 await eval(carousel_obj.func[j]);//run functions inside carousel item     
             }
         }
-    } 
+    }
+    if (carousel_num > 14){
+        console.log('cuntz')
+        var element = document.getElementById('typingtextcontainer');
+        element.scrollIntoView(false);
+        element.scroll(-1000,500);
+        window.focus();
+        window.scrollTo(0,800);
+    }
     return true;
 }
 
@@ -200,399 +222,76 @@ function uniq_fast(obj, att) {
     return out;
 }
 
- // make dropdown value equal to selected value
-$(document.body).on('click', '.dropdown-menu li a' ,function(){      
-    var selected_dropdown_value = $(this).text();
-    $(this).parents(".dropdown").find('.btn').html($(this).text() + '<span class="caret"></span>');
-    $(this).parents(".dropdown").find('.btn').val($(this).data('value')); 
-});
-
- // if primary file is selected hide dropdown + hide header + print selection
-$(document.body).on('click', '#primaryfile_ul' ,async function(){ 
-    hide_containers(2);
-    //document.getElementById('carouselcontainer4').style.display = 'none';     //'feature-text4'
-    //document.getElementById('carouselcontainer5').style.display = 'none';     //'feature-text5'
-    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown    
-
-    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-    primary_file_name = user_selection;
-    primary_file_sheets = get_file_sheets(primary_file_name); 
-    await add_to_carousel('Primary file: ', standard_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
-});
-
- // if secondary file is selected hide dropdown + hide header + print selection
-$(document.body).on('click', '#secondaryfile_ul' ,async function(){ 
-    //document.getElementById('carouselcontainer4').style.display = 'none';     //'feature-text4'
-    //document.getElementById('carouselcontainer5').style.display = 'none';     //'feature-text5'
-    hide_containers(2)
-    document.getElementById('secondaryfiledrop').style.display = 'none'; // file selection dropdown    
-    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-    secondary_file_name = user_selection;
-    secondary_file_sheets = get_file_sheets(secondary_file_name); 
-    await add_to_carousel('Secondary file: ', standard_color, ['update_item_text_params(secondary_file_name)', 'secondary_sheet_selection()'], true, false);
-});
-
- // if primary sheet is selected
-$(document.body).on('click', '#primarysheet_ul' ,function(){ 
-    hide_containers(2);
-    //document.getElementById('carouselcontainer7').style.display = 'none';
-    //document.getElementById('carouselcontainer8').style.display = 'none';
-    document.getElementById('primarysheetdrop').style.display = 'none';
-    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-    primary_sheet_name = user_selection;    
-    add_to_carousel('Primary sheet: ', standard_color, ['update_item_text_params(primary_sheet_name)', 'adjust_col_header()'], true, false);
-});
-
- // if secondary sheet is selected
-$(document.body).on('click', '#secondarysheet_ul' ,function(){ 
-    hide_containers(2);
-    document.getElementById('secondarysheetdrop').style.display = 'none';
-    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-    secondary_sheet_name = user_selection;    
-    add_to_carousel('Secondary sheet: ', standard_color, ['update_item_text_params(secondary_sheet_name)', 'adjust_col_header2()'], true, false);
-});
-
-// when col header for table 1 is adjusted
-$(document.body).on('click', '#data1_tableid' ,function(e){  
-    const cell = e.target.closest('td');
-    if (!cell) {return;} // Quit, not clicked on a cell
-    const row = cell.parentElement; // row user clicked on
-    primary_header_row = row.rowIndex;
-    //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names   
-    //$("#loadedfile1").text(unique_file_names[0]); // text value of Data Accordion 1
-   // var selected_data1_sheet_dropdown = $('#data1selectsheetbutton').val($(this).text()).text() // get current data1 sheet value
-    var repivoted_data = repivot_keyval(data_json, primary_file_name, primary_sheet_name); // create array original table dimension from key value table
-    createTable_values1 = createTable(repivoted_data, 'data1_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
-    var col_headers = createTable_values1[0];
-    var createTable_html = createTable_values1[1];
-    table_html_obj_arr = parse_table_column_values(createTable_html);
-    //populate_obj_list("data1selectedcolumnvalues", table_html_obj_arr);
-    populate_drop_down("#data1columns", col_headers, true); // populate data column selection with header update
-    document.getElementById("data1_table_reset").style.display = "block";
-    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
-    //console.log(cell.innerHTML, row.rowIndex, cell.cellIndex);
-});
-
-// when col header for table 2 is adjusted
-$(document.body).on('click', '#data2_tableid' ,function(e){  
-    const cell = e.target.closest('td');
-    if (!cell) {return;} // Quit, not clicked on a cell
-    const row = cell.parentElement; // row user clicked on
-    secondary_header_row = row.rowIndex;
-    //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names   
-    //$("#loadedfile1").text(unique_file_names[0]); // text value of Data Accordion 1
-   // var selected_data1_sheet_dropdown = $('#data1selectsheetbutton').val($(this).text()).text() // get current data1 sheet value
-    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
-    createTable_values2 = createTable(repivoted_data, 'data2_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
-    var col_headers = createTable_values2[0];
-    var createTable_html = createTable_values2[1];
-    table_html_obj_arr2 = parse_table_column_values(createTable_html);
-    //populate_obj_list("data1selectedcolumnvalues", table_html_obj_arr);
-    //populate_drop_down("#secondarycond1_col_drop", col_headers, true);
-    populate_drop_down("#data2columns", col_headers, true); // populate data column selection with header update
-    document.getElementById("data2_table_reset").style.display = "block";
-    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
-    //console.log(cell.innerHTML, row.rowIndex, cell.cellIndex);
-});
-
-// reset table 1
-$(document.body).on('click', '#data1_table_reset' ,function(e){
-    //var selected_data_sheet_dropdown = $('#data1selectsheetbutton').val($(this).text()).text() // get current data1 sheet value
-    var col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid') // populate table with selected values
-    //populate_drop_down("#data1columns", col_headers, true);
-    document.getElementById("data1_table_reset").style.display = "none";
-    primary_header_row = 0;
-});
-
-// reset table 2
-$(document.body).on('click', '#data2_table_reset' ,function(e){
-    //var selected_data_sheet_dropdown = $('#data1selectsheetbutton').val($(this).text()).text() // get current data1 sheet value
-    var col_headers = populate_table_element(secondary_sheet_name, 2, 'data2_tableid') // populate table with selected values
-    //populate_drop_down("#data1columns", col_headers, true);
-    document.getElementById("data2_table_reset").style.display = "none";
-    secondary_header_row = 0;
-});
-
-// next after adjusting col headers primary data
-$(document.body).on('click', '#data1_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Define condtions to filter primary data'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
-});
-
-// next after adjusting col headers secondary data
-$(document.body).on('click', '#data2_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel(['Define condtions to filter secondary data'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn2()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
-});
-
-// when add condition is clicked
-$(document.body).on('click', '#addconditionprimary' ,function(){
-    var current_selection = $('#cond1_col_drop').find('.btn').text()
-    if (current_selection === 'Select Column'){
-        var primary_col_headers = createTable_values1[0];
-        populate_drop_down('#conditiondropdowncols1', primary_col_headers, true)
-        document.getElementById('cond1_col_drop').style.display = 'inline-block';
-        document.getElementById('primaryconditions').style.display = 'block';
-        document.getElementById('primarycondition1').style.display = 'block';  
-        document.getElementById('cond1_action1').style.display = 'inline-block';
-    }
-    else{  
-        // add more conditions by cloning previous and reseting values
-        var $last_condition = $('#primarycondition-container div[id^="primarycondition"]:last');
-        var condition_num = $last_condition.prop("id").slice(-1);
-        condition_num++;
-        var $condition_klon = $last_condition.clone(false).prop('id', 'primarycondition'+condition_num);
-        // change id to current condition num
-        $condition_klon.find('.dropdown.condition-dropdown').prop('id', 'cond' + condition_num + '_col_drop');
-        $condition_klon.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').prop('id', 'conditioncolselect' + condition_num);
-        $condition_klon.find('.dropdown-menu').prop('id', 'conditiondropdowncols' + condition_num);
-        $condition_klon.find('.dropdown.condition-dropdown-col').prop('id', 'cond' + condition_num + 'action' + condition_num);
-        $condition_klon.find('.condition-input-div').prop('id', 'condition' + condition_num + 'and');
-        $condition_klon.find('.condition-dropdown-andor').prop('id', 'andor' + condition_num);        
-        
-        // change dropdown value back to Select Column
-        $condition_klon.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').html('Select Column');
-        $condition_klon.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').html('Equals');
-        $condition_klon.find('.form-control.condition-input').val('');
-        $condition_klon.find('.form-control.condition-input-and').val('');
-        $condition_klon.find('.condition-dropdown-btn-andor').html('And');
-        $condition_klon.find('.condition-input-div').css('display','none');
-        $condition_klon.find('.condition-dropdown-andor').css('visibility','visible');
-        $condition_klon.appendTo('#primaryconditions');          
-    }
-});
-
-// when add condition is added for secondary
-$(document.body).on('click', '#addconditionsecondary' ,function(){
-    var current_selection = $('#secondarycond1_col_drop').find('.btn').text()
-    if (current_selection === 'Select Column'){
-        var secondary_col_headers = createTable_values2[0];
-        populate_drop_down('#secondaryconditiondropdowncols1', secondary_col_headers, true)
-        document.getElementById('secondarycond1_col_drop').style.display = 'inline-block';
-        document.getElementById('secondaryconditionsq').style.display = 'block';
-        document.getElementById('secondaryconditions1').style.display = 'block';  
-        document.getElementById('secondarycond1_action1').style.display = 'inline-block';
-    }
-    else{       
-        // add more conditions by cloning previous and reseting values
-        var $last_condition = $('#secondarycondition-container div[id^="secondaryconditions"]:last');
-        var condition_num = $last_condition.prop("id").slice(-1);
-        condition_num++;
-        var $condition_klon = $last_condition.clone(false).prop('id', 'secondaryconditions'+condition_num);
-        // change id to current condition num
-        $condition_klon.find('.dropdown.condition-dropdown').prop('id', 'secondarycond' + condition_num + '_col_drop');
-        $condition_klon.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').prop('id', 'secondaryconditioncolselect' + condition_num);
-        $condition_klon.find('.dropdown-menu').prop('id', 'secondaryconditiondropdowncols' + condition_num);
-        $condition_klon.find('.dropdown.condition-dropdown-col').prop('id', 'secondarycond' + condition_num + 'action' + condition_num);
-        $condition_klon.find('.condition-input-div').prop('id', 'secondarycondition' + condition_num + 'and');
-        $condition_klon.find('.condition-dropdown-andor').prop('id', 'secondaryandor' + condition_num);        
-        
-        // change dropdown value back to Select Column
-        $condition_klon.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').html('Select Column');
-        $condition_klon.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').html('Equals');
-        $condition_klon.find('.form-control.condition-input').val('');
-        $condition_klon.find('.form-control.condition-input-and').val('');
-        $condition_klon.find('.condition-dropdown-btn-andor').html('And');
-        $condition_klon.find('.condition-input-div').css('display','none');
-        $condition_klon.find('.condition-dropdown-andor').css('visibility','visible');
-        $condition_klon.appendTo('#secondaryconditionsq');          
-    }
-});
-
-// if between is selected from condition dropdown update relevant andcondition
-$(document.body).on('click', '.input-group.mb-3' ,function(){
-    var cond_action = $(this).find('.btn').text();
-    if (cond_action === 'Between'){
-        $(this).parent('.conditiondiv').find('.condition-input-div').css('display','inline-block');
-    }
-    else{
-        $(this).parent('.conditiondiv').find('.condition-input-div').css('display','none');
-    }
-});
-
-// next after conditions primary
-$(document.body).on('click', '#conditionnextprimary' ,function(){
-    var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
-    var condition_num = $last_condition.prop("id").slice(-1);
-    while (condition_num >= 1){
-        var current_primary_condition = 'primarycondition' + condition_num;
-        $last_condition = $('#'+current_primary_condition);
-        var andor = $last_condition.find('.condition-dropdown-btn-andor').text();
-        var column_name = $last_condition.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').text();        
-        var action = $last_condition.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').text();
-        var action_value = $last_condition.find('.form-control.condition-input').val();
-        var between_and = $last_condition.find('.form-control.condition-input-and').val();
-        condition_arr.push([andor, column_name, action, action_value, between_and]);
-        condition_num--;        
-    } 
-    document.getElementById('primarycondition-container').style.display = 'none';
-    //table_html_obj_arr = filter_data('table1');
-    display_conditions();
-});
-
-// next after conditions secondary
-$(document.body).on('click', '#conditionnextsecondary' ,function(){
-    var $last_condition = $('div[id^="secondaryconditions"]:last'); //find last condition
-    var condition_num = $last_condition.prop("id").slice(-1);
-    while (condition_num >= 1){
-        var current_secondary_condition = 'secondaryconditions' + condition_num;
-        $last_condition = $('#'+current_secondary_condition);
-        var andor = $last_condition.find('.condition-dropdown-btn-andor').text();
-        var column_name = $last_condition.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').text();        
-        var action = $last_condition.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').text();
-        var action_value = $last_condition.find('.form-control.condition-input').val();
-        var between_and = $last_condition.find('.form-control.condition-input-and').val();
-        condition_arr2.push([andor, column_name, action, action_value, between_and]);
-        condition_num--;        
-    } 
-    document.getElementById('secondarycondition-container').style.display = 'none';
-    //table_html_obj_arr2 = filter_data('table2');
-    //document.getElementById('submitbtn').style.display = 'block'
-    display_conditions2();
-});
-
-// add conditions to match
-$(document.body).on('click', '#matchaddcondition' ,function(){
-    var $last_condition = $('#matchcondition-container div[id^="matchcondition1"]:last');
-    var condition_num = $last_condition.prop("id").slice(-1); 
-    console.log(condition_num)
-    if (document.getElementById('matchcondition-container').style.display === 'none'){   
-        document.getElementById('matchcondition-container').style.display = 'block';
-        document.getElementById('matchcondition1').style.display = 'block';
-        $('#matchprimaryheader').text(primary_file_name);
-        $('#matchsecondaryheader').text(secondary_file_name);
-        var col_headers = createTable_values1[0];
-        populate_drop_down("#match_primary_col_dropdown", col_headers, true);
-        var col_headers = createTable_values2[0];
-        populate_drop_down("#match_secondary_col_dropdown", col_headers, true);
-    }
-    else{
-        condition_num++;
-        var $klon = $last_condition.clone(false).prop('id', 'matchcondition'+condition_num);
-        $klon.find('.dropdown.condition-dropdown').prop('id', 'secondarycond' + condition_num + '_col_drop');
-        $klon.appendTo('#matchconditioncontainer'); 
-
-
-
-    }
-
-});
-
-// add conditions to match
-$(document.body).on('click', '#matchaddcondition' ,function(){
-    var $last_condition = $('#matchcondition-container div[id^="matchcondition1"]:last');
-    var condition_num = $last_condition.prop("id").slice(-1); 
-    console.log(condition_num)
-    if (document.getElementById('matchcondition-container').style.display === 'none'){   
-        document.getElementById('matchcondition-container').style.display = 'block';
-        document.getElementById('matchcondition1').style.display = 'block';
-        $('#matchprimaryheader').text(primary_file_name);
-        $('#matchsecondaryheader').text(secondary_file_name);
-        var col_headers = createTable_values1[0];
-        populate_drop_down("#match_primary_col_dropdown", col_headers, true);
-        var col_headers = createTable_values2[0];
-        populate_drop_down("#match_secondary_col_dropdown", col_headers, true);
-    }
-    else{
-        condition_num++;
-        var $klon = $last_condition.clone(false).prop('id', 'matchcondition'+condition_num);
-        $klon.find('.dropdown.condition-dropdown').prop('id', 'secondarycond' + condition_num + '_col_drop');
-        $klon.appendTo('#matchconditioncontainer'); 
-
-    }
-});
-
-$(document.body).on('dragenter focus click', '.file-input' ,function(e){
-    $(e.target.parentNode).addClass('is-active');
-});
-
-$(document.body).on('dragenter focus click', '.file-input' ,function(e){
-    $(e.target.parentNode).removeClass('is-active');
-});
-
-$(document.body).on('change', '.file-input' ,function(){
-    var filesCount = $(this)[0].files.length;
-    var $textContainer = $(this).prev();
-    if (filesCount === 1) {
-    // if single file is selected, show file name
-    var fileName = $(this).val().split('\\').pop();  
-    $textContainer.text(fileName);
-    } else {
-    // otherwise show number of files
-    $textContainer.text(filesCount + ' files selected');
-    }
-    document.getElementById('addfiles').style.display = 'block';
-});
-
-// unhide additional file drop box
-$(document.body).on('click', '#addsecondfile' ,function(){    
-    if(document.getElementById('filetwo').style.display == 'none'){
-        document.getElementById('filetwo').style.display = 'inline-block';
-        if(input_num == 'single'){
-            document.getElementById('addsecondfile').style.display = 'none';
-        }
-    }
-    else if(document.getElementById('file3').style.display == 'none' && input_num == 'multiple'){
-        document.getElementById('file3').style.display = 'inline-block';
-    }
-    else if(document.getElementById('file4').style.display == 'none' && input_num == 'multiple'){
-        document.getElementById('file4').style.display = 'inline-block';
-        document.getElementById('addsecondfile').style.display = 'none';
-    }
-});
-
 async function display_multiple_file_drops(){
     document.getElementById('filedrops').style.display = 'block';
-    //if(input_num === 'single' && input_type === 'custom'){
-    //    document.getElementById('addsecondfile').style.display = 'none';
-    //}
-}
-
-async function display_all_files_in_folder(){
-    
+    //    addsecondfile click event decides how many files are displayed
 }
 
 async function display_algo_graph(){
     document.getElementById('algo-desc-graph').style.display = 'block';
 }
 
-async function start_primary_file(db_data){  
-        document.getElementById('filedrops').style.display = 'none';
-        hide_containers(2);
-        data_json = db_data['fande_data_dump'];
-        console.log(data_json)
-        //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
-        unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
-        //load file
-        await add_to_carousel('Loaded file: ' + unique_file_names[0], standard_color, [null], true, false);
-        //load file
-        await add_to_carousel('Loaded file: ' + unique_file_names[1], standard_color, [null], true, false);  
-        //Select Primary Dropdown
-        await add_to_carousel(['Select Primary File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);         //"document.getElementById('carouselcontainer" + (carousel_num + 1) +"').style.textAlign = 'center';"
-        // Select Primary Dropdown Instructions
-        await add_to_carousel(['The primary file will be the file that contains the values you want to search other files for.',
-                        'It should contain at least one column with values that can be found in other files.', 
-                        'You can also search within your primary file for these values.'],
-                        fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+async function start_data_filter(db_data){  
+    document.getElementById('filedrops').style.display = 'none';
+    hide_containers(2);
+    data_json = db_data['fande_data_dump'];
+    console.log(data_json)
+    //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
+    unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
+    for (var i = 0; i<unique_file_names.length; i++){
+        await add_to_carousel('Loaded file: ' + unique_file_names[i], standard_color, [null], true, false);
+    }
+    if (input_type === 'File'){
+        start_file_input();
+    }
+    else if(input_type === 'Custom') {
+        start_custom_input();
+    }
+    
 }
+
+async function start_file_input(){
+    await add_to_carousel(['Select file containing input values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['This file contains the values which your algorithm will match with other files to know which records to affect.',
+                            'It should contain at least one column with values that can be found in other files.'],
+                            fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    // after input adjust_col_header
+}
+
+async function start_custom_input(){
+    await add_to_carousel(['Enter custom value to '], action_color, ['update_item_text_params(algorithm_type)',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['Enter one or more values which will be searched for in other files.',
+                            'These values will be searched for in specified columns in other values.'],
+                            fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+}
+
 
 async function start_second_dataset(){
-    await add_to_carousel(['Select Secondary File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);         //"document.getElementById('carouselcontainer" + (carousel_num + 1) +"').style.textAlign = 'center';"
-    await add_to_carousel(['The secondary file contains the data you want to extract.',
+    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['This file contains the data you want to extract.',
                     'It needs to have values in common with your primary sheet.', 
-                    'The values from the primary sheet will be searched for in your secondary sheet.'],
-                    fyi_color, ['display_secondaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+                    'The values from the input sheet will be searched for in this file.'],
+                    fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", "display_secondaryfileselect_drop()"], false, true);
 }
 
+async function start_third_dataset(){
+    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['This file contains the data you want to extract.',
+                    'It needs to have values in common with your primary sheet.', 
+                    'The values from the input sheet will be searched for in this file.'],
+                    fyi_color, ['display_thirdfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+}
+
+async function start_fourth_dataset(){
+    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['This file contains the data you want to extract.',
+                    'It needs to have values in common with your primary sheet.', 
+                    'The values from the input sheet will be searched for in this file.'],
+                    fyi_color, ['display_fourthfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+}
 
 
 async function display_conditions(){
-    //document.getElementById('carouselcontainer10').style.display = 'none';
-    //document.getElementById('carouselcontainer11').style.display = 'none';
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
@@ -607,7 +306,6 @@ async function display_conditions(){
         await add_to_carousel(condition_string, standard_color, [null], true, false);
         cond_count++;
     }
-    //await add_to_carousel('---------Secondary Data---------------', standard_color, [null], true, false);
     start_second_dataset();
 }
 
@@ -615,20 +313,66 @@ async function display_conditions2(){
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('Filer secondary data ' + (condition_arr2.length) + ' conditions:', standard_color, [null], true, false);
+    await add_to_carousel('Filer data ' + (condition_arr2.length) + ' conditions:', standard_color, [null], true, false);
     for (var i = condition_arr2.length-1; i >= 0; i--){   
         if (condition_arr2[i][4].length === 0){        
             condition_string = '\xa0\xa0$\xa0' + condition_arr2[i][1] + ' ' + condition_arr2[i][2] + ' ' + condition_arr2[i][3]
         }
         else{
             condition_string = '\xa0\xa0$\xa0' + condition_arr2[i][1] + ' ' + condition_arr2[i][2] + ' ' + condition_arr2[i][3] + ' and ' + condition_arr2[i][4]
+        }        
+        await add_to_carousel(condition_string, standard_color, [null], true, false);
+        cond_count++;
+    }
+    if(!third_file_name){
+        start_third_dataset()
+    }
+    else{
+        algo_menu()
+    }
+}
+
+async function display_conditions3(){
+    hide_containers(2);
+    var cond_count = 1;
+    var condition_string = null;
+    await add_to_carousel('Filer data ' + (condition_arr3.length) + ' conditions:', standard_color, [null], true, false);
+    for (var i = condition_arr3.length-1; i >= 0; i--){   
+        if (condition_arr3[i][4].length === 0){        
+            condition_string = '\xa0\xa0$\xa0' + condition_arr3[i][1] + ' ' + condition_arr3[i][2] + ' ' + condition_arr3[i][3]
+        }
+        else{
+            condition_string = '\xa0\xa0$\xa0' + condition_arr3[i][1] + ' ' + condition_arr3[i][2] + ' ' + condition_arr3[i][3] + ' and ' + condition_arr3[i][4]
         }
         await add_to_carousel(condition_string, standard_color, [null], true, false);
         cond_count++;
     }
-    //await add_to_carousel('---------Upload Data Complete---------', standard_color, [null], true, false);
-    //matchcolumns()
+    if(!fourth_file_name){
+        start_fourth_dataset()
+    }
+    else{
+        algo_menu()
+    }
+}
+
+async function display_conditions4(){
+    hide_containers(2);
+    var cond_count = 1;
+    var condition_string = null;
+    await add_to_carousel('Filer data ' + (condition_arr4.length) + ' conditions:', standard_color, [null], true, false);
+    for (var i = condition_arr4.length-1; i >= 0; i--){   
+        if (condition_arr4[i][4].length === 0){        
+            condition_string = '\xa0\xa0$\xa0' + condition_arr4[i][1] + ' ' + condition_arr4[i][2] + ' ' + condition_arr4[i][3]
+        }
+        else{
+            condition_string = '\xa0\xa0$\xa0' + condition_arr4[i][1] + ' ' + condition_arr4[i][2] + ' ' + condition_arr4[i][3] + ' and ' + condition_arr4[i][4]
+        }
+        await add_to_carousel(condition_string, standard_color, [null], true, false);
+        cond_count++;
+    }
+
     algo_menu()
+
 }
 
 async function algo_menu(){
@@ -638,8 +382,8 @@ async function algo_menu(){
 } 
 
 async function matchcolumns(){
-    await add_to_carousel(['Find values from primary dataset in secondary dataset.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Select columns with values in primary and secondary datasets.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    await add_to_carousel(['Find values from Input File in Search File.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Select columns with values in Input File and Search File.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById('matchcolumnscontainer').style.display = 'block';
     document.getElementById('matchprimarycolumn').style.display = 'block';
     document.getElementById('matchsecondarycolumn').style.display = 'block';
@@ -650,9 +394,8 @@ async function matchcolumns(){
     populate_drop_down("#matchsecondary_ul", col_headers, true);
     $('#matchprimaryfilename').text('[' + primary_file_name + ' (' + primary_sheet_name +')]');
     $('#matchsecondaryfilename').text('[' + secondary_file_name + ' (' + secondary_sheet_name + ')]');
-
-
 }
+
 
 async function display_primaryfileselect_drop(){
     // select primary file
@@ -677,12 +420,47 @@ function display_secondaryfilesheets_drop() {
     document.getElementById('secondarysheetdrop').style.display = 'block';
 }
 
+// select third file
+async function display_thirdfileselect_drop(){
+    populate_drop_down('#thirdfile_ul', unique_file_names, true)
+    document.getElementById('thirdfiledrop').style.display = 'block';
+}
+
+// select third sheet
+function display_thirdfilesheets_drop() {
+    populate_drop_down('#thirdsheet_ul', secondary_file_sheets, true)
+} 
+
+// select fourth file
+async function display_fourthfileselect_drop(){
+    populate_drop_down('#fourthfile_ul', unique_file_names, true)
+    document.getElementById('fourthfiledrop').style.display = 'block';
+}
+
+// select fourth sheet
+function display_fourthfilesheets_drop() {
+    populate_drop_down('#secondarysheet_ul', secondary_file_sheets, true)
+}
+
+
+
+
+
+
 function display_add_conditions_btn(){
     document.getElementById('primarycondition-container').style.display = 'block';
 }
 
 function display_add_conditions_btn2(){
     document.getElementById('secondarycondition-container').style.display = 'block';
+}
+
+function display_add_conditions_btn3(){
+    document.getElementById('thirdcondition-container').style.display = 'block';
+}
+
+function display_add_conditions_btn4(){
+    document.getElementById('fourthcondition-container').style.display = 'block';
 }
 
 function display_colselect_table(){
@@ -787,23 +565,45 @@ function get_file_sheets(file_name) {
 
 async function primary_sheet_selection(){
     if (primary_file_sheets.length > 1) {
-        await add_to_carousel(['Select worksheet from primary file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        await add_to_carousel(['Select worksheet from input file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
         await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_primaryfilesheets_drop()'], false, true); 
     }
     else{
         primary_sheet_name = "Sheet1";
-        await add_to_carousel('Primary sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header()'], true, false);
+        await add_to_carousel('Input sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header()'], true, false);
     }   
 }
 
 async function secondary_sheet_selection(){
     if (secondary_file_sheets.length > 1) {
-        await add_to_carousel(['Select worksheet from secondary file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        await add_to_carousel(['Select worksheet from file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
         await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_secondaryfilesheets_drop()'], false, true); 
     }
     else{
         secondary_sheet_name = "Sheet1";
-        await add_to_carousel('Secondary sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header2()'], true, false);
+        await add_to_carousel('Data sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header2()'], true, false);
+    }   
+}
+
+async function third_sheet_selection(){
+    if (secondary_file_sheets.length > 1) {
+        await add_to_carousel(['Select worksheet from file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_secondaryfilesheets_drop()'], false, true); 
+    }
+    else{
+        third_sheet_name = "Sheet1";
+        await add_to_carousel('Data sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header3()'], true, false);
+    }   
+}
+
+async function fourth_sheet_selection(){
+    if (secondary_file_sheets.length > 1) {
+        await add_to_carousel(['Select worksheet from file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_secondaryfilesheets_drop()'], false, true); 
+    }
+    else{
+        fourth_sheet_name = "Sheet1";
+        await add_to_carousel('Data sheet: Sheet1 (default - file only has one sheet)', standard_color, ['adjust_col_header4()'], true, false);
     }   
 }
 
@@ -821,6 +621,20 @@ function adjust_col_header2(){
     col_headers = populate_table_element(secondary_sheet_name, 2, 'data2_tableid');
 }
 
+function adjust_col_header3(){
+    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById("colselecttablediv3").style.display = "block";
+    col_headers = populate_table_element(third_sheet_name, 3, 'data3_tableid');
+}
+
+function adjust_col_header4(){
+    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById("colselecttablediv4").style.display = "block";
+    col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid');
+}
+
 function populate_table_element(selected_sheet, tablenumber, data_tableid){
     //const data_json = JSON.parse(document.getElementById('data_dump').textContent); // get original json data gain
     //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names  
@@ -832,12 +646,26 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid){
         var createTable_html = createTable_values1[1];
         table_html_obj_arr = parse_table_column_values(createTable_html);
     }
-    else{
+    else if(tablenumber === 2){
         var repivoted_data = repivot_keyval(data_json, secondary_file_name, selected_sheet);
         createTable_values2 = createTable(repivoted_data, data_tableid);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
         table_html_obj_arr2 = parse_table_column_values(createTable_html);
+    }
+    else if(tablenumber === 3){
+        var repivoted_data = repivot_keyval(data_json, third_file_name, selected_sheet);
+        createTable_values3 = createTable(repivoted_data, data_tableid);
+        col_headers = createTable_values3[0];
+        var createTable_html = createTable_values3[1];
+        table_html_obj_arr3 = parse_table_column_values(createTable_html);
+    }
+    else if(tablenumber === 4){
+        var repivoted_data = repivot_keyval(data_json, fourth_file_name, selected_sheet);
+        createTable_values4 = createTable(repivoted_data, data_tableid);
+        col_headers = createTable_values4[0];
+        var createTable_html = createTable_values4[1];
+        table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     return col_headers;
 }
@@ -1134,121 +962,6 @@ function check_condition(cond_type, cond_val, cond_and_val, column_val){
     return result;
 }
      
-$(document).ready(function () {
-     //catch the form's submit event
-    $('#datafiltersform').submit(function () {
-        console.log('ca1 '+ condition_arr)
-        console.log('ca2 '+ condition_arr2)
-        console.log(primary_file_name)
-        console.log(primary_sheet_name)
-        console.log(primary_header_row)
-        console.log(secondary_file_name)
-        console.log(secondary_sheet_name)
-        console.log(secondary_header_row)
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        // create an AJAX call
-        $.ajax({
-            data: {
-                'primaryfile' : primary_file_name,
-                'primarysheet' : primary_sheet_name,
-                'primary_header_row' : primary_header_row,
-                'secondaryfile' : secondary_file_name,
-                'secondarysheet' : secondary_sheet_name,
-                'secondary_header_row' : secondary_header_row,
-                'conditions1' : JSON.stringify(condition_arr),
-                'conditions2' : JSON.stringify(condition_arr2)
-            }, // get the form data        $(this).serialize()
-            type: $(this).attr('method'), // GET or POST
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")},
-            //url: "{% url 'findandextract' %}",
-            // on success
-            success: function () {
-                console.log("data submitted ");
-            },
-            // on error
-            error: function (request, status, error) {
-                // alert the error if any error occured
-                //alert(response.responseJSON.errors);
-                //console.log(response.responseJSON.errors)
-                alert(request.responseText);
-            }
-        });
-        return false;
-    });   
-})
-
-$(document).ready(async function () {
-    $(document.body).on('click', '#next_loadedfiles' ,function(){
-     //catch the form's submit event
-    //$('#next_loadedfiles').submit(function () {
-        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        var formData = new FormData();
-        formData.append('file_1', $('input[type=file]')[0].files[0]); 
-        if (typeof $('input[type=file]')[1].files[0] !== "undefined"){
-            formData.append('file_2', $('input[type=file]')[1].files[0]);
-        }
-        if (typeof $('input[type=file]')[2].files[0] !== "undefined"){
-            formData.append('file_3', $('input[type=file]')[2].files[0]);
-        }
-        if (typeof $('input[type=file]')[3].files[0] !== "undefined"){
-            formData.append('file_4', $('input[type=file]')[3].files[0]);
-        }
-        console.log(FormData)
-        // create an AJAX call
-        $.ajax({
-            data: formData, // get the form data        $(this).serialize()
-            type: 'POST', // GET or POST
-            contentType: false,
-            processData: false,
-            cache: false,
-            enctype: 'multipart/form-data',
-            headers: {
-                "X-CSRFToken": getCookie("csrftoken")},
-            //url: "{% url 'findandextract' %}",
-            // on success
-            success: function () {
-                console.log("file data submitted");
-                ajax_get_db()
-            },
-            // on error
-            error: function (request, status, error) {
-                // alert the error if any error occured
-                //alert(response.responseJSON.errors);
-                //console.log(response.responseJSON.errors)
-                alert(request.responseText);
-            }
-        });
-        
-        return false;
-    });   
-})
-
-async function ajax_get_db(){
-    var db_data = null;
-    $.ajax({
-        //data: data, 
-        type: 'GET',
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken")},
-        //url: "{% url 'findandextract' %}",
-        //url: 'findandextract/',
-        // on success
-        success: function (data) {
-            console.log("data retreived ");
-            start_primary_file(data);
-        },
-        // on error
-        error: function (request, status, error) {
-            // alert the error if any error occured
-            //alert(response.responseJSON.errors);
-            //console.log(response.responseJSON.errors)
-            alert(request.responseText);
-        }
-    });
-    return false;
-}
-
 // JavaScript function to get cookie by name; retrieved from https://docs.djangoproject.com/en/3.1/ref/csrf/
 function getCookie(name) {
     let cookieValue = null;
@@ -1311,110 +1024,147 @@ $(document).ready(function () {
     var fyi_color = "cyan";
     var data = {
     name: root_node_name,
-    children: [{
-                name: "Search",
-                children: [{
-                        name: "One dataset",
-                        children: [{
-                                name: "Search for values from one file in another"
-                                //image: "/static/images/search file from file.png"
+    children: [
+            {
+                name: "Automate",
+                image: "/static/images/search file from file.png",
+                children: [
+                            {
+                                name: "Search",                             
+                                children: [{
+                                        name: "One dataset",
+                                        children: [{
+                                                name: "Search for values from one file in another",
+                                                image: "/static/images/search file from file.png"
+                                            },
+                                            {
+                                                name: "Enter custom values to search for in a file"
+                                                //image: "/static/images/search file from input.png"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: "Multiple datasets",
+                                        children: [{
+                                                name: "Search for values from one file in other files"
+                                                //image: "/static/images/search many from file.png"
+                                            },
+                                            {
+                                                name: "Enter custom values to search for in other files"
+                                                //image: "/static/images/search many from input.png"
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
-                                name: "Enter custom values to search for in a file"
-                                //image: "/static/images/search file from input.png"
-                            }
-                        ]
-                    },
-                    {
-                        name: "Multiple datasets",
-                        children: [{
-                                name: "Search for values from one file in other files"
-                                //image: "/static/images/search many from file.png"
+                                name:"Modify",
+                                children: [{
+                                        name: "One dataset",
+                                        children: [{
+                                                name: "Update values based on another file",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "Update values based on custom conditions",
+                                                image: "https://dummyimage.com/50x50"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: "Multiple datasets",
+                                        children: [{
+                                                name: "Update files based on another file",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "Update files based on custom conditions",
+                                                image: "https://dummyimage.com/50x50"
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
-                                name: "Enter custom values to search for in other files"
-                                //image: "/static/images/search many from input.png"
+                                name:"Combine",
+                                children: [{
+                                        name: "Combine two files",
+                                        children: [{
+                                                name: "Join on rows (merge horizontally)",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "Join on columns (append vertically)",
+                                                image: "https://dummyimage.com/50x50"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        name: "Combine more than two files",
+                                        children: [{
+                                                name: "Join on rows (merge horizontally)",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "Join on columns (append vertically)",
+                                                image: "https://dummyimage.com/50x50"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                name:"Reconcile",
+                                children: [{
+                                        name: "Reconcile two files",
+                                        children: [{
+                                                name: "Find records that match",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "Find records that do not match",
+                                                image: "https://dummyimage.com/50x50"
+                                            },
+                                            {
+                                                name: "List all records and whether they match",
+                                                image: "https://dummyimage.com/50x50"
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
-                        ]
-                    }
                 ]
             },
             {
-                name:"Modify",
-                children: [{
-                        name: "One dataset",
-                        children: [{
-                                name: "Update values based on another file",
-                                image: "https://dummyimage.com/50x50"
+                name: "Analyze",
+                children:
+                [
+                    {
+                        name: "AI",
+                        children: 
+                        [{
+                            name: "Model",
+                            children: [{
+                                name: "Classify"
                             },
                             {
-                                name: "Update values based on custom conditions",
-                                image: "https://dummyimage.com/50x50"
-                            }
-                        ]
+                                name: "Predict Numerical Value"
+                            }]
+                        }]                        
                     },
                     {
-                        name: "Multiple datasets",
-                        children: [{
-                                name: "Update files based on another file",
-                                image: "https://dummyimage.com/50x50"
-                            },
-                            {
-                                name: "Update files based on custom conditions",
-                                image: "https://dummyimage.com/50x50"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name:"Combine",
-                children: [{
-                        name: "Combine two files",
-                        children: [{
-                                name: "Join on rows (merge horizontally)",
-                                image: "https://dummyimage.com/50x50"
-                            },
-                            {
-                                name: "Join on columns (append vertically)",
-                                image: "https://dummyimage.com/50x50"
-                            }
-                        ]
-                    },
-                    {
-                        name: "Combine more than two files",
-                        children: [{
-                                name: "Join on rows (merge horizontally)",
-                                image: "https://dummyimage.com/50x50"
-                            },
-                            {
-                                name: "Join on columns (append vertically)",
-                                image: "https://dummyimage.com/50x50"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                name:"Reconcile",
-                children: [{
-                        name: "Reconcile two files",
-                        children: [{
-                                name: "Find records that match",
-                                image: "https://dummyimage.com/50x50"
-                            },
-                            {
-                                name: "Find records that do not match",
-                                image: "https://dummyimage.com/50x50"
-                            },
-                            {
-                                name: "List all records and whether they match",
-                                image: "https://dummyimage.com/50x50"
-                            }
-                        ]
+                        name: "Insight",
+                        children: 
+                        [{
+                            name: "Relationship Analysis"
+                        },
+                        {
+                            name: "Outlier Detection"
+                        }]
                     }
                 ]
             }
+            
         ]
     };
 
@@ -1679,33 +1429,27 @@ function wrap(text, width) {
 async function start_algo_path(node_name){
     if(node_name === 'Search for values from one file in another'){
         console.log('search file single')
-        algorithm_type = 'search';
-        input_type = 'file';
-        input_num = 'single';        
-        describe_search_file_multiple();
+        algorithm_type = 'Search';
+        input_type = 'File';
+        input_num = 'Single';        
+        describe_search_file_single();
     }
     else if(node_name === 'Enter custom values to search for in a file'){
         console.log('search custom single')
-        algorithm_type = 'search';
-        input_type = 'custom';
-        input_num = 'single';       
+        algorithm_type = 'Search';
+        input_type = 'Custom';
+        input_num = 'Single';       
     }
     else if (node_name === 'Search for values from one file in other files'){
         console.log('search fle multiple')
-        algorithm_type = 'search';
-        input_type = 'file';
-        input_num = 'multiple';        
-        document.getElementById('algo-desc-graph').style.display = 'none';
-        hide_containers(2);
-        await add_to_carousel('Search Algorithm', standard_color, [], true, false);
-        await add_to_carousel('\xa0\xa0\xa0$ Multiple Files', standard_color, [], true, false);
-        await add_to_carousel('\xa0\xa0\xa0$ Search Input: File', standard_color, [], true, false);
-        await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+        algorithm_type = 'Search';
+        input_type = 'File';
+        input_num = 'Multiple';   
+        describe_search_file_single();
     }
 } 
 
-async function describe_search_file_multiple(){
+async function describe_search_file_single(){
     document.getElementById('search-file-one').style.display = 'block';
     document.getElementById('searchfileone-btns').style.display = 'block';
     var element = document.getElementById('algo-desc-graph');
@@ -1721,19 +1465,6 @@ $(document).ready(function() {
     } else {
         window.location.replace(url);
     }
-});
-
-$(document).ready(async function () {
-    $(document.body).on('click', '#back-algoselect' ,function(){
-        document.getElementById('search-file-one').style.display = 'none';
-        document.getElementById('searchfileone-btns').style.display = 'none';
-        var url = window.location.href;
-        if( url.indexOf('#') < 0 ) {
-            window.location.replace(url + "#");
-        } else {
-            window.location.replace(url);
-        }
-    });
 });
 
 
