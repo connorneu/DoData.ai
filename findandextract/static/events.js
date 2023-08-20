@@ -199,7 +199,7 @@ $(document.body).on('click', '#data4_table_reset' ,function(e){
 $(document.body).on('click', '#data1_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Define condtions to filter Input File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Define condtions to filter first dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -207,7 +207,7 @@ $(document.body).on('click', '#data1_next_colheader' ,function(){
 $(document.body).on('click', '#data2_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel(['Define condtions to filter Search File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Define condtions to filter second dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn2()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -215,7 +215,7 @@ $(document.body).on('click', '#data2_next_colheader' ,function(){
 $(document.body).on('click', '#data3_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv3").style.display = "none";
-    add_to_carousel(['Define condtions to filter Search File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Define condtions to filter third dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn3()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -223,7 +223,7 @@ $(document.body).on('click', '#data3_next_colheader' ,function(){
 $(document.body).on('click', '#data4_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv4").style.display = "none";
-    add_to_carousel(['Define condtions to filter Search File'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Define condtions to filter fourth dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn4()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 })
 
@@ -574,4 +574,24 @@ $(document).ready(async function () {
             window.location.replace(url);
         }
     });
+});
+
+// Extract: match dataset and column name dropdown controls - third dataset
+$(document.body).on('click', '#matchthirddata_ul' , async function(){ 
+    var dataset_selection = null;
+    dataset_selection =  $(this).parents(".dropdown").find('.btn').text();
+    var file_and_sheet = get_file_and_sheet(dataset_selection);
+    var col_headers = match_dataset_to_colheaders(file_and_sheet);
+    populate_drop_down("#matchthirdcol_ul", col_headers, true);
+    document.getElementById('matchboxcolumn3').style.display = 'flex';
+});
+
+// Extract: match dataset and column name dropdown controls - fourth dataset
+$(document.body).on('click', '#matchfourthdata_ul' , async function(){ 
+    var dataset_selection = null;
+    dataset_selection =  $(this).parents(".dropdown").find('.btn').text();
+    var file_and_sheet = get_file_and_sheet(dataset_selection);
+    var col_headers = match_dataset_to_colheaders(file_and_sheet);
+    populate_drop_down("#matchfourthcol_ul", col_headers, true);
+    document.getElementById('matchboxcolumn4').style.display = 'flex';
 });

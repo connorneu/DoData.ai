@@ -32,6 +32,8 @@ input_num = null;
 algorithm_type = null;
 newline_scroll = 50;
 start_scrolling_after = 10;
+dataset_names = [];
+dataset_index = [];
 
 
 // COLLAPSABLE FUCKING THING YOU DON T KUNDERSTAND
@@ -241,52 +243,30 @@ async function start_data_filter(db_data){
     for (var i = 0; i<unique_file_names.length; i++){
         await add_to_carousel('Loaded file: ' + unique_file_names[i], standard_color, [null], true, false);
     }
-    if (input_type === 'File'){
-        start_file_input();
-    }
-    else if(input_type === 'Custom') {
-        start_custom_input();
-    }
-    
+    start_first_dataset();  
 }
 
-async function start_file_input(){
-    await add_to_carousel(['Select file containing input values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['This file contains the values which your algorithm will match with other files to know which records to affect.',
-                            'It should contain at least one column with values that can be found in other files.'],
-                            fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    // after input adjust_col_header
+async function start_first_dataset(){
+    await add_to_carousel(['Select first dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['Select file name, sheet name (if applicable), column headers, and any filters to exclude unwanted data.'],
+                        fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
 }
-
-async function start_custom_input(){
-    await add_to_carousel(['Enter custom value to '], action_color, ['update_item_text_params(algorithm_type)',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['Enter one or more values which will be searched for in other files.',
-                            'These values will be searched for in specified columns in other values.'],
-                            fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-}
-
 
 async function start_second_dataset(){
-    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['This file contains the data you want to extract.',
-                    'It needs to have values in common with your primary sheet.', 
-                    'The values from the input sheet will be searched for in this file.'],
+    await add_to_carousel(['Select second dataset:'], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Select file name, sheet name (if applicable), column headers, and any filters to exclude unwanted data.'],
                     fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", "display_secondaryfileselect_drop()"], false, true);
 }
 
 async function start_third_dataset(){
-    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['This file contains the data you want to extract.',
-                    'It needs to have values in common with your primary sheet.', 
-                    'The values from the input sheet will be searched for in this file.'],
+    await add_to_carousel(['Select third dataset:'], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Select file name, sheet name (if applicable), column headers, and any filters to exclude unwanted data.'],
                     fyi_color, ['display_thirdfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
 }
 
 async function start_fourth_dataset(){
-    await add_to_carousel(['Select files to '], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['This file contains the data you want to extract.',
-                    'It needs to have values in common with your primary sheet.', 
-                    'The values from the input sheet will be searched for in this file.'],
+    await add_to_carousel(['Select fourth dataset:'], action_color, ['update_item_text_params(algorithm_type)', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Select file name, sheet name (if applicable), column headers, and any filters to exclude unwanted data.'],
                     fyi_color, ['display_fourthfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
 }
 
@@ -306,7 +286,8 @@ async function display_conditions(){
         await add_to_carousel(condition_string, standard_color, [null], true, false);
         cond_count++;
     }
-    start_second_dataset();
+    algo_menu()
+    //start_second_dataset();    THIS IS ONLY COMMENTED TO MAKE SHIT SKIP DURNIG DEV but also ur missing custum input option
 }
 
 async function display_conditions2(){
@@ -376,26 +357,126 @@ async function display_conditions4(){
 }
 
 async function algo_menu(){
-    await add_to_carousel(['Select algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);         //"document.getElementById('carouselcontainer" + (carousel_num + 1) +"').style.textAlign = 'center';"
-    await add_to_carousel(['Expand each algorithm type to view descriptions and examples.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    document.getElementById('algomenu').style.display = 'block';
+    algorithm_type='Extract';
+    if (algorithm_type === 'Extract'){
+        matchcolumns();    
+    }
+    else if (algorithm_type === 'Update'){
+
+    }
+    else if (algorithm_type === 'Combine'){
+
+    }
+    else if (algorithm_type === 'Reconcile'){
+
+    }
+    else if (algorithm_type === 'Modify'){
+
+    }
+    else if (algorithm_type === 'AI'){
+
+    }
+    else if (algorithm_type === 'Insight'){
+
+    }
+
 } 
 
 async function matchcolumns(){
-    await add_to_carousel(['Find values from Input File in Search File.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Select columns with values in Input File and Search File.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    await add_to_carousel(['Select values to search for in other files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Select the column which contains the values to search for in other datasets.',
+    'Any row of data that contains these values will be extracted.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById('matchcolumnscontainer').style.display = 'block';
-    document.getElementById('matchprimarycolumn').style.display = 'block';
-    document.getElementById('matchsecondarycolumn').style.display = 'block';
-
-    var col_headers = createTable_values1[0];
-    populate_drop_down("#matchprimary_ul", col_headers, true);
-    var col_headers = createTable_values2[0];
-    populate_drop_down("#matchsecondary_ul", col_headers, true);
-    $('#matchprimaryfilename').text('[' + primary_file_name + ' (' + primary_sheet_name +')]');
-    $('#matchsecondaryfilename').text('[' + secondary_file_name + ' (' + secondary_sheet_name + ')]');
+    populate_dataset_names();
+    var dataset_selection = null;
+    populate_drop_down("#matchprimarydata_ul", dataset_names, true);
+    $(document.body).on('click', '#matchprimarydata_ul' ,function(){ 
+        dataset_selection =  $(this).parents(".dropdown").find('.btn').text();
+        var file_and_sheet = get_file_and_sheet(dataset_selection);
+        var col_headers = match_dataset_to_colheaders(file_and_sheet);
+        populate_drop_down("#matchprimarycol_ul", col_headers, true);
+        document.getElementById('matchboxcolumn').style.display = 'flex';
+    });
+    var column_selection = null;
+    $(document.body).on('click', '#matchprimarycol_ul' , async function(){
+        column_selection =  $(this).parents(".dropdown").find('.btn').text();
+        document.getElementById('firstmatchbox').style.display = 'none';
+        document.getElementById('matchdatasetsbuttons').style.display = 'block';
+        hide_containers(2);
+        await add_to_carousel('Search for values from ' + dataset_selection, standard_color, [null], true, false);
+        await add_to_carousel('For each value in column ' + column_selection, standard_color, [null], true, false);
+        extractfrom_selection();
+    });  
+}
+async function extractfrom_selection(){
+    await add_to_carousel(['Select datasets to extract from:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Specify the column to search for matching values and extract resulting rows.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById('secondmatchbox').style.display = 'block';
+    populate_drop_down("#matchseconddata_ul", dataset_names, true); //should you remove the primary dataset?
+    var dataset_selection = null;
+    $(document.body).on('click', '#matchseconddata_ul' , async function(){ 
+        dataset_selection =  $(this).parents(".dropdown").find('.btn').text();
+        var file_and_sheet = get_file_and_sheet(dataset_selection);
+        var col_headers = match_dataset_to_colheaders(file_and_sheet);
+        populate_drop_down("#matchsecondcol_ul", col_headers, true);
+        document.getElementById('matchboxcolumn2').style.display = 'flex';
+    });
+    $(document.body).on('click', '#addmatchdataset' , async function(){
+        if (document.getElementById('thirdmatchbox').style.display === 'none'){
+            document.getElementById('thirdmatchbox').style.display = 'block';
+            populate_drop_down("#matchthirddata_ul", dataset_names, true);
+        }
+        else if (document.getElementById('fourthmatchbox').style.display === 'none'){
+            document.getElementById('fourthmatchbox').style.display = 'block';
+            populate_drop_down("#matchfourthdata_ul", dataset_names, true);
+            document.getElementById('addmatchdataset').style.display = 'none';
+        }
+    });
 }
 
+function populate_dataset_names(){
+    dataset_index.push([primary_file_name, primary_sheet_name, createTable_values1[0]]);
+    dataset_index.push([secondary_file_name, secondary_sheet_name, createTable_values2[0]]);
+    dataset_index.push([third_file_name, third_sheet_name, createTable_values3[0]]);
+    dataset_index.push([fourth_file_name, fourth_sheet_name, createTable_values4[0]]);
+    dataset_names.push(primary_file_name + ' {' + primary_sheet_name + '}');
+    if (secondary_file_name != null){
+        dataset_names.push(secondary_file_name + ' {' + secondary_sheet_name + '}')
+    }
+    if (third_file_name != null){
+        dataset_names.push(third_file_name + ' {' + third_sheet_name + '}');
+    }
+    if (fourth_file_name != null){
+        dataset_names.push(fourth_sheet_name + '{' + fourth_sheet_name + '}');
+    }
+    //DELETE THIS its to prvent having to upload 4 files every test
+    dataset_names = [primary_file_name + ' {' + primary_sheet_name + '}',
+                    'Client Data.csv' + ' {' + secondary_sheet_name + '}',
+                    'Client Values.csv' + ' {' + third_sheet_name + '}',
+                    'Program Info.csv' + '{' + fourth_sheet_name + '}'];
+}
+
+function get_file_and_sheet(dataset_selection){
+    var lastIndex = dataset_selection.trim().lastIndexOf('{');
+    var filename = dataset_selection.substr(0, lastIndex).trim();
+    var sheetname = dataset_selection.substr(lastIndex+1);
+    sheetname = sheetname.slice(0, -1).trim();
+    return [filename, sheetname];
+}
+
+function match_dataset_to_colheaders(file_and_sheet){
+    console.log('start col header match')
+    console.log(file_and_sheet[0])
+    console.log(file_and_sheet[1])
+    console.log(dataset_index)
+    for(var i = 0; i<dataset_index.length; i++){
+        console.log(file_and_sheet[0] + " . " + dataset_index[i][0] + " | " + file_and_sheet[1] + " . " + dataset_index[i][1])
+        if (file_and_sheet[0] === dataset_index[i][0] && file_and_sheet[1] === dataset_index[i][1]){
+            console.log("found col headers")
+            return dataset_index[i][2]
+        } 
+    }
+}
 
 async function display_primaryfileselect_drop(){
     // select primary file
@@ -441,11 +522,6 @@ async function display_fourthfileselect_drop(){
 function display_fourthfilesheets_drop() {
     populate_drop_down('#secondarysheet_ul', secondary_file_sheets, true)
 }
-
-
-
-
-
 
 function display_add_conditions_btn(){
     document.getElementById('primarycondition-container').style.display = 'block';
@@ -609,28 +685,32 @@ async function fourth_sheet_selection(){
 
 function adjust_col_header(){
     add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById("colselecttablediv1").style.display = "block";
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }
 
 function adjust_col_header2(){
     add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById("colselecttablediv2").style.display = "block";
     col_headers = populate_table_element(secondary_sheet_name, 2, 'data2_tableid');
 }
 
 function adjust_col_header3(){
     add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById("colselecttablediv3").style.display = "block";
     col_headers = populate_table_element(third_sheet_name, 3, 'data3_tableid');
 }
 
 function adjust_col_header4(){
     add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById("colselecttablediv4").style.display = "block";
     col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid');
 }
@@ -1030,28 +1110,20 @@ $(document).ready(function () {
                 image: "/static/images/search file from file.png",
                 children: [
                             {
-                                name: "Search",                             
+                                name: "Extract",                             
                                 children: [{
-                                        name: "One dataset",
-                                        children: [{
-                                                name: "Search for values from one file in another",
-                                                image: "/static/images/search file from file.png"
-                                            },
+                                        name: "Search for values from input file",
+                                        children: [
                                             {
-                                                name: "Enter custom values to search for in a file"
-                                                //image: "/static/images/search file from input.png"
+                                                name: "Extract matching values into new report"
                                             }
                                         ]
                                     },
                                     {
-                                        name: "Multiple datasets",
-                                        children: [{
-                                                name: "Search for values from one file in other files"
-                                                //image: "/static/images/search many from file.png"
-                                            },
+                                        name: "Search for custom values entered manually",
+                                        children: [
                                             {
-                                                name: "Enter custom values to search for in other files"
-                                                //image: "/static/images/search many from input.png"
+                                                name: "Extract matching values into new report"
                                             }
                                         ]
                                     }
@@ -1374,8 +1446,8 @@ $(document).ready(function () {
             if (d.children){
                 scroll_graph('algo-desc-graph', 'open');
                 $(event.currentTarget).addClass("active");
-            }            
-            start_algo_path(d.data.name);
+            }  
+            start_algo_path(d.data.name, d.parent.data.name);
             
         }
         update(d);
@@ -1426,29 +1498,39 @@ function wrap(text, width) {
     });
 }
 
-async function start_algo_path(node_name){
-    if(node_name === 'Search for values from one file in another'){
-        console.log('search file single')
-        algorithm_type = 'Search';
-        input_type = 'File';
-        input_num = 'Single';        
-        describe_search_file_single();
+async function start_algo_path(node_name, parent_node_name){
+    if (node_name === 'Extract matching values into new report'){
+        if (parent_node_name === 'Search for values from input file'){
+            console.log('extract - file input')
+            algorithm_type = 'Extract';
+            input_type = 'File';
+            input_num = 'Single';        
+        }
+        else if (parent_node_name === 'Search for custom values entered manually'){
+            console.log('extract - custom input')
+            algorithm_type = 'Extract';
+            input_type = 'Custom';
+            input_num = 'Single';          
+        }
     }
-    else if(node_name === 'Enter custom values to search for in a file'){
+    else if(node_name === ''){
         console.log('search custom single')
-        algorithm_type = 'Search';
+        algorithm_type = 'Extract';
         input_type = 'Custom';
         input_num = 'Single';       
     }
-    else if (node_name === 'Search for values from one file in other files'){
+    else if (node_name === ''){
         console.log('search fle multiple')
-        algorithm_type = 'Search';
+        algorithm_type = 'Extract';
         input_type = 'File';
         input_num = 'Multiple';   
-        describe_search_file_single();
+        
     }
+    describe_search_file_single();
 } 
 
+// REMOVE THIS - DESCRIPTION WILL BE ON HOVER
+// START WILL BE    algo_menu()
 async function describe_search_file_single(){
     document.getElementById('search-file-one').style.display = 'block';
     document.getElementById('searchfileone-btns').style.display = 'block';

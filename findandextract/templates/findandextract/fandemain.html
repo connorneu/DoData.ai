@@ -380,54 +380,110 @@
 
 
 
-        <div class="wrapper">
-
-        </div>
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
         <div id="matchcolumnscontainer" class="matchcontainer" style="display:none">
-            <div class="matchbox">
-                <div class="matchdiv" style="margin-top:20px;">
-                    <p >Find values from column</p>
+            <div class="datasetselection primary" id="firstmatchbox">
+                <div class="matchbox" id="extractvalues_table">
+                    <span>Dataset</span>
+                    <div class="dropdown matchdiv colselect" id="matchprimarydataset">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dataset
+                        </button>
+                        <ul class="dropdown-menu" id="matchprimarydata_ul"></ul>
+                    </div>
                 </div>
-                <div class="dropdown matchdiv" id="matchprimarycolumn">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Column
-                    </button>
-                    <ul class="dropdown-menu" id="matchprimary_ul"></ul>
-                </div>
-                <div class="matchdivsubtext">
-                    <p id="matchprimaryfilename"></p>
-                </div>
-            </div>
-            <div class="matchbox">
-                <div class="matchdiv" style="margin-top:20px;">
-                    <p>in column</p>
-                </div>
-                <div class="dropdown matchdiv" id="matchsecondarycolumn">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Select Column
-                    </button>
-                    <ul class="dropdown-menu" id="matchsecondary_ul"></ul>
-                </div>
-                <div class="matchdivsubtext">
-                    <p id="matchsecondaryfilename"></p>
+                <div id="matchboxcolumn" class="matchbox" style="display:none;">
+                    <span>Column Name</span>
+                    <div class="dropdown matchdiv" id="matchprimarycolumn">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Column
+                        </button>
+                        <ul class="dropdown-menu" id="matchprimarycol_ul"></ul>
+                    </div>
                 </div>
             </div>
+
+
+            <div class="datasetselection" id="secondmatchbox" style="display:none;">
+                <div class="matchbox">
+                    <span>Dataset</span>
+                    <div class="dropdown matchdiv colselect" id="matchseconddataset">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dataset
+                        </button>
+                        <ul class="dropdown-menu" id="matchseconddata_ul"></ul>
+                    </div>
+                </div>
+                <div id="matchboxcolumn2" class="matchbox" style="display:none;">
+                    <span>Column Name</span>
+                    <div class="dropdown matchdiv colselect" id="matchsecondcolumn">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Column
+                        </button>
+                        <ul class="dropdown-menu" id="matchsecondcol_ul"></ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="datasetselection" id="thirdmatchbox" style="display:none;">
+                <div class="matchbox">
+                    <span>Dataset</span>
+                    <div class="dropdown matchdiv colselect" id="matchthirddataset">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dataset
+                        </button>
+                        <ul class="dropdown-menu" id="matchthirddata_ul"></ul>
+                    </div>
+                </div>
+                <div id="matchboxcolumn3" class="matchbox" style="display:none;">
+                    <span>Column Name</span>
+                    <div class="dropdown matchdiv colselect" id="matchthirdcolumn">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Column
+                        </button>
+                        <ul class="dropdown-menu" id="matchthirdcol_ul"></ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="datasetselection" id="fourthmatchbox" style="display:none;">
+                <div class="matchbox">
+                    <span>Dataset</span>
+                    <div class="dropdown matchdiv colselect" id="matchfourthdataset">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dataset
+                        </button>
+                        <ul class="dropdown-menu" id="matchfourthdata_ul"></ul>
+                    </div>
+                </div>
+                <div id="matchboxcolumn4" class="matchbox" style="display:none;">
+                    <span>Column Name</span>
+                    <div class="dropdown matchdiv" id="matchfourthcolumn">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Column
+                        </button>
+                        <ul class="dropdown-menu" id="matchfourthcol_ul"></ul>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="addcondition" id="matchdatasetsbuttons" style="margin-top:10%; display:none;">
+                <a class="myButton conditionbtn" id="addmatchdataset">Add Dataset</a>
+                <a class="myButton" id="conditionnextmatch">Next</a>
+            </div>
+
+
+
+
+
+
 
 
 
@@ -472,28 +528,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="addcondition" id="matchaddcondition" style="margin-top:10%;">
+                    <a class="myButton conditionbtn" id="addconditionmatch">Add Condition</a>
+                    <a class="myButton" id="conditionnextmatch">Next</a>
+                </div>
             </div>
 
 
 
 
-            <div class="addcondition" id="matchaddcondition" style="margin-top:10%;">
-                <a class="myButton conditionbtn" id="addconditionmatch">Add Condition</a>
-                <a class="myButton" id="conditionnextmatch">Next</a>
-            </div>
+
 
 
 
         </div>
 
-
-
-                        <!--
-                     <form id="datafiltersform" method="POST">   
-               {% csrf_token %}
-                    <input type="submit" name="filters-submit" class="btn btn-success btn-lg" id="submitbtn"/>
-                </form>
-                -->
 
     </body>
 </html>
