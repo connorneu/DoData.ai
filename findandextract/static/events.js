@@ -551,10 +551,10 @@ $(document.body).on('click', '#addsecondfile' ,function(){
             document.getElementById('addsecondfile').style.display = 'none';
         }
     }
-    else if(document.getElementById('file3').style.display == 'none' && input_num == 'multiple'){
+    else if(document.getElementById('file3').style.display == 'none'){
         document.getElementById('file3').style.display = 'inline-block';
     }
-    else if(document.getElementById('file4').style.display == 'none' && input_num == 'multiple'){
+    else if(document.getElementById('file4').style.display == 'none'){
         document.getElementById('file4').style.display = 'inline-block';
         document.getElementById('addsecondfile').style.display = 'none';
     }
@@ -595,3 +595,4 @@ $(document.body).on('click', '#matchfourthdata_ul' , async function(){
     populate_drop_down("#matchfourthcol_ul", col_headers, true);
     document.getElementById('matchboxcolumn4').style.display = 'flex';
 });
+

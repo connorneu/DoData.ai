@@ -366,13 +366,11 @@ margin-top:1%;
     display : flex;
     align-items : center;
     padding: 0px 15em 0 0em;
-    
 }
 .matchbox span{
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 15%;
     font-size: 20px;
-    color: coral;  
+    color: white;  
 }
 .matchwhenheader{
     width:100%;
@@ -556,10 +554,10 @@ margin-top:1%;
 .datasetselection{
     border: 1px dashed white;
     box-sizing: border-box;
-    width:58%;
+    width:38%;
     margin-left:auto;
     margin-right:auto;
-    background-image: linear-gradient(to right top, #1f1b1f, #231724, #281328, #2c0e2c, #300630);
+    background-image: linear-gradient(to right top, #0c0116, #0e0010, #0c0009, #070003, #000000);
     vertical-align: center;
     opacity: 80%;
 }

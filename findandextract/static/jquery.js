@@ -6,11 +6,14 @@ primary_file_name = null;
 primary_file_sheets = [];
 primary_sheet_name = null;
 secondary_file_name = null;
+secondary_file_sheets = [];
 secondary_sheet_name = null;
 third_file_name = null;
 third_sheet_name = null;
+third_file_sheets = [];
 fourth_file_name = null;
 fourth_sheet_name = null;
+fourth_file_sheets = [];
 createTable_values1 = '';
 createTable_values2 = '';
 createTable_values3 = '';
@@ -34,6 +37,9 @@ newline_scroll = 50;
 start_scrolling_after = 10;
 dataset_names = [];
 dataset_index = [];
+values_to_extract_dataset = null;
+values_to_extract_col = null;
+extract_from = [];
 
 
 // COLLAPSABLE FUCKING THING YOU DON T KUNDERSTAND
@@ -49,14 +55,11 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     if(path === "/findandextract/"){
-        //START
-        //await add_to_carousel('S T A R T - { [ ALGORITHM BUILD ] } ', standard_color, [null], true, false);
 
-        add_to_carousel(['Define algorithm type'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['Click through an algorithm path to describe the data process.'], fyi_color, ['display_algo_graph()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-        //await add_to_carousel(['File Selection'], standard_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')", 'display_filedrops()'], false, true);
-
-
+        matchcolumns();
+        //add_to_carousel(['Define algorithm type'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        //add_to_carousel(['Click through an algorithm path to describe the data process.'], fyi_color, ['display_algo_graph()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+        
     }
 });
 
@@ -115,7 +118,6 @@ function waitForMs(ms) {
 
 async function carousel(carousel_obj) {
     carousel_num++;  
-    console.log(carousel_num);
     create_carousel_elem(carousel_obj);  // if elem doesn't exist create it
     //only run functions that update text params until after text is written
     for(var j=0;j<carousel_obj.func.length;j++)
@@ -135,7 +137,6 @@ async function carousel(carousel_obj) {
     updateFontColor(carousel_obj.id, carousel_obj.color)
     if (carousel_obj.isTyped)
     {
-        console.log(carousel_obj.text)
         await typeSentence(carousel_obj.text, carousel_obj.id);
     }
     else
@@ -153,7 +154,6 @@ async function carousel(carousel_obj) {
         }
     }
     if (carousel_num > 14){
-        console.log('cuntz')
         var element = document.getElementById('typingtextcontainer');
         element.scrollIntoView(false);
         element.scroll(-1000,500);
@@ -237,7 +237,6 @@ async function start_data_filter(db_data){
     document.getElementById('filedrops').style.display = 'none';
     hide_containers(2);
     data_json = db_data['fande_data_dump'];
-    console.log(data_json)
     //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
     unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
     for (var i = 0; i<unique_file_names.length; i++){
@@ -450,10 +449,10 @@ function populate_dataset_names(){
         dataset_names.push(fourth_sheet_name + '{' + fourth_sheet_name + '}');
     }
     //DELETE THIS its to prvent having to upload 4 files every test
-    dataset_names = [primary_file_name + ' {' + primary_sheet_name + '}',
-                    'Client Data.csv' + ' {' + secondary_sheet_name + '}',
-                    'Client Values.csv' + ' {' + third_sheet_name + '}',
-                    'Program Info.csv' + '{' + fourth_sheet_name + '}'];
+    //dataset_names = ['Address.csv' + ' {' + 'Sheet1' + '}',
+    //                'Client Data.csv' + ' {' + 'Sheet1' + '}',
+    //                'Client Values.csv' + ' {' + 'Sheet1' + '}',
+    //                'Program Info.csv' + '{' + 'Sheet1' + '}'];
 }
 
 function get_file_and_sheet(dataset_selection){
@@ -509,7 +508,7 @@ async function display_thirdfileselect_drop(){
 
 // select third sheet
 function display_thirdfilesheets_drop() {
-    populate_drop_down('#thirdsheet_ul', secondary_file_sheets, true)
+    populate_drop_down('#thirdsheet_ul', third_file_sheets, true)
 } 
 
 // select fourth file
@@ -520,7 +519,7 @@ async function display_fourthfileselect_drop(){
 
 // select fourth sheet
 function display_fourthfilesheets_drop() {
-    populate_drop_down('#secondarysheet_ul', secondary_file_sheets, true)
+    populate_drop_down('#secondarysheet_ul', fourth_file_sheets, true)
 }
 
 function display_add_conditions_btn(){
@@ -662,7 +661,7 @@ async function secondary_sheet_selection(){
 }
 
 async function third_sheet_selection(){
-    if (secondary_file_sheets.length > 1) {
+    if (third_file_sheets.length > 1) {
         await add_to_carousel(['Select worksheet from file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
         await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_secondaryfilesheets_drop()'], false, true); 
     }
@@ -673,7 +672,7 @@ async function third_sheet_selection(){
 }
 
 async function fourth_sheet_selection(){
-    if (secondary_file_sheets.length > 1) {
+    if (fourth_file_sheets.length > 1) {
         await add_to_carousel(['Select worksheet from file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
         await add_to_carousel(['The selected worksheet should contain the data to search for in other datasets.', 'You can search for this data in other sheets from the same workbook.'], fyi_color,["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')", 'display_secondaryfilesheets_drop()'], false, true); 
     }
@@ -781,10 +780,6 @@ function repivot_keyval(data_json, file_name, sheet_name) {
                 objs.push(obj);
             }
         }
-    }
-    console.log('Original Data')
-    for (var i = 0; i < objs.length; i++){
-        console.log(objs[i])
     }
     return objs;
 }
@@ -1071,7 +1066,6 @@ function dumpCSSText(element){
 
 // EXPANDING TREE
 function force_text_background(class_name){
-    console.log("adding background to nodes")
     var parent_nodes = document.getElementsByClassName(class_name);
     for (var i = 0; i<parent_nodes.length; i++){       
         var text_node = parent_nodes[i].getElementsByClassName('text-node')[0]
@@ -1550,3 +1544,22 @@ $(document).ready(function() {
 });
 
 
+// collect algorithm parameters
+async function collect_extract_parameters(){
+    extract_from.push([$('#matchprimarydata_ul').parents(".dropdown").find('.btn').text(), $('#matchprimarycol_ul').parents(".dropdown").find('.btn').text()])
+    if ($('#matchseconddata_ul').parents(".dropdown").find('.btn').text() != null){ 
+        extract_from.push([$('#matchseconddata_ul').parents(".dropdown").find('.btn').text(), $('#matchsecondcol_ul').parents(".dropdown").find('.btn').text()]);       
+    }
+    if ($('#matchthirddata_ul').parents(".dropdown").find('.btn').text() != null){ 
+        extract_from.push([$('#matchthirddata_ul').parents(".dropdown").find('.btn').text(), $('#matchthirdcol_ul').parents(".dropdown").find('.btn').text()]);       
+    }
+    if ($('#matchfourthdata_ul').parents(".dropdown").find('.btn').text() != null){
+        extract_from.push([$('#matchfourthdata_ul').parents(".dropdown").find('.btn').text(), $('#matchfourthcol_ul').parents(".dropdown").find('.btn').text()]);
+    }  
+    extract_from = [];
+    extract_from.push(['Address.csv {Sheet1}', 'Director']);
+    extract_from.push(['Client Data.csv {Sheet1}', 'Client Name']);
+    extract_from.push(['Client Values.csv {Sheet1}', 'Client Name']);
+    extract_from.push(['Program Info.csv {Sheet1}', 'Teachers']);
+    console.log(extract_from)
+}

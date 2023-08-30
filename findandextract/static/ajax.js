@@ -112,3 +112,61 @@ async function ajax_get_db(){
     });
     return false;
 }
+
+//submit algorithm parameters
+$(document).ready(function () {
+     //catch the form's submit event
+     $(document.body).on('click', '#next_matchfiles' ,function(){
+        collect_extract_parameters();
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        // create an AJAX call
+        $.ajax({
+            data: {   //JSON.stringify(condition_arr2)
+                
+                'ajax_name' : 'submit_parameters',
+                'algorith_type' : algorithm_type,
+                'primary_file_name' : primary_file_name,
+                'primary_sheet_name' : primary_sheet_name,
+                'secondary_file_name' : secondary_sheet_name,
+                'secondary_sheet_name' : secondary_sheet_name,
+                'third_file_name' : third_file_name,
+                'third_sheet_name' : third_sheet_name,
+                'fourth_file_name' : fourth_file_name,
+                'fourth_sheet_name' : fourth_sheet_name,
+                'condition_arr' : JSON.stringify(condition_arr),
+                'condition_arr2' : JSON.stringify(condition_arr2),
+                'condition_arr3' : JSON.stringify(condition_arr3),
+                'condition_arr4' : JSON.stringify(condition_arr4),
+                'primary_sheet_name' : primary_sheet_name,
+                'primary_header_row' : primary_header_row,
+                'secondary_header_row' : secondary_header_row,
+                'third_header_row' : third_header_row,
+                'fourth_header_row' : fourth_header_row,
+                    
+                'values_to_extract_dataset' : values_to_extract_dataset,
+                'values_to_extract_col' : values_to_extract_col,
+                'extract_from' : JSON.stringify(extract_from)
+
+
+
+            }, // get the form data        $(this).serialize()
+            type: 'POST', //$(this).attr('method'), // GET or POST
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")},
+            //url: "{% url 'findandextract' %}",
+            // on success
+            success: function () {
+
+                console.log("algorithm parameters submitted");
+
+            },
+            // on error
+            error: function (request, status, error) {
+
+                alert(request.responseText);
+
+            }
+        });
+        return false;
+    });   
+})
