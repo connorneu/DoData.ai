@@ -714,7 +714,7 @@ function adjust_col_header4(){
     col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid');
 }
 
-function populate_table_element(selected_sheet, tablenumber, data_tableid){
+function populate_table_element(selected_sheet, tablenumber, data_tableid, result_data=null){
     //const data_json = JSON.parse(document.getElementById('data_dump').textContent); // get original json data gain
     //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names  
     var col_headers = null;
@@ -746,21 +746,59 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid){
         var createTable_html = createTable_values4[1];
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
+    else if(tablenumber === 0){
+        var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
+        var createTable_values0 = createTable(repivoted_data, data_tableid);
+        var col_headers = createTable_values0[0];
+        var createTable_html = createTable_values0[1];
+        var table_html_obj_arr0 = parse_table_column_values(createTable_html);
+
+    }
     return col_headers;
 }
 
-function repivot_keyval(data_json, file_name, sheet_name) {
+function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
     result_table = [];
     // not super sure what this does --- it unpivots to original json object with file_name, sheet_name, key, value
-    var entries = Object.entries(data_json);
+    var is_data_json = false;
+    if (result_data===null){
+        var entries = Object.entries(data_json);
+        is_data_json = true;
+    }
+    else{
+        var entries = Object.entries(result_data);
+        is_data_json = false;
+    }
     var objs = [];
     var col_obj = {};
     // for each record in object of unpivoted
     for(var i=0; i<entries.length; i++)
     {
         // if file_name and sheet_name match required file and sheet
-        if(entries[i][1]['file_name'] === file_name && entries[i][1]['sheet_name'] === sheet_name)
-        {
+        if (is_data_json){        
+            if(entries[i][1]['file_name'] === file_name && entries[i][1]['sheet_name'] === sheet_name)
+            {
+                // search list of objects to see if column header exists. if it does then add to it's value array. else create new obj and add to array
+                if(objs.some(e => e.col_header === entries[i][1]['key']))
+                {
+                    // get the index of the found object
+                    const obj_i = objs.findIndex(e => e.col_header === entries[i][1]['key']);
+                    // double check if index exists
+                    if(obj_i > -1)
+                    {
+                        // if found. extend its array of values
+                        objs[obj_i].vals.push(entries[i][1]['val']) ;
+                    }
+                }
+                else
+                {   
+                    // if object doesn't exist in object array then add it
+                    var obj = {col_header: entries[i][1]['key'], vals : [entries[i][1]['val']]};
+                    objs.push(obj);
+                }
+            }
+        }
+        else{
             // search list of objects to see if column header exists. if it does then add to it's value array. else create new obj and add to array
             if(objs.some(e => e.col_header === entries[i][1]['key']))
             {
@@ -787,7 +825,7 @@ function repivot_keyval(data_json, file_name, sheet_name) {
 
 // populate html table from repivoted key value db table
 // specified_header_row is when user clicks on table to change header row
-function createTable(objs, table_id, specified_header_row=0, max_col_display=5) {  
+function createTable(objs, table_id, specified_header_row=0, max_col_display=5) {
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
     tbody.innerHTML = '';
@@ -807,6 +845,7 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
         {
             for (var i = 0; i < objs.length; i++) {
                 // if header row is row 0 then use col_header object
+                console.log(objs[i])
                 if (specified_header_row === 0)
                 {
                     if (objs[i].col_header.includes('Unnamed:') || objs[i].col_header === 'nan')
@@ -1562,4 +1601,9 @@ async function collect_extract_parameters(){
     extract_from.push(['Client Values.csv {Sheet1}', 'Client Name']);
     extract_from.push(['Program Info.csv {Sheet1}', 'Teachers']);
     console.log(extract_from)
+}
+
+function print_the_filtered_data(data){
+    console.log('PRINT THE FILTERED DATA')
+    console.log(data)
 }

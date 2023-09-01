@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import pandas as pd
 from django.core.files.storage import FileSystemStorage
 from .models import KeyValueDataFrame
+from .models import KeyValueDataFrame_Result
 import os
 from django.http import JsonResponse
 import json
@@ -122,8 +123,14 @@ def findandextract(request):
                 dfs = {df1_name:df1, df2_name:df2, df3_name:df3, df4_name:df4}
                 if algorithm_type == 'Extract':
                     df_result = Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
-                    print('RESULT')
+                    print()
+                    print('DF RESULT')
                     print(df_result)
+                    print()
+                    df_list = melt_df(df_result)
+                    print("saving result to db...")
+                    for dbframe in df_list:
+                        obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
 
                 return HttpResponse(status=200)
 
@@ -154,9 +161,15 @@ def findandextract(request):
     else:
         print("GET REQUEST")
         if is_ajax(request):
-            print("AJAX GET REQUEST")
-            fande_db_data = list(KeyValueDataFrame.objects.values())
-            return JsonResponse({'fande_data_dump' : fande_db_data})
+            if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
+                result_table_db = list(KeyValueDataFrame_Result.objects.values())
+                print("RESULT TABLE")
+                print(result_table_db)
+                return JsonResponse({'result_table' : result_table_db})
+            else:
+                print("AJAX GET REQUEST")
+                fande_db_data = list(KeyValueDataFrame.objects.values())
+                return JsonResponse({'fande_data_dump' : fande_db_data})
         else:
             return render(request, "findandextract/fandemain.html")
         #return render(request, "findandextract/fandemain.html", {'fande_data_dump' : fande_db_data})
@@ -249,6 +262,7 @@ def findandextract_data_upload(request):
     return render(request, "findandextract/fandeload.html", {'fande_data_dump' : fande_db_data})
 
 
+# for raw input
 def build_df_melt(myfile):
     df_sheets = []
     file_ext = str(myfile).split('.')[-1]
@@ -271,6 +285,12 @@ def build_df_melt(myfile):
     df_list = list(df_keyvalue[['file_name', 'sheet', 'variable', 'value']].values)
     return df_columns, df_list
 
+# for dataframe input
+def melt_df(df):
+    df_k_v = df.melt()
+    df_list = list(df_k_v[['key', 'value']].values)
+    return df_list
+
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly
 def drop_columns_from_unrelated_sheets(df):
     sheet_and_header_pairs = df[['sheet', 'variable']].values.tolist()
@@ -287,6 +307,7 @@ def drop_columns_from_unrelated_sheets(df):
 def is_ajax(request):
   return request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
+# unmelt user data with file names
 def unmelt(file_name, sheet_name):
     db_data = list(KeyValueDataFrame.objects.values())
     key_val = []
@@ -302,6 +323,24 @@ def unmelt(file_name, sheet_name):
     cat_type = CategoricalDtype(categories=col_cats, ordered=True)
     df['key'] = df['key'].astype(cat_type)
     df = df.pivot(index='idx', columns='key', values='val')
+    return df
+
+# unmelt result data
+def unmelt_result_df(result_db_data):
+    key_val = []
+    for row in result_db_data:
+        key = row['key']
+        val = row['val']
+        key_val.append((key, val))
+    df_melt = pd.DataFrame(key_val, columns=['key', 'val'])    
+    df = df_melt.assign(idx=df_melt.groupby('key').cumcount())
+    # convert column values to categories to prevent pandas from sorting alphabetically
+    col_cats = f7(df['key'].values.tolist())
+    cat_type = CategoricalDtype(categories=col_cats, ordered=True)
+    df['key'] = df['key'].astype(cat_type)
+    df = df.pivot(index='idx', columns='key', values='val')
+    #df = df.to_json()
+    df = df.values.tolist()
     return df
 
 def change_header(df, header_row):
@@ -380,13 +419,32 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
     df_extract_values = dfs[values_to_extract_dataset][values_to_extract_col].values.tolist()
     for df_col in extract_from:
         if df_col[0] != values_to_extract_dataset: 
+            print()
+            print("THIS IS THE df")
+            print(df_col[0])
+            print()
             df_single_result = Search_Column_Values(dfs[df_col[0]], df_col[1], df_extract_values)
+            print('SINGLE RESULT')
+            print(df_single_result)
             if not df_single_result.empty:
-
-                if df_result == None:
+                df_single_result.columns=df_single_result.columns.astype('str')
+                df_single_result['Dataset'] = values_to_extract_dataset
+                print('SINGLE RESULT version 2')
+                print(df_single_result)
+                if not isinstance(df_result, pd.DataFrame):
+                    print('IF THIS APPEARS MORE THAN ONCE')
                     df_result = df_single_result
+                    print('FIRST RESULT')
+                    print(df_result)
                 else:
-                    df_result.append(df_single_result, ignore_index=True)
+                    print("DF RESULT BEFORE APPEND")
+                    print(df_result)
+                    print('SINGLE')
+                    print(df_single_result)
+                    df_result.append(df_single_result)
+                    print('DF RESULT AFTER APPEND')
+                    print(df_result)
+                    print()
     return df_result
             
 def Search_Column_Values(df, col, df_extract_values):

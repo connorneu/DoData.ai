@@ -12,6 +12,11 @@ class KeyValueDataFrame(models.Model):
     def __str__(self):
         return self.file_name
 
+class KeyValueDataFrame_Result(models.Model):
+    key = models.CharField(max_length=200, default="No_Column_Header")
+    val = models.TextField()
+
+
 class DataFilters(models.Model):
     primary_file_name = models.CharField(max_length=200, default="NOFILENAME")
     primary_sheet_name = models.CharField(max_length=100, default="Sheet1")

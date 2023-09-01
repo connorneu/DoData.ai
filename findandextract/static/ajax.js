@@ -101,6 +101,8 @@ async function ajax_get_db(){
         success: function (data) {
             console.log("data retreived ");
             start_data_filter(data);
+            console.log("DAAATA")
+            console.log(data['fande_data_dump'])
         },
         // on error
         error: function (request, status, error) {
@@ -158,6 +160,7 @@ $(document).ready(function () {
             success: function () {
 
                 console.log("algorithm parameters submitted");
+                ajax_get_result_db();
 
             },
             // on error
@@ -170,3 +173,32 @@ $(document).ready(function () {
         return false;
     });   
 })
+
+// get data after function applied
+async function ajax_get_result_db(){
+    var db_data = null;
+    $.ajax({
+        //data: data, 
+        type: 'GET',
+        data: {ajaxid:'result_db'},
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        //url: 'findandextract/',
+        // on success
+        success: function (data) {
+            //ajax_get_db()//deeltetghis
+            //console.log("altered data returned");
+            print_the_filtered_data(data);
+            populate_table_element('nosheetname', 0, 'result_table', data);
+        },
+        // on error
+        error: function (request, status, error) {
+            // alert the error if any error occured
+            //alert(response.responseJSON.errors);
+            //console.log(response.responseJSON.errors)
+            alert(request.responseText);
+        }
+    });
+    return false;
+}
