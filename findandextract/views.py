@@ -123,10 +123,6 @@ def findandextract(request):
                 dfs = {df1_name:df1, df2_name:df2, df3_name:df3, df4_name:df4}
                 if algorithm_type == 'Extract':
                     df_result = Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
-                    print()
-                    print('DF RESULT')
-                    print(df_result)
-                    print()
                     df_list = melt_df(df_result)
                     print("saving result to db...")
                     for dbframe in df_list:
@@ -288,7 +284,9 @@ def build_df_melt(myfile):
 # for dataframe input
 def melt_df(df):
     df_k_v = df.melt()
-    df_list = list(df_k_v[['key', 'value']].values)
+    print("df kv")
+    print(df_k_v)
+    df_list = list(df_k_v[['variable', 'value']].values)  #list(df_k_v[['key', 'value']].values)
     return df_list
 
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly
@@ -419,32 +417,15 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
     df_extract_values = dfs[values_to_extract_dataset][values_to_extract_col].values.tolist()
     for df_col in extract_from:
         if df_col[0] != values_to_extract_dataset: 
-            print()
-            print("THIS IS THE df")
-            print(df_col[0])
-            print()
             df_single_result = Search_Column_Values(dfs[df_col[0]], df_col[1], df_extract_values)
-            print('SINGLE RESULT')
-            print(df_single_result)
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
                 df_single_result['Dataset'] = values_to_extract_dataset
-                print('SINGLE RESULT version 2')
-                print(df_single_result)
                 if not isinstance(df_result, pd.DataFrame):
-                    print('IF THIS APPEARS MORE THAN ONCE')
                     df_result = df_single_result
-                    print('FIRST RESULT')
-                    print(df_result)
                 else:
-                    print("DF RESULT BEFORE APPEND")
-                    print(df_result)
-                    print('SINGLE')
-                    print(df_single_result)
-                    df_result.append(df_single_result)
-                    print('DF RESULT AFTER APPEND')
-                    print(df_result)
-                    print()
+                    df_result = df_result.append(df_single_result)
+                    df_result = df_result.reset_index(drop=True)
     return df_result
             
 def Search_Column_Values(df, col, df_extract_values):

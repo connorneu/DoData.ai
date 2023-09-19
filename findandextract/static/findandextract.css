@@ -29,9 +29,10 @@ body {
 .typecontainer{
     display:block;
     max-height:350px;
-    overflow:hidden;
-    
+    overflow: hidden;
+
 }
+
 h1{
     font-size: 24px;
     text-align:center;
@@ -331,12 +332,7 @@ margin-top:1%;
     vertical-align: middle;
     margin-left:250px;
 }
-.matchcontainer{
-    margin:0 auto;
-    width:100%;
 
-
-}
 .matchdiv{
     display:block;
     left: 25%;
@@ -454,18 +450,18 @@ margin-top:1%;
       cursor: pointer;
     }
 .node circle {
-    fill: #fff;
+    fill: black;
     stroke: red;
     stroke-width: 0px;
-    filter:blur(2px);
-    filter: blur(1px) drop-shadow(5px 5px 12px rgb(51,32,93));
+    filter:blur(1px);
+    filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128));
 
 }  
 .node:hover circle {
-    fill: #fff;
+    fill: black;
     stroke: black;
-    stroke-width: 5px;
-    filter: blur(2px) drop-shadow(6px 2px 4px rgb(51,32,93));
+    stroke-width: 1px;
+    filter: blur(2px) drop-shadow(4px 2px 2px rgb(128,0,128));
 }
 
 .node text {
@@ -482,14 +478,17 @@ margin-top:1%;
     margin:200px; 
     border-radius:50%;
     display:none;
+   
 }
+
 .node:hover image{
     display:inline;
+
 }
 .link {
     fill: none;
     stroke: #ccc;
-    stroke-width: 1.5px;
+    stroke-width: 3px;
 }
 .selection-svg{
     width:4000px;
@@ -564,4 +563,168 @@ margin-top:1%;
 
 .dropdown.matchdiv.colselect{
     margin-top:2%;
+    margin-left:8%;
+}
+
+.notsidebar_wrap{
+    clear:both;
+    margin-left:8%;
+    margin-top:2%;
+}
+
+/*HORIZONTAL NAVBAR */
+ .sidebar {
+    width: 120px;
+    height: 200%;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgb(24, 25, 26, .65);             /*rgba(10, 10, 10, .65)*/
+    box-shadow: 0 8px 32px rgb(2, 4, 24);
+    border-right: 2px solid rgba(255, 255, 255, .09);
+    transition: .4s ease-in-out;
+
+    position: fixed;
+    
+}
+
+.sidebar.open {
+    width: 360px;
+}
+
+.sidebar .logo {
+    width: 100%;
+    height: 240px;
+    padding: 40px 0;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.sidebar .logo img {
+    width: 115px;
+    transition: .4s;
+
+}
+
+
+.sidebar.open .logo img {
+    width: 320px;
+}
+
+.sidebar .logo h3 {
+    color: #fff;
+    font-size: 36px;
+    margin-top: 12px;
+    font-variant: small-caps;
+    pointer-events: none;
+    scale: 0;
+    opacity: 0;
+}
+
+.sidebar.open .logo h3 {
+    scale: 1;
+    opacity: 1;
+    transition: .4s;
+    transition-delay: .2s;
+}
+
+.sidebar .nav-title {
+    color: #dadada;
+    margin: 40px 0 18px;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.sidebar.open .nav-title {
+    opacity: 1;
+    transition: .4s;
+    transition-delay: .2s;
+}
+
+.sidebar nav {
+    padding: 0 30px;
+}
+
+.sidebar nav .nav-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 0px;
+    width: 100%;
+    height: 56px;
+    padding: 0 0px;
+    margin: 8px 0;
+    color: #fff;
+    transition: .3s;
+}
+
+.sidebar nav .nav-item.active {
+    background:rgba(91, 51, 138, .62) !important;
+}
+
+.sidebar nav .nav-item:hover {
+    background: rgba(255, 255, 255, .1);
+}
+
+.sidebar nav .nav-item i {
+    font-size: 26px;
+}
+
+.sidebar nav .nav-item span {
+    font-size: 18px;
+    margin-left: 8px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar.open nav .nav-item span {
+    opacity: 1;
+    pointer-events: visible;
+    transition: .4s;
+    transition-delay: .2s;
+}
+
+.sidebar hr {
+    width: 100%;
+    height: 2px;
+    border-radius: 3px;
+    margin: 40px 0 50px;
+    background: rgba(255, 255, 255, .1);
+    opacity: 0;
+}
+
+.sidebar.open hr {
+    opacity: 1;
+    transition: .4s;
+}
+
+.sidebar .toggle {
+    cursor: pointer;
+    position: absolute;
+    color: #fff;
+    top: 180px;
+    right: -20px;
+    font-size: 38px;
+    line-height: 50%;
+    text-align: center;
+    border-radius: 50%;
+    padding: 2px 0 2px 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 50%,
+        rgba(10, 10, 10, .65) 50%
+    );
+}
+
+.sidebar.open .toggle {
+    transform: translateY(45px);
+}
+
+.sidebar .toggle i {
+    transition: .4s linear;
+}
+
+.sidebar.open .toggle i {
+    transform: rotateY(180deg);
 }

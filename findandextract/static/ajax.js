@@ -95,13 +95,10 @@ async function ajax_get_db(){
         type: 'GET',
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
-        //url: "{% url 'findandextract' %}",
-        //url: 'findandextract/',
-        // on success
         success: function (data) {
             console.log("data retreived ");
             start_data_filter(data);
-            console.log("DAAATA")
+            console.log("ajax_get_db result")
             console.log(data['fande_data_dump'])
         },
         // on error
@@ -187,10 +184,8 @@ async function ajax_get_result_db(){
         //url: 'findandextract/',
         // on success
         success: function (data) {
-            //ajax_get_db()//deeltetghis
-            //console.log("altered data returned");
-            print_the_filtered_data(data);
-            populate_table_element('nosheetname', 0, 'result_table', data);
+            //print_the_filtered_data(data);
+            display_result_table(data);
         },
         // on error
         error: function (request, status, error) {
