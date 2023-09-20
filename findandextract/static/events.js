@@ -26,7 +26,7 @@ $(document.body).on('click', '#primaryfile_ul' ,async function(){
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
-    await add_to_carousel('Input File: ', '#529D52', ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
+    await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
 });
 
  // if secondary file is selected hide dropdown + hide header + print selection
@@ -36,7 +36,7 @@ $(document.body).on('click', '#secondaryfile_ul' ,async function(){
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     secondary_file_name = user_selection;
     secondary_file_sheets = get_file_sheets(secondary_file_name); 
-    await add_to_carousel('Data File: ', '#BE7070', ['update_item_text_params(secondary_file_name)', 'secondary_sheet_selection()'], true, false);
+    await add_to_carousel('Data File: ', second_color, ['update_item_text_params(secondary_file_name)', 'secondary_sheet_selection()'], true, false);
 });
 
  // if third file is selected hide dropdown + hide header + print selection
@@ -46,7 +46,7 @@ $(document.body).on('click', '#thirdfile_ul' ,async function(){
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     third_file_name = user_selection;
     third_file_sheets = get_file_sheets(third_file_name); 
-    await add_to_carousel('Data File: ', '#3D7676', ['update_item_text_params(third_file_name)', 'third_sheet_selection()'], true, false);
+    await add_to_carousel('Data File: ', third_color, ['update_item_text_params(third_file_name)', 'third_sheet_selection()'], true, false);
 });
 
  // if fourth file is selected hide dropdown + hide header + print selection
@@ -56,7 +56,7 @@ $(document.body).on('click', '#fourthfile_ul' ,async function(){
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     fourth_file_name = user_selection;
     fourth_file_sheets = get_file_sheets(fourth_file_name); 
-    await add_to_carousel('Data File: ', '#BE9970', ['update_item_text_params(fourth_file_name)', 'fourth_sheet_selection()'], true, false);
+    await add_to_carousel('Data File: ', fourth_color, ['update_item_text_params(fourth_file_name)', 'fourth_sheet_selection()'], true, false);
 });
 
  // if primary sheet is selected
@@ -65,7 +65,7 @@ $(document.body).on('click', '#primarysheet_ul' ,function(){
     document.getElementById('primarysheetdrop').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     primary_sheet_name = user_selection;    
-    add_to_carousel('Input Sheet: ', '#529D52', ['update_item_text_params(primary_sheet_name)', 'adjust_col_header()'], true, false);
+    add_to_carousel('Input Sheet: ', input_color, ['update_item_text_params(primary_sheet_name)', 'adjust_col_header()'], true, false);
 });
 
  // if secondary sheet is selected
@@ -74,7 +74,7 @@ $(document.body).on('click', '#secondarysheet_ul' ,function(){
     document.getElementById('secondarysheetdrop').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     secondary_sheet_name = user_selection;    
-    add_to_carousel('Data File sheet: ', '#BE7070', ['update_item_text_params(secondary_sheet_name)', 'adjust_col_header2()'], true, false);
+    add_to_carousel('Data File sheet: ', second_color, ['update_item_text_params(secondary_sheet_name)', 'adjust_col_header2()'], true, false);
 });
 
  // if third sheet is selected
@@ -83,7 +83,7 @@ $(document.body).on('click', '#thirdsheet_ul' ,function(){
     document.getElementById('thirdsheetdrop').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     third_sheet_name = user_selection;    
-    add_to_carousel('Data File sheet: ', '#3D7676', ['update_item_text_params(third_sheet_name)', 'adjust_col_header3()'], true, false);
+    add_to_carousel('Data File sheet: ', third_color, ['update_item_text_params(third_sheet_name)', 'adjust_col_header3()'], true, false);
 });
 
  // if fourth sheet is selected
@@ -92,7 +92,7 @@ $(document.body).on('click', '#fourthsheet_ul' ,function(){
     document.getElementById('fourthsheetdrop').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     fourth_sheet_name = user_selection;    
-    add_to_carousel('Data File sheet: ', '#BE9970', ['update_item_text_params(fourth_sheet_name)', 'adjust_col_header4()'], true, false);
+    add_to_carousel('Data File sheet: ', fourth_color, ['update_item_text_params(fourth_sheet_name)', 'adjust_col_header4()'], true, false);
 });
 
 // when col header for table 1 is adjusted

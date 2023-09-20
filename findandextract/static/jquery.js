@@ -44,6 +44,11 @@ extract_from = [];
 
 extract_col = null;
 
+var input_color = '#529D52';
+var second_color = '#BE7070';
+var third_color = '#3D7676';
+var fourth_color = '#BE9970';
+
 
 // COLLAPSABLE FUCKING THING YOU DON T KUNDERSTAND
 root = null;
@@ -83,14 +88,50 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 
-async function typeSentence(sentence, eleRef, delay =00) {
+async function typeSentence(sentence, eleRef, color, delay =00) {
   const letters = sentence.split("");
+  var arr = [];
   let i = 0;
+  var is_spaned = false;
   while(i < letters.length) {
     await waitForMs(delay);
+    if(letters[i-1] === ':'){
+        is_spanned = true;
+        arr.push('<span style="color:' + color + ';">')
+    }
+    arr.push(letters[i])
+    i++
+  }
+  if(is_spaned){
+    //$(eleRef).append('</span>');
+    arr.push('</span>')
+  }
+  var vals = arr.join('')
+  console.log(vals)
+  $(eleRef).append(vals);
+  return;
+}
+
+async function typeSentenceFA(sentence, eleRef, color, delay =00) {
+  const letters = sentence.split("");
+  console.log(color)
+  let i = 0;
+  var is_spaned = false;
+  while(i < letters.length) {
+    await waitForMs(delay);
+    if(letters[i] === ':'){
+        is_spanned = true;
+        
+        $(eleRef).append('<span style="color:' + color + ';">');
+        console.log(i)
+        console.log(letters.length)
+    }
     $(eleRef).append(letters[i]);
     i++
   }
+  //if(is_spaned){
+  //  $(eleRef).append('</span>');
+  //}
   return;
 }
 
@@ -140,7 +181,7 @@ async function carousel(carousel_obj) {
     updateFontColor(carousel_obj.id, carousel_obj.color)
     if (carousel_obj.isTyped)
     {
-        await typeSentence(carousel_obj.text, carousel_obj.id);
+        await typeSentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
     }
     else
     {
@@ -243,7 +284,18 @@ async function start_data_filter(db_data){
     //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
     unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
     for (var i = 0; i<unique_file_names.length; i++){
-        await add_to_carousel('Loaded file: ' + unique_file_names[i], standard_color, [null], true, false);
+        if(i === 0){
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], input_color, [null], true, false);
+        }
+        else if(i === 1){
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], second_color, [null], true, false);
+        }
+        else if(i === 2){
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], third_color, [null], true, false);
+        }
+        else if(i === 3){
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
+        }        
     }
     if (algorithm_type === 'Extract'){
         if (input_type === 'File'){
@@ -333,10 +385,10 @@ async function display_conditions(){
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filter Input Data (' + primary_file_name + ' ' + primary_sheet_name + '):', '#529D52', [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filter Input Data (' + primary_file_name + ' ' + primary_sheet_name + '):', input_color, [null], true, false);
     if (condition_arr.length === 1 && condition_arr[0][1] === 'Select Column' &&  condition_arr[0][2] === 'Equals'){
-        condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions a   pplied';
-        await add_to_carousel(condition_string, '#529D52', [null], true, false);
+        condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
+        await add_to_carousel(condition_string, input_color, [null], true, false);
     }
     else{
         for (var i = condition_arr.length-1; i >= 0; i--){
@@ -346,7 +398,7 @@ async function display_conditions(){
             else{
                 condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3] + ' and ' + condition_arr[i][4]
             }
-            await add_to_carousel(condition_string, '#529D52', [null], true, false);
+            await add_to_carousel(condition_string, input_color , [null], true, false);
             cond_count++;
         }    
     }
@@ -369,7 +421,7 @@ async function select_find_column(){
         hide_containers(2);
         extract_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
-        await add_to_carousel(extract_from_str, '#529D52', [null], true, false);
+        await add_to_carousel(extract_from_str, input_color , [null], true, false);
         
         
         start_second_dataset();
@@ -382,13 +434,13 @@ async function display_conditions2(){
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filter Extract Data (' + secondary_file_name + ' ' + secondary_sheet_name + '):', '#BE7070', [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filter Extract Data (' + secondary_file_name + ' ' + secondary_sheet_name + '):', second_color, [null], true, false);
     console.log(condition_arr2[0][1])
     console.log(condition_arr2[0][2])
     console.log(condition_arr2[0][3])
     if (condition_arr2.length === 1 && condition_arr2[0][1] === 'Select Column' &&  condition_arr2[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
-        await add_to_carousel(condition_string, '#BE7070', [null], true, false);
+        await add_to_carousel(condition_string, second_color, [null], true, false);
     }
     else{
         for (var i = condition_arr2.length-1; i >= 0; i--){ 
@@ -398,7 +450,7 @@ async function display_conditions2(){
             else{
                 condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr2[i][1] + ' ' + condition_arr2[i][2] + ' ' + condition_arr2[i][3] + ' and ' + condition_arr2[i][4]
             }        
-            await add_to_carousel(condition_string, '#BE7070', [null], true, false);
+            await add_to_carousel(condition_string, second_color, [null], true, false);
             cond_count++;
         }
     }
@@ -426,7 +478,7 @@ async function select_extract_column2(){
         hide_containers(2);
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
-        await add_to_carousel(extract_from_str, '#BE7070', [null], true, false);
+        await add_to_carousel(extract_from_str, second_color, [null], true, false);
         
         
         if(!third_file_name){
@@ -442,10 +494,10 @@ async function display_conditions3(){
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filer Extract Data (' + third_file_name + ' ' + third_sheet_name + '):', '#3D7676', [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filer Extract Data (' + third_file_name + ' ' + third_sheet_name + '):', third_color, [null], true, false);
     if (condition_arr3.length === 1 && condition_arr3[0][1] === 'Select Column' &&  condition_arr3[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
-        await add_to_carousel(condition_string, '#3D7676', [null], true, false);
+        await add_to_carousel(condition_string, third_color, [null], true, false);
     }
     else{
         for (var i = condition_arr3.length-1; i >= 0; i--){        
@@ -455,7 +507,7 @@ async function display_conditions3(){
             else{
                 condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr3[i][1] + ' ' + condition_arr3[i][2] + ' ' + condition_arr3[i][3] + ' and ' + condition_arr3[i][4]
             }
-            await add_to_carousel(condition_string, '#3D7676', [null], true, false);
+            await add_to_carousel(condition_string, third_color, [null], true, false);
             cond_count++;
         }
     }
@@ -480,7 +532,7 @@ async function select_extract_column3(){
         document.getElementById('thirdmatchbox').style.display = 'none';
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
-        await add_to_carousel(extract_from_str, '#3D7676', [null], true, false);
+        await add_to_carousel(extract_from_str, third_color, [null], true, false);
         
         
         if(!fourth_file_name){
@@ -496,7 +548,7 @@ async function display_conditions4(){
     hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filer data ' + (condition_arr4.length) + ' conditions:', '#BE9970', [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filer data ' + (condition_arr4.length) + ' conditions:', fourth_color, [null], true, false);
     if (condition_arr4.length === 1 && condition_arr4[0][1] === 'Select Column' &&  condition_arr4[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
     }
@@ -508,7 +560,7 @@ async function display_conditions4(){
             else{
                 condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr4[i][1] + ' ' + condition_arr4[i][2] + ' ' + condition_arr4[i][3] + ' and ' + condition_arr4[i][4]
             }
-            await add_to_carousel(condition_string, '#BE9970', [null], true, false);
+            await add_to_carousel(condition_string, fourth_color, [null], true, false);
             cond_count++;
         }        
     }
@@ -532,7 +584,7 @@ async function select_extract_column4(){
         document.getElementById('fourthmatchbox').style.display = 'none';
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
-        await add_to_carousel(extract_from_str, '#BE9970', [null], true, false);
+        await add_to_carousel(extract_from_str, fourth_color, [null], true, false);
                 
         summarize_choices()        
     });
@@ -730,7 +782,7 @@ function get_num_carousel_containers(){
 }
 
 function updateFontColor(eleRef, color) {
-  $(eleRef).css('color', color);
+  $(eleRef).css('color', 'white'); 
 }
 
 async function deleteSentence(eleRef) {
@@ -797,7 +849,7 @@ async function primary_sheet_selection(){
     }
     else{
         primary_sheet_name = "Sheet1";
-        await add_to_carousel('\xa0\xa0\xa0' + 'Input Sheet: Sheet1 (default - file only has one sheet)', '#529D52', ['adjust_col_header()'], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + 'Input Sheet: Sheet1 (default - file only has one sheet)', input_color, ['adjust_col_header()'], true, false);
     }   
 }
 
@@ -808,7 +860,7 @@ async function secondary_sheet_selection(){
     }
     else{
         secondary_sheet_name = "Sheet1";
-        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', '#BE7070', ['adjust_col_header2()'], true, false);
+        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', second_color, ['adjust_col_header2()'], true, false);
     }   
 }
 
@@ -819,7 +871,7 @@ async function third_sheet_selection(){
     }
     else{
         third_sheet_name = "Sheet1";
-        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', '#3D7676', ['adjust_col_header3()'], true, false);
+        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', third_color, ['adjust_col_header3()'], true, false);
     }   
 }
 
@@ -830,7 +882,7 @@ async function fourth_sheet_selection(){
     }
     else{
         fourth_sheet_name = "Sheet1";
-        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', '#BE9970', ['adjust_col_header4()'], true, false);
+        await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', fourth_color, ['adjust_col_header4()'], true, false);
     }   
 }
 
