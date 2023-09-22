@@ -88,52 +88,40 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 
-async function typeSentence(sentence, eleRef, color, delay =00) {
+async function typeSentence(sentence, eleRef, color, delay = 30) {
+  console.log(eleRef)
+  var clean_id = 'span' + eleRef.substring(1);
+  console.log('clean id')
+  console.log(clean_id)
+  var eleRefSpan = '#' + clean_id;
+  console.log('eleRefSpan')
+  console.log(eleRefSpan)
   const letters = sentence.split("");
   var arr = [];
   let i = 0;
-  var is_spaned = false;
+  var is_spaned = false; 
   while(i < letters.length) {
     await waitForMs(delay);
     if(letters[i-1] === ':'){
-        is_spanned = true;
-        arr.push('<span style="color:' + color + ';">')
+        is_spaned = true;
+        $(eleRef).append('<span id="' + clean_id + '" style="color:' + color + ';">')   
+        console.log(eleRef)
+        console.log($(eleRef))
     }
-    arr.push(letters[i])
+    if(!is_spaned){
+      $(eleRef).append(letters[i]);    
+    }
+    else{
+      var curr_text = $(eleRefSpan).text()
+      $(eleRefSpan).text(curr_text + letters[i]);
+    }
+    
     i++
   }
-  if(is_spaned){
-    //$(eleRef).append('</span>');
-    arr.push('</span>')
-  }
-  var vals = arr.join('')
-  console.log(vals)
-  $(eleRef).append(vals);
   return;
 }
 
-async function typeSentenceFA(sentence, eleRef, color, delay =00) {
-  const letters = sentence.split("");
-  console.log(color)
-  let i = 0;
-  var is_spaned = false;
-  while(i < letters.length) {
-    await waitForMs(delay);
-    if(letters[i] === ':'){
-        is_spanned = true;
-        
-        $(eleRef).append('<span style="color:' + color + ';">');
-        console.log(i)
-        console.log(letters.length)
-    }
-    $(eleRef).append(letters[i]);
-    i++
-  }
-  //if(is_spaned){
-  //  $(eleRef).append('</span>');
-  //}
-  return;
-}
+
 
 // for sentences too long to be typed out - accepts array of sentences and adds the faded class so they fade in slowly
 async function displaySentence(sentences, eleRef)
@@ -149,6 +137,11 @@ async function displaySentence(sentences, eleRef)
         }
     }   
     //await waitForMs(120);
+}
+
+async function add_linebreak_to_carousel(eleRef){
+    linebreak = document.createElement("br");
+    $(eleRef).append(linebreak);
 }
 
 // updates parameter that is null when put into carousel but gets value thru user selection
@@ -194,6 +187,9 @@ async function carousel(carousel_obj) {
         if (carousel_obj.func[j] != null) {
             if (!carousel_obj.func[j].includes('update_item_text_params')){
                 await eval(carousel_obj.func[j]);//run functions inside carousel item     
+            }
+            if (carousel_obj.func[j].includes('add_linebreak_to_carousel')){
+                await add_linebreak_to_carousel(carousel_obj.id);
             }
         }
     }
@@ -295,8 +291,9 @@ async function start_data_filter(db_data){
         }
         else if(i === 3){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
-        }        
+        }         
     }
+    await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     if (algorithm_type === 'Extract'){
         if (input_type === 'File'){
             start_extract_file();
@@ -317,7 +314,7 @@ async function start_data_filter(db_data){
 }
 
 async function start_extract_file(){
-    await add_to_carousel(['Select dataset containing values to search for and extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['Select file containing values to search for and extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['This file contains the values that will be searched for in other datasets.',
                         'Rows of data from the other datasets that match these values will be extracted.'],
                         fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
@@ -331,14 +328,14 @@ async function start_extract_custom(){
 }
 
 async function start_combine_rows(){
-    await add_to_carousel(['Select the dataset to combine with other uploaded files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['Select the file to combine with other uploaded files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['This file has a column of values that can be found in the other uploaded datasets.',
                         'When these values are found in other files, data from selected columns will be added to this dataset at the corresponding row.'],
                         fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
 }
 
 async function start_combine_column(){
-    await add_to_carousel(['Select the dataset to combine with other uploaded files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['Select the file to combine with other uploaded files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['Specify which column name from this dataset should be matched with the column names from other files.',
                         'The data from the corresponding columns in the other files will be appended to this dataset.'],
                         fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
@@ -422,8 +419,7 @@ async function select_find_column(){
         extract_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
         await add_to_carousel(extract_from_str, input_color , [null], true, false);
-        
-        
+        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
         start_second_dataset();
 
     });
@@ -435,9 +431,6 @@ async function display_conditions2(){
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filter Extract Data (' + secondary_file_name + ' ' + secondary_sheet_name + '):', second_color, [null], true, false);
-    console.log(condition_arr2[0][1])
-    console.log(condition_arr2[0][2])
-    console.log(condition_arr2[0][3])
     if (condition_arr2.length === 1 && condition_arr2[0][1] === 'Select Column' &&  condition_arr2[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
         await add_to_carousel(condition_string, second_color, [null], true, false);
@@ -479,7 +472,7 @@ async function select_extract_column2(){
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
         await add_to_carousel(extract_from_str, second_color, [null], true, false);
-        
+        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
         
         if(!third_file_name){
             start_third_dataset()
@@ -533,7 +526,7 @@ async function select_extract_column3(){
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
         await add_to_carousel(extract_from_str, third_color, [null], true, false);
-        
+        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);        
         
         if(!fourth_file_name){
             start_fourth_dataset()
@@ -585,6 +578,7 @@ async function select_extract_column4(){
         extract_from_col = $(this).parents(".dropdown").find('.btn').text();
         var extract_from_str = '\xa0\xa0\xa0' + 'Match values to column: ' + extract_from_col
         await add_to_carousel(extract_from_str, fourth_color, [null], true, false);
+        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
                 
         summarize_choices()        
     });
@@ -631,10 +625,7 @@ async function summarize_choices(){
     
     document.getElementById("typingtextcontainer").style.display = "flex";
 
-    $(document.body).on('click', '#addmatchdataset' , async function(){
-
-
-    });
+    document.getElementById("addmatchdataset").style.display = "block";
 }
 
 function populate_dataset_names(){
@@ -668,14 +659,8 @@ function get_file_and_sheet(dataset_selection){
 }
 
 function match_dataset_to_colheaders(file_and_sheet){
-    console.log('start col header match')
-    console.log(file_and_sheet[0])
-    console.log(file_and_sheet[1])
-    console.log(dataset_index)
     for(var i = 0; i<dataset_index.length; i++){
-        console.log(file_and_sheet[0] + " . " + dataset_index[i][0] + " | " + file_and_sheet[1] + " . " + dataset_index[i][1])
         if (file_and_sheet[0] === dataset_index[i][0] && file_and_sheet[1] === dataset_index[i][1]){
-            console.log("found col headers")
             return dataset_index[i][2]
         } 
     }
@@ -685,6 +670,7 @@ async function display_primaryfileselect_drop(){
     // select primary file
     populate_drop_down('#primaryfile_ul', unique_file_names, true)
     document.getElementById('primaryfiledrop').style.display = 'block';
+    document.getElementById('extractinputfile').style.display = 'block';
 }
 
 // select primary sheet
@@ -1049,7 +1035,6 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
         {
             for (var i = 0; i < objs.length; i++) {
                 // if header row is row 0 then use col_header object
-                console.log(objs[i])
                 if (specified_header_row === 0)
                 {
                     if (objs[i].col_header.includes('Unnamed:') || objs[i].col_header === 'nan')
@@ -1362,9 +1347,10 @@ $(document).ready(function () {
                
             {
                 name: "Extract",
-                image: "/static/images/Extract.png",
+                image: "/static/images/Extract v2.png",
                 children: [{
-                        name: "Search for values from input file",
+                        name: "Input file",
+                        image: "/static/images/Search Input File.png",
                         children: [
                             {
                                 name: "START"
@@ -1372,7 +1358,7 @@ $(document).ready(function () {
                         ]
                     },
                     {
-                        name: "Search for custom values",
+                        name: "Custom values",
                         children: [
                             {
                                 name: "START"
@@ -1529,7 +1515,7 @@ $(document).ready(function () {
             .attr("xlink:href", function(d) {
                 return d.data.image;
             })
-            .attr("x", 175)  //116
+            .attr("x", 210)  //116
             .attr("y", -25)     //-25
             .attr("width", 650)       //50
             .attr("height", 500);
@@ -1712,18 +1698,19 @@ async function begin_file_upload(){
     await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
     await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    
 }
 
 async function start_algo_path(node_name, parent_node_name){
     if (node_name === 'START'){
-        if (parent_node_name === 'Search for values from input file'){
+        if (parent_node_name === 'Input file'){
             console.log('extract - file input')
             algorithm_type = 'Extract';
             input_type = 'File';  
             //describe_search_file_single()
             begin_file_upload();
         }
-        else if (parent_node_name === 'Search for custom values entered manually'){
+        else if (parent_node_name === 'Custom values'){
             console.log('extract - custom input')
             algorithm_type = 'Extract';
             input_type = 'Custom';            

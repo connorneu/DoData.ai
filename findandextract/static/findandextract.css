@@ -728,3 +728,7 @@ margin-top:1%;
 .sidebar.open .toggle i {
     transform: rotateY(180deg);
 }
+
+.image-reference{
+    display: none;
+}

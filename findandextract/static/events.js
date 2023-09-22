@@ -22,7 +22,8 @@ $(document.body).on('click', '.dropdown-menu li a' ,function(){
  // if primary file is selected hide dropdown + hide header + print selection
 $(document.body).on('click', '#primaryfile_ul' ,async function(){ 
     hide_containers(2);
-    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown    
+    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
+    document.getElementById('extractinputfile').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
