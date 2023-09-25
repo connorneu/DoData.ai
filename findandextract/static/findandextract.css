@@ -25,6 +25,13 @@ body {
     height: 100%;
     text-align: center;
     letter-spacing: 0.06em;
+
+
+
+
+
+
+
 }
 .typecontainer{
     display:block;
@@ -450,18 +457,26 @@ margin-top:1%;
       cursor: pointer;
     }
 .node circle {
-    fill: black;
-    stroke: red;
-    stroke-width: 0px;
-    filter:blur(1px);
-    filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128));
+    /*fill: fill: hsl(248, 53%, 58%); */
+    stroke-width: 4px;
+    /*filter:blur(1px);                                              */
+    /*filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128)); */
+    
 
 }  
+
+
+.front {
+  stroke-linecap: round;
+  stroke-dasharray: 1507;
+  stroke-dashoffset: 0;
+}
+
 .node:hover circle {
     fill: black;
     stroke: black;
     stroke-width: 1px;
-    filter: blur(2px) drop-shadow(4px 2px 2px rgb(128,0,128));
+    filter: blur(1px) drop-shadow(1px 1px 1px rgb(52, 67, 235));
 }
 
 .node text {
@@ -495,6 +510,10 @@ margin-top:1%;
     height:600px;
     display: block;
     margin: auto;
+
+
+
+
 }
 .node.parent-node.active text{
     transform: translateX(-150px);
@@ -578,7 +597,7 @@ margin-top:1%;
     height: 200%;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    background: rgb(24, 25, 26, .65);             /*rgba(10, 10, 10, .65)*/
+    background: rgb(24, 25, 26, .85);             /*rgba(10, 10, 10, .65)*/
     box-shadow: 0 8px 32px rgb(2, 4, 24);
     border-right: 2px solid rgba(255, 255, 255, .09);
     transition: .4s ease-in-out;
@@ -589,6 +608,15 @@ margin-top:1%;
 
 .sidebar.open {
     width: 360px;
+}
+.logoalone{
+    justify-items: center;
+    opacity: 90%;
+    border-radius: 10px;
+    border-color:white;
+    float:left;
+    margin-left:100px; 
+    margin-bottom:2%;
 }
 
 .sidebar .logo {
@@ -731,4 +759,116 @@ margin-top:1%;
 
 .image-reference{
     display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$gold: #5B338A;
+$coral: #5B338A;
+$brightCoral: #7d29e3;
+
+#page {
+  $opacity: 90%;
+  align-items: center;
+  background: linear-gradient(
+                  to top right,
+                  mix($coral, white, $opacity) 10%,
+                  mix($brightCoral, white, $opacity) 65%,
+                  mix($gold, white, $opacity) 125%);
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: opacity 1s;
+}
+
+
+#phrase_box {  
+  display: flex;
+  flex-flow: column;
+  height: 150px;
+  overflow: hidden;
+  width: 100%;
+  margin-left: 500px;
+  margin-top:20%;
+}
+
+#phrases {
+  animation: slide-phrases-upward 20s;
+}
+
+#footer {
+  bottom: 30px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+}
+
+@keyframes slide-phrases-upward {
+  @for $i from 0 through 20 {
+    #{$i * 5%} {
+      transform: translateY($i * -50px);
+    }
+  }
+}
+
+@for $i from 0 through 20 {
+  #loadingCheckCircleSVG-#{$i} {
+    animation: fill-to-white 5000ms;
+    animation-delay: ($i - 1.5) * 1s;
+    fill: white;
+    opacity: 0;
+  }
+}
+@keyframes fill-to-white {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@for $i from 0 through 20 {
+  #loadingCheckSVG-#{$i} {
+    animation: fill-to-coral 5000ms;
+    animation-delay: ($i - 1.5) * 1s;    
+  }
+}
+@keyframes fill-to-coral {
+  0% {
+    fill: white;
+  }
+  10% {
+    fill: $brightCoral;
+  }
+  100% {
+    fill: $brightCoral;
+  }
 }

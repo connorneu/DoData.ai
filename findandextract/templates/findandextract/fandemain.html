@@ -18,21 +18,20 @@
         <script src="/static/jquery.js"></script>
         <script src="/static/events.js"></script>
         <script src="/static/ajax.js"></script>
-        <script src="https://d3js.org/d3.v6.min.js"></script>    
+        <script src="https://d3js.org/d3.v6.min.js"></script>   
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         
 
 
 
 
 
-           
+        <div class="logoalone">
+            <img src="/static/images/DoData.ai Logo.png" alt="...">		       
+        </div>   
         <div class="sidebar">
 	        <div class="toggle">
 		        <i class="bx bx-chevron-right"></i>
-	        </div>
-	        <div class="logo">
-		        <img src="/static/images/DoData.ai Logo.png" alt="...">
-		       
 	        </div>
 	        <nav>
 		        <div class="nav-title">
@@ -76,7 +75,7 @@
 		        </ul>
 		        <CENTER>
 			        <div class="nav-title">
-				        Make things change.
+				        Automate away the most boring part of your day.
 			        </div>
 		        </CENTER>
 	        </nav>
@@ -96,6 +95,8 @@
 
 
         <div class="notsidebar_wrap">
+
+
             <div class="typecontainer" id="typingtextcontainer">
                 <div class="codebloxk" id="printitout">
                 {{ fande_data_dump|json_script:"fande_data_dump" }}
@@ -112,7 +113,17 @@
 
 
             <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:none;">               
-                <svg id="maine" class="selection-svg"></svg>
+                <svg id="maine" class="selection-svg">
+                    <defs>
+                        <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
+                            <stop offset="30%" style="stop-color:#771dab;stop-opacity:1" />
+                            <stop offset="40%" style="stop-color:#924ae5;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8f52ff;stop-opacity:1" />
+                            <stop offset="60%" style="stop-color:#8b4ae5;stop-opacity:1" />
+                            <stop offset="70%" style="stop-color:#7900bf;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
                 <div class="algo-select">
                     <div class="algo-details" id="search-file-one">
                         <div class="description-box" id="graph-desc">
@@ -511,8 +522,8 @@
 
 
             <div class="addcondition" id="executeorrun" style="margin-top:4%; display:none;">
-                <a class="myButton conditionbtn" id="addmatchdataset">Edit Parameters</a>
-                <a class="myButton" id="next_matchfiles">Execute</a>
+                <a class="myButton conditionbtn" id="addmatchdataset">Go BacK</a>
+                <a class="myButton" id="runcode">RUN</a>
             </div>
 
 
@@ -575,6 +586,46 @@
                 </div>
 
             </div>
+
+
+
+
+
+
+            <div id="page" style="display:none;">
+              <div id="phrase_box">
+              <svg width="100%" height="100%">
+                <defs>
+                  <!--<style type="text/css">
+                    @font-face {
+                      font-family: "Proxima";
+                      src: url('');
+                    }
+                  </style>-->
+                  <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+                    <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
+                      <stop stop-color="white" stop-opacity="0" offset="0%"/>
+                      <stop stop-color="white" stop-opacity="1" offset="30%"/>
+                      <stop stop-color="white" stop-opacity="1" offset="70%"/>
+                      <stop stop-color="white" stop-opacity="0" offset="100%"/>
+                    </linearGradient>
+                    <rect width="100%" height="100%" fill="url(#linearGradient)"/>
+                  </mask>
+                </defs>
+                <g width="100%" height="100%" style="mask: url(#mask);">
+                  <g id="phrases"></g>
+                </g>
+              </svg>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
         </div>
 
 

@@ -571,3 +571,9 @@ $(document.body).on('click', '#matchfourthdata_ul' , async function(){
     document.getElementById('matchboxcolumn4').style.display = 'flex';
 });
 
+$(document.body).on('click', '#runcode' , async function(){     
+    document.getElementById('typingtextcontainer').style.display = 'none';
+    document.getElementById('executeorrun').style.display = 'none';
+    document.getElementById('page').style.display = 'flex';
+    load_summary_carousel();
+});
