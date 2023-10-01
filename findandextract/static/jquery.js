@@ -69,10 +69,11 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     if(path === "/findandextract/"){
-
+       
         //matchcolumns();
-        add_to_carousel(['Define algorithm type'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['Click through an algorithm path to describe the data process.'], fyi_color, ['display_algo_graph()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+        add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        add_to_carousel(['Read the descriptions and follow the steps'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
+        add_to_carousel(['OR', 'Describe what you want and receive a suggestion for which algorithm type to use:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
         
     }
 });
@@ -94,26 +95,18 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 
-async function typeSentence(sentence, eleRef, color, delay = 00) {
+async function typeSentence(sentence, eleRef, color, delay = 30) {
   all_my_sentences.push(sentence);
-  console.log(eleRef)
   var clean_id = 'span' + eleRef.substring(1);
-  console.log('clean id')
-  console.log(clean_id)
   var eleRefSpan = '#' + clean_id;
-  console.log('eleRefSpan')
-  console.log(eleRefSpan)
   const letters = sentence.split("");
   var arr = [];
-  let i = 0;
-  var is_spaned = false; 
+  let i = 0;var is_spaned = false; 
   while(i < letters.length) {
     await waitForMs(delay);
     if(letters[i-1] === ':' || letters[i-1] === '$'){
         is_spaned = true;
         $(eleRef).append('<span id="' + clean_id + '" style="color:' + color + ';">')   
-        console.log(eleRef)
-        console.log($(eleRef))
     }
     if(!is_spaned){
       $(eleRef).append(letters[i]);    
@@ -1549,7 +1542,9 @@ $(document).ready(function () {
             })
             .attr('stroke', "black")
             .attr('class','front');
-
+       
+          
+        
            
         // Transition exiting nodes to the parent's new position
         var nodeExit = node
@@ -1637,7 +1632,7 @@ $(document).ready(function () {
             d._children = d.children;
             d.children = null; 
             //event.currentTarget.attr("class", "node parent-node active");
-            $(event.currentTarget).removeClass("active"); 
+            $(event.currentTarget).removeClass("active");             
             scroll_graph('algo-desc-graph', 'close');
         } else {
             // open node
@@ -1652,6 +1647,8 @@ $(document).ready(function () {
             start_algo_path(d.data.name, d.parent.data.name);
             
         }
+        //remove selected tag showing description from text generated suggestion
+        $(event.currentTarget).removeClass("selected");
         update(d);
     }
 
@@ -1845,13 +1842,58 @@ $(document).ready(function() {
 });
 
 
+// change submit icon to amke it active when text is input
+$(document).ready(function() {
+    var textarea = document.getElementById("textbox-algo-desc");
+    textarea.addEventListener('input', icon_color_on_empty);
+    function icon_color_on_empty() {
+        var text = this.value;
+        if (text !== ''){
+            document.getElementById("submittexticon").style.color = "white";              
+        }
+        else{
+            document.getElementById("submittexticon").style.color = "grey"; 
+        }
+    }
+});
 
+// if span? (which isnt in the right place but still works) or icon is clicked and status is ACTIVE then submit
+$(document).ready(function() {
+    $("#submiticonwrap").click(function(){
+        if(document.getElementById("submittexticon").style.color === "white"){
+            alert('I got a click');
+        }
+        
+    });
+});
 
+// if ENTER is pressed while cursor is in textobox
+$(function() {
+    $("#textbox-algo-desc").keypress(function (e) {
+        if(e.which == 13) {
+            if(document.getElementById("submittexticon").style.color === "white"){
+                document.getElementById("textbox-algo-desc-wrap").style.display = "none";
+                hide_containers(1);
+                find_described_node()
+                
+            }
+        }
+    });
+});
 
-
-
-
-
+function find_described_node(){
+    var aTags = document.getElementsByTagName("g");
+    var searchText = "Extract";
+    var found;
+    for (var i = 0; i < aTags.length; i++) {
+        if (aTags[i].textContent == searchText) {
+            found = aTags[i];
+            break;
+        }
+    }
+    console.log(found)
+    $(found).addClass("selected");
+}
 
 
 
@@ -1869,16 +1911,6 @@ $(document).ready(function() {
 var checkmarkIdPrefix = "loadingCheckSVG-";
 var checkmarkCircleIdPrefix = "loadingCheckCircleSVG-";
 var verticalSpacing = 50;
-
-function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-    return array;
-}
 
 function createSVG(tag, properties, opt_children) {
     var newElement = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -1929,14 +1961,14 @@ function createCheckSvg(yOffset, index) {
 
 function addPhrasesToDocument(phrases) {
     phrases.forEach(function(phrase, index) {
-    var yOffset = 30 + verticalSpacing * index;
-    document.getElementById("phrases").appendChild(createPhraseSvg(phrase, yOffset));
-    document.getElementById("phrases").appendChild(createCheckSvg(yOffset, index));
+        var yOffset = 30 + verticalSpacing * index;
+        document.getElementById("phrases").appendChild(createPhraseSvg(phrase, yOffset));
+        document.getElementById("phrases").appendChild(createCheckSvg(yOffset, index));
     });
 }
 
 function easeInOut(t) {
-    var period = 200;
+    var period = 1000;
     return (Math.sin(t / period + 100) + 1) /2;
 }
 
@@ -1944,38 +1976,49 @@ function easeInOut(t) {
 function load_summary_carousel(){
     var phrases = ["START"];
     phrases = update_loading_carousel_items();
+    phrases = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange','Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange'];
     addPhrasesToDocument(phrases);
     var start_time = new Date().getTime();
     var upward_moving_group = document.getElementById("phrases");
     upward_moving_group.currentY = 0;
     var checks = phrases.map(function(_, i) { 
-    return {check: document.getElementById(checkmarkIdPrefix + i), circle: document.getElementById(checkmarkCircleIdPrefix + i)};
+        return {check: document.getElementById(checkmarkIdPrefix + i), circle: document.getElementById(checkmarkCircleIdPrefix + i)};
     });
-    function animateLoading() {
+        function animateLoading() {
         var now = new Date().getTime();
         upward_moving_group.setAttribute("transform", "translate(0 " + upward_moving_group.currentY + ")");
         upward_moving_group.currentY -= 1.35 * easeInOut(now);
         checks.forEach(function(check, i) {
-            var color_change_boundary = - i * verticalSpacing + verticalSpacing + 15;
-            if (upward_moving_group.currentY < color_change_boundary) {
+          var color_change_boundary = - i * verticalSpacing + verticalSpacing + 15;
+          if (upward_moving_group.currentY < color_change_boundary) {
             var alpha = Math.max(Math.min(1 - (upward_moving_group.currentY - color_change_boundary + 15)/30, 1), 0);
             check.circle.setAttribute("fill", "rgba(255, 255, 255, " + alpha + ")");
-            var check_color = [Math.round(255 * (1-alpha) + 0 * alpha), Math.round(255 * (1-alpha) + 154 * alpha)];
-            check.check.setAttribute("fill", "rgba(102, " + check_color[0] + "," + check_color[1] + ", 1)");
-            }
+            var check_color = [Math.round(255 * (1-alpha) + 120 * alpha), Math.round(255 * (1-alpha) + 154 * alpha)];
+            check.check.setAttribute("fill", "rgba(91, " + 51 + "," + 138 + ", 1)");
+          }
         })
         //if (now - start_time < 30000 && upward_moving_group.currentY > -710) {
         requestAnimationFrame(animateLoading);
         //}
-    }
+      }
     animateLoading();
 }
 //});
 
 function update_loading_carousel_items(){
     //all_my_sentences = ['one ive gotr a cioekts for.','two of black shosejsd.','pcoekssdc whwe crun soaway.','full together so theyll saty!','opf screww', 'do you think shell love me','when im old an cray0']
+    //console.log(typeof all_my_sentences)
+    //all_my_sentences = all_my_sentences.unshift("START")
+    //console.log(typeof all_my_sentences)
+    //all_my_sentences = all_my_sentences.push("END")
+    //all_my_sentences = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange']
     return all_my_sentences;
 }
 
+function edit_loading_carousel(){
+    for (var i = 0; i<all_my_sentences.length; i++){
+        console.log(all_my_sentences[i])
+    }
+}
 
 

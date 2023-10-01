@@ -4,11 +4,13 @@ $(document).ready(async function () {
     $(document.body).on('click', '#start_algoselect' , async function(){       
         document.getElementById('algo-desc-graph').style.display = 'none';
         hide_containers(2);
+
         await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
         await add_to_carousel('\xa0\xa0\xa0$' + input_type, standard_color, [], true, false);
         await add_to_carousel('\xa0\xa0\xa0$' + input_num, standard_color, [], true, false);
         await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
         add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+        
     });
 });
 
@@ -28,6 +30,7 @@ $(document.body).on('click', '#primaryfile_ul' ,async function(){
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
     await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
+    
 });
 
  // if secondary file is selected hide dropdown + hide header + print selection
