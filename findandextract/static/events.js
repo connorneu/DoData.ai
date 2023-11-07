@@ -524,10 +524,7 @@ $(document.body).on('change', '.file-input' ,function(){
 // unhide additional file drop box
 $(document.body).on('click', '#addsecondfile' ,function(){    
     if(document.getElementById('filetwo').style.display == 'none'){
-        document.getElementById('filetwo').style.display = 'inline-block';
-        if(input_num == 'single'){
-            document.getElementById('addsecondfile').style.display = 'none';
-        }
+        document.getElementById('filetwo').style.display = 'inline-block';       
     }
     else if(document.getElementById('file3').style.display == 'none'){
         document.getElementById('file3').style.display = 'inline-block';
@@ -561,7 +558,7 @@ $(document.body).on('click', '#matchthirddata_ul' , async function(){
     var file_and_sheet = get_file_and_sheet(dataset_selection);
     var col_headers = match_dataset_to_colheaders(file_and_sheet);
     populate_drop_down("#matchthirdcol_ul", col_headers, true);
-    document.getElementById('matchboxcolumn3').style.display = 'flex';
+    //document.getElementById('matchboxcolumn3').style.display = 'flex';
 });
 
 // Extract: match dataset and column name dropdown controls - fourth dataset
@@ -571,12 +568,42 @@ $(document.body).on('click', '#matchfourthdata_ul' , async function(){
     var file_and_sheet = get_file_and_sheet(dataset_selection);
     var col_headers = match_dataset_to_colheaders(file_and_sheet);
     populate_drop_down("#matchfourthcol_ul", col_headers, true);
-    document.getElementById('matchboxcolumn4').style.display = 'flex';
+    //document.getElementById('matchboxcolumn4').style.display = 'flex';
 });
 
 $(document.body).on('click', '#runcode' , async function(){     
     document.getElementById('typingtextcontainer').style.display = 'none';
     document.getElementById('executeorrun').style.display = 'none';
-    document.getElementById('page').style.display = 'flex';
+    
     load_summary_carousel();
+    setTimeout(function() {
+        submit_algo_parameters();
+        document.getElementById('page').style.display = 'none';
+    }, 5000);
+    
+});
+
+
+// if span? (which isnt in the right place but still works) or icon is clicked and status is ACTIVE then submit
+$(document).ready(function() {
+    $("#submiticonwrap").click(function(){
+        if(document.getElementById("submittexticon").style.color === "white"){
+            //convert_text_to_decision();
+            
+            ajax_submit_user_input_text();
+        }
+        
+    });
+});
+// THESE TWO METHODS DO THE SAME THING
+// if ENTER is pressed while cursor is in textobox
+$(function() {
+    $("#textbox-algo-desc").keypress(function (e) {
+        if(e.which == 13) {
+            if(document.getElementById("submittexticon").style.color === "white"){                
+                //convert_text_to_decision();
+                ajax_submit_user_input_text();
+            }
+        }
+    });
 });

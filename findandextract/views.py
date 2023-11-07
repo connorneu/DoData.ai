@@ -19,11 +19,28 @@ import time
 from pandas.api.types import CategoricalDtype
 import numpy as np
 import json
+from .languagemodel import *
+import threading
+import os
 
 
+goog_w2v_model = None
+nlp = None
+threads = []
 # Create your views here.
 
+def Load_Language_Model():
+    global goog_w2v_model
+    global nlp
+    global threads 
+    print('loading model')
+    #piBuild_Quick_Gensim_Model()
+    goog_w2v_model, nlp = Load_Models()
+    # Build_Quick_Gensim_Model() needs to be called first time on .bin Google Word vectors to create quick version in directory (cannot copy paste)
+    print('model loaded')
+
 def findandextract(request):
+    global threads
     if request.method == 'POST':
         print("POST REQUEST MADE")
         if is_ajax(request): 
@@ -136,6 +153,15 @@ def findandextract(request):
                 #    print(exc_type, fname, exc_tb.tb_lineno)
                 #    print(e)
                 #    return HttpResponse(status=400)
+            elif request.POST.get('ajax_name') == 'classify_text':
+                print('POST: classify_text')
+                user_desc = request.POST.get('user_algo_desc')
+                all_related_str = Convert_Source_Sentence(user_desc, goog_w2v_model, nlp) 
+                words_dic = Read_Category_Words()
+                algo_type = hf_sent_sim_classification_model(all_related_str, words_dic)
+                print('algo_type', algo_type)
+                #return HttpResponse(status=200)
+                return JsonResponse({'algo_type': algo_type})
             else:
                 print('DATA UPLOAD POS')
                 print(request.POST)
@@ -167,6 +193,9 @@ def findandextract(request):
                 fande_db_data = list(KeyValueDataFrame.objects.values())
                 return JsonResponse({'fande_data_dump' : fande_db_data})
         else:
+            x = threading.Thread(target=Load_Language_Model)
+            x.start()
+            threads.append(x)
             return render(request, "findandextract/fandemain.html")
         #return render(request, "findandextract/fandemain.html", {'fande_data_dump' : fande_db_data})
 

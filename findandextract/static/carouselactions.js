@@ -95,7 +95,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 
-async function typeSentence(sentence, eleRef, color, delay = 30) {
+async function typeSentence(sentence, eleRef, color, delay = 20) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -474,12 +474,13 @@ async function select_extract_column2(){
         await add_to_carousel(extract_from_str, second_color, [null], true, false);
         await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
         
-        if(!third_file_name){
-            start_third_dataset()
-        }
-        else{
-            summarize_choices()
-        }
+        summarize_choices();
+        //if(!third_file_name){
+        //    start_third_dataset()
+        //}
+        //else{
+        //    summarize_choices()
+        //}
     });
 }
 
@@ -528,6 +529,7 @@ async function select_extract_column3(){
         await add_to_carousel(extract_from_str, third_color, [null], true, false);
         await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);        
         
+        //summarize_choices();
         if(!fourth_file_name){
             start_fourth_dataset()
         }
@@ -558,6 +560,7 @@ async function display_conditions4(){
         }        
     }
     select_extract_column4();
+    //summarize_choices();
 }
 
 async function select_extract_column4(){
@@ -614,7 +617,7 @@ async function summarize_choices(){
     document.getElementById("typingtextcontainer").style.display = "none";
 
     document.getElementById("typingtextcontainer").style.maxHeight = "90%";
-    document.getElementById("typingtextcontainer").style.overflow = "scroll";
+    //document.getElementById("typingtextcontainer").style.overflow = "scroll";
     document.getElementById("typingtextcontainer").style.overflowX = "hidden";
     document.getElementById("typingtextcontainer").style.width = "100%";
     
@@ -1716,6 +1719,7 @@ async function start_algo_path(node_name, parent_node_name){
             input_type = 'File';  
             //describe_search_file_single()
             begin_file_upload();
+           document.getElementById("carouselcontainer1").style.display = "none"; // slopy bitch
         }
         else if (parent_node_name === 'Custom values'){
             console.log('extract - custom input')
@@ -1802,7 +1806,7 @@ function print_the_filtered_data(data){
 
 async function display_result_table(data){
     hide_containers(2);
-    document.getElementById('matchcolumnscontainer').style.display = 'none'; 
+    //document.getElementById('matchcolumnscontainer').style.display = 'none'; 
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel(['Adjust result:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['First 25 rows of table displayed below.', 'Apply additional conditions, add or remove columns, or export result.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
@@ -1857,41 +1861,31 @@ $(document).ready(function() {
     }
 });
 
-// if span? (which isnt in the right place but still works) or icon is clicked and status is ACTIVE then submit
-$(document).ready(function() {
-    $("#submiticonwrap").click(function(){
-        if(document.getElementById("submittexticon").style.color === "white"){
-            alert('I got a click');
-        }
-        
-    });
-});
 
-// if ENTER is pressed while cursor is in textobox
-$(function() {
-    $("#textbox-algo-desc").keypress(function (e) {
-        if(e.which == 13) {
-            if(document.getElementById("submittexticon").style.color === "white"){
-                document.getElementById("textbox-algo-desc-wrap").style.display = "none";
-                hide_containers(1);
-                find_described_node()
-                
-            }
-        }
-    });
-});
 
-function find_described_node(){
+async function convert_text_to_decision(algo_type){
+    
+    
+    document.getElementById("textbox-algo-desc-wrap").style.display = "none";
+    hide_containers(2);
+    
+    document.getElementById("submitloadersvg").style.display = "block"; 
+    setTimeout(function() {
+        document.getElementById("submitloadersvg").style.display = "none";
+        find_described_node(algo_type);
+    }, 2800);
+}
+
+function find_described_node(algo_type){
     var aTags = document.getElementsByTagName("g");
-    var searchText = "Extract";
-    var found;
+    var searchText = algo_type['algo_type'];
+    var found ='';
     for (var i = 0; i < aTags.length; i++) {
         if (aTags[i].textContent == searchText) {
             found = aTags[i];
             break;
         }
     }
-    console.log(found)
     $(found).addClass("selected");
 }
 
@@ -1972,11 +1966,30 @@ function easeInOut(t) {
     return (Math.sin(t / period + 100) + 1) /2;
 }
 
+function edit_phrases(phrases){
+    var clean_phrases = []
+    for(var i=0;i<phrases.length;i++){
+        var edit = phrases[i]
+        edit = edit.replace(/\s/g,'')
+        console.log('edit')
+        console.log(edit)
+        if (edit !== '...' && edit !== '' && edit.toLowerCase().indexOf("filter") === -1){
+            clean_phrases.push(edit);
+        } 
+        else{
+            console.log('removed')
+            console.log(edit)
+        }
+    }
+    return clean_phrases;
+}
+
 //$(document).ready(function() {
 function load_summary_carousel(){
     var phrases = ["START"];
     phrases = update_loading_carousel_items();
-    phrases = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange','Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange'];
+    //phrases = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange','Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange'];
+    phrases = edit_phrases(phrases);
     addPhrasesToDocument(phrases);
     var start_time = new Date().getTime();
     var upward_moving_group = document.getElementById("phrases");
@@ -2021,4 +2034,7 @@ function edit_loading_carousel(){
     }
 }
 
-
+function collect_user_input_text(){
+    user_algo_desc = document.getElementById('textbox-algo-desc').value;
+    return user_algo_desc;
+}
