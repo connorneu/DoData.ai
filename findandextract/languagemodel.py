@@ -22,6 +22,7 @@ print('models dir', MODELS_DIR)
 GOOGLE_NEG_300 = MODELS_DIR + 'GoogleNews-vectors-negative300.bin'
 GOOGLE_NEG_300_Q = MODELS_DIR + 'google_news_neg300_q'
 TOPIC_DESC_DIR = MODELS_DIR + '/Topic Descriptions/'
+SPACY_EN_LG = "/home/kman/VS_Code/datamanipulator/dodata-venv/lib/python3.10/site-packages/en_core_web_lg/en_core_web_lg-3.7.0"
 
 def Build_Quick_Gensim_Model():
     #goog_w2v_model = models.Word2Vec.load_word2vec_format(GOOGLE_NEG_300, binary=True)
@@ -266,7 +267,7 @@ def Load_Models():
     d = end - start
     print(f'google_w2v_model loaded in {d} seconds or {d * 1000} milliseconds')
     start = time.time()
-    nlp = spacy.load("/home/kman/VS Code/datamanipulator/dodata-venv/lib/python3.10/site-packages/en_core_web_lg/en_core_web_lg-3.7.0")
+    nlp = spacy.load(SPACY_EN_LG)
     end = time.time()
     d = end - start
     print(f'spaCy loaded in {d} seconds or {d * 1000} milliseconds')
