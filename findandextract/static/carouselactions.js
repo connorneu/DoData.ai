@@ -293,24 +293,24 @@ async function start_data_filter(db_data){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], 'white', [null], true, false);
         }         
     }
+    decide_algo_path(algorithm_type);
+}
+
+async function decide_algo_path(algorithm_type)
+{
     await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     if (algorithm_type === 'Extract'){
-        if (input_type === 'File'){
-            start_extract_file();
-        }
-        else if(algorithm_type === 'Custom'){
-            start_extract_custom();
-        }
+        start_extract_file();
     }
-    else if (algorithm_type === 'Combine'){
-        if (input_type === 'Rows'){
-            start_combine_rows();
-        }
-        else if (input_type === 'Columns'){
-            start_combine_column();
-        }
+    else if(algorithm_type === 'Combine'){
+        start_extract_custom();
     }
-
+    else if (algorithm_type === 'Update'){
+        start_combine_rows();
+    }
+    else if (algorithm_type === 'Reconcile'){
+        start_combine_column();
+    }
 }
 
 async function start_extract_file(){
