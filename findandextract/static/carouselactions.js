@@ -313,12 +313,6 @@ async function decide_algo_path(algorithm_type)
     }
 }
 
-async function start_extract_file(){
-    await add_to_carousel(['Select file containing values to search for and extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['This file contains the values that will be searched for in other datasets.',
-                        'Rows of data from the other datasets that match these values will be extracted.'],
-                        fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-}
 async function start_extract_custom(){
     await add_to_carousel(['Enter in the values to search for in other documents:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['These are the values that will be searched for in other documents.',
