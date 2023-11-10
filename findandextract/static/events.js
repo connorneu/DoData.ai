@@ -507,6 +507,7 @@ $(document.body).on('dragenter focus click', '.file-input' ,function(e){
     $(e.target.parentNode).removeClass('is-active');
 });
 
+//unhide add additional file and next buttons
 $(document.body).on('change', '.file-input' ,function(){
     var filesCount = $(this)[0].files.length;
     var $textContainer = $(this).prev();
