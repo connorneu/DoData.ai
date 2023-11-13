@@ -203,7 +203,8 @@ $(document.body).on('click', '#data4_table_reset' ,function(e){
 $(document.body).on('click', '#data1_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Define condtions to filter first dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['[' + primary_file_name + ' ' + primary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -211,7 +212,8 @@ $(document.body).on('click', '#data1_next_colheader' ,function(){
 $(document.body).on('click', '#data2_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel(['Define condtions to filter second dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['[' + secondary_file_name + ' ' + secondary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn2()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -219,7 +221,8 @@ $(document.body).on('click', '#data2_next_colheader' ,function(){
 $(document.body).on('click', '#data3_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv3").style.display = "none";
-    add_to_carousel(['Define condtions to filter third dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['[' + third_file_name + ' ' + third_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn3()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 });
 
@@ -227,7 +230,8 @@ $(document.body).on('click', '#data3_next_colheader' ,function(){
 $(document.body).on('click', '#data4_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv4").style.display = "none";
-    add_to_carousel(['Define condtions to filter fourth dataset:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['[' + fourth_file_name + ' ' + fourth_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn4()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 })
 

@@ -94,8 +94,8 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
         }
     })   
 }
-
-async function typeSentence(sentence, eleRef, color, delay = 20) {
+// 20
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -765,7 +765,15 @@ function get_num_carousel_containers(){
 }
 
 function updateFontColor(eleRef, color) {
-  $(eleRef).css('color', 'white'); 
+    // to get colors to start one color and finnish the other then color parameter needs to be ignored
+    // by putting random words in add_to_carousel() you can overide this behavior
+    if (color === 'urgent'){
+        $(eleRef).css('color', 'grey');
+    }
+    else{
+        $(eleRef).css('color', 'white');
+    }
+   
 }
 
 async function deleteSentence(eleRef) {
@@ -867,6 +875,13 @@ async function fourth_sheet_selection(){
         fourth_sheet_name = "Sheet1";
         await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', fourth_color, ['adjust_col_header4()'], true, false);
     }   
+}
+
+async function display_primaryfileselect_drop_extract(){
+    // select primary file
+    populate_drop_down('#primaryfile_ul', unique_file_names, true)
+    document.getElementById('primaryfiledrop').style.display = 'block';
+    document.getElementById('extractinputfile').style.display = 'block';
 }
 
 function adjust_col_header(){
