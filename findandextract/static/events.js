@@ -210,7 +210,7 @@ $(document.body).on('click', '#data1_next_colheader' ,function(){
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data2_next_colheader' ,function(){
-    hide_containers(2);
+    hide_containers(3);
     document.getElementById("colselecttablediv2").style.display = "none";
     add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['[' + secondary_file_name + ' ' + secondary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
@@ -611,4 +611,29 @@ $(function() {
             }
         }
     });
+});
+
+
+//highlight column on click
+$(document.body).on('click', 'td' , function(){     
+    var $currentTable = $(this).closest('table');
+    if ($currentTable.hasClass('colselect-table')){
+        var index = $(this).index();
+        $currentTable.find('td').removeClass('selected');
+        $currentTable.find('tr').each(function() {
+            $(this).find('td').eq(index).addClass('selected');
+        });
+    }
+});
+
+//highlight column on hover
+$(document.body).on('mouseover', 'td' , function(){     
+    var $currentTable = $(this).closest('table');
+    if ($currentTable.hasClass('colselect-table')){
+        var index = $(this).index();
+        $currentTable.find('td').removeClass('selected-hover');
+        $currentTable.find('tr').each(function() {
+            $(this).find('td').eq(index).addClass('selected-hover');
+        });
+    }
 });

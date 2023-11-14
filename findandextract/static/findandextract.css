@@ -225,24 +225,53 @@ table, th, td {
 	font-family: 'IBM Plex Mono', monospace;
     width: 70%;
     color:white;
-    
+    z-index: 1;
+    overflow:hidden;
     /*align-left:auto;
     align-right:auto;      */
     
 
 }
-tr:hover {
+.headertable tr:hover {
 	background-color:coral;
 }
 th {
   background-color: white;
   color: #2b2b2b;
 }
+
 .headertable {
 margin:auto;
 margin-top:1%;
 
 }
+
+
+
+
+/* highlight columns when selecting from table*/
+.colselect-table {
+    margin:auto;
+    margin-top:1%;
+}
+
+.selected{ 
+    background-color: #ace;
+} 
+.selected-hover { 
+    background-color: rgb(207, 222, 236); 
+    
+} 
+
+.selected td{
+    color: black;
+}
+
+.selected-hover td{
+    color: black;
+}
+
+
 
 .conditiondivcontainer{
     width:80%;

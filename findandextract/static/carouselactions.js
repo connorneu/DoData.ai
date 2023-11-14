@@ -373,7 +373,7 @@ function describe_dataset_headers(){
 }
 
 async function display_conditions(){
-    hide_containers(2);
+    hide_containers(3);
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', input_color, [null], true, false);
@@ -404,9 +404,14 @@ async function select_find_column(){
                     fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     var col_headers = createTable_values1[0];
     populate_drop_down("#matchprimarycol_ul", col_headers, true);
-    
     document.getElementById('matchboxcolumn').style.display = 'flex';
     document.getElementById('firstmatchbox').style.display = 'block';
+    //show and populate table to highlight and select
+    console.log('PRIUMATEY SHEETNAME')
+    console.log(primary_sheet_name)
+    col_headers = populate_table_element(primary_sheet_name, 1, 'matchprimary_table'); //if its primary sheet name is the same for two files won't this break?
+    document.getElementById('primarycolselect-table').style.display = 'block';
+
     $(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
         document.getElementById('firstmatchbox').style.display = 'none';
         hide_containers(2);
@@ -421,7 +426,7 @@ async function select_find_column(){
 }
 
 async function display_conditions2(){
-    hide_containers(2);
+    hide_containers(3);
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filters:', second_color, [null], true, false);
@@ -479,7 +484,7 @@ async function select_extract_column2(){
 }
 
 async function display_conditions3(){
-    hide_containers(2);
+    hide_containers(3);
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filters:', third_color, [null], true, false);
@@ -534,7 +539,7 @@ async function select_extract_column3(){
 }
 
 async function display_conditions4(){
-    hide_containers(2);
+    hide_containers(3);
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filters:', fourth_color, [null], true, false);
