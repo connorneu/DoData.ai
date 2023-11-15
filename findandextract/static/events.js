@@ -21,17 +21,18 @@ $(document.body).on('click', '.dropdown-menu li a' ,function(){
     $(this).parents(".dropdown").find('.btn').val($(this).data('value')); 
 });
 
+
+// ! moved to extract_path.js
  // if primary file is selected hide dropdown + hide header + print selection
-$(document.body).on('click', '#primaryfile_ul' ,async function(){ 
-    hide_containers(2);
-    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
-    document.getElementById('extractinputfile').style.display = 'none';
-    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-    primary_file_name = user_selection;
-    primary_file_sheets = get_file_sheets(primary_file_name); 
-    await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
-    
-});
+//$(document.body).on('click', '#primaryfile_ul' ,async function(){ 
+//    hide_containers(2);
+//    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
+//    document.getElementById('extractinputfile').style.display = 'none';
+//    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
+//    primary_file_name = user_selection;
+//    primary_file_sheets = get_file_sheets(primary_file_name); 
+//    await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);    
+//});
 
  // if secondary file is selected hide dropdown + hide header + print selection
 $(document.body).on('click', '#secondaryfile_ul' ,async function(){ 
@@ -63,7 +64,8 @@ $(document.body).on('click', '#fourthfile_ul' ,async function(){
     await add_to_carousel('Data File: ', fourth_color, ['update_item_text_params(fourth_file_name)', 'fourth_sheet_selection()'], true, false);
 });
 
- // if primary sheet is selected
+// ! moved to extract_path.js
+// if primary sheet is selected
 $(document.body).on('click', '#primarysheet_ul' ,function(){ 
     hide_containers(2);
     document.getElementById('primarysheetdrop').style.display = 'none';
@@ -199,14 +201,15 @@ $(document.body).on('click', '#data4_table_reset' ,function(e){
     fourth_header_row = 0;
 });
 
+// ! moved to extract_path.js
 // next after adjusting col headers primary data
-$(document.body).on('click', '#data1_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['[' + primary_file_name + ' ' + primary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
-});
+//$(document.body).on('click', '#data1_next_colheader' ,function(){
+//    hide_containers(2);
+//    document.getElementById("colselecttablediv1").style.display = "none";
+//    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+//    add_to_carousel(['[' + primary_file_name + ' ' + primary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
+//    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+//});
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data2_next_colheader' ,function(){

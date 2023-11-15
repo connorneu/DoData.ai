@@ -668,12 +668,13 @@ function match_dataset_to_colheaders(file_and_sheet){
     }
 }
 
-async function display_primaryfileselect_drop(){
-    // select primary file
-    populate_drop_down('#primaryfile_ul', unique_file_names, true)
-    document.getElementById('primaryfiledrop').style.display = 'block';
-    document.getElementById('extractinputfile').style.display = 'block';
-}
+// ! moved to extract_path.js
+//async function display_primaryfileselect_drop(){
+//    // select primary file
+//    populate_drop_down('#primaryfile_ul', unique_file_names, true)
+//    document.getElementById('primaryfiledrop').style.display = 'block';
+//    document.getElementById('extractinputfile').style.display = 'block';
+//}
 
 // select primary sheet
 function display_primaryfilesheets_drop() {
@@ -838,6 +839,7 @@ function get_file_sheets(file_name) {
 }
 
 
+// ! moved to extract_paths.js
 async function primary_sheet_selection(){
     if (primary_file_sheets.length > 1) {
         await add_to_carousel(['Select worksheet from input file'], action_color,  ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -880,13 +882,6 @@ async function fourth_sheet_selection(){
         fourth_sheet_name = "Sheet1";
         await add_to_carousel('Data Sheet: Sheet1 (default - file only has one sheet)', fourth_color, ['adjust_col_header4()'], true, false);
     }   
-}
-
-async function display_primaryfileselect_drop_extract(){
-    // select primary file
-    populate_drop_down('#primaryfile_ul', unique_file_names, true)
-    document.getElementById('primaryfiledrop').style.display = 'block';
-    document.getElementById('extractinputfile').style.display = 'block';
 }
 
 function adjust_col_header(){
