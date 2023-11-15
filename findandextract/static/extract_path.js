@@ -80,15 +80,89 @@ function adjust_col_header(){
 }
 
 // next after adjusting col headers primary data
+// function at next step changed from display_add_conditions_btn to select find column
 $(document.body).on('click', '#data1_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['[' + primary_file_name + ' ' + primary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    select_find_column();
 });
 
+async function select_find_column(){    
+    await add_to_carousel(['Select column with values to search for in other datasets:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['Values in this column will be searched for in other datasets.',
+                            'Rows containing these values will be extracted'],
+                    fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    var col_headers = createTable_values1[0];
+    populate_drop_down("#matchprimarycol_ul", col_headers, true);
+    document.getElementById('matchboxcolumn').style.display = 'flex';
+    document.getElementById('firstmatchbox').style.display = 'block';
+    //show and populate table to highlight and select
+    console.log('PRIUMATEY SHEETNAME')
+    console.log(primary_sheet_name)
+    col_headers = populate_table_element(primary_sheet_name, 1, 'matchprimary_table'); //if its primary sheet name is the same for two files won't this break?
+    document.getElementById('primarycolselect-table').style.display = 'block';
 
+    $(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
+        document.getElementById('firstmatchbox').style.display = 'none';
+        hide_containers(2);
+        extract_col = $(this).parents(".dropdown").find('.btn').text();
+        var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
+        await add_to_carousel(extract_from_str, input_color , [null], true, false);
+        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
+        start_second_dataset();
+
+    });
+
+}
+
+// THIS IS BEING SKIPPED NOW - NOT USEFUL -  TOO MANY STEPS
+function display_add_conditions_btn(){
+    document.getElementById('primarycondition-container').style.display = 'block';
+}
+$(document.body).on('click', '#conditionnextprimary' ,function(){
+    var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
+    var condition_num = $last_condition.prop("id").slice(-1);
+    while (condition_num >= 1){
+        var current_primary_condition = 'primarycondition' + condition_num;
+        $last_condition = $('#'+current_primary_condition);
+        var andor = $last_condition.find('.condition-dropdown-btn-andor').text();
+        var column_name = $last_condition.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').text();        
+        var action = $last_condition.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').text();
+        var action_value = $last_condition.find('.form-control.condition-input').val();
+        var between_and = $last_condition.find('.form-control.condition-input-and').val();
+        condition_arr.push([andor, column_name, action, action_value, between_and]);
+        condition_num--;        
+    } 
+    document.getElementById('primarycondition-container').style.display = 'none';
+    //table_html_obj_arr = filter_data('table1');
+    display_conditions();
+});
+// NO LONGER AT BEGINNING TOO BORING
+async function display_conditions(){
+    hide_containers(3);
+    var cond_count = 1;
+    var condition_string = null;
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', input_color, [null], true, false);
+    if (condition_arr.length === 1 && condition_arr[0][1] === 'Select Column' &&  condition_arr[0][2] === 'Equals'){
+        condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
+        await add_to_carousel(condition_string, input_color, [null], true, false);
+    }
+    else{
+        for (var i = condition_arr.length-1; i >= 0; i--){
+            if (condition_arr[i][4].length === 0){        
+                condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3]
+            }
+            else{
+                condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3] + ' and ' + condition_arr[i][4]
+            }
+            await add_to_carousel(condition_string, input_color , [null], true, false);
+            cond_count++;
+        }    
+    }
+    //algo_menu()  //   THIS IS ONLY COMMENTED TO MAKE SHIT SKIP DURNIG DEV
+    select_find_column();     
+}
+//END OF SKIP
 
 // describe data to be extracted menu show
 async function describe_data_extract(){

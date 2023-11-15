@@ -372,59 +372,6 @@ function describe_dataset_headers(){
     return [algo_dataset_desc, algo_sub_desc]
 }
 
-async function display_conditions(){
-    hide_containers(3);
-    var cond_count = 1;
-    var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', input_color, [null], true, false);
-    if (condition_arr.length === 1 && condition_arr[0][1] === 'Select Column' &&  condition_arr[0][2] === 'Equals'){
-        condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
-        await add_to_carousel(condition_string, input_color, [null], true, false);
-    }
-    else{
-        for (var i = condition_arr.length-1; i >= 0; i--){
-            if (condition_arr[i][4].length === 0){        
-                condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3]
-            }
-            else{
-                condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3] + ' and ' + condition_arr[i][4]
-            }
-            await add_to_carousel(condition_string, input_color , [null], true, false);
-            cond_count++;
-        }    
-    }
-    //algo_menu()  //   THIS IS ONLY COMMENTED TO MAKE SHIT SKIP DURNIG DEV
-    select_find_column();     
-}
-
-async function select_find_column(){    
-    await add_to_carousel(['Select column with values to search for in other datasets:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Values in this column will be searched for in other datasets.',
-                            'Rows containing these values will be extracted'],
-                    fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    var col_headers = createTable_values1[0];
-    populate_drop_down("#matchprimarycol_ul", col_headers, true);
-    document.getElementById('matchboxcolumn').style.display = 'flex';
-    document.getElementById('firstmatchbox').style.display = 'block';
-    //show and populate table to highlight and select
-    console.log('PRIUMATEY SHEETNAME')
-    console.log(primary_sheet_name)
-    col_headers = populate_table_element(primary_sheet_name, 1, 'matchprimary_table'); //if its primary sheet name is the same for two files won't this break?
-    document.getElementById('primarycolselect-table').style.display = 'block';
-
-    $(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
-        document.getElementById('firstmatchbox').style.display = 'none';
-        hide_containers(2);
-        extract_col = $(this).parents(".dropdown").find('.btn').text();
-        var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
-        await add_to_carousel(extract_from_str, input_color , [null], true, false);
-        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
-        start_second_dataset();
-
-    });
-
-}
-
 async function display_conditions2(){
     hide_containers(3);
     var cond_count = 1;
@@ -715,9 +662,10 @@ function display_fourthfilesheets_drop() {
     populate_drop_down('#secondarysheet_ul', fourth_file_sheets, true)
 }
 
-function display_add_conditions_btn(){
-    document.getElementById('primarycondition-container').style.display = 'block';
-}
+// ! moved to extract_path
+//function display_add_conditions_btn(){
+//    document.getElementById('primarycondition-container').style.display = 'block';
+//}
 
 function display_add_conditions_btn2(){
     document.getElementById('secondarycondition-container').style.display = 'block';

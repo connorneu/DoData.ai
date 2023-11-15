@@ -403,25 +403,26 @@ $(document.body).on('click', '.input-group.mb-3' ,function(){
     }
 });
 
+// ! moved to extract_path.js
 // next after conditions primary
-$(document.body).on('click', '#conditionnextprimary' ,function(){
-    var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
-    var condition_num = $last_condition.prop("id").slice(-1);
-    while (condition_num >= 1){
-        var current_primary_condition = 'primarycondition' + condition_num;
-        $last_condition = $('#'+current_primary_condition);
-        var andor = $last_condition.find('.condition-dropdown-btn-andor').text();
-        var column_name = $last_condition.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').text();        
-        var action = $last_condition.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').text();
-        var action_value = $last_condition.find('.form-control.condition-input').val();
-        var between_and = $last_condition.find('.form-control.condition-input-and').val();
-        condition_arr.push([andor, column_name, action, action_value, between_and]);
-        condition_num--;        
-    } 
-    document.getElementById('primarycondition-container').style.display = 'none';
-    //table_html_obj_arr = filter_data('table1');
-    display_conditions();
-});
+//$(document.body).on('click', '#conditionnextprimary' ,function(){
+//    var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
+//    var condition_num = $last_condition.prop("id").slice(-1);
+//    while (condition_num >= 1){
+//        var current_primary_condition = 'primarycondition' + condition_num;
+//        $last_condition = $('#'+current_primary_condition);
+//        var andor = $last_condition.find('.condition-dropdown-btn-andor').text();
+//        var column_name = $last_condition.find('.btn.btn-secondary.dropdown-toggle.condition-dropdown-btn').text();        
+//        var action = $last_condition.find('.btn.btn-outline-secondary.dropdown-toggle.condition-dropdown-btn').text();
+//        var action_value = $last_condition.find('.form-control.condition-input').val();
+//        var between_and = $last_condition.find('.form-control.condition-input-and').val();
+//        condition_arr.push([andor, column_name, action, action_value, between_and]);
+//        condition_num--;        
+//    } 
+//    document.getElementById('primarycondition-container').style.display = 'none';
+//    //table_html_obj_arr = filter_data('table1');
+//    display_conditions();
+//});
 
 // next after conditions secondary
 $(document.body).on('click', '#conditionnextsecondary' , function(){
