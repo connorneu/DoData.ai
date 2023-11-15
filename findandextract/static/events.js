@@ -598,25 +598,33 @@ $(document).ready(function() {
     $("#submiticonwrap").click(function(){
         if(document.getElementById("submittexticon").style.color === "white"){
             //convert_text_to_decision();
-            
-            ajax_submit_user_input_text();
+            //ajax_submit_user_input_text();
+            description_submitted();
         }
         
     });
 });
 // THESE TWO METHODS DO THE SAME THING
 // if ENTER is pressed while cursor is in textobox
-$(function() {
+$(document).ready(function() {
     $("#textbox-algo-desc").keypress(function (e) {
         if(e.which == 13) {
             if(document.getElementById("submittexticon").style.color === "white"){                
                 //convert_text_to_decision();
-                ajax_submit_user_input_text();
+                description_submitted();
             }
         }
     });
 });
 
+// description submitted - hide box and display loading icon
+function description_submitted(){
+    document.getElementById("textbox-algo-desc-wrap").style.display = "none";
+    document.getElementById("descriptionhelp").style.display = "none";
+    document.getElementById("describeheader-text").style.display = "none";
+    document.getElementById("submitloadersvg").style.display = "block"; 
+    ajax_submit_user_input_text();
+}
 
 //highlight column on click
 $(document.body).on('click', 'td' , function(){     

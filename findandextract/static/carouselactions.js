@@ -68,14 +68,15 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    if(path === "/findandextract/"){
+
+    //if(path === "/findandextract/"){
        
         //matchcolumns();
-        add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['Describe what you want and receive a suggestion for which algorithm type to use:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
+        //add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        //add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        //add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
         
-    }
+    //}
 });
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1262,9 +1263,9 @@ function force_first_node_as_active(class_name, root_node_name){
 }
 
 async function begin_file_upload(){
-    document.getElementById('algo-desc-graph').style.display = 'none';
-    document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
-    hide_containers(3);
+    //document.getElementById('algo-desc-graph').style.display = 'none';
+    //document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
+    //hide_containers(3);
     await add_to_carousel('SUMMARY OF ALGORITHM', standard_color, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
@@ -1403,15 +1404,11 @@ $(document).ready(function() {
 
 
 async function convert_text_to_decision(algo_type){
-    
-    
-    document.getElementById("textbox-algo-desc-wrap").style.display = "none";
-    hide_containers(2);
-    
-    document.getElementById("submitloadersvg").style.display = "block"; 
     setTimeout(function() {
         document.getElementById("submitloadersvg").style.display = "none";
-        find_described_node(algo_type);
+        document.getElementById("describe-algo-banner").style.display = "none";
+        //find_described_node(algo_type);
+        start_algo_path('START', algo_type['algo_type'])
     }, 2800);
 }
 

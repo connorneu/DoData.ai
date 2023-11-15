@@ -232,6 +232,7 @@ table, th, td {
     
 
 }
+
 .headertable tr:hover {
 	background-color:coral;
 }
@@ -257,21 +258,12 @@ margin-top:1%;
 
 .selected{ 
     background-color: #ace;
+    color: black;
 } 
 .selected-hover { 
     background-color: rgb(207, 222, 236); 
-    
+    color: black;
 } 
-
-.selected td{
-    color: black;
-}
-
-.selected-hover td{
-    color: black;
-}
-
-
 
 .conditiondivcontainer{
     width:80%;
@@ -806,12 +798,13 @@ margin-top:1%;
 
 
 
+
 $gold: #fcba03;
 $coral: #5B338A;
 $brightCoral: #7d29e3;
-
+$opacity: 90%;
 #page {
-  $opacity: 90%;
+
   align-items: center;
   background: linear-gradient(
                   to top right,
@@ -949,3 +942,51 @@ display: inline-block;
     height: 50px;
     width: 300px;
 }
+
+.header-banner-wrap{
+    margin-top:10%;
+    color:white;
+}
+.header-banner-wrap h2{
+    font-size:24px;
+}
+
+.help-banner-wrap{
+    margin-top:5%;
+    margin-left: 50%;
+    
+}
+.help-banner-wrap h3{
+    font-size: 20px;
+}
+
+.submitloadersvg{
+    display:none;
+    margin-top:100px;
+}
+
+.algoloader{
+    display:none;
+}
+
+
+
+/*loader*/
+@keyframes spinq{
+    0%,100%{transform:translate(0)}
+    25%{transform:translate(160%)}
+    50%{transform:translate(160%, 160%)}
+    75%{transform:translate(0, 160%)}
+  }
+
+.load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+  /*change these sizes to fit into your project*/
+  width:100px;
+  height:100px;
+}
+.load hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spinq 2s ease infinite}
+.load :first-child{background:#4a19a6;animation-delay:-1.5s}
+.load :nth-child(2){background:#a13af6;animation-delay:-1s}
+.load :nth-child(3){background:#a343fd;animation-delay:-0.5s}
+.load :last-child{background:#311948}
+
