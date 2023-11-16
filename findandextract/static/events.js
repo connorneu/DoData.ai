@@ -635,6 +635,9 @@ $(document.body).on('click', 'td' , function(){
         $currentTable.find('tr').each(function() {
             $(this).find('td').eq(index).addClass('selected');
         });
+        var selected_colheader = $(this).closest("td").index();
+        document.getElementById("selected-match-col-primary").innerHTML = "Selected Column: " + selected_colheader;
+        
     }
 });
 

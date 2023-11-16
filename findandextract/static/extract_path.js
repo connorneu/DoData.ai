@@ -19,9 +19,8 @@ $(document.body).on('click', '#inputis_describe' ,async function(){
 
 // display_primaryfileselect_drop in in carouselaction.js as it can be used by other algorithm paths
 async function primary_file_selection_extract(){
-    await add_to_carousel(['Select file containing values to search for and extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['This file contains the values that will be searched for in other datasets.',
-                        'Rows of data from the other datasets that match these values will be extracted.'],
+    await add_to_carousel(['Select file containing values to search for:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['This file contains the values that will be searched for in other datasets.'],
                         fyi_color, ['display_primaryfileselect_drop()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
 }
 
@@ -29,14 +28,14 @@ async function primary_file_selection_extract(){
 async function display_primaryfileselect_drop(){
     populate_drop_down('#primaryfile_ul', unique_file_names, true)
     document.getElementById('primaryfiledrop').style.display = 'block';
-    document.getElementById('extractinputfile').style.display = 'block';
+    //document.getElementById('extractinputfile').style.display = 'block';
 }
 
  // file input: when primary file is selected hide dropdown + hide header + print selection
  $(document.body).on('click', '#primaryfile_ul' ,async function(){ 
     hide_containers(2);
     document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
-    document.getElementById('extractinputfile').style.display = 'none';
+    //document.getElementById('extractinputfile').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
@@ -89,30 +88,70 @@ $(document.body).on('click', '#data1_next_colheader' ,function(){
 
 async function select_find_column(){    
     await add_to_carousel(['Select column with values to search for in other datasets:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Values in this column will be searched for in other datasets.',
-                            'Rows containing these values will be extracted'],
+    await add_to_carousel(['Values in this column will be searched for in other datasets.'],
                     fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     var col_headers = createTable_values1[0];
     populate_drop_down("#matchprimarycol_ul", col_headers, true);
     document.getElementById('matchboxcolumn').style.display = 'flex';
     document.getElementById('firstmatchbox').style.display = 'block';
+
     //show and populate table to highlight and select
-    console.log('PRIUMATEY SHEETNAME')
-    console.log(primary_sheet_name)
-    col_headers = populate_table_element(primary_sheet_name, 1, 'matchprimary_table'); //if its primary sheet name is the same for two files won't this break?
+    col_headers = populate_table_element(primary_sheet_name, 1, 'matchprimary_table');
     document.getElementById('primarycolselect-table').style.display = 'block';
+}
 
-    $(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
-        document.getElementById('firstmatchbox').style.display = 'none';
-        hide_containers(2);
-        extract_col = $(this).parents(".dropdown").find('.btn').text();
-        var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
-        await add_to_carousel(extract_from_str, input_color , [null], true, false);
-        await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
-        start_second_dataset();
+$(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
+    write_extract_column_to_console();
+});
 
-    });
+//highlight column on click
+$(document.body).on('click', 'td' , function(){     
+    var $currentTable = $(this).closest('table');
+    if ($currentTable.hasClass('colselect-table')){
+        var index = $(this).index();
+        $currentTable.find('td').removeClass('selected-hover');
+        $currentTable.find('tr').each(function() {
+            $(this).find('td').eq(index).addClass('selected');
+        });
+        var selected_colheader = $(this).closest("td").index();
+        var table_headers = get_table_headers('primarycolselect-table');
+        document.getElementById("selected-match-col-primary").innerHTML = "Selected Column: " + table_headers[selected_colheader];    
+    }
+});
 
+//highlight column on hover
+$(document.body).on('mouseover', 'td' , function(){     
+    var $currentTable = $(this).closest('table');
+    if ($currentTable.hasClass('colselect-table')){
+        var isSelected = false;
+        var col_index = $(this).closest("td").index();
+        console.log(col_index)
+        if($currentTable.find('tr').eq(1).find('td').eq(col_index).hasClass('selected')){
+            isSelected=true;
+        }
+
+        
+        if (isSelected){
+            var index = $(this).index();
+            $currentTable.find('td').removeClass('selected-hover');
+            $currentTable.find('tr').each(function() {
+                if(!$(this).find('td').eq(index).hasClass('selected')){
+                    $(this).find('td').eq(index).addClass('selected-hover');
+                }
+                
+            });
+        }
+    }
+});
+
+async function write_extract_column_to_console(){
+    document.getElementById('firstmatchbox').style.display = 'none';
+    hide_containers(2);
+    extract_col = $(this).parents(".dropdown").find('.btn').text();
+    var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
+    await add_to_carousel(extract_from_str, input_color , [null], true, false);
+    await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
+    start_second_dataset();
 }
 
 // THIS IS BEING SKIPPED NOW - NOT USEFUL -  TOO MANY STEPS

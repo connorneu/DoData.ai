@@ -68,7 +68,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-
+    fake_start();
     //if(path === "/findandextract/"){
        
         //matchcolumns();
@@ -78,6 +78,12 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
         
     //}
 });
+
+function fake_start(){
+    console.log('fake start')
+    document.getElementById('describe-algo-banner').style.display='none'
+    start_algo_path('START', 'Extract');
+}
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
   
@@ -195,11 +201,12 @@ async function carousel(carousel_obj) {
         }
     }
     if (carousel_num > 14){
+        document.getElementById("printitout").style.minHeight = 378 + "px";
         var element = document.getElementById('typingtextcontainer');
         element.scrollIntoView(false);
         element.scroll(-1000,500);
         window.focus();
-        window.scrollTo(0,800);
+        //window.scrollTo(0,800);
     }
     return true;
 }
@@ -1573,4 +1580,12 @@ function edit_loading_carousel(){
 function collect_user_input_text(){
     user_algo_desc = document.getElementById('textbox-algo-desc').value;
     return user_algo_desc;
+}
+
+function get_table_headers(table_id){
+    var thArray = [];
+    $('#' + table_id + '> tbody > tr > th').each(function(){
+        thArray.push($(this).text())
+    })
+    return thArray;
 }
