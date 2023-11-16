@@ -325,6 +325,24 @@
             </div>
 
 
+            
+
+            <div class="dropdown" id="firstmatchbox" style="display:none;">
+                <div id="matchboxcolumn" class="matchbox">
+                    <!-- <span>Column Name</span> -->
+                    <div class="dropdown matchdiv" id="matchprimarycolumn">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Column
+                        </button>
+                        <ul class="dropdown-menu" id="matchprimarycol_ul"></ul>
+                    </div>
+                </div>
+                <table class="colselect-table" id="primarycolselect-table">
+                    <tbody id="matchprimary_table"></tbody>
+                </table>
+                <h2 id="selected-match-col-primary">&nbsp;</h2>
+            </div>
+
             <div class="condition-container" id="primarycondition-container" style="display:none;">
                 <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
                     <div class="conditiondiv" id="primarycondition1" style="display:none;">
@@ -366,23 +384,6 @@
                     <a class="myButton conditionbtn" id="addconditionprimary">Add Condition</a>
                     <a class="myButton" id="conditionnextprimary">Next</a>
                 </div>
-            </div>
-
-            <div class="dropdown" id="firstmatchbox" style="display:none;">
-                <div id="matchboxcolumn" class="matchbox">
-                    <!-- <span>Column Name</span> -->
-                    <div class="dropdown matchdiv" id="matchprimarycolumn">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="matchprimarycol_ul"></ul>
-                    </div>
-                </div>
-                <h2 id="selected-match-col-primary">&nbsp;</h2>
-                <table class="colselect-table" id="primarycolselect-table">
-                    <tbody id="matchprimary_table"></tbody>
-                </table>
-
             </div>
 
 

@@ -101,7 +101,10 @@ async function select_find_column(){
 }
 
 $(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
-    write_extract_column_to_console();
+    var selected_colheader = $(this).parents(".dropdown").find('.btn').text();
+    extract_col = selected_colheader;
+    document.getElementById("selected-match-col-primary").innerHTML = "Selected Column: " + selected_colheader; 
+    document.getElementById("primarycondition-container").style.display = 'block';
 });
 
 //highlight column on click
@@ -115,7 +118,9 @@ $(document.body).on('click', 'td' , function(){
         });
         var selected_colheader = $(this).closest("td").index();
         var table_headers = get_table_headers('primarycolselect-table');
+        extract_col = table_headers[selected_colheader];   
         document.getElementById("selected-match-col-primary").innerHTML = "Selected Column: " + table_headers[selected_colheader];    
+        document.getElementById("primarycondition-container").style.display = 'block';
     }
 });
 
@@ -125,7 +130,6 @@ $(document.body).on('mouseover', 'td' , function(){
     if ($currentTable.hasClass('colselect-table')){
         var isSelected = false;
         var col_index = $(this).closest("td").index();
-        console.log(col_index)
         if($currentTable.find('tr').eq(1).find('td').eq(col_index).hasClass('selected')){
             isSelected=true;
         }
@@ -144,21 +148,17 @@ $(document.body).on('mouseover', 'td' , function(){
     }
 });
 
+
 async function write_extract_column_to_console(){
     document.getElementById('firstmatchbox').style.display = 'none';
     hide_containers(2);
-    extract_col = $(this).parents(".dropdown").find('.btn').text();
-    var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col
+    var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col; 
     await add_to_carousel(extract_from_str, input_color , [null], true, false);
     await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
-    start_second_dataset();
 }
 
-// THIS IS BEING SKIPPED NOW - NOT USEFUL -  TOO MANY STEPS
-function display_add_conditions_btn(){
-    document.getElementById('primarycondition-container').style.display = 'block';
-}
-$(document.body).on('click', '#conditionnextprimary' ,function(){
+$(document.body).on('click', '#conditionnextprimary' ,async function(){
+    await write_extract_column_to_console();
     var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -176,9 +176,9 @@ $(document.body).on('click', '#conditionnextprimary' ,function(){
     //table_html_obj_arr = filter_data('table1');
     display_conditions();
 });
-// NO LONGER AT BEGINNING TOO BORING
+
 async function display_conditions(){
-    hide_containers(3);
+    //hide_containers(2);
     var cond_count = 1;
     var condition_string = null;
     await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', input_color, [null], true, false);
@@ -198,10 +198,7 @@ async function display_conditions(){
             cond_count++;
         }    
     }
-    //algo_menu()  //   THIS IS ONLY COMMENTED TO MAKE SHIT SKIP DURNIG DEV
-    select_find_column();     
 }
-//END OF SKIP
 
 // describe data to be extracted menu show
 async function describe_data_extract(){
