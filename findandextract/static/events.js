@@ -122,21 +122,7 @@ $(document.body).on('click', '#data1_tableid' ,function(e){
     //console.log(cell.innerHTML, row.rowIndex, cell.cellIndex);
 });
 
-// when col header for table 2 is adjusted
-$(document.body).on('click', '#data2_tableid' ,function(e){  
-    const cell = e.target.closest('td');
-    if (!cell) {return;} // Quit, not clicked on a cell
-    const row = cell.parentElement; // row user clicked on
-    secondary_header_row = row.rowIndex;
-    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
-    createTable_values2 = createTable(repivoted_data, 'data2_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
-    var col_headers = createTable_values2[0];
-    var createTable_html = createTable_values2[1];
-    table_html_obj_arr2 = parse_table_column_values(createTable_html);
-    populate_drop_down("#data2columns", col_headers, true); // populate data column selection with header update
-    document.getElementById("data2_table_reset").style.display = "block";
-    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
-});
+
 
 // when col header for table 3 is adjusted
 $(document.body).on('click', '#data3_tableid' ,function(e){  

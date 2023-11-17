@@ -991,3 +991,24 @@ display: inline-block;
 .load :nth-child(3){background:#a343fd;animation-delay:-0.5s}
 .load :last-child{background:#311948}
 
+.extractfromwrap{
+    display: none;
+}
+.extract-from-file{
+    display:none;
+    flex: 0 0 1;
+}
+.header-extractfrom{
+    display:flex;
+}
+.dropdown.extractfrom{
+    display:flex;
+}
+.adjustheadertable.extractfrom{
+    display:none;
+}
+
+.adjustheadertable{
+    overflow-x:auto;
+    display:none;
+}

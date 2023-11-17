@@ -289,16 +289,16 @@ async function start_data_filter(db_data){
     unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
     for (var i = 0; i<unique_file_names.length; i++){
         if(i === 0){
-            await add_to_carousel('Loaded file: ' + unique_file_names[i], 'white', [null], true, false);
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], input_color, [null], true, false);
         }
         else if(i === 1){
-            await add_to_carousel('Loaded file: ' + unique_file_names[i], 'white', [null], true, false);
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], second_color, [null], true, false);
         }
         else if(i === 2){
-            await add_to_carousel('Loaded file: ' + unique_file_names[i], 'white', [null], true, false);
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], third_color, [null], true, false);
         }
         else if(i === 3){
-            await add_to_carousel('Loaded file: ' + unique_file_names[i], 'white', [null], true, false);
+            await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
         }         
     }
     decide_algo_path(algorithm_type);
@@ -885,6 +885,7 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
     }
     else if(tablenumber === 2){
         var repivoted_data = repivot_keyval(data_json, secondary_file_name, selected_sheet);
+        console.log('fe ' + secondary_file_name + ' ' + selected_sheet)
         createTable_values2 = createTable(repivoted_data, data_tableid);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
@@ -984,6 +985,8 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 // populate html table from repivoted key value db table
 // specified_header_row is when user clicks on table to change header row
 function createTable(objs, table_id, specified_header_row=0, max_col_display=5) {
+    console.log('objs')
+    console.log(objs)
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
     tbody.innerHTML = '';

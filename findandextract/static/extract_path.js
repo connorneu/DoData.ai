@@ -198,6 +198,7 @@ async function display_conditions(){
             cond_count++;
         }    
     }
+    where_to_search();
 }
 
 // describe data to be extracted menu show
@@ -228,4 +229,47 @@ $(document.body).on('click', '#next-describe-extract' ,async function(){
         description = descriptions[i].value;
         await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + description, input_color, [null], true, false);
     }
+    where_to_search();
+});
+
+// where in other files to find values to extract
+async function where_to_search(){
+    secondary_file_name = unique_file_names[1];
+    var secondary_file_sheets = get_file_sheets(secondary_file_name); 
+    populate_table_element(secondary_file_sheets[0], 2, 'data2_tableid');
+    var table2_headers = get_table_headers('data2_tableid');
+    await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    document.getElementById('findwherewrap').style.display = 'block';
+    document.getElementById('second-extractfrom').style.display = 'flex'; 
+    document.getElementById("second-file-name").innerHTML = secondary_file_name;
+    populate_drop_down('#second-file_ul', secondary_file_sheets, true);
+    var col_headers = createTable_values2[0];
+    populate_drop_down("#second-col_ul", col_headers, true);
+    $('#second-file_ul').parents(".dropdown").find('.btn').text(secondary_file_sheets[0]); // set default value to first sheet
+}
+
+$(document.body).on('click', '#data2_tableid' ,function(e){      
+    populate_table_element(secondary_sheet_name, 2, 'data2_tableid');
+});
+
+// when col header for table 2 is adjusted
+$(document.body).on('click', '#data2_tableid' ,function(e){  
+    const cell = e.target.closest('td');
+    if (!cell) {return;} // Quit, not clicked on a cell
+    const row = cell.parentElement; // row user clicked on
+    secondary_header_row = row.rowIndex;
+    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
+    createTable_values2 = createTable(repivoted_data, 'data2_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
+    var col_headers = createTable_values2[0];
+    var createTable_html = createTable_values2[1];
+    table_html_obj_arr2 = parse_table_column_values(createTable_html);
+    populate_drop_down("#data2columns", col_headers, true); // populate data column selection with header update
+    document.getElementById("data2_table_reset").style.display = "block";
+    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
+});
+
+// if adjust header column button is clicken when describing where to search for values to extract
+$(document.body).on('click', '#data2_adj_col_header' ,async function(){
+    document.getElementById('data2_adj_col_header').style.display = 'none';
+    document.getElementById('colselecttablediv2').style.display = 'block';
 });
