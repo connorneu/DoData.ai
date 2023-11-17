@@ -218,3 +218,14 @@ $(document.body).on('click', '#add-describe-text' ,function(){
     wrapper.append(new_text);
     desc_div_wrap.appendChild(wrapper);
 });
+
+$(document.body).on('click', '#next-describe-extract' ,async function(){
+    hide_containers(2)
+    document.getElementById('describe-data-extract').style.display = 'none';
+    descriptions = document.getElementsByClassName('describe-textarea');
+    await add_to_carousel('\xa0\xa0\xa0' + 'Values to extract:', input_color, [null], true, false);
+    for (var i=0;i<descriptions.length;i++){
+        description = descriptions[i].value;
+        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + description, input_color, [null], true, false);
+    }
+});
