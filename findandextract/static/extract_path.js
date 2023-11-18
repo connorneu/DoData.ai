@@ -235,17 +235,42 @@ $(document.body).on('click', '#next-describe-extract' ,async function(){
 // where in other files to find values to extract
 async function where_to_search(){
     secondary_file_name = unique_file_names[1];
+    third_file_name = unique_file_names[2];
+    fourth_file_name = unique_file_names[3];
     var secondary_file_sheets = get_file_sheets(secondary_file_name); 
+    var third_file_sheets = get_file_sheets(third_file_name); 
+    var fourth_file_sheets = get_file_sheets(fourth_file_name); 
     populate_table_element(secondary_file_sheets[0], 2, 'data2_tableid');
-    var table2_headers = get_table_headers('data2_tableid');
+    populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
+    populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
     await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     document.getElementById('findwherewrap').style.display = 'block';
     document.getElementById('second-extractfrom').style.display = 'flex'; 
     document.getElementById("second-file-name").innerHTML = secondary_file_name;
     populate_drop_down('#second-file_ul', secondary_file_sheets, true);
+
+    document.getElementById('third-extractfrom').style.display = 'flex'; 
+    document.getElementById("third-file-name").innerHTML = third_file_name;
+    populate_drop_down('#third-file_ul', third_file_sheets, true);
+
+    document.getElementById('fourth-extractfrom').style.display = 'flex'; 
+    document.getElementById("fourth-file-name").innerHTML = fourth_file_name;
+    populate_drop_down('#fourth-file_ul', fourth_file_sheets, true);
+    
     var col_headers = createTable_values2[0];
     populate_drop_down("#second-col_ul", col_headers, true);
+
+    var col_headers = createTable_values3[0];
+    console.log('third col headers', col_headers)
+    populate_drop_down("#third-col_ul", col_headers, true);
+
+    var col_headers = createTable_values4[0];
+    console.log('fourth col headers', col_headers)
+    populate_drop_down("#fourth-col_ul", col_headers, true);
+
     $('#second-file_ul').parents(".dropdown").find('.btn').text(secondary_file_sheets[0]); // set default value to first sheet
+    $('#third-file_ul').parents(".dropdown").find('.btn').text(third_file_sheets[0]); // set default value to first sheet
+    $('#fourth-file_ul').parents(".dropdown").find('.btn').text(fourth_file_sheets[0]); // set default value to first sheet
 }
 
 $(document.body).on('click', '#data2_tableid' ,function(e){      
