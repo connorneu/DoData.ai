@@ -49,7 +49,7 @@ def findandextract(request):
             if request.POST.get('ajax_name') == 'submit_parameters':
                 print("START OF AJAX POSTN Data")
                 print(request.POST)
-                if False:
+                if True:
                     algorithm_type = request.POST.get('algorithm_type')
                     values_to_extract_dataset = request.POST.get('values_to_extract_dataset')
                     values_to_extract_col = request.POST.get('values_to_extract_col')

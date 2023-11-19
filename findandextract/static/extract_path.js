@@ -5,6 +5,7 @@ async function start_extract_file(){
 
 // user selects use input file
 $(document.body).on('click', '#inputis_file' ,async function(){   
+    input_or_description = 'input';
     hide_containers(2);
     document.getElementById('user_select_input_file_or_custom').style.display = 'none';
     await add_to_carousel('Extract values using input file.', 'white', ['primary_file_selection_extract()'], true, false);
@@ -12,6 +13,7 @@ $(document.body).on('click', '#inputis_file' ,async function(){
 
 // user selects use description
 $(document.body).on('click', '#inputis_describe' ,async function(){   
+    input_or_description = 'describe';
     hide_containers(2);
     document.getElementById('user_select_input_file_or_custom').style.display = 'none';
     await add_to_carousel('Extract values using custom description.', 'white', ['describe_data_extract()'], true, false);
@@ -244,6 +246,7 @@ async function where_to_search(){
     populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
     populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
     await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel(['If the column contains the value being searched for then the row will be extracted.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
     document.getElementById('findwherewrap').style.display = 'block';
     document.getElementById('second-extractfrom').style.display = 'flex'; 
     document.getElementById("second-file-name").innerHTML = secondary_file_name;
@@ -298,3 +301,60 @@ $(document.body).on('click', '#data2_adj_col_header' ,async function(){
     document.getElementById('data2_adj_col_header').style.display = 'none';
     document.getElementById('colselecttablediv2').style.display = 'block';
 });
+
+$(document.body).on('click', '#submit-extract' ,async function(){
+    submit_algo_parameters();
+});
+
+function collect_describe_values(){
+    var describe_values = [];
+    var describe_value_elems =  document.getElementsByClassName('describe-textarea')
+    for (var i=0;i<describe_value_elems.length;i++){
+        var value = describe_value_elems[i].value;
+        describe_values.push(value);
+    }
+    console.log('describe values')
+    return describe_values;
+}
+
+// collect algorithm parameters
+async function collect_extract_parameters(){
+    var inputordescription = input_or_description; 
+    var primaryfilename = $('#primaryfile_ul').parents(".dropdown").find('.btn').text();
+    var primaryheaderrow = primary_header_row;
+    var primarysheetname = primary_sheet_name;
+    var inputfilecol = extract_col;
+    var inputfileconditions = JSON.stringify(condition_arr);
+    var describevalues = JSON.stringify(collect_describe_values());
+    var secondaryfilename = secondary_file_name;
+    var secondarysheetname = document.getElementById('second-file_ul').innerText;
+    var thirdfilename = third_file_name;
+    var thirdsheetname = document.getElementById('third-file_ul').innerText;
+    var fourthfilename = fourth_file_name;
+    var fourthsheetname = document.getElementById('fourth-file_ul').innerText;
+    var secondaryheaderrow = secondary_header_row;
+    var thirdheaderrow = third_header_row;
+    var fourthheaderrow = fourth_header_row;
+
+    var extract_params_map = {
+        inputordescription: inputordescription,
+        primaryfilename : primaryfilename,
+        primaryheaderrow : primaryheaderrow,
+        primarysheetname : primarysheetname,
+        inputfilecol : inputfilecol,
+        inputfileconditions : inputfileconditions,
+        describevalues : describevalues,
+        secondaryfilename : secondaryfilename,
+        secondarysheetname : secondarysheetname,
+        thirdfilename : thirdfilename,
+        thirdsheetname : thirdsheetname,
+        fourthfilename : fourthfilename,
+        fourthsheetname : fourthsheetname,
+        secondaryheaderrow : secondaryheaderrow,
+        thirdheaderrow : thirdheaderrow,
+        fourthheaderrow : fourthheaderrow 
+    };
+
+    console.log(extract_params_map)
+    return extract_params_map;
+}

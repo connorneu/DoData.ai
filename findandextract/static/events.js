@@ -226,7 +226,7 @@ $(document.body).on('click', '#data4_next_colheader' ,function(){
 
 // when add condition is clicked
 $(document.body).on('click', '#addconditionprimary' ,function(){
-    var current_selection = $('#cond1_col_drop').find('.btn').text()
+    var current_selection = $('#cond1_col_drop').find('.btn').text();
     if (current_selection === 'Select Column'){
         var primary_col_headers = createTable_values1[0];
         populate_drop_down('#conditiondropdowncols1', primary_col_headers, true)
@@ -236,6 +236,7 @@ $(document.body).on('click', '#addconditionprimary' ,function(){
         document.getElementById('cond1_action1').style.display = 'inline-block';
     }
     else{  
+        console.log('adding condition')
         // add more conditions by cloning previous and reseting values
         var $last_condition = $('#primarycondition-container div[id^="primarycondition"]:last');
         var condition_num = $last_condition.prop("id").slice(-1);

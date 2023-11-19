@@ -4,15 +4,15 @@ carouselText = [];
 carousel_num = 1;
 primary_file_name = null;
 primary_file_sheets = [];
-primary_sheet_name = null;
+primary_sheet_name = 'Sheet1';
 secondary_file_name = null;
 secondary_file_sheets = [];
-secondary_sheet_name = null;
+secondary_sheet_name = 'Sheet1';
 third_file_name = null;
-third_sheet_name = null;
+third_sheet_name = 'Sheet1';
 third_file_sheets = [];
 fourth_file_name = null;
-fourth_sheet_name = null;
+fourth_sheet_name = 'Sheet1';
 fourth_file_sheets = [];
 createTable_values1 = '';
 createTable_values2 = '';
@@ -34,6 +34,7 @@ input_type = null;
 algorithm_type = null;
 newline_scroll = 50;
 start_scrolling_after = 10;
+input_or_description = '';
 
 // maybe delete these
 dataset_names = [];
@@ -1328,9 +1329,23 @@ $(document).ready(function() {
     }
 });
 
+function print_the_filtered_data(data){
+    console.log('PRINT THE FILTERED DATA')
+    console.log(data)
+}
+
+async function display_result_table(data){
+    hide_containers(2);
+    //document.getElementById('matchcolumnscontainer').style.display = 'none'; 
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel(['Adjust result:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+    await add_to_carousel(['First 25 rows of table displayed below.', 'Apply additional conditions, add or remove columns, or export result.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+    
+}
 
 // collect algorithm parameters
-async function collect_extract_parameters(){
+async function collect_extract_parameters_OLD_DECOMISSIONED(){
     extract_from.push([$('#matchprimarydata_ul').parents(".dropdown").find('.btn').text(), $('#matchprimarycol_ul').parents(".dropdown").find('.btn').text()])
     if ($('#matchseconddata_ul').parents(".dropdown").find('.btn').text() != null){ 
         extract_from.push([$('#matchseconddata_ul').parents(".dropdown").find('.btn').text(), $('#matchsecondcol_ul').parents(".dropdown").find('.btn').text()]);       
@@ -1348,22 +1363,6 @@ async function collect_extract_parameters(){
     extract_from.push(['Program Info.csv {Sheet1}', 'Teachers']);
     console.log(extract_from)
 }
-
-function print_the_filtered_data(data){
-    console.log('PRINT THE FILTERED DATA')
-    console.log(data)
-}
-
-async function display_result_table(data){
-    hide_containers(2);
-    //document.getElementById('matchcolumnscontainer').style.display = 'none'; 
-    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Adjust result:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['First 25 rows of table displayed below.', 'Apply additional conditions, add or remove columns, or export result.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    document.getElementById('resultbox_div').style.display = 'block';
-    
-}
-
 
 //HORIZONTAL NAVBAR  https://codepen.io/DaiSenzz/pen/wvQGjQd
 $(document).ready(function() {
