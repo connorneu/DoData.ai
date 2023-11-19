@@ -46,33 +46,62 @@ def findandextract(request):
         if is_ajax(request): 
             print('AJAX POST REQUEST')
             #try:
-            if request.POST.get('ajax_name') == 'submit_parameters':
+            if request.POST.get('ajax_name') == 'submit_extract_parameters':
                 print("START OF AJAX POSTN Data")
                 print(request.POST)
                 if True:
+                    inputordescription = request.POST.get('parameters[inputordescription]')
+                    primary_file_name = request.POST.get('parameters[primaryfilename]')
+                    primary_header_row = int(request.POST.get('parameters[primaryheaderrow]'))
+                    primary_sheet_name = request.POST.get('parameters[primarysheetname]')
+
+                    inputfilecol = request.POST.get('parameters[inputfilecol]')
+                    primary_conditions = request.POST.get('parameters[inputfileconditions]')
+                    describevalues = request.POST.get('parameters[describevalues]')
+
+                    secondary_file_name = request.POST.get('parameters[secondaryfilename]')
+                    secondary_sheet_name = request.POST.get('parameters[secondarysheetname]')
+                    secondaryextractcolname = request.POST.get('parameters[secondextractcol]')
+                    secondary_header_row = int(request.POST.get('parameters[secondheaderrow]'))
+
+                    third_file_name = request.POST.get('parameters[thirdfilename]')
+                    third_sheet_name = request.POST.get('parameters[thirdsheetname]')
+                    thirdextractcolname = request.POST.get('parameters[thirdextractcol]')
+                    third_header_row = int(request.POST.get('parameters[thirdheaderrow]'))
+
+                    fourth_file_name = request.POST.get('parameters[fourthfilename]')
+                    fourth_sheet_name = request.POST.get('parameters[fourthsheetname]')
+                    fourthextractcolname = request.POST.get('parameters[fourthextractcol]')
+                    fourth_header_row = int(request.POST.get('parameters[fourthheaderrow]'))
+
+                    secondaryheaderrow = request.POST.get('parameters[secondaryheaderrow]')
+                    thirdheaderrow = request.POST.get('parameters[thirdheaderrow]')
+                    fourthheaderrow = request.POST.get('parameters[fourthheaderrow]')
+
                     algorithm_type = request.POST.get('algorithm_type')
                     values_to_extract_dataset = request.POST.get('values_to_extract_dataset')
                     values_to_extract_col = request.POST.get('values_to_extract_col')
                     extract_from = request.POST.get('extract_from')
 
-                    primary_file_name = request.POST.get('primary_file_name')
-                    primary_sheet_name = request.POST.get('primary_sheet_name')
-                    primary_header_row = int(request.POST.get('primary_header_row'))
-                    primary_conditions = request.POST.get('condition_arr')
+            #################################
+                    #primary_file_name = request.POST.get('primary_file_name')
+                    #primary_sheet_name = request.POST.get('primary_sheet_name')
+                    #primary_header_row = int(request.POST.get('primary_header_row'))
+                    #primary_conditions = request.POST.get('condition_arr')
                 
-                    secondary_file_name = request.POST.get('secondary_file_name')
-                    secondary_sheet_name = request.POST.get('secondary_sheet_name')
-                    secondary_header_row = int(request.POST.get('secondary_header_row'))
+                    #secondary_file_name = request.POST.get('secondary_file_name')
+                    #secondary_sheet_name = request.POST.get('secondary_sheet_name')
+                    #secondary_header_row = int(request.POST.get('secondary_header_row'))
                     secondary_conditions = request.POST.get('condition_arr2')    
 
-                    third_file_name = request.POST.get('third_file_name')
-                    third_sheet_name = request.POST.get('third_sheet_name')
-                    third_header_row = int(request.POST.get('third_header_row'))
+                    #third_file_name = request.POST.get('third_file_name')
+                    #third_sheet_name = request.POST.get('third_sheet_name')
+                    #third_header_row = int(request.POST.get('third_header_row'))
                     third_conditions = request.POST.get('condition_arr3')
 
-                    fourth_file_name = request.POST.get('fourth_file_name')
-                    fourth_sheet_name = request.POST.get('fourth_sheet_name')
-                    fourth_header_row = int(request.POST.get('fourth_header_row'))
+                    #fourth_file_name = request.POST.get('fourth_file_name')
+                    #fourth_sheet_name = request.POST.get('fourth_sheet_name')
+                    #fourth_header_row = int(request.POST.get('fourth_header_row'))
                     fourth_conditions = request.POST.get('condition_arr4')
                 else:
                         algorithm_type = 'Extract'

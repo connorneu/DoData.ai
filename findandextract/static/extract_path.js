@@ -303,7 +303,8 @@ $(document.body).on('click', '#data2_adj_col_header' ,async function(){
 });
 
 $(document.body).on('click', '#submit-extract' ,async function(){
-    submit_algo_parameters();
+    var extract_params = collect_extract_parameters();
+    submit_algo_parameters(extract_params);
 });
 
 function collect_describe_values(){
@@ -318,7 +319,7 @@ function collect_describe_values(){
 }
 
 // collect algorithm parameters
-async function collect_extract_parameters(){
+function collect_extract_parameters(){
     var inputordescription = input_or_description; 
     var primaryfilename = $('#primaryfile_ul').parents(".dropdown").find('.btn').text();
     var primaryheaderrow = primary_header_row;
@@ -328,10 +329,16 @@ async function collect_extract_parameters(){
     var describevalues = JSON.stringify(collect_describe_values());
     var secondaryfilename = secondary_file_name;
     var secondarysheetname = document.getElementById('second-file_ul').innerText;
+    var secondextractcol = document.getElementById('second-col_ul').innerText;
+    var secondheaderrow = secondary_header_row;
     var thirdfilename = third_file_name;
     var thirdsheetname = document.getElementById('third-file_ul').innerText;
+    var thirdextractcol = document.getElementById('third-col_ul').innerText;
+    var thirdheaderrow = third_header_row;
     var fourthfilename = fourth_file_name;
     var fourthsheetname = document.getElementById('fourth-file_ul').innerText;
+    var fourthextractcol = document.getElementById('fourth-col_ul').innerText;
+    var fourthheaderrow = fourth_header_row;
     var secondaryheaderrow = secondary_header_row;
     var thirdheaderrow = third_header_row;
     var fourthheaderrow = fourth_header_row;
@@ -346,10 +353,16 @@ async function collect_extract_parameters(){
         describevalues : describevalues,
         secondaryfilename : secondaryfilename,
         secondarysheetname : secondarysheetname,
+        secondextractcol : secondextractcol,
+        secondheaderrow : secondheaderrow,
         thirdfilename : thirdfilename,
         thirdsheetname : thirdsheetname,
+        thirdextractcol : thirdextractcol,
+        thirdheaderrow : thirdheaderrow,
         fourthfilename : fourthfilename,
         fourthsheetname : fourthsheetname,
+        fourthextractcol : fourthextractcol,
+        fourthheaderrow : fourthheaderrow,
         secondaryheaderrow : secondaryheaderrow,
         thirdheaderrow : thirdheaderrow,
         fourthheaderrow : fourthheaderrow 
