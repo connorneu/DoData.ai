@@ -304,7 +304,7 @@ $(document.body).on('click', '#data2_adj_col_header' ,async function(){
 
 $(document.body).on('click', '#submit-extract' ,async function(){
     var extract_params = collect_extract_parameters();
-    submit_algo_parameters(extract_params);
+    submit_extract_algo_parameters(extract_params);
 });
 
 function collect_describe_values(){
@@ -328,17 +328,16 @@ function collect_extract_parameters(){
     var inputfileconditions = JSON.stringify(condition_arr);
     var describevalues = JSON.stringify(collect_describe_values());
     var secondaryfilename = secondary_file_name;
-    var secondarysheetname = document.getElementById('second-file_ul').innerText;
-    var secondextractcol = document.getElementById('second-col_ul').innerText;
+    var secondarysheetname = $('#second-file_ul').parents(".dropdown").find('.btn').text();
+    var secondextractcol = $('#second-col_ul').parents(".dropdown").find('.btn').text();
     var secondheaderrow = secondary_header_row;
     var thirdfilename = third_file_name;
-    var thirdsheetname = document.getElementById('third-file_ul').innerText;
-    var thirdextractcol = document.getElementById('third-col_ul').innerText;
+    var thirdsheetname = $('#third-file_ul').parents(".dropdown").find('.btn').text();
+    var thirdextractcol = $('#third-col_ul').parents(".dropdown").find('.btn').text();
     var thirdheaderrow = third_header_row;
     var fourthfilename = fourth_file_name;
-    var fourthsheetname = document.getElementById('fourth-file_ul').innerText;
-    var fourthextractcol = document.getElementById('fourth-col_ul').innerText;
-    var fourthheaderrow = fourth_header_row;
+    var fourthsheetname =  $('#fourth-file_ul').parents(".dropdown").find('.btn').text();
+    var fourthextractcol = $('#fourth-col_ul').parents(".dropdown").find('.btn').text();
     var secondaryheaderrow = secondary_header_row;
     var thirdheaderrow = third_header_row;
     var fourthheaderrow = fourth_header_row;

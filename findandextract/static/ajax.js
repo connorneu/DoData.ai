@@ -116,7 +116,7 @@ async function ajax_get_db(){
 //$(document).ready(function () {
     //catch the form's submit event
     //$(document.body).on('click', '#next_matchfiles' ,function(){
-    function submit_algo_parameters(extract_params){
+    function submit_extract_algo_parameters(extract_params){
        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
        // create an AJAX call
        $.ajax({

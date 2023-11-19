@@ -22,7 +22,7 @@ import json
 from .languagemodel import *
 import threading
 import os
-
+import ast
 
 goog_w2v_model = None
 nlp = None
@@ -54,9 +54,10 @@ def findandextract(request):
                     primary_file_name = request.POST.get('parameters[primaryfilename]')
                     primary_header_row = int(request.POST.get('parameters[primaryheaderrow]'))
                     primary_sheet_name = request.POST.get('parameters[primarysheetname]')
+                    values_to_extract_dataset = primary_file_name + ' {' +  primary_sheet_name + '}'
 
-                    inputfilecol = request.POST.get('parameters[inputfilecol]')
-                    primary_conditions = request.POST.get('parameters[inputfileconditions]')
+                    values_to_extract_col = request.POST.get('parameters[inputfilecol]')
+                    primary_conditions = ast.literal_eval(request.POST.get('parameters[inputfileconditions]'))
                     describevalues = request.POST.get('parameters[describevalues]')
 
                     secondary_file_name = request.POST.get('parameters[secondaryfilename]')
@@ -78,10 +79,13 @@ def findandextract(request):
                     thirdheaderrow = request.POST.get('parameters[thirdheaderrow]')
                     fourthheaderrow = request.POST.get('parameters[fourthheaderrow]')
 
-                    algorithm_type = request.POST.get('algorithm_type')
-                    values_to_extract_dataset = request.POST.get('values_to_extract_dataset')
-                    values_to_extract_col = request.POST.get('values_to_extract_col')
-                    extract_from = request.POST.get('extract_from')
+                    algorithm_type = 'Extract'
+                    #values_to_extract_dataset = request.POST.get('values_to_extract_dataset')
+                    #values_to_extract_col = request.POST.get('values_to_extract_col')
+                    extract_from = [[secondary_file_name, '{' + secondary_sheet_name + '}', secondaryextractcolname],
+                                    [third_file_name, '{' + third_sheet_name + '}', thirdextractcolname],
+                                    [fourth_file_name, '{' + fourth_sheet_name + '}', fourthextractcolname]]
+                    print(extract_from)
 
             #################################
                     #primary_file_name = request.POST.get('primary_file_name')
@@ -92,17 +96,17 @@ def findandextract(request):
                     #secondary_file_name = request.POST.get('secondary_file_name')
                     #secondary_sheet_name = request.POST.get('secondary_sheet_name')
                     #secondary_header_row = int(request.POST.get('secondary_header_row'))
-                    secondary_conditions = request.POST.get('condition_arr2')    
+                    #secondary_conditions = request.POST.get('condition_arr2')    
 
                     #third_file_name = request.POST.get('third_file_name')
                     #third_sheet_name = request.POST.get('third_sheet_name')
                     #third_header_row = int(request.POST.get('third_header_row'))
-                    third_conditions = request.POST.get('condition_arr3')
+                    #third_conditions = request.POST.get('condition_arr3')
 
                     #fourth_file_name = request.POST.get('fourth_file_name')
                     #fourth_sheet_name = request.POST.get('fourth_sheet_name')
                     #fourth_header_row = int(request.POST.get('fourth_header_row'))
-                    fourth_conditions = request.POST.get('condition_arr4')
+                    #fourth_conditions = request.POST.get('condition_arr4')
                 else:
                         algorithm_type = 'Extract'
                         values_to_extract_dataset = 'Address.csv {Sheet1}'
@@ -153,21 +157,22 @@ def findandextract(request):
                 if fourth_header_row > 0:
                     print("CHANGING HEADER4")
                     df4 = change_header(df4, fourth_header_row)
-                if primary_conditions != []:
+                if primary_conditions[0][1] != 'Select Column':
                     print('conditions applied 1')
                     df1 = apply_conditions(df1, primary_conditions)   
-                print('SECONDARY CONDITIONS', secondary_conditions)
-                if secondary_conditions != []:
-                    print('conditions applied 2')
-                    df2 = apply_conditions(df2, secondary_conditions)
-                if third_conditions != []:  
-                    print('conditions applied 3')
-                    df3 = apply_conditions(df3, third_conditions)
-                if fourth_conditions != []:
-                    print('conditions applied 4')
-                    df4 = apply_conditions(df4, fourth_conditions)
+                #print('SECONDARY CONDITIONS', secondary_conditions)
+                #if secondary_conditions[0][1] != 'Select Column':
+                #    print('conditions applied 2')
+                #    df2 = apply_conditions(df2, secondary_conditions)
+                #if third_conditions[0][1] != 'Select Column':  
+                #    print('conditions applied 3')
+                #    df3 = apply_conditions(df3, third_conditions)
+                #if fourth_conditions[0][1] != 'Select Column':
+                #    print('conditions applied 4')
+                #    df4 = apply_conditions(df4, fourth_conditions)
                 dfs = {df1_name:df1, df2_name:df2, df3_name:df3, df4_name:df4}
                 if algorithm_type == 'Extract':
+                    print('Algorithm Type', algorithm_type)
                     df_result = Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
                     df_list = melt_df(df_result)
                     print("saving result to db...")
@@ -467,7 +472,7 @@ def apply_conditions(df, conditions):
     print("CONDITIONS STRING")
     print(conditions_str)
     df_new = eval(conditions_str)
-    return df_new    
+    return df_new
                         
 
 def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from):
@@ -475,14 +480,25 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
     df_extract_values = dfs[values_to_extract_dataset][values_to_extract_col].values.tolist()
     for df_col in extract_from:
         if df_col[0] != values_to_extract_dataset: 
-            df_single_result = Search_Column_Values(dfs[df_col[0]], df_col[1], df_extract_values)
+            print('++++++++++   df col ALL ***********', len(df_col))
+            print(df_col)
+            print('wb _ws')
+            wb_ws = df_col[0] + ' ' + df_col[1]
+            print(wb_ws)
+            print()
+            print('COL 2 FIND')
+            col_to_find = df_col[2]
+            print(col_to_find)
+            print()
+
+            df_single_result = Search_Column_Values(dfs[wb_ws], col_to_find, df_extract_values)
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
                 df_single_result['Dataset'] = values_to_extract_dataset
                 if not isinstance(df_result, pd.DataFrame):
                     df_result = df_single_result
                 else:
-                    df_result = df_result.append(df_single_result)
+                    df_result = pd.concat([df_result, df_single_result], ignore_index=True)
                     df_result = df_result.reset_index(drop=True)
     return df_result
             
