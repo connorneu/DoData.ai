@@ -85,8 +85,7 @@ def findandextract(request):
                     extract_from = [[secondary_file_name, '{' + secondary_sheet_name + '}', secondaryextractcolname],
                                     [third_file_name, '{' + third_sheet_name + '}', thirdextractcolname],
                                     [fourth_file_name, '{' + fourth_sheet_name + '}', fourthextractcolname]]
-                    print(extract_from)
-
+                    
             #################################
                     #primary_file_name = request.POST.get('primary_file_name')
                     #primary_sheet_name = request.POST.get('primary_sheet_name')
@@ -174,6 +173,8 @@ def findandextract(request):
                 if algorithm_type == 'Extract':
                     print('Algorithm Type', algorithm_type)
                     df_result = Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
+                    print('------------- RESULT --------------')
+                    print(df_result)
                     df_list = melt_df(df_result)
                     print("saving result to db...")
                     for dbframe in df_list:
@@ -219,8 +220,6 @@ def findandextract(request):
         if is_ajax(request):
             if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
                 result_table_db = list(KeyValueDataFrame_Result.objects.values())
-                print("RESULT TABLE")
-                print(result_table_db)
                 return JsonResponse({'result_table' : result_table_db})
             else:
                 print("AJAX GET REQUEST")
@@ -347,9 +346,7 @@ def build_df_melt(myfile):
 # for dataframe input
 def melt_df(df):
     df_k_v = df.melt()
-    print("df kv")
-    print(df_k_v)
-    df_list = list(df_k_v[['variable', 'value']].values)  #list(df_k_v[['key', 'value']].values)
+    df_list = list(df_k_v[['key', 'value']].values)  #list(df_k_v[['key', 'value']].values)
     return df_list
 
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly
@@ -480,17 +477,8 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
     df_extract_values = dfs[values_to_extract_dataset][values_to_extract_col].values.tolist()
     for df_col in extract_from:
         if df_col[0] != values_to_extract_dataset: 
-            print('++++++++++   df col ALL ***********', len(df_col))
-            print(df_col)
-            print('wb _ws')
             wb_ws = df_col[0] + ' ' + df_col[1]
-            print(wb_ws)
-            print()
-            print('COL 2 FIND')
             col_to_find = df_col[2]
-            print(col_to_find)
-            print()
-
             df_single_result = Search_Column_Values(dfs[wb_ws], col_to_find, df_extract_values)
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
