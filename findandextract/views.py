@@ -23,6 +23,7 @@ from .languagemodel import *
 import threading
 import os
 import ast
+import collections
 
 goog_w2v_model = None
 nlp = None
@@ -475,12 +476,18 @@ def apply_conditions(df, conditions):
 def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from):
     df_result = None
     df_extract_values = dfs[values_to_extract_dataset][values_to_extract_col].values.tolist()
+    all_df_col_headers = Collect_All_Col_Headers(dfs, extract_from, values_to_extract_dataset)
+    cols_in_multiple_dfs = [item for item, count in collections.Counter(all_df_col_headers).items() if count > 1]
     for df_col in extract_from:
         if df_col[0] != values_to_extract_dataset: 
             wb_ws = df_col[0] + ' ' + df_col[1]
             col_to_find = df_col[2]
             df_single_result = Search_Column_Values(dfs[wb_ws], col_to_find, df_extract_values)
-            df_single_result = Add_Filename_ColHeader(df_single_result, wb_ws)
+            #change matched column name so all matched columns have same name and can be stacked
+            matched_col_header = values_to_extract_col + ' [Matched Column]'
+            df_single_result = df_single_result.rename(columns={col_to_find: matched_col_header})
+            all_df_col_headers.remove(col_to_find)
+            df_single_result = Add_Filename_ColHeader(df_single_result, wb_ws, matched_col_header, cols_in_multiple_dfs)
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
                 df_single_result['Dataset'] = wb_ws
@@ -489,18 +496,43 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
                 else:
                     df_result = pd.concat([df_result, df_single_result], ignore_index=True)
                     df_result = df_result.reset_index(drop=True)
+    print(all_df_col_headers)
+    df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
     return df_result
-            
+
+def Collect_All_Col_Headers(dfs, extract_from, values_to_extract_dataset):
+    all_df_col_headers = []
+    for df_col in extract_from:
+        if df_col[0] != values_to_extract_dataset:
+            wb_ws = df_col[0] + ' ' + df_col[1]
+            for col in dfs[wb_ws].columns.tolist():
+                all_df_col_headers.append(col)
+    return all_df_col_headers
+
+def Add_Filename_ColHeader(df, wb_ws, matched_col_header, cols_in_multiple_dfs):
+    for col_i in range(len(df.columns)):
+        curr_header = df.columns[col_i]
+        if curr_header != matched_col_header and curr_header not in cols_in_multiple_dfs:
+            new_header = curr_header + '_' + wb_ws
+            df = df.rename(columns={curr_header: new_header})
+    return df
+
+def Reorder_Columns(df, matched_col_header, all_df_col_headers):
+    col_headers = df.columns.tolist()
+    duplicates = [item for item, count in collections.Counter(all_df_col_headers).items() if count > 1]
+    unique_col_headers = f7(col_headers)
+    for duplicate in duplicates:
+        unique_col_headers.remove(duplicate)
+    unique_col_headers.remove('Dataset')
+    ordered_col_headers = ['Dataset'] + [matched_col_header] + duplicates + unique_col_headers
+    df = df[ordered_col_headers]
+    print(ordered_col_headers)
+    return df
+
+
 def Search_Column_Values(df, col, df_extract_values):
     df_result = df[df[col].isin(df_extract_values)]
     return df_result
-
-def Add_Filename_ColHeader(df, wb_ws):
-    for col_i in range(len(df.columns)):
-        curr_header = df.columns[col_i]
-        new_header = curr_header + '_' + wb_ws
-        df = df.rename(columns={curr_header: new_header})
-    return df
     
 def Fake_Data():
     algorithm_type = 'Extract'
