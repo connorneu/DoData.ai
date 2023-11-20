@@ -886,7 +886,6 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
     }
     else if(tablenumber === 2){
         var repivoted_data = repivot_keyval(data_json, secondary_file_name, selected_sheet);
-        console.log('fe ' + secondary_file_name + ' ' + selected_sheet)
         createTable_values2 = createTable(repivoted_data, data_tableid);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
@@ -908,7 +907,7 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
     }
     else if(tablenumber === 0){
         var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
-        var createTable_values0 = createTable(repivoted_data, data_tableid);
+        var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=1000000);
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
         var table_html_obj_arr0 = parse_table_column_values(createTable_html);
@@ -1334,15 +1333,7 @@ function print_the_filtered_data(data){
     console.log(data)
 }
 
-async function display_result_table(data){
-    hide_containers(2);
-    //document.getElementById('matchcolumnscontainer').style.display = 'none'; 
-    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Adjust result:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['First 25 rows of table displayed below.', 'Apply additional conditions, add or remove columns, or export result.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    document.getElementById('resultbox_div').style.display = 'block';
-    
-}
+
 
 // collect algorithm parameters
 async function collect_extract_parameters_OLD_DECOMISSIONED(){

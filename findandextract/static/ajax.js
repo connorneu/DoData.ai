@@ -164,7 +164,7 @@ async function ajax_get_result_db(){
        // on success
        success: function (data) {
            //print_the_filtered_data(data);
-           display_result_table(data);
+           display_extract_result_table(data);
        },
        // on error
        error: function (request, status, error) {
