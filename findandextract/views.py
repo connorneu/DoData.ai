@@ -480,9 +480,10 @@ def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
             wb_ws = df_col[0] + ' ' + df_col[1]
             col_to_find = df_col[2]
             df_single_result = Search_Column_Values(dfs[wb_ws], col_to_find, df_extract_values)
+            df_single_result = Add_Filename_ColHeader(df_single_result, wb_ws)
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
-                df_single_result['Dataset'] = values_to_extract_dataset
+                df_single_result['Dataset'] = wb_ws
                 if not isinstance(df_result, pd.DataFrame):
                     df_result = df_single_result
                 else:
@@ -494,6 +495,12 @@ def Search_Column_Values(df, col, df_extract_values):
     df_result = df[df[col].isin(df_extract_values)]
     return df_result
 
+def Add_Filename_ColHeader(df, wb_ws):
+    for col_i in range(len(df.columns)):
+        curr_header = df.columns[col_i]
+        new_header = curr_header + '_' + wb_ws
+        df = df.rename(columns={curr_header: new_header})
+    return df
     
 def Fake_Data():
     algorithm_type = 'Extract'
