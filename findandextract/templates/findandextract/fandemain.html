@@ -19,6 +19,7 @@
         <script src="/static/ajax.js"></script>
         <script src="/static/algo_selection_tree.js"></script>
         <script src="/static/extract_path.js"></script>
+        <script src="/static/combine_path.js"></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>   
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -198,6 +199,11 @@
                     <a class="myButton bigr" id="inputis_file">Use Input File</a>
                     <a class="myButton bigr" id="inputis_describe">Enter Values</a>                    
                 </div>
+            </div>
+
+            <div class="button-banner" id="merge_or_append">
+                <a class="myButton bigr" id="user_merge">Merge</a>
+                <a class="myButton bigr" id="user_append">Append</a>                    
             </div>
 
 
@@ -459,6 +465,60 @@
 
 
 
+
+            <!-- Combine Files -->
+            <div id="combinehowwrap" class="combinewrap">
+                <div class="join-two-files">
+                    <div class="joined-file">
+                        <div class="dropdown flexdropdown selectfile">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select File
+                            </button>
+                            <ul class="joinfile dropdown-menu"></ul>
+                        </div>
+                        <div class="dropdown flexdropdown selectsheet">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="joinsheet dropdown-menu"></ul>
+                        </div>
+                        <div class="dropdown flexdropdown selectcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="joincol dropdown-menu"></ul>
+                        </div>
+                    </div>
+                    <div class="dropdown condition-dropdown-col flexdropdown action">
+                        <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
+                        <ul class="joinaction dropdown-menu"> 
+                            <li><a class="dropdown-item">Inner Join</a></li>
+                            <li><a class="dropdown-item">Left Join</a></li>
+                            <li><a class="dropdown-item">Right Join</a></li>                    
+                        </ul>
+                    </div>
+                    <div class="joined-file">
+                        <div class="dropdown flexdropdown selectfile">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select File
+                            </button>
+                            <ul class="joinfile dropdown-menu"></ul>
+                        </div>
+                        <div class="dropdown flexdropdown selectsheet">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="joinsheet dropdown-menu"></ul>
+                        </div>
+                        <div class="dropdown flexdropdown selectcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="joincol dropdown-menu"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 

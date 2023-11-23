@@ -83,7 +83,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    start_algo_path('START', 'Extract');
+    start_algo_path('START', 'Combine');
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -312,7 +312,7 @@ async function decide_algo_path(algorithm_type)
         start_extract_file();
     }
     else if(algorithm_type === 'Combine'){
-        start_extract_custom();
+        start_combine_file();
     }
     else if (algorithm_type === 'Update'){
         start_combine_rows();
@@ -1581,4 +1581,38 @@ function get_table_headers(table_id){
         thArray.push($(this).text())
     })
     return thArray;
+}
+
+function get_file_name_index(filename){
+    fileone = primary_file_name + ' {' +  primary_sheet_name + '}'
+    filetwo = secondary_file_name + ' {' + secondary_sheet_name + '}'
+    filethree = third_file_name + ' {' + third_sheet_name + '}'
+    filefour = fourth_file_name + ' {' + fourth_sheet_name + '}'
+    if (filename === fileone){
+        return 1;
+    }
+    else if (filename === filetwo){
+        return 2;
+    }
+    else if (filename === filethree){
+        return 3;
+    }
+    else if (filename === filefour){
+        return 4;
+    }
+}
+
+function get_createTable_by_index(index_num){
+    if (index_num === 1){
+        return createTable_values1;
+    }
+    else if(index_num === 2){
+        return createTable_values2;
+    }
+    else if(index_num === 3){
+        return createTable_values3;
+    }
+    else if(index_num === 4){
+        return createTable_values4;
+    }
 }

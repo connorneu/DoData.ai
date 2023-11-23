@@ -1013,6 +1013,18 @@ display: inline-block;
     display:none;
 }
 
+.combinewrap{
+    display:none
+}
+.flexdropdown{
+    display:flex;
+}
+.join-two-files{
+    display:flex;
+    flex: 0 0 1;
+}
+
+
 /*Load algorithm button*/
 .glowbutton {
     --glow-color: rgb(217, 176, 255);
