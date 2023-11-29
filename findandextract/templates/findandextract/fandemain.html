@@ -468,55 +468,65 @@
 
             <!-- Combine Files -->
             <div id="combinehowwrap" class="combinewrap">
-                <div class="join-two-files">
-                    <div class="joined-file">
-                        <div class="dropdown flexdropdown selectfile">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select File
-                            </button>
-                            <ul class="joinfile dropdown-menu"></ul>
+                <div class="combinewrap">
+                    <div class="join-two-files">
+                        <div class="joined-file">
+                            <div class="dropdown flexdropdown selectfile">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select File
+                                </button>
+                                <ul class="joinfile dropdown-menu"></ul>
+                            </div>
+                            <div class="dropdown flexdropdown selectsheet">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Sheet
+                                </button>
+                                <ul class="joinsheet dropdown-menu"></ul>
+                            </div>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="joincol dropdown-menu"></ul>
+                            </div>
                         </div>
-                        <div class="dropdown flexdropdown selectsheet">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Sheet
-                            </button>
-                            <ul class="joinsheet dropdown-menu"></ul>
+                        <div class="dropdown condition-dropdown-col flexdropdown action">
+                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
+                            <ul class="joinaction dropdown-menu"> 
+                                <li><a class="dropdown-item">Inner Join</a></li>
+                                <li><a class="dropdown-item">Left Join</a></li>
+                                <li><a class="dropdown-item">Right Join</a></li>                    
+                            </ul>
                         </div>
-                        <div class="dropdown flexdropdown selectcolumn">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Column
-                            </button>
-                            <ul class="joincol dropdown-menu"></ul>
+                        <div class="joined-file">
+                            <div class="dropdown flexdropdown selectfile">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select File
+                                </button>
+                                <ul class="joinfile dropdown-menu"></ul>
+                            </div>
+                            <div class="dropdown flexdropdown selectsheet">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Sheet
+                                </button>
+                                <ul class="joinsheet dropdown-menu"></ul>
+                            </div>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="joincol dropdown-menu"></ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="dropdown condition-dropdown-col flexdropdown action">
-                        <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
-                        <ul class="joinaction dropdown-menu"> 
-                            <li><a class="dropdown-item">Inner Join</a></li>
-                            <li><a class="dropdown-item">Left Join</a></li>
-                            <li><a class="dropdown-item">Right Join</a></li>                    
-                        </ul>
-                    </div>
-                    <div class="joined-file">
-                        <div class="dropdown flexdropdown selectfile">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select File
-                            </button>
-                            <ul class="joinfile dropdown-menu"></ul>
-                        </div>
-                        <div class="dropdown flexdropdown selectsheet">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Sheet
-                            </button>
-                            <ul class="joinsheet dropdown-menu"></ul>
-                        </div>
-                        <div class="dropdown flexdropdown selectcolumn">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Column
-                            </button>
-                            <ul class="joincol dropdown-menu"></ul>
-                        </div>
-                    </div>
+                    </div>            
+                </div>
+                <div class="addcondition" id="joinbtnswrap">
+                    <a class="myButton conditionbtn" id="addjoin">Add Join</a>
+                    <a class="myButton" id="nextafterjoin">Next</a>
+                </div>
+                <div class="submit-algo-buttons">
+                    <button type="button" class="btn btn-secondary btn-lg" id="submit-merge-back">Back</button>
+                    <button id="submit-merge" class="glowbutton">Build Algorithm</button>
                 </div>
             </div>
 

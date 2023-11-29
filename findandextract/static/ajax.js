@@ -150,6 +150,39 @@ async function ajax_get_db(){
    //});   
 //});
 
+function submit_combine_algo_parameters(combine_type, merge_params_map){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {   //JSON.stringify(condition_arr2)
+            'ajax_name':'combine_merge',
+            'parameters': JSON.stringify(merge_params_map),
+
+
+
+        }, // get the form data        $(this).serialize()
+        type: 'POST', //$(this).attr('method'), // GET or POST
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        // on success
+        success: function () {
+
+            console.log("algorithm parameters submitted");
+            ajax_get_result_db();
+
+        },
+        // on error
+        error: function (request, status, error) {
+
+            alert(request.responseText);
+
+        }
+    });
+    return false;
+ }
+
+
 // get data after function applied
 async function ajax_get_result_db(){
    var db_data = null;

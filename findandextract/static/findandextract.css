@@ -1023,6 +1023,9 @@ display: inline-block;
     display:flex;
     flex: 0 0 1;
 }
+.joined-file{
+    display:flex;
+}
 
 
 /*Load algorithm button*/
@@ -1073,4 +1076,8 @@ display: inline-block;
     box-shadow: 0 0 0.6em .25em var(--glow-color),
            0 0 2.5em 2em var(--glow-spread-color),
            inset 0 0 .5em .25em var(--glow-color);
+   }
+
+   .submit-algo-buttons{
+    display:none;
    }
