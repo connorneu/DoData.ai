@@ -135,7 +135,7 @@ async function ajax_get_db(){
            success: function () {
 
                console.log("algorithm parameters submitted");
-               ajax_get_result_db();
+               ajax_get_result_db('extract');
 
            },
            // on error
@@ -168,8 +168,8 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         // on success
         success: function () {
 
-            console.log("algorithm parameters submitted");
-            ajax_get_result_db();
+            console.log("combine algorithm parameters submitted");
+            ajax_get_result_db('combine');
 
         },
         // on error
@@ -184,7 +184,7 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
 
 
 // get data after function applied
-async function ajax_get_result_db(){
+async function ajax_get_result_db(algo_type){
    var db_data = null;
    $.ajax({
        //data: data, 
@@ -197,7 +197,13 @@ async function ajax_get_result_db(){
        // on success
        success: function (data) {
            //print_the_filtered_data(data);
-           display_extract_result_table(data);
+           if(algo_type==='extract'){
+            display_extract_result_table(data);
+           }
+           else if(algo_type==='combine'){
+            display_combine_result_table(data);
+           }
+        
        },
        // on error
        error: function (request, status, error) {

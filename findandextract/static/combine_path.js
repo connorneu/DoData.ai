@@ -114,3 +114,10 @@ async function write_joins(write_strings){
 $(document.body).on('click', '#submit-merge' ,function(){
     submit_combine_algo_parameters('combine_merge', joins_data);
 });
+
+async function display_combine_result_table(data){
+    document.getElementById('combinehowwrap').style.display = 'none';
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+}

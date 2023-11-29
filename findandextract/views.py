@@ -134,10 +134,16 @@ def findandextract(request):
                 print("START OF AJAX POST combine_merge")
                 print(request.POST)
                 myjoins = request.POST.get('parameters')
-                print(myjoins)
                 myjoins = json.loads(myjoins)
-                print(myjoins[0])
-                print(myjoins[1])
+                join1 = myjoins[0]
+                df_result = Combine_Merge(join1)
+                print('------------- RESULT --------------')
+                print(df_result)
+                df_list = melt_df(df_result)
+                print("saving result to db...")
+                for dbframe in df_list:
+                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                return HttpResponse(status=200)
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -484,28 +490,8 @@ def Search_Column_Values(df, col, df_extract_values):
     df_result = df[df[col].isin(df_extract_values)]
     return df_result
     
-def Fake_Data():
-    algorithm_type = 'Extract'
-    values_to_extract_dataset = 'Address.csv {Sheet1}'
-    values_to_extract_col = 'Director'
-    extract_from = [['Address.csv', 'Sheet1'], ['Client Data.csv', 'Sheet1'], ['Client Values.csv', 'Sheet1'],['Program Info.csv', 'Sheet1']]
-
-    primary_file_name = 'Address.csv'
-    primary_sheet_name = 'Sheet1'
-    primary_header_row = 0
-    primary_conditions = []
-                
-    secondary_file_name = 'Client Values.csv'
-    secondary_sheet_name = 'Sheet1'
-    secondary_header_row = 0
-    secondary_conditions = []    
-
-    third_file_name = 'Client Data.csv'
-    third_sheet_name = 'Sheet1'
-    third_header_row = 0
-    third_conditions = []
-
-    fourth_file_name = 'Program Info.csv'
-    fourth_sheet_name = 'Sheet1'
-    fourth_header_row = 0
-    fourth_conditions = []
+def Combine_Merge(join_params):
+    df1 = unmelt(join_params[1], join_params[2])
+    df2 = unmelt(join_params[4], join_params[5])
+    df_result = pd.merge(df1, df2, left_on=join_params[3], right_on=join_params[6], how='inner')
+    return df_result
