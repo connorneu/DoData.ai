@@ -1081,3 +1081,8 @@ display: inline-block;
    .submit-algo-buttons{
     display:none;
    }
+
+   .update-from-file{
+    display:none;
+
+   }

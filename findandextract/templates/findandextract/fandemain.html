@@ -14,12 +14,16 @@
     <body>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+
+
         <script src="/static/carouselactions.js"></script>
         <script src="/static/events.js"></script>
         <script src="/static/ajax.js"></script>
         <script src="/static/algo_selection_tree.js"></script>
         <script src="/static/extract_path.js"></script>
         <script src="/static/combine_path.js"></script>
+        <script src="/static/update_path.js"></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>   
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -204,6 +208,12 @@
             <div class="button-banner" id="merge_or_append">
                 <a class="myButton bigr" id="user_merge">Merge</a>
                 <a class="myButton bigr" id="user_append">Append</a>                    
+            </div>
+
+
+            <div class="button-banner" id="update_file_or_input">
+                <a class="myButton bigr" id="update_file">File</a>
+                <a class="myButton bigr" id="update_input">Input</a>                    
             </div>
 
 
@@ -532,8 +542,47 @@
 
 
 
-
-
+            
+            <!-- Update File -->
+            <div class="update-from-file" id="update_file_wrap">
+                <div class="joined-file">
+                    <div>
+                        <h2 class="h2-file-select">Select File Containing Update Values</h2>
+                    </div>
+                    <div class="dropdown flexdropdown selectfile" data-live-search="true">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select File
+                        </button>
+                        <ul class="updatefile dropdown-menu"></ul>
+                    </div>
+                    <div class="dropdown flexdropdown selectsheet">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Sheet
+                        </button>
+                        <ul class="updatesheet dropdown-menu"></ul>
+                    </div>
+                </div>
+                <div class="update-column-selection-wrap">
+                    <div class="update-from-column">
+                        <h2>Column with values to match</h2>
+                        <div class="dropdown flexdropdown selectcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="updatecol dropdown-menu"></ul>
+                        </div>
+                    </div>
+                    <div class="update-from-column">
+                        <h2>Column with values to update</h2>
+                        <div class="dropdown flexdropdown selectcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="updatecol dropdown-menu"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 

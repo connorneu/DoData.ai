@@ -12,7 +12,7 @@ async function start_combine_file(){
     await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     await add_to_carousel('Merge datasets', input_color, [null], true, false);
     document.getElementById('merge_or_append').style.display = 'none';
-    how_to_join();
+    how_to_join();  
 });
 
 //select append

@@ -83,7 +83,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    start_algo_path('START', 'Combine');
+    start_algo_path('START', 'Update');
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -315,7 +315,7 @@ async function decide_algo_path(algorithm_type)
         start_combine_file();
     }
     else if (algorithm_type === 'Update'){
-        start_combine_rows();
+        start_update_file();
     }
     else if (algorithm_type === 'Reconcile'){
         start_combine_column();
@@ -1288,7 +1288,6 @@ async function start_algo_path(node_name, parent_node_name){
         if (parent_node_name === 'Extract'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
-           //document.getElementById("carouselcontainer1").style.display = "none"; // slopy bitch
         }
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
@@ -1616,3 +1615,63 @@ function get_createTable_by_index(index_num){
         return createTable_values4;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+
+    $('.dropdown.flexdropdown.selectfile').each(function(index, dropdown) {
+        console.log('fees')
+        //Find the input search box
+        let search = $(dropdown).find('.search');
+    
+        //Find every item inside the dropdown
+        let items = $(dropdown).find('.dropdown-item');
+    
+        //Capture the event when user types into the search box
+        $(search).on('input', function() {
+        filter($(search).val().trim().toLowerCase())
+        });
+    
+        //For every word entered by the user, check if the symbol starts with that word
+        //If it does show the symbol, else hide it
+        function filter(word) {
+        let length = items.length
+        let collection = []
+        let hidden = 0
+        for (let i = 0; i < length; i++) {
+            if (items[i].value.toString().toLowerCase().includes(word)) {
+            $(items[i]).show()
+            } else {
+            $(items[i]).hide()
+            hidden++
+            }
+        }
+    
+        //If all items are hidden, show the empty view
+        if (hidden === length) {
+            $(dropdown).find('.dropdown_empty').show();
+        } else {
+            $(dropdown).find('.dropdown_empty').hide();
+        }
+        }
+    
+        //If the user clicks on any item, set the title of the button as the text of the item
+        $(dropdown).find('.dropdown-menu').find('.menuItems').on('click', '.dropdown-item', function() {
+        $(dropdown).find('.dropdown-toggle').text($(this)[0].value);
+        $(dropdown).find('.dropdown-toggle').dropdown('toggle');
+        })
+    });
+});
