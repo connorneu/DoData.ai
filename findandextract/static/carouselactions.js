@@ -1629,49 +1629,84 @@ function get_createTable_by_index(index_num){
 
 
 
+//https://www.geeksforgeeks.org/how-to-add-dropdown-search-bar-in-bootstrap-5/
+$(document.body).on('input', '#fes' , function(){  
+console.log('she')
+    
+//const handleInput = () => {
 
-$(document).ready(function() {
 
-    $('.dropdown.flexdropdown.selectfile').each(function(index, dropdown) {
-        console.log('fees')
-        //Find the input search box
-        let search = $(dropdown).find('.search');
-    
-        //Find every item inside the dropdown
-        let items = $(dropdown).find('.dropdown-item');
-    
-        //Capture the event when user types into the search box
-        $(search).on('input', function() {
-        filter($(search).val().trim().toLowerCase())
-        });
-    
-        //For every word entered by the user, check if the symbol starts with that word
-        //If it does show the symbol, else hide it
-        function filter(word) {
-        let length = items.length
-        let collection = []
-        let hidden = 0
-        for (let i = 0; i < length; i++) {
-            if (items[i].value.toString().toLowerCase().includes(word)) {
-            $(items[i]).show()
-            } else {
-            $(items[i]).hide()
-            hidden++
-            }
-        }
-    
-        //If all items are hidden, show the empty view
-        if (hidden === length) {
-            $(dropdown).find('.dropdown_empty').show();
-        } else {
-            $(dropdown).find('.dropdown_empty').hide();
-        }
-        }
-    
-        //If the user clicks on any item, set the title of the button as the text of the item
-        $(dropdown).find('.dropdown-menu').find('.menuItems').on('click', '.dropdown-item', function() {
-        $(dropdown).find('.dropdown-toggle').text($(this)[0].value);
-        $(dropdown).find('.dropdown-toggle').dropdown('toggle');
-        })
+    inputValue = this.value
+        //document
+        //    .querySelector('.form-control').value;
+    //    ;
+    console.log('input val')
+    console.log(this.value)
+    var results = [];
+    var dropdown_parent = $(this).closest('.dropdown-menu').find('a');
+    console.log('fart')
+    console.log(dropdown_parent.length)
+    dropdown_parent.each(function(i){
+        console.log(dropdown_parent[i].text)
+        results.push(dropdown_parent[i].text)
+    })
+
+
+
+    var parentElement = $(this).closest('.dropdown').find('.dropdown-menu')[0];
+   //     document
+   //         .querySelector(".dropdown-menu");
+    console.log('parents')
+    console.log(parentElement)
+
+    const elementsToRemove = parentElement.querySelectorAll("li");
+    elementsToRemove.forEach(element => {
+        //console.log(element)
+        element.remove();
     });
+    if (inputValue) {
+        const matchingWords =
+            results
+                .filter(word => word
+                    .includes(inputValue));
+        matchingWords.sort((a, b) => {
+            const indexA =
+                a.indexOf(inputValue);
+            const indexB =
+                b.indexOf(inputValue);
+            return indexA - indexB;
+        });
+        matchingWords.forEach(word => {
+            const listItem =
+                document.createElement("li");
+            const link =
+                document.createElement("a");
+            link.classList.add("dropdown-item");
+            link.href = "#";
+            link.textContent = word;
+            listItem.appendChild(link);
+            parentElement.appendChild(listItem);
+        });
+        if (matchingWords.length == 0) {
+            const listItem =
+                document.createElement('li');
+            listItem.textContent = "No Item";
+            listItem.classList.add('dropdown-item');
+            parentElement.appendChild(listItem);
+        }
+    } else {
+        results.forEach(word => {
+            const listItem =
+                document.createElement("li");
+            const link =
+                document.createElement("a");
+            link.classList.add("dropdown-item");
+            link.href = "#";
+            link.textContent = word;
+            listItem.appendChild(link);
+            parentElement.appendChild(listItem);
+        });
+    }
+//}
+//handleInput();
 });
