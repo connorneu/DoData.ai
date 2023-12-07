@@ -1,4 +1,4 @@
-
+clean_first_update_file = null;
 
 async function start_update_file(){
     await add_to_carousel(['Choose how to update your files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -15,7 +15,8 @@ async function start_update_file(){
     await add_to_carousel(['Select file with updated values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     document.getElementById('update_file_wrap').style.display = 'block';
     populate_drop_down('.updatefile.dropdown-menu', unique_file_names, true);
-
+    var wraper = document.getElementById('update_this_file_wrap');
+    clean_first_update_file = wraper.getElementsByClassName('flex-items-wrap')[0].cloneNode(true);
 });
 
 $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){ 
@@ -40,18 +41,22 @@ $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){
 
 $(document.body).on('click', '#nextafter_define_update_file' ,async function(){ 
     hide_containers(1);
-    //document.getElementById('update_file_wrap').style.display = 'none';
-    document.getElementById('update_this_file_wrap').style.display = 'flex';
-    await add_to_carousel(['Select files to update:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    
-    //var selected_file = $(this).closest('.update-parent-wrap').find('.updatefile.dropdown-menu').parents(".dropdown").find('.btn').text();
-    //var selected_sheet = $(this).closest('.update-parent-wrap').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
-    //console.log('here')
-    //console.log(selected_file, selected_sheet)
-    //var col_headers = populate_table_element_from_selected_file(selected_file, selected_sheet)
-    //var match_col_dropdown = $(this).closest('.flex-items-wrap ').find('.dropdown-menu.match');
-    //populate_drop_down(match_col_dropdown, col_headers, true);
-    //var update_col_dropdown = $(this).closest('.flex-items-wrap ').find('.dropdown-menu.update');
-    //populate_drop_down(update_col_dropdown, col_headers, true);
+    document.getElementById('update_file_wrap').style.display = 'none';
+    document.getElementById('update_this_file_wrap').style.display = 'block';
+    await add_to_carousel(['Select files to update:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);  
 }); 
 
+$(document.body).on('click', '#add_file_update' ,async function(){ 
+    var wraper = document.getElementById('update_this_file_wrap');
+    var parent_div = wraper.getElementsByClassName('update-parent-wrap')[0];
+    var num_files_to_update = parent_div.getElementsByClassName('flex-items-wrap').length;
+    console.log('nums')
+    console.log(num_files_to_update)  
+    console.log('ading')
+    var cloned_node = clean_first_update_file.cloneNode(true);
+    var parent_div = wraper.getElementsByClassName('update-parent-wrap')[0];
+    parent_div.appendChild(cloned_node);
+    if(num_files_to_update <= 3){
+        document.getElementById('add_file_update').style.display = 'none';
+    }
+});
