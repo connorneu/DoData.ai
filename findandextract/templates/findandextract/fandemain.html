@@ -542,73 +542,137 @@
 
 
 
-            <div class="dropdown" style="display:block;">
+            <!--<div class="dropdown" style="display:block;">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Dropdown button
                 </button>
                 <ul class="dropdown-menu">
-                    <input id="fes" type="text"
+                    <input class="search-input" type="text"
                     class="form-control border-0 border-bottom 
                     shadow-none mb-2" placeholder="Search...">
                     <li><a class="dropdown-item" href="#">apple</a></li>
                     <li><a class="dropdown-item" href="#">banana</a></li>
                     <li><a class="dropdown-item" href="#">cherry</a></li>
                 </ul>
-            </div>
-            <div class="dropdown" style="display:block;">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown button
-                </button>
-                <ul class="dropdown-menu">
-                    <input id="fes" type="text"
-                    class="form-control border-0 border-bottom 
-                    shadow-none mb-2" placeholder="Search...">
-                    <li><a class="dropdown-item" href="#">fat</a></li>
-                    <li><a class="dropdown-item" href="#">cat</a></li>
-                    <li><a class="dropdown-item" href="#">shat</a></li>
-                </ul>
-            </div>
+            </div> -->
 
             <!-- Update File -->
             <div class="update-from-file" id="update_file_wrap">
-                <div class="joined-file">
-                    <div>
-                        <h2 class="h2-file-select">Select File Containing Update Values</h2>
-                    </div>
-                    <div class="dropdown flexdropdown selectfile">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select File
-                        </button>
-                        <ul class="updatefile dropdown-menu"></ul>
-                    </div>
-                    <div class="dropdown flexdropdown selectsheet">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Sheet
-                        </button>
-                        <ul class="updatesheet dropdown-menu"></ul>
+                <div class="update-parent-wrap">
+                    <div class="flex-items-wrap">
+                        <div class="update-from-column">
+                            <h2>File</h2>
+                            <div class="dropdown flexdropdown updateflexdropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select File
+                                </button>
+                                <ul class="updatefile dropdown-menu">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="update-from-column">
+                            <h2>Sheet</h2>
+                            <div class="dropdown flexdropdown selectsheet">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Sheet
+                                </button>
+                                <ul class="updatesheet dropdown-menu">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>             
+                        </div>
+                    </div>   
+                    <div class="flex-items-wrap">
+                        <div class="update-from-column">
+                            <h2>Column with values to match</h2>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="updatecol dropdown-menu findcol">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="update-from-column">
+                            <h2>Column with values to update</h2>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="updatecol dropdown-menu updatedcol">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="update-column-selection-wrap">
-                    <div class="update-from-column">
-                        <h2>Column with values to match</h2>
-                        <div class="dropdown flexdropdown selectcolumn">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Column
-                            </button>
-                            <ul class="updatecol dropdown-menu"></ul>
-                        </div>
-                    </div>
-                    <div class="update-from-column">
-                        <h2>Column with values to update</h2>
-                        <div class="dropdown flexdropdown selectcolumn">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Column
-                            </button>
-                            <ul class="updatecol dropdown-menu"></ul>
-                        </div>
-                    </div>
+                <div class="addcondition" id="next_update_from_file">
+                    <a class="myButton conditionbtn" id="back_update_from_file">Back</a>
+                    <a class="myButton" id="nextafter_define_update_file">Next</a>
                 </div>
             </div>
+
+            
+            <!-- Update which files --> 
+            <div class="update-this-file" id="update_this_file_wrap">
+                <div class="update-parent-wrap">
+                    <div class="flex-items-wrap">
+                        <div class="update-from-column">
+                            <h2>File</h2>
+                            <div class="dropdown flexdropdown updateflexdropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select File
+                                </button>
+                                <ul class="updatefile dropdown-menu">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="update-from-column">
+                            <h2>Sheet</h2>
+                            <div class="dropdown flexdropdown selectsheet">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Sheet
+                                </button>
+                                <ul class="updatesheet dropdown-menu">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>             
+                        </div>
+                        <div class="update-from-column">
+                            <h2>Column with values to match</h2>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="updatecol dropdown-menu findcol">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="update-from-column">
+                            <h2>Column with values to update</h2>
+                            <div class="dropdown flexdropdown selectcolumn">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="updatecol dropdown-menu updatedcol">
+                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addcondition" id="next_update_this_file">
+                    <a class="myButton conditionbtn" id="add_file_update">Add File to Update</a>
+                    <a class="myButton" id="next_after_update_this_file">Next</a>
+                </div>
+            </div>
+
+
+
 
 
 

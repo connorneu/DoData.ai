@@ -78,6 +78,7 @@ p{
 span{
     color:white;
 }
+li { cursor: pointer; }
 .codebloxk{
     /*display:block;   */
     text-align:left;
@@ -1025,6 +1026,39 @@ display: inline-block;
 }
 .joined-file{
     display:flex;
+}
+.updateflexdropdown{
+    display:block;
+}
+.selectsheet{
+    display:block;
+}
+
+.update-this-file{
+    display:none;
+}
+.selectcolumn{
+    display:block;
+}
+
+.flex-items-wrap{
+    display:flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    width:50%;
+    transform: translateX(50%);
+    margin-top: 2%;
+    margin-bottom: 5%;
+    left:50%;
+}
+.dropdown-header-wrap{
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.h2-dropdown-header{
+    display:block;
 }
 
 

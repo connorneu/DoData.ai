@@ -703,11 +703,16 @@ function hide_containers(num_to_hide){
 
 // using array to populate dropdown values
 function populate_drop_down(dropdown_id, val_arr, is_to_be_cleared=false){
+    once = false;
     if(is_to_be_cleared){
         $(dropdown_id).empty();
     }
     var options = $(dropdown_id);
     $.each(val_arr, function(v) {
+            if(!once){
+                options.append($("<input type='text' class='search-input form-control border-0 border-bottom shadow-none mb-2' placeholder='Search...'>"));
+                once = true;    
+            }
             options.append($("<li><a class='dropdown-item'>" + val_arr[v] + "</a></li>"));
     });
 }
@@ -1587,6 +1592,9 @@ function get_file_name_index(filename){
     filetwo = secondary_file_name + ' {' + secondary_sheet_name + '}'
     filethree = third_file_name + ' {' + third_sheet_name + '}'
     filefour = fourth_file_name + ' {' + fourth_sheet_name + '}'
+    console.log('FILEONE')
+    console.log(fileone)
+    console.log(filename)
     if (filename === fileone){
         return 1;
     }
@@ -1628,9 +1636,9 @@ function get_createTable_by_index(index_num){
 
 
 
-
+//searchable dropdown
 //https://www.geeksforgeeks.org/how-to-add-dropdown-search-bar-in-bootstrap-5/
-$(document.body).on('input', '#fes' , function(){  
+$(document.body).on('input', '.search-input' , function(){  
 console.log('she')
     
 //const handleInput = () => {
@@ -1710,3 +1718,21 @@ console.log('she')
 //}
 //handleInput();
 });
+
+function populate_file_names(){
+    primary_file_name = unique_file_names[0]
+    secondary_file_name = unique_file_names[1];
+    third_file_name = unique_file_names[2];
+    fourth_file_name = unique_file_names[3];
+    //console.log('pop')
+    //console.log(primary_file_name + ' | ' + secondary_file_name + ' | ' + third_file_name + ' | ' + fourth_file_name)
+}
+
+// populate table elements to return column headers
+function populate_table_element_from_selected_file(selected_file, selected_sheet){
+    var filename_index = get_file_name_index(selected_file + ' {' + selected_sheet + '}');
+    populate_table_element(selected_sheet, filename_index, 'data' + String(filename_index) + '_tableid');
+    var createTable_values = get_createTable_by_index(filename_index);
+    var col_headers = createTable_values[0];
+    return col_headers
+}

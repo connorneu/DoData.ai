@@ -26,10 +26,7 @@ $(document.body).on('click', '#user_append' ,function(){
 
 // sheets and columns to join each dataset (same function alsmost as Extract: where_to_search())
 async function how_to_join(){
-    primary_file_name = unique_file_names[0]
-    secondary_file_name = unique_file_names[1];
-    third_file_name = unique_file_names[2];
-    fourth_file_name = unique_file_names[3];
+    populate_file_names();
     //document.getElementById('combinehowwrap').style.display = 'block';
     document.querySelectorAll(".combinewrap").forEach(a=>a.style.display = "block");
     // first file first join
