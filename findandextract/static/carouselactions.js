@@ -1592,9 +1592,6 @@ function get_file_name_index(filename){
     filetwo = secondary_file_name + ' {' + secondary_sheet_name + '}'
     filethree = third_file_name + ' {' + third_sheet_name + '}'
     filefour = fourth_file_name + ' {' + fourth_sheet_name + '}'
-    console.log('FILEONE')
-    console.log(fileone)
-    console.log(filename)
     if (filename === fileone){
         return 1;
     }

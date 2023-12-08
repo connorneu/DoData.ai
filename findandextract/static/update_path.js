@@ -22,15 +22,18 @@ async function start_update_file(){
 $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){ 
     var selected_file = $(this).parents(".dropdown").find('.btn').text();
     var sheet_names = get_file_sheets(selected_file);
-    var sheet_dropdown = $(this).closest('.update-parent-wrap').find('.updatesheet.dropdown-menu');
+    var sheet_dropdown = $(this).closest('.flex-items-wrap').find('.updatesheet.dropdown-menu');
     populate_drop_down(sheet_dropdown, sheet_names, true);
     $(sheet_dropdown).parents(".dropdown").find('.btn').text(sheet_names[0]);
-    var col_find = $(this).closest('.update-parent-wrap').find('.updatecol.dropdown-menu.findcol');
-    var col_update = $(this).closest('.update-parent-wrap').find('.updatecol.dropdown-menu.updatedcol');
+    var col_find = $(this).closest('.flex-items-wrap').find('.updatecol.dropdown-menu.findcol');
+    var col_update = $(this).closest('.flex-items-wrap').find('.updatecol.dropdown-menu.updatedcol');
     populate_file_names();
     var selected_file = $(this).parents(".dropdown").find('.btn').text();
-    var selected_sheet = $(this).closest('.update-parent-wrap').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
+    var selected_sheet = $(this).closest('.flex-items-wrap').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
     var filename_index = get_file_name_index(selected_file + ' {' + selected_sheet + '}');
+    console.log('file:')
+    console.log(selected_file + ' | ' + selected_sheet)
+    console.log(selected_file)
     populate_table_element(selected_sheet, filename_index, 'data' + String(filename_index) + '_tableid');
     var createTable_values = get_createTable_by_index(filename_index);
     var col_headers = createTable_values[0];
@@ -56,7 +59,27 @@ $(document.body).on('click', '#add_file_update' ,async function(){
     var cloned_node = clean_first_update_file.cloneNode(true);
     var parent_div = wraper.getElementsByClassName('update-parent-wrap')[0];
     parent_div.appendChild(cloned_node);
-    if(num_files_to_update <= 3){
+    if(num_files_to_update > 3){
         document.getElementById('add_file_update').style.display = 'none';
     }
+});
+
+function collect_update_file_parameters(){
+    var update_from_file = $('#update_file_wrap').find('.dropdown.flexdropdown.updateflexdropdown').find('.updatefile.dropdown-menu').parents(".dropdown").find('.btn').text();
+    var update_from_sheet = $('#update_file_wrap').find('.dropdown.flexdropdown.selectsheet').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
+    var update_from_findcol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol').parents(".dropdown").find('.btn').text();
+    var update_from_updatecol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
+    var update_files_parent = $('#update_this_file_wrap').find('.flex-items-wrap');
+    for (var i = 0; i<update_files_parent.length; i++){
+        console.log('i' + i)
+        var to_update_file = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
+        var to_update_sheet = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectsheet').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
+        var to_update_findcol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol').parents(".dropdown").find('.btn').text();
+        var to_update_updatecol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
+    }
+}
+
+$(document.body).on('click', '#submit-update-file' ,function(){
+    collect_update_file_parameters();
+    //submit_update_file_algo_parameters('update_file', joins_data);
 });

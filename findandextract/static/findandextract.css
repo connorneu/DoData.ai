@@ -1048,10 +1048,13 @@ display: inline-block;
     flex-basis: auto;
     width:50%;
     transform: translateX(50%);
+    left:50%;
     margin-top: 2%;
     margin-bottom: 5%;
-    left:50%;
+    justify-content: space-between;
 }
+
+
 .dropdown-header-wrap{
     display:block;
     margin-left: auto;
@@ -1118,5 +1121,4 @@ display: inline-block;
 
    .update-from-file{
     display:none;
-
    }
