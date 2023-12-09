@@ -990,8 +990,6 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 // populate html table from repivoted key value db table
 // specified_header_row is when user clicks on table to change header row
 function createTable(objs, table_id, specified_header_row=0, max_col_display=5) {
-    console.log('objs')
-    console.log(objs)
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
     tbody.innerHTML = '';

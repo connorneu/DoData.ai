@@ -67,19 +67,59 @@ $(document.body).on('click', '#add_file_update' ,async function(){
 function collect_update_file_parameters(){
     var update_from_file = $('#update_file_wrap').find('.dropdown.flexdropdown.updateflexdropdown').find('.updatefile.dropdown-menu').parents(".dropdown").find('.btn').text();
     var update_from_sheet = $('#update_file_wrap').find('.dropdown.flexdropdown.selectsheet').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
-    var update_from_findcol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol').parents(".dropdown").find('.btn').text();
-    var update_from_updatecol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
-    var update_files_parent = $('#update_this_file_wrap').find('.flex-items-wrap');
-    for (var i = 0; i<update_files_parent.length; i++){
-        console.log('i' + i)
-        var to_update_file = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
-        var to_update_sheet = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectsheet').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
-        var to_update_findcol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol').parents(".dropdown").find('.btn').text();
-        var to_update_updatecol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol').parents(".dropdown").find('.btn').text();
+    var update_from_findcols = [];
+    var update_from_findcol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol');
+    for(var i=0;i<update_from_findcol.length;i++){
+        update_from_findcols.push($(update_from_findcol[i]).parents(".dropdown").find('.btn').text());
     }
+    var update_from_updatecols = [];
+    var update_from_updatecol = $('#update_file_wrap').find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol');
+    for(var i=0;i<update_from_updatecol.length;i++){
+        update_from_updatecols.push($(update_from_updatecol[i]).parents(".dropdown").find('.btn').text());
+    }
+    var update_from_file_param_arr = [update_from_file, update_from_sheet, update_from_findcols, update_from_updatecols];    
+    var update_files_parent = $('#update_this_file_wrap').find('.flex-items-wrap');
+    var files_to_update_param_arr = [];
+    for (var i = 0; i<update_files_parent.length; i++){
+        var to_update_file = $(update_files_parent[i]).find('.dropdown.flexdropdown.updateflexdropdown').find('.updatefile.dropdown-menu').parents(".dropdown").find('.btn').text();
+        var to_update_sheet = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectsheet').find('.updatesheet.dropdown-menu').parents(".dropdown").find('.btn').text();
+        var to_update_findcols = [];
+        var to_update_findcol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol');
+        for(var j=0;j<to_update_findcol.length;j++){
+            to_update_findcols.push($(to_update_findcol[j]).parents(".dropdown").find('.btn').text());
+        }
+        var to_update_updatecols = [];
+        var to_update_updatecol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol');
+        for(var j=0;j<to_update_updatecol.length;j++){
+            to_update_updatecols.push($(to_update_updatecol[j]).parents(".dropdown").find('.btn').text());
+        }
+        files_to_update_param_arr.push([to_update_file, to_update_sheet, to_update_findcols, to_update_updatecols]);
+    }
+    var update_from_file_map = {update_file_params: update_from_file_param_arr, files_to_update: files_to_update_param_arr};
+    return update_from_file_map;
 }
 
 $(document.body).on('click', '#submit-update-file' ,function(){
-    collect_update_file_parameters();
-    //submit_update_file_algo_parameters('update_file', joins_data);
+    update_from_file_map = collect_update_file_parameters();
+    //submit_update_file_algo_parameters('update_file', update_from_file_map);
+});
+
+// when btn to add column to match clicked
+$(document.body).on('click', '.updatefile-add-match-col' ,function(){
+    var num_match_cols = $(this).closest('.update-from-column').find('.updatecol.dropdown-menu.findcol').length;
+    $(this).closest('.update-from-column').find('.dropdown.flexdropdown.selectcolumn').eq(0).clone(true).appendTo($(this).closest('.update-from-column'));
+    this.closest('.update-from-column').appendChild(this);
+    if (num_match_cols >= 3){
+        this.style.display = 'none';
+    }
+});
+
+// when btn to add column to update clicked
+$(document.body).on('click', '.updatefile-add-update-col' ,function(){
+    var num_match_cols = $(this).closest('.update-from-column').find('.updatecol.dropdown-menu.updatedcol').length;
+    $(this).closest('.update-from-column').find('.dropdown.flexdropdown.selectcolumn').eq(0).clone(true).appendTo($(this).closest('.update-from-column'));
+    this.closest('.update-from-column').appendChild(this);
+    if (num_match_cols >= 3){
+        this.style.display = 'none';
+    }
 });

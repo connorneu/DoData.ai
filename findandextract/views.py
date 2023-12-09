@@ -144,6 +144,13 @@ def findandextract(request):
                 for dbframe in df_list:
                     obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
                 return HttpResponse(status=200)
+            elif request.POST.get('ajax_name') == 'update_file':
+                print("START OF AJAX POST update file")
+                print(request.POST)
+                update_params = json.loads(request.POST.get('parameters'))
+                update_file_params = update_params['update_file_params']
+                files_to_update_params = update_params['files_to_update']
+
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -495,3 +502,24 @@ def Combine_Merge(join_params):
     df2 = unmelt(join_params[4], join_params[5])
     df_result = pd.merge(df1, df2, left_on=join_params[3], right_on=join_params[6], how='inner')
     return df_result
+
+def Update_From_File(update_file_params, files_to_update_params):
+    df_update_file = unmelt(update_file_params[0], update_file_params[1])
+    dfs_to_update = Unmelt_Files_To_Update(files_to_update_params)
+    #for df in dfs_to_update:
+
+
+def Unmelt_Files_To_Update(files_to_update_params):
+    dfs_to_update = []
+    df1 = unmelt(files_to_update_params[0][0], files_to_update_params[0][1])
+    dfs_to_update.append(df1)
+    if len(files_to_update_params) > 1:
+        df2 = unmelt(files_to_update_params[1][0], files_to_update_params[1][1])
+        dfs_to_update.append(df2)
+    if len(files_to_update_params) > 2:
+        df3 = unmelt(files_to_update_params[2][0], files_to_update_params[2][1])
+        dfs_to_update.append(df3)
+    if len(files_to_update_params) > 3:
+        df4 = unmelt(files_to_update_params[3][0], files_to_update_params[4][0])
+        dfs_to_update.append(df4)
+    return dfs_to_update

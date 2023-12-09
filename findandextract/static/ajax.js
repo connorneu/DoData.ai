@@ -183,13 +183,13 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
  }
 
 
- function submit_update_file_algo_parameters(update_type, merge_params_map){
+ function submit_update_file_algo_parameters(update_type, update_from_file_map){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
         data: {   //JSON.stringify(condition_arr2)
-            'ajax_name':'combine_merge',
-            'parameters': JSON.stringify(merge_params_map),
+            'ajax_name':'update_file',
+            'parameters': JSON.stringify(update_from_file_map),
 
 
 
