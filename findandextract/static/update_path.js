@@ -131,12 +131,14 @@ function collect_parameters_from_files_to_update(){
         var to_update_findcols = [];
         var to_update_findcol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.findcol');
         for(var j=0;j<to_update_findcol.length;j++){
-            to_update_findcols.push([$(to_update_findcol[j]).closest('.flexy-dropdown-wrap').find(".updatedcol-match-label").html(), $(to_update_findcol[j]).parents(".dropdown").find('.btn').text()]);
+            //to_update_findcols.push([$(to_update_findcol[j]).closest('.flexy-dropdown-wrap').find(".updatedcol-match-label").html(), $(to_update_findcol[j]).parents(".dropdown").find('.btn').text()]);
+            to_update_findcols.push($(to_update_findcol[j]).parents(".dropdown").find('.btn').text());
         }
         var to_update_updatecols = [];
         var to_update_updatecol = $(update_files_parent[i]).find('.dropdown.flexdropdown.selectcolumn').find('.updatecol.dropdown-menu.updatedcol');
         for(var j=0;j<to_update_updatecol.length;j++){
-            to_update_updatecols.push([$(to_update_updatecol[j]).closest('.flexy-dropdown-wrap').find(".updatedcol-match-label").html() , $(to_update_updatecol[j]).parents(".dropdown").find('.btn').text()]);
+            //to_update_updatecols.push([$(to_update_updatecol[j]).closest('.flexy-dropdown-wrap').find(".updatedcol-match-label").html() , $(to_update_updatecol[j]).parents(".dropdown").find('.btn').text()]);
+            to_update_updatecols.push($(to_update_updatecol[j]).parents(".dropdown").find('.btn').text());
         }
         files_to_update_param_arr.push([to_update_file, to_update_sheet, to_update_findcols, to_update_updatecols]);
     }
@@ -145,7 +147,7 @@ function collect_parameters_from_files_to_update(){
 
 $(document.body).on('click', '#submit-update-file' ,function(){
     update_from_file_map = collect_update_file_parameters();
-    //submit_update_file_algo_parameters('update_file', update_from_file_map);
+    submit_update_file_algo_parameters('update_file', update_from_file_map);
 });
 
 // when btn to add column to match clicked

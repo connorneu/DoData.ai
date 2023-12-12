@@ -150,7 +150,7 @@ def findandextract(request):
                 update_params = json.loads(request.POST.get('parameters'))
                 update_file_params = update_params['update_file_params']
                 files_to_update_params = update_params['files_to_update']
-
+                Update_From_File(update_file_params, files_to_update_params)
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -506,7 +506,22 @@ def Combine_Merge(join_params):
 def Update_From_File(update_file_params, files_to_update_params):
     df_update_file = unmelt(update_file_params[0], update_file_params[1])
     dfs_to_update = Unmelt_Files_To_Update(files_to_update_params)
-    #for df in dfs_to_update:
+    print('update file')
+    print(df_update_file)
+    print('to update')
+    print(dfs_to_update)    
+    for idx in range(len(dfs_to_update)):
+        df = dfs_to_update[idx]
+        print('old df')
+        print(df)
+        df = pd.merge(df, df_update_file, how="left", left_on=files_to_update_params[2], right_on=update_file_params[2])
+        print(  )
+        print('nerged')
+        print(df)
+        for col in update_file_params[2]:
+            df[files_to_update_params[idx][3]] 
+
+
 
 
 def Unmelt_Files_To_Update(files_to_update_params):
