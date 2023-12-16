@@ -1046,9 +1046,9 @@ display: inline-block;
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: auto;
-    width:50%;
-    transform: translateX(50%);
-    left:50%;
+    width:100%;
+    /*transform: translateX(70%);
+    left:70%;*/
     margin-top: 2%;
     margin-bottom: 5%;
     justify-content: space-between;

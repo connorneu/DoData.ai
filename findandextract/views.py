@@ -150,7 +150,16 @@ def findandextract(request):
                 update_params = json.loads(request.POST.get('parameters'))
                 update_file_params = update_params['update_file_params']
                 files_to_update_params = update_params['files_to_update']
-                Update_From_File(update_file_params, files_to_update_params)
+                df_results = Update_From_File(update_file_params, files_to_update_params)
+                print('----------------RESULT---------------')
+                print(df_results)
+                for df_result in df_results:
+                    df_list = melt_df(df_result)
+                    print("saving result to db...")
+                    for dbframe in df_list:
+                        obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                return HttpResponse(status=200)
+
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -505,23 +514,30 @@ def Combine_Merge(join_params):
 
 def Update_From_File(update_file_params, files_to_update_params):
     df_update_file = unmelt(update_file_params[0], update_file_params[1])
-    dfs_to_update = Unmelt_Files_To_Update(files_to_update_params)
-    print('update file')
-    print(df_update_file)
-    print('to update')
-    print(dfs_to_update)    
+    dfs_to_update = Unmelt_Files_To_Update(files_to_update_params)  
     for idx in range(len(dfs_to_update)):
         df = dfs_to_update[idx]
-        print('old df')
-        print(df)
-        df = pd.merge(df, df_update_file, how="left", left_on=files_to_update_params[2], right_on=update_file_params[2])
-        print(  )
-        print('nerged')
-        print(df)
-        for col in update_file_params[2]:
-            df[files_to_update_params[idx][3]] 
-
-
+        for index, row in df_update_file.iterrows():
+            for val_to_update in update_file_params[3]:
+                if len(update_file_params[2]) == 1:
+                    df.loc[df[files_to_update_params[idx][2][0]] == row[update_file_params[2]].values.tolist()[0],
+                            files_to_update_params[idx][3]] = row[val_to_update]
+                elif len(update_file_params[2]) == 2:
+                    df.loc[(df[files_to_update_params[idx][2][0]] == row[update_file_params[2]].values.tolist()[0])
+                           & (df[files_to_update_params[idx][2][1]] == row[update_file_params[2]].values.tolist()[1]),
+                        files_to_update_params[idx][3]] = row[val_to_update]
+                elif len(update_file_params[2]) == 3:
+                    df.loc[(df[files_to_update_params[idx][2][0]] == row[update_file_params[2]].values.tolist()[0])
+                           & (df[files_to_update_params[idx][2][1]] == row[update_file_params[2]].values.tolist()[1])
+                           & (df[files_to_update_params[idx][2][2]] == row[update_file_params[2]].values.tolist()[2]),
+                        files_to_update_params[idx][3]] = row[val_to_update]
+                elif len(update_file_params[2]) == 4:
+                    df.loc[(df[files_to_update_params[idx][2][0]] == row[update_file_params[2]].values.tolist()[0])
+                           & (df[files_to_update_params[idx][2][1]] == row[update_file_params[2]].values.tolist()[1])
+                           & (df[files_to_update_params[idx][2][2]] == row[update_file_params[2]].values.tolist()[2])
+                           & (df[files_to_update_params[idx][2][3]] == row[update_file_params[2]].values.tolist()[3]),
+                        files_to_update_params[idx][3]] = row[val_to_update]
+    return dfs_to_update    
 
 
 def Unmelt_Files_To_Update(files_to_update_params):

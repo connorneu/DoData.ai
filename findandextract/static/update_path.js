@@ -12,9 +12,9 @@ async function start_update_file(){
     await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     await add_to_carousel('Update: Input File', input_color, [null], true, false);
     document.getElementById('update_file_or_input').style.display = 'none';
-    await add_to_carousel(['Select file with the updated values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Choose columns with values to find in other files'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
-    await add_to_carousel(['and chose the columns that contain the new values to update the other files with.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
+    await add_to_carousel(['Select file with updated values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    //await add_to_carousel(['Choose columns with values to find in other files'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
+    //await add_to_carousel(['and chose the columns that contain the new values to update the other files with.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
     document.getElementById('update_file_wrap').style.display = 'block';
     populate_drop_down('.updatefile.dropdown-menu', unique_file_names, true);
     var wraper = document.getElementById('update_this_file_wrap');
@@ -45,7 +45,7 @@ $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){
 
 
 $(document.body).on('click', '#nextafter_define_update_file' ,async function(){ 
-    hide_containers(2);
+    hide_containers(1);
     add_matching_labels_to_update_files();
     document.getElementById('update_file_wrap').style.display = 'none';
     document.getElementById('update_this_file_wrap').style.display = 'block';
@@ -169,3 +169,11 @@ $(document.body).on('click', '.updatefile-add-update-col' ,function(){
         this.style.display = 'none';
     }
 });
+
+async function display_update_result_table(data){
+    hide_containers(1)
+    document.getElementById('update_this_file_wrap').style.display = 'none';
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+}
