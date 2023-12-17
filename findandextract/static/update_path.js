@@ -177,3 +177,4 @@ async function display_update_result_table(data){
     await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }
+

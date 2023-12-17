@@ -24,6 +24,7 @@
         <script src="/static/extract_path.js"></script>
         <script src="/static/combine_path.js"></script>
         <script src="/static/update_path.js"></script>
+        <script src="/static/reconcile_path.js"></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>   
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -678,7 +679,100 @@
                 </div>
             </div>
 
-
+            <!-- Reconcile -->
+            <div class="algo-path-wraper" id="reconcilefiles">
+                <div class="file-select-block">
+                    <div class="stretch-banner">
+                        <div class="flexy-wrap-child">
+                            <div class="reco-file-select-wrap">
+                                <div>
+                                    <h2>First File</h2>
+                                </div>
+                                <div>
+                                    <div class="select-reconcile-file" id="reco-first-file">
+                                        <div class="dropdown nohide">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select File
+                                            </button>
+                                            <ul class="dropdown-menu reco-file">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>
+                                        </div>
+                                        <div class="dropdown nohide">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Sheet
+                                            </button>
+                                            <ul class="dropdown-menu reco-sheet">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>
+                                        </div>        
+                                    </div>   
+                                </div>
+                            </div>
+                            <div class="reco-file-select-wrap">
+                                <div>
+                                    <h2>Second File</h2>
+                                </div>
+                                <div>
+                                    <div class="select-reconcile-file" id="reco-second-file">
+                                        <div class="dropdown nohide">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select File
+                                            </button>
+                                            <ul class="dropdown-menu reco-file">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>
+                                        </div>
+                                        <div class="dropdown nohide">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Sheet
+                                            </button>
+                                            <ul class="dropdown-menu reco-sheet">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>
+                                        </div>        
+                                    </div>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-match-block">
+                    <div>
+                        <h2>Match columns to reconcile values</h2>
+                    </div>
+                    <div>
+                        <div class="col-match-flexy-wrap">
+                            <div class="stretch-banner">
+                                <div class="reconcile-column-flexy">
+                                    <div class="dropdown nohide matchcol-left">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="dropdown-menu col-select">
+                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                        </ul>                                
+                                    </div>
+                                </div>
+                                <div class="reconcile-column-flexy">
+                                    <div class="dropdown nohide matchcol-right">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="dropdown-menu col-select">
+                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                        </ul>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addcondition" id="reco-match">
+                    <a class="myButton conditionbtn" id="reco-add-match">Back</a>
+                    <a class="myButton" id="reco-match-next">Next</a>
+                </div>
+            </div>
 
 
 

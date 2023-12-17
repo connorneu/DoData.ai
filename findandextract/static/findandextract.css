@@ -1155,3 +1155,40 @@ display: inline-block;
     text-align: center;
     margin-right:50px;
 }
+
+
+.select-reconcile-file{
+    display:flex;
+    flex: 0 0 1;
+}
+.col-match-flexy-wrap{
+    display:flex;
+}
+.reconcile-column-flexy{
+    display:flex;
+}
+.algo-path-wraper{
+    display:block;
+}
+.nohide{
+    display:block;
+}
+.stretch-banner{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+.flexy-wrap-parent{
+    display:flex;
+}
+.flexy-wrap-child{
+    display:flex;
+    flex: 0 0 1;
+}
+.reco-file-select-wrap{
+    margin-right:150px;
+}
+
+.col-match-block{
+    margin-top:5%;
+}

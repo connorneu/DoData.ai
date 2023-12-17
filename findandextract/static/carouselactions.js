@@ -83,7 +83,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    start_algo_path('START', 'Update');
+    start_algo_path('START', 'Reconcile');
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -308,6 +308,7 @@ async function start_data_filter(db_data){
 async function decide_algo_path(algorithm_type)
 {
     await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
+    console.log('algorithm_type ' + algorithm_type)
     if (algorithm_type === 'Extract'){
         start_extract_file();
     }
@@ -318,7 +319,7 @@ async function decide_algo_path(algorithm_type)
         start_update_file();
     }
     else if (algorithm_type === 'Reconcile'){
-        start_combine_column();
+        start_reconcile();
     }
 }
 
@@ -1300,8 +1301,8 @@ async function start_algo_path(node_name, parent_node_name){
             console.log('algo selected - update')
             algorithm_type = 'Update';
         }
-        else if (node_name === 'Reconcile'){
-            console.log('Combine on columns')
+        else if (parent_node_name === 'Reconcile'){
+            console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
         }
         begin_file_upload();
