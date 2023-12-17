@@ -1168,7 +1168,7 @@ display: inline-block;
     display:flex;
 }
 .algo-path-wraper{
-    display:block;
+    display:none;
 }
 .nohide{
     display:block;
@@ -1185,10 +1185,13 @@ display: inline-block;
     display:flex;
     flex: 0 0 1;
 }
-.reco-file-select-wrap{
+#reco-first-file-wrap{
     margin-right:150px;
 }
 
+.file-select-block{
+    margin-top:2%;
+}
 .col-match-block{
-    margin-top:5%;
+    margin-top:2%;
 }

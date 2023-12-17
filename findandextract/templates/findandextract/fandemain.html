@@ -684,7 +684,7 @@
                 <div class="file-select-block">
                     <div class="stretch-banner">
                         <div class="flexy-wrap-child">
-                            <div class="reco-file-select-wrap">
+                            <div class="reco-file-select-wrap" id="reco-first-file-wrap">
                                 <div>
                                     <h2>First File</h2>
                                 </div>
@@ -739,38 +739,40 @@
                 </div>
                 <div class="col-match-block">
                     <div>
-                        <h2>Match columns to reconcile values</h2>
+                        <h2>Row Matching Criteria</h2>
                     </div>
-                    <div>
-                        <div class="col-match-flexy-wrap">
-                            <div class="stretch-banner">
-                                <div class="reconcile-column-flexy">
-                                    <div class="dropdown nohide matchcol-left">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Column
-                                        </button>
-                                        <ul class="dropdown-menu col-select">
-                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                        </ul>                                
+                    <div id="reco-all-cols-to-match">
+                        <div class="reco-col-match">
+                            <div class="col-match-flexy-wrap" id="reco-match-columns">
+                                <div class="stretch-banner">
+                                    <div class="reconcile-column-flexy">
+                                        <div class="dropdown nohide matchcol-left">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu col-select">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>                                
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="reconcile-column-flexy">
-                                    <div class="dropdown nohide matchcol-right">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Column
-                                        </button>
-                                        <ul class="dropdown-menu col-select">
-                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                        </ul>                                
+                                    <div class="reconcile-column-flexy">
+                                        <div class="dropdown nohide matchcol-right">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu col-select">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>                                
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="addcondition" id="reco-match">
-                    <a class="myButton conditionbtn" id="reco-add-match">Back</a>
-                    <a class="myButton" id="reco-match-next">Next</a>
+                <div class="addcondition nohide" id="reco-match">                    
+                    <a class="myButton" id="reco-add-match">Add Matching Columns</a>
+                    <a class="myButton conditionbtn" id="reco-match-next">Next</a>
                 </div>
             </div>
 
