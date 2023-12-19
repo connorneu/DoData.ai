@@ -57,7 +57,8 @@ def findandextract(request):
                 values_to_extract_dataset = primary_file_name + ' {' +  primary_sheet_name + '}'
 
                 values_to_extract_col = request.POST.get('parameters[inputfilecol]')
-                primary_conditions = ast.literal_eval(request.POST.get('parameters[inputfileconditions]'))
+                primary_conditions = json.loads(request.POST.get('parameters[inputfileconditions]'))
+                #ast.literal_eval(request.POST.get('parameters[inputfileconditions]'))
                 describevalues = request.POST.get('parameters[describevalues]')
 
                 secondary_file_name = request.POST.get('parameters[secondaryfilename]')
@@ -159,6 +160,22 @@ def findandextract(request):
                     for dbframe in df_list:
                         obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
                 return HttpResponse(status=200)
+            elif request.POST.get('ajax_name') == 'reconcile':
+                print("START OF AJAX POST reconcile")
+                print(request.POST)
+                parameters = request.POST.get('parameters')
+                parameters = json.loads(parameters)
+                first_file = parameters['first_file']
+                first_sheet = parameters['first_sheet']
+                second_file = parameters['second_file']
+                second_sheet = parameters['second_sheet']
+                cols_to_match = parameters['cols_to_match']
+                print('parameters')
+                print('first file', first_file)
+                print('secondfile', second_file)
+                print('first sheet', first_sheet)
+                print('second sheet', second_sheet)
+                print('cols', cols_to_match)
 
 
             elif request.POST.get('ajax_name') == 'classify_text':

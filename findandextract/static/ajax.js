@@ -215,6 +215,38 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
     return false;
  }
 
+ function submit_reco_algo_parameters(reco_params_map){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {   //JSON.stringify(condition_arr2)
+            'ajax_name':'reconcile',
+            'parameters': JSON.stringify(reco_params_map),
+
+
+
+        }, // get the form data        $(this).serialize()
+        type: 'POST', //$(this).attr('method'), // GET or POST
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        // on success
+        success: function () {
+
+            console.log("update file algorithm parameters submitted");
+            ajax_get_result_db('reconcile');
+
+        },
+        // on error
+        error: function (request, status, error) {
+
+            alert(request.responseText);
+
+        }
+    });
+    return false;
+ }
+
 
 // get data after function applied
 async function ajax_get_result_db(algo_type){
@@ -239,7 +271,9 @@ async function ajax_get_result_db(algo_type){
            else if(algo_type==='update'){
             display_update_result_table(data);
            }
-        
+           else if(algo_tpye==='reconcile'){
+            display_reconcile_result_table(data);
+           }      
        },
        // on error
        error: function (request, status, error) {
