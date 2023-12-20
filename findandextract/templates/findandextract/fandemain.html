@@ -739,7 +739,7 @@
                 </div>
                 <div class="col-match-block">
                     <div>
-                        <h2>Row Matching Criteria</h2>
+                        <h2>Match These Rows</h2>
                     </div>
                     <div id="reco-all-cols-to-match">
                         <div class="reco-col-match">
@@ -770,8 +770,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="addcondition nohide" id="reco-match">                    
+                <div class="addcondition nohide">                    
                     <a class="myButton" id="reco-add-match">Add Matching Columns</a>
+                </div>
+                <div class="col-match-block">
+                    <div>
+                        <h2>Compare These Columns</h2>
+                    </div>
+                    <div id="reco-all-cols-to-compare">
+                        <div class="reco-col-match">
+                            <div class="col-match-flexy-wrap" id="reco-match-columns">
+                                <div class="stretch-banner">
+                                    <div class="reconcile-column-flexy">
+                                        <div class="dropdown nohide matchcol-left">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu col-select">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>                                
+                                        </div>
+                                    </div>
+                                    <div class="reconcile-column-flexy">
+                                        <div class="dropdown nohide matchcol-right">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu col-select">
+                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                            </ul>                                
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="addcondition nohide">                    
+                    <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
+                </div>
+                <div class="addcondition nohide">                    
                     <button id="submit-reco" class="glowbutton">Build Algorithm</button>
                 </div>
             </div>

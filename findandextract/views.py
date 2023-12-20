@@ -170,13 +170,8 @@ def findandextract(request):
                 second_file = parameters['second_file']
                 second_sheet = parameters['second_sheet']
                 cols_to_match = parameters['cols_to_match']
-                print('parameters')
-                print('first file', first_file)
-                print('secondfile', second_file)
-                print('first sheet', first_sheet)
-                print('second sheet', second_sheet)
-                print('cols', cols_to_match)
-
+                cols_to_compare = parameters['cols_to_compare']
+                df_result = Reconcile_Files(first_file, first_sheet, second_file, second_sheet, cols_to_match, cols_to_compare)
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -571,3 +566,78 @@ def Unmelt_Files_To_Update(files_to_update_params):
         df4 = unmelt(files_to_update_params[3][0], files_to_update_params[4][0])
         dfs_to_update.append(df4)
     return dfs_to_update
+
+def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_cols, compare_cols):
+    df1 = unmelt(first_file, first_sheet)
+    df2 = unmelt(second_file, second_sheet)
+    leftmatch, rightmatch = Split_Left_Right_Match_Cols(match_cols)
+    leftcompare, rightcompare = Split_Left_Right_Match_Cols(compare_cols)
+    left_cols = leftmatch + leftcompare
+    right_cols = rightmatch + rightcompare
+    print('leftcols', left_cols)
+    print('rightcols', right_cols)
+    df1_trim = df1[df1.columns.intersection(left_cols)]
+    df2_trim = df2[df2.columns.intersection(right_cols)]
+    df1_trim.drop_duplicates(inplace=True)
+    df2_trim.drop_duplicates(inplace=True)
+    df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
+    print()
+    print(df_merge)
+    print()
+    merge_to_df1_col_names_match = {}
+    merge_to_df1_col_names_compare = {}
+    for merge_col in df_merge.columns:
+        print('mergecol', merge_col)
+        df1_match_key = Column_Merged_Name(df1, merge_col, 'x')
+        if df1_match_key is not None:
+            merge_to_df1_col_names_match[merge_col] = df1_match_key
+        df1_compare_key = Column_Merged_Name(df1, merge_col, 'y')
+        if df1_compare_key is not None:
+            merge_to_df1_col_names_compare[merge_col] = df1_compare_key
+    print('megrge dict Match')
+    print(merge_to_df1_col_names_match)
+    print('merge Compare')
+    print(merge_to_df1_col_names_compare)
+
+    #for compare_col in compare_cols:
+    #    compare_col_merge = Column_Merged_Name(df_merge, compare_col, 'y')
+    #    print('real compare', compare_col_merge)
+    #    merged
+    #    for index, row in df_merge.iterrows():
+    #        left_cols 
+    #        match_col_df1 = Column_Merged_Name(df1, compare_col, 'x')
+    #    match_conds = []
+    #    for match_col in match_cols:
+    #        match_col_x = match_col[0]
+    #        match_col_y = Column_Merged_Name(df_merge, match_col[1], 'y')
+    #        df1.loc[df1[match_col_x] == df_merge[match_col_y], 'NewCol'] = 
+
+def Split_Left_Right_Match_Cols(match_cols):
+    lefton = []
+    righton = []
+    for cols in match_cols:
+        lefton.append(cols[0])
+        righton.append(cols[1])
+    return lefton, righton
+
+def Column_Merged_Name(df_merged, col, x_or_y):
+    if x_or_y == 'x':
+        for df_col in df_merged.columns:
+            
+            mod_col = col + '_' + x_or_y
+            
+            if df_col == col:
+                return df_col
+            elif df_col == mod_col:
+                return mod_col
+    else:
+        for df_col in df_merged.columns[::-1]:
+            print('df col', df_col)
+            mod_col = col + '_' + x_or_y
+            print('modcol', mod_col)
+            if df_col == col:
+                print('noty')
+                return df_col
+            elif df_col == mod_col:
+                print('y')
+                return mod_col
