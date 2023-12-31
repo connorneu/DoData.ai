@@ -24,6 +24,7 @@ import threading
 import os
 import ast
 import collections
+from functools import reduce
 
 goog_w2v_model = None
 nlp = None
@@ -574,12 +575,6 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
     second_file_name = second_file.replace('.csv', '')
     df1 = df1.add_suffix(' {' + first_file_name + '}')
     df2 = df2.add_suffix(' {' + second_file_name + '}')
-    print('df1')
-    print(df1)
-    print()
-    print('df2')
-    print(df2)
-
     leftmatch, rightmatch = Split_Left_Right_Match_Cols(match_cols, first_file_name, second_file_name)
     leftcompare, rightcompare = Split_Left_Right_Match_Cols(compare_cols, first_file_name, second_file_name)
     left_cols = leftmatch + leftcompare
@@ -588,17 +583,16 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
     df2_trim = df2[df2.columns.intersection(right_cols)]
     df1_trim.drop_duplicates(inplace=True)
     df2_trim.drop_duplicates(inplace=True)
+    df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
     print('leftmatch', leftmatch)
     print('rightmatch', rightmatch)
     print('leftcols', left_cols)
     print('rightcols', right_cols)
     print('leftcolumn name', df1_trim.columns)
     print('rightcolumn name', df2_trim.columns)
-    cols_to_use = df2_trim.columns.difference(df1_trim.columns).values.tolist()
-    df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
-    print('colstouse')
-    print(cols_to_use)
     print()
+    print('comparecols', compare_cols)
+    print('matchcols', match_cols)
     print('match', leftmatch, rightmatch)
     print('compare', leftcompare, rightcompare)
     print()
@@ -608,43 +602,53 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
     print('df2')
     print(df2)
     print()
+    print('merge')
     print(df_merge)
-    print()
-    
-    df_result = df1.copy(True)
-    df_result.set_index(leftmatch)
-    print('dfresultindex', df_result.index)
+    match_values = Unique_Column_Pairs(df_merge[leftmatch].values.tolist())
+    print('matchvalues')
+    print(match_values)
+    for match_value in match_values:
+        print('matchvalue')
+        print(match_value)
+        conds = []
+        for i_val in range(len(match_value)):
+            conds.append(df_merge[leftmatch[i_val]] == match_value[i_val])
+        df_matched = df_merge.loc[np.logical_and.reduce(conds)]
+        print('matched df')
+        print(df_matched)
+        for i_comp in range(len(compare_cols)):
+            right_compare_vals = df_matched[rightcompare[i_comp]].values.tolist()
+            left_compare_vals = df_matched[leftcompare[i_comp]].values.tolist()
+            print('leftcmoparevalues', left_compare_vals)
+            print('rghcomparevals', right_compare_vals)
+            val_variants = []
+            for right_val in right_compare_vals:
+                if right_val not in left_compare_vals:
+                    val_variants.append(right_val)
+            print('vcalvariants')
+            print(val_variants)
+            conds_df1_match = []
+            for i_val in range(len(match_value)):
+                conds_df1_match.append(df1[leftmatch[i_val]] == match_value[i_val])
+            print('compare_cols[i_comp][0]', leftcompare[i_comp])
+            print('left_compare_vals[i_val]', left_compare_vals[i_val])
+            conds_df1_match.append(df1[leftcompare[i_comp]] == left_compare_vals[i_val])
+            comparison_column_name = 'Comparison: ' + rightcompare[i_comp] + ' {' + second_file_name + '}'
+            df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = str(val_variants)
+            print('mod DF1')
+            print(df1)
+            
 
-    left_index = pd.MultiIndex.from_frame
+            df1.loc[df1[comparison_column_name] == 'nan', comparison_column_name] = 'EXACT MATCH'
+            df1.loc[df1[comparison_column_name] == '[]', comparison_column_name] = 'EXACT MATCH'
 
-    
-    #merge_to_df1_col_names_match = {}
-    #merge_to_df1_col_names_compare = {}
-    #for merge_col in df_merge.columns:
-    #    print('mergecol', merge_col)
-    #    df1_match_key = Column_Merged_Name(df1, merge_col, 'x')
-    #    if df1_match_key is not None:
-    #        merge_to_df1_col_names_match[merge_col] = df1_match_key
-    #    df1_compare_key = Column_Merged_Name(df1, merge_col, 'y')
-    #    if df1_compare_key is not None:
-    #        merge_to_df1_col_names_compare[merge_col] = df1_compare_key
-    #print('megrge dict Match')
-    #print(merge_to_df1_col_names_match)
-    #print('merge Compare')
-    #print(merge_to_df1_col_names_compare)
+            print('mod DF1 cearna')
+            print(df1)
 
-    #for compare_col in compare_cols:
-    #    compare_col_merge = Column_Merged_Name(df_merge, compare_col, 'y')
-    #    print('real compare', compare_col_merge)
-    #    merged
-    #    for index, row in df_merge.iterrows():
-    #        left_cols 
-    #        match_col_df1 = Column_Merged_Name(df1, compare_col, 'x')
-    #    match_conds = []
-    #    for match_col in match_cols:
-    #        match_col_x = match_col[0]
-    #        match_col_y = Column_Merged_Name(df_merge, match_col[1], 'y')
-    #        df1.loc[df1[match_col_x] == df_merge[match_col_y], 'NewCol'] = 
+
+
+        #break
+
 
 def Split_Left_Right_Match_Cols(match_cols, sufix_df1, sufix_df2):
     lefton = []
@@ -675,4 +679,10 @@ def Column_Merged_Name(df_merged, col, x_or_y):
             elif df_col == mod_col:
                 print('y')
                 return mod_col
-            
+
+def Unique_Column_Pairs(col_list):
+    unique = []
+    for item in col_list:
+        if item not in unique:
+            unique.append(item)
+    return unique
