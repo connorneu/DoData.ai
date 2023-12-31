@@ -570,34 +570,68 @@ def Unmelt_Files_To_Update(files_to_update_params):
 def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_cols, compare_cols):
     df1 = unmelt(first_file, first_sheet)
     df2 = unmelt(second_file, second_sheet)
-    leftmatch, rightmatch = Split_Left_Right_Match_Cols(match_cols)
-    leftcompare, rightcompare = Split_Left_Right_Match_Cols(compare_cols)
+    first_file_name = first_file.replace('.csv', '')
+    second_file_name = second_file.replace('.csv', '')
+    df1 = df1.add_suffix(' {' + first_file_name + '}')
+    df2 = df2.add_suffix(' {' + second_file_name + '}')
+    print('df1')
+    print(df1)
+    print()
+    print('df2')
+    print(df2)
+
+    leftmatch, rightmatch = Split_Left_Right_Match_Cols(match_cols, first_file_name, second_file_name)
+    leftcompare, rightcompare = Split_Left_Right_Match_Cols(compare_cols, first_file_name, second_file_name)
     left_cols = leftmatch + leftcompare
     right_cols = rightmatch + rightcompare
-    print('leftcols', left_cols)
-    print('rightcols', right_cols)
     df1_trim = df1[df1.columns.intersection(left_cols)]
     df2_trim = df2[df2.columns.intersection(right_cols)]
     df1_trim.drop_duplicates(inplace=True)
     df2_trim.drop_duplicates(inplace=True)
+    print('leftmatch', leftmatch)
+    print('rightmatch', rightmatch)
+    print('leftcols', left_cols)
+    print('rightcols', right_cols)
+    print('leftcolumn name', df1_trim.columns)
+    print('rightcolumn name', df2_trim.columns)
+    cols_to_use = df2_trim.columns.difference(df1_trim.columns).values.tolist()
     df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
+    print('colstouse')
+    print(cols_to_use)
+    print()
+    print('match', leftmatch, rightmatch)
+    print('compare', leftcompare, rightcompare)
+    print()
+    print('df1')
+    print(df1)
+    print()
+    print('df2')
+    print(df2)
     print()
     print(df_merge)
     print()
-    merge_to_df1_col_names_match = {}
-    merge_to_df1_col_names_compare = {}
-    for merge_col in df_merge.columns:
-        print('mergecol', merge_col)
-        df1_match_key = Column_Merged_Name(df1, merge_col, 'x')
-        if df1_match_key is not None:
-            merge_to_df1_col_names_match[merge_col] = df1_match_key
-        df1_compare_key = Column_Merged_Name(df1, merge_col, 'y')
-        if df1_compare_key is not None:
-            merge_to_df1_col_names_compare[merge_col] = df1_compare_key
-    print('megrge dict Match')
-    print(merge_to_df1_col_names_match)
-    print('merge Compare')
-    print(merge_to_df1_col_names_compare)
+    
+    df_result = df1.copy(True)
+    df_result.set_index(leftmatch)
+    print('dfresultindex', df_result.index)
+
+    left_index = pd.MultiIndex.from_frame
+
+    
+    #merge_to_df1_col_names_match = {}
+    #merge_to_df1_col_names_compare = {}
+    #for merge_col in df_merge.columns:
+    #    print('mergecol', merge_col)
+    #    df1_match_key = Column_Merged_Name(df1, merge_col, 'x')
+    #    if df1_match_key is not None:
+    #        merge_to_df1_col_names_match[merge_col] = df1_match_key
+    #    df1_compare_key = Column_Merged_Name(df1, merge_col, 'y')
+    #    if df1_compare_key is not None:
+    #        merge_to_df1_col_names_compare[merge_col] = df1_compare_key
+    #print('megrge dict Match')
+    #print(merge_to_df1_col_names_match)
+    #print('merge Compare')
+    #print(merge_to_df1_col_names_compare)
 
     #for compare_col in compare_cols:
     #    compare_col_merge = Column_Merged_Name(df_merge, compare_col, 'y')
@@ -612,12 +646,12 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
     #        match_col_y = Column_Merged_Name(df_merge, match_col[1], 'y')
     #        df1.loc[df1[match_col_x] == df_merge[match_col_y], 'NewCol'] = 
 
-def Split_Left_Right_Match_Cols(match_cols):
+def Split_Left_Right_Match_Cols(match_cols, sufix_df1, sufix_df2):
     lefton = []
     righton = []
     for cols in match_cols:
-        lefton.append(cols[0])
-        righton.append(cols[1])
+        lefton.append(cols[0] + ' {' + sufix_df1 +'}')
+        righton.append(cols[1] + ' {' + sufix_df2 + '}')
     return lefton, righton
 
 def Column_Merged_Name(df_merged, col, x_or_y):
@@ -641,3 +675,4 @@ def Column_Merged_Name(df_merged, col, x_or_y):
             elif df_col == mod_col:
                 print('y')
                 return mod_col
+            
