@@ -625,25 +625,26 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
             for right_val in right_compare_vals:
                 if right_val not in left_compare_vals:
                     val_variants.append(right_val)
-            print('vcalvariants')
-            print(val_variants)
-            conds_df1_match = []
-            for i_val in range(len(match_value)):
-                conds_df1_match.append(df1[leftmatch[i_val]] == match_value[i_val])
-            print('compare_cols[i_comp][0]', leftcompare[i_comp])
-            print('left_compare_vals[i_val]', left_compare_vals[i_val])
-            conds_df1_match.append(df1[leftcompare[i_comp]] == left_compare_vals[i_val])
-            comparison_column_name = 'Comparison: ' + rightcompare[i_comp] + ' {' + second_file_name + '}'
-            df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = str(val_variants)
-            print('mod DF1')
-            print(df1)
+            if val_variants:
+                print('vcalvariants')
+                print(val_variants)
+                conds_df1_match = []
+                for i_val in range(len(match_value)):
+                    conds_df1_match.append(df1[leftmatch[i_val]] == match_value[i_val])
+                print('compare_cols[i_comp][0]', leftcompare[i_comp])
+                print('left_compare_vals[i_val]', left_compare_vals[i_comp])
+                conds_df1_match.append(df1[leftcompare[i_comp]] == left_compare_vals[i_comp])
+                comparison_column_name = 'Comparison: ' + rightcompare[i_comp] + ' {' + second_file_name + '}'
+                df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = str(val_variants)
+                print('mod DF1')
+                print(df1)
             
 
-            df1.loc[df1[comparison_column_name] == 'nan', comparison_column_name] = 'EXACT MATCH'
-            df1.loc[df1[comparison_column_name] == '[]', comparison_column_name] = 'EXACT MATCH'
+                df1.loc[df1[comparison_column_name] == 'nan', comparison_column_name] = 'EXACT MATCH'
+                df1.loc[df1[comparison_column_name] == '[]', comparison_column_name] = 'EXACT MATCH'
 
-            print('mod DF1 cearna')
-            print(df1)
+                print('mod DF1 cearna')
+                print(df1)
 
 
 
