@@ -173,7 +173,13 @@ def findandextract(request):
                 cols_to_match = parameters['cols_to_match']
                 cols_to_compare = parameters['cols_to_compare']
                 df_result = Reconcile_Files(first_file, first_sheet, second_file, second_sheet, cols_to_match, cols_to_compare)
-
+                print('------------- RESULT --------------')
+                print(df_result)
+                df_list = melt_df(df_result)
+                print("saving result to db...")
+                for dbframe in df_list:
+                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
                 user_desc = request.POST.get('user_algo_desc')
@@ -584,72 +590,36 @@ def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_co
     df1_trim.drop_duplicates(inplace=True)
     df2_trim.drop_duplicates(inplace=True)
     df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
-    print('leftmatch', leftmatch)
-    print('rightmatch', rightmatch)
-    print('leftcols', left_cols)
-    print('rightcols', right_cols)
-    print('leftcolumn name', df1_trim.columns)
-    print('rightcolumn name', df2_trim.columns)
-    print()
-    print('comparecols', compare_cols)
-    print('matchcols', match_cols)
-    print('match', leftmatch, rightmatch)
-    print('compare', leftcompare, rightcompare)
-    print()
-    print('df1')
-    print(df1)
-    print()
-    print('df2')
-    print(df2)
-    print()
-    print('merge')
-    print(df_merge)
     match_values = Unique_Column_Pairs(df_merge[leftmatch].values.tolist())
-    print('matchvalues')
-    print(match_values)
     for match_value in match_values:
-        print('matchvalue')
-        print(match_value)
         conds = []
         for i_val in range(len(match_value)):
             conds.append(df_merge[leftmatch[i_val]] == match_value[i_val])
         df_matched = df_merge.loc[np.logical_and.reduce(conds)]
-        print('matched df')
-        print(df_matched)
         for i_comp in range(len(compare_cols)):
             right_compare_vals = df_matched[rightcompare[i_comp]].values.tolist()
             left_compare_vals = df_matched[leftcompare[i_comp]].values.tolist()
-            print('leftcmoparevalues', left_compare_vals)
-            print('rghcomparevals', right_compare_vals)
             val_variants = []
             for right_val in right_compare_vals:
                 if right_val not in left_compare_vals:
                     val_variants.append(right_val)
             if val_variants:
-                print('vcalvariants')
-                print(val_variants)
                 conds_df1_match = []
                 for i_val in range(len(match_value)):
                     conds_df1_match.append(df1[leftmatch[i_val]] == match_value[i_val])
-                print('compare_cols[i_comp][0]', leftcompare[i_comp])
-                print('left_compare_vals[i_val]', left_compare_vals[i_comp])
                 conds_df1_match.append(df1[leftcompare[i_comp]] == left_compare_vals[i_comp])
-                comparison_column_name = 'Comparison: ' + rightcompare[i_comp] + ' {' + second_file_name + '}'
-                df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = str(val_variants)
-                print('mod DF1')
-                print(df1)
-            
-
+                print('rightcomapre')
+                print(rightcompare[i_comp])
+                print('filname')
+                print(second_file_name)
+                
+                comparison_column_name = 'Comparison: ' + rightcompare[i_comp]
+                print('COMPARISON NAME')
+                print(comparison_column_name)
+                df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = 'Other Values: ' + str(val_variants)  
                 df1.loc[df1[comparison_column_name] == 'nan', comparison_column_name] = 'EXACT MATCH'
                 df1.loc[df1[comparison_column_name] == '[]', comparison_column_name] = 'EXACT MATCH'
-
-                print('mod DF1 cearna')
-                print(df1)
-
-
-
-        #break
-
+    return df1
 
 def Split_Left_Right_Match_Cols(match_cols, sufix_df1, sufix_df2):
     lefton = []

@@ -271,7 +271,7 @@ async function ajax_get_result_db(algo_type){
            else if(algo_type==='update'){
             display_update_result_table(data);
            }
-           else if(algo_tpye==='reconcile'){
+           else if(algo_type==='reconcile'){
             display_reconcile_result_table(data);
            }      
        },

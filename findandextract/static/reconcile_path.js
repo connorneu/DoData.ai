@@ -89,7 +89,7 @@ $(document.body).on('click', '#submit-reco' , function(){
     submit_reco_algo_parameters(reco_params_map);
 }); 
 
-async function display_reconcile_result_table(){
+async function display_reconcile_result_table(data){
     hide_containers(1)
     document.getElementById('reconcilefiles').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
