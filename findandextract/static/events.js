@@ -639,3 +639,8 @@ $(document.body).on('mouseover', 'td' , function(){
         });
     }
 });
+
+
+$(document.body).on('click', '.help-banner-wrap' , function(){     
+
+});

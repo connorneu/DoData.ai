@@ -241,14 +241,15 @@ def hf_sent_sim_classification_model(source_sentence, words_dic):
         "inputs": {
             "source_sentence": source_sentence,
             "sentences": [
-                words_dic['extract'],
                 words_dic['combine'],
+                words_dic['extract'],
                 words_dic['update'],
                 words_dic['reconcile']
             ]
         },
     }, API_URL, headers)
-    result = Convert_Probs_2_Class(output, ['extract', 'combine', 'update', 'reconcile'])
+    print('model output', output)
+    result = Convert_Probs_2_Class(output, ['combine', 'extract', 'update', 'reconcile'])
     result = result[0].upper() + result[1:]
     return result
 
@@ -299,6 +300,28 @@ def Convert_Source_Sentence(source_sentence, goog_w2v_model, nlp):
     all_related_str = ' '.join(all_related_words)
     return all_related_str
 
+def Convert_Source_Sentence_Single_Word(source_sentence, goog_w2v_model, nlp):
+    nltk.download('wordnet')
+    doc = nlp(source_sentence)
+    verbs = []
+    all_related_words = []
+    topn = 25
+    for token in doc:
+        if token.pos_ == 'VERB':
+            try:
+                similar_words = []
+                all_related_words = token.text
+                sim_word_synonyms = wn_synonyms(all_related_words)
+                for synonym in sim_word_synonyms:
+                    similar_words.append(synonym)
+            except Exception:
+                print('There was a failure converting Source Sentence to Single Word.')
+                sys.exit(1)
+    print('similar words')
+    print(similar_words)
+    all_related_str = ' '.join(similar_words)
+    print('all related str', all_related_str)
+    return all_related_str
 
 def Remove_Stopwords(source_sentence):
     sentence_words = source_sentence.split()

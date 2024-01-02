@@ -69,21 +69,20 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    fake_start();
-    //if(path === "/findandextract/"){
-       
-        //matchcolumns();
-        //add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        //add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        //add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
-        
-    //}
+    //fake_start();
+    //if(path === "/findandextract/"){   
+    //    matchcolumns();
+    //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    //    add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    //    add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
+    //    
+   // }
 });
 
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    start_algo_path('START', 'Reconcile');
+    start_algo_path('START', 'Extract');
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -103,7 +102,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 0) {
+async function typeSentence(sentence, eleRef, color, delay = 30) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -1282,7 +1281,13 @@ async function begin_file_upload(){
     //hide_containers(3);
     await add_to_carousel('SUMMARY OF ALGORITHM', standard_color, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
-    await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
+    //await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
+    if (algorithm_type == 'Extract'){
+        await add_to_carousel('Extract Algorithm: ', input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + 'Select data from files.', input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + 'Use input file or enter values describing values to extract.', input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + 'Search between 1 and 4 files for data, combining results into one file.', input_color, [null], true, false);
+    } 
     await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 }
@@ -1411,7 +1416,14 @@ async function convert_text_to_decision(algo_type){
         document.getElementById("submitloadersvg").style.display = "none";
         document.getElementById("describe-algo-banner").style.display = "none";
         //find_described_node(algo_type);
-        start_algo_path('START', algo_type['algo_type'])
+        console.log('algotype')
+        console.log(algo_type['algo_type'])
+        if(algo_type['algo_type'] == 'failure'){
+            document.getElementsByClassName('model-failure')[0].style.display = 'block';
+        }
+        else{
+            start_algo_path('START', algo_type['algo_type'])
+        }
     }, 2800);
 }
 

@@ -42,7 +42,6 @@ async function display_primaryfileselect_drop(){
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
     await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);
-    
 });
 
 async function primary_sheet_selection(){

@@ -181,14 +181,32 @@ def findandextract(request):
                     obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
                 return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'classify_text':
-                print('POST: classify_text')
-                user_desc = request.POST.get('user_algo_desc')
-                all_related_str = Convert_Source_Sentence(user_desc, goog_w2v_model, nlp) 
-                words_dic = Read_Category_Words()
-                algo_type = hf_sent_sim_classification_model(all_related_str, words_dic)
-                print('algo_type', algo_type)
-                #return HttpResponse(status=200)
-                return JsonResponse({'algo_type': algo_type})
+                attempts = 0
+                while(attempts<3):
+                    try:
+                        
+                        print('POST: classify_text')
+                        user_desc = request.POST.get('user_algo_desc')
+                        #all_related_str = Convert_Source_Sentence(user_desc, goog_w2v_model, nlp) 
+                        all_related_str = Convert_Source_Sentence_Single_Word(user_desc, goog_w2v_model, nlp) 
+                        print()
+                        print()
+                        print('ALL RELATED WORDS')
+                        print(all_related_str)
+                        #words_dic = Read_Category_Words()
+                        words_dic = {'combine':'combine', 'extract':'extract', 'reconcile':'reconcile', 'update':'update'} 
+                        print()
+                        print('WORDS_DIC')
+                        print(words_dic)
+                        algo_type = hf_sent_sim_classification_model(all_related_str, words_dic)
+                        print('algo_type', algo_type)
+                        return JsonResponse({'algo_type': algo_type})
+                    except:
+                        print('retrying to submit text', attempts)
+                        Load_Language_Model()
+                        time.sleep(30)
+                        attempts+=1
+                return JsonResponse({'algo_type': 'failure'})
             else:
                 print('DATA UPLOAD POS')
                 print(request.POST)
