@@ -9,7 +9,7 @@ $(document).ready(async function () {
         await add_to_carousel('\xa0\xa0\xa0$' + input_type, standard_color, [], true, false);
         await add_to_carousel('\xa0\xa0\xa0$' + input_num, standard_color, [], true, false);
         await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+        await add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
         
     });
 });
@@ -641,6 +641,9 @@ $(document.body).on('mouseover', 'td' , function(){
 });
 
 
-$(document.body).on('click', '.help-banner-wrap' , function(){     
-
+$(document.body).on('click', '#changealgorithm' , async function(){   
+    hide_containers(7);
+    await add_to_carousel(['Select algorithm type from menu:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    document.getElementsByClassName('changealgorithmwrap')[0].style.display='none';
+    document.getElementById('algo-desc-graph').style.display='block';
 });

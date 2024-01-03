@@ -102,7 +102,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 30) {
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -274,6 +274,7 @@ function uniq_fast(obj, att) {
 
 async function display_multiple_file_drops(){
     document.getElementById('filedrops').style.display = 'block';
+    document.getElementById('data_post_form').style.display='block';
     //    addsecondfile click event decides how many files are displayed
 }
 
@@ -1283,17 +1284,21 @@ async function begin_file_upload(){
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     //await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
     if (algorithm_type == 'Extract'){
-        await add_to_carousel('Extract Algorithm: ', input_color, [null], true, false);
-        await add_to_carousel('\xa0\xa0\xa0' + 'Select data from files.', input_color, [null], true, false);
+        await add_to_carousel('Extract Algorithm: Select data from files', input_color, [null], true, false);
         await add_to_carousel('\xa0\xa0\xa0' + 'Use input file or enter values describing values to extract.', input_color, [null], true, false);
         await add_to_carousel('\xa0\xa0\xa0' + 'Search between 1 and 4 files for data, combining results into one file.', input_color, [null], true, false);
     } 
     await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    await add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 }
 
 async function start_algo_path(node_name, parent_node_name){
     if (node_name === 'START'){
+        if (document.getElementById('algo-desc-graph').style.display == 'block'){
+            hide_containers(1);
+            document.getElementById('algo-desc-graph').style.display='none';
+            document.getElementById('data_post_form').style.display='none';
+        }
         if (parent_node_name === 'Extract'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
@@ -1744,3 +1749,29 @@ function populate_table_element_from_selected_file(selected_file, selected_sheet
     var col_headers = createTable_values[0];
     return col_headers
 }
+
+//TIMER
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10)
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    var fiveMinutes = 30 * 1,
+        display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+};
+
+

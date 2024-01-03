@@ -129,10 +129,14 @@
                     <h3>Help</h3>
                 </div>
                 <div class="algoloader" id="submitloadersvg">
+                    <div class="timerload">
+                        <h2>estimated time <span id="time">0:30</span> seconds</h2>
+                    </div>
                     <div class="load">
                         <hr/><hr/>  
-                        <hr/><hr/>
+                        <hr/><hr/>                        
                     </div>
+                    
                 </div>
 
             </div>
@@ -173,6 +177,9 @@
             </div>
 
             <div class="filedrop" id="filedrops" style="display:none;">
+                <div class="changealgorithmwrap">
+                    <button type="button" class="btn btn-warning chngalgo" id="changealgorithm">Change Algorithm</button>
+                </div>
                 <form id="data_post_form" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                     <div class="file-drop-area" id="fileone">

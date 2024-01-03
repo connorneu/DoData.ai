@@ -974,6 +974,7 @@ display: inline-block;
 
 
 
+
 /*loader*/
 @keyframes spinq{
     0%,100%{transform:translate(0)}
@@ -982,12 +983,19 @@ display: inline-block;
     75%{transform:translate(0, 160%)}
   }
 
-.load{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+.load{
+    /*
+    top:50%;
+    
+    transform:translate(-50%, -50%);*/
   /*change these sizes to fit into your project*/
-  width:100px;
-  height:100px;
+  position:relative;
+  margin-top:1%;
+  left:48%;
+  width:20px;
+  height:20px;
 }
-.load hr{opacity: 0.6;border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spinq 2s ease infinite}
+.load hr{opacity: 0.6;border:0;margin: 0 auto;width:100%;height:100%;position:absolute;border-radius:50%;animation:spinq 1s ease infinite} /*change spinq to 2s to get 4 circles*/
 .load :first-child{background:#aa7ff8;animation-delay:-1.5s}
 .load :nth-child(2){background:#a13af6;animation-delay:-1s}
 .load :nth-child(3){background:#a343fd;animation-delay:-0.5s}
@@ -1001,6 +1009,32 @@ display: inline-block;
     margin-left: -50px;
     display:none;
 
+}
+.timerload{
+    margin: 0 auto;
+}
+.timerload h2{
+    font-size: 28px;
+}
+.changealgorithmwrap{
+    position:absolute;
+    top: 140px; 
+    left: 300px;
+}
+.chngalgo{
+    margin: 0 auto;
+    display:block;
+    opacity: .7;
+}
+.changealgorithmwrap h2{
+    color:rgb(124, 124, 255);
+}
+.loadertime{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
 }
 
 .extractfromwrap{

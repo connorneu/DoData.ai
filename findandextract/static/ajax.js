@@ -97,7 +97,7 @@ async function ajax_get_db(){
            "X-CSRFToken": getCookie("csrftoken")},
        success: function (data) {
            console.log("data retreived ");
-           matchcolumns(data);
+           start_data_filter(data);
            console.log("ajax_get_db result")
            console.log(data['fande_data_dump'])
        },
