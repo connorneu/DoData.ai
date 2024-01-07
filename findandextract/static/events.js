@@ -641,9 +641,69 @@ $(document.body).on('mouseover', 'td' , function(){
 });
 
 
+
 $(document.body).on('click', '#changealgorithm' , async function(){   
+    console.log('fading in')
     hide_containers(7);
     await add_to_carousel(['Select algorithm type from menu:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     document.getElementsByClassName('changealgorithmwrap')[0].style.display='none';
-    document.getElementById('algo-desc-graph').style.display='block';
+    var element = document.getElementsByTagName('body')[0];
+    element.scroll(-1000,500);
+    window.focus();
+    window.scrollTo(0,800);
+    elem = document.getElementById('algo-desc-graph')
+
+    elem.fadeIn = function(timing) {
+        var newValue = 0;
+
+        elem.style.display = 'block';
+        elem.style.opacity = 0;
+
+        fadeInInterval = setInterval(function() {
+
+            if (newValue < 1) {
+                newValue += 0.01;
+            }
+
+            elem.style.opacity = newValue;
+
+        }, timing);
+
+    }
+
+    elem.fadeIn(10);
+});
+
+
+$(document.body).on('click', '#descriptionhelp' , async function(){   
+    console.log('fading in')
+   
+    document.getElementById('describe-algo-banner').style.display='none';
+    var element = document.getElementsByTagName('body')[0];
+    element.scroll(-1000,1000);
+    window.focus(); 
+    window.scrollTo(0,800);
+    elem = document.getElementById('algo-desc-graph')
+    await add_to_carousel('Select algorithm type from menu.', action_color, [null], true, false);
+    await add_to_carousel('Hover over each algorithm type to view details.', action_color, [null], true, false);
+    elem.fadeIn = function(timing) {
+        var newValue = 0;
+
+        elem.style.display = 'block';
+        elem.style.opacity = 0;
+
+        fadeInInterval = setInterval(function() {
+
+            if (newValue < 1) {
+                newValue += 0.01;
+            }
+
+            elem.style.opacity = newValue;
+
+        }, timing);
+
+    }
+
+    elem.fadeIn(10);
+    
 });

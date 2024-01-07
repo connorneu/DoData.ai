@@ -69,7 +69,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -696,9 +696,13 @@ function display_colselect_table(){
 function hide_containers(num_to_hide){
     var current_cont = carousel_num - 1;
     for (var i = 0; i < num_to_hide; i++){
-        var container = 'carouselcontainer' + current_cont;
-        document.getElementById(container).style.display = 'none';
-        current_cont--;
+        try {
+            var container = 'carouselcontainer' + current_cont;
+            document.getElementById(container).style.display = 'none';
+            current_cont--;
+        } catch (error) {
+            console.error(error);
+          }
     }
 }
 
@@ -1764,12 +1768,14 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
             timer = duration;
+            document.getElementById('calctimer').style.display = 'none';
+            document.getElementById('hiddenstillcalculating').style.display = 'block';
         }
     }, 1000);
 }
 
 window.onload = function () {
-    var fiveMinutes = 30 * 1,
+    var fiveMinutes = 20 * 1,
         display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
 };
