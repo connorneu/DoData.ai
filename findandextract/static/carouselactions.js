@@ -69,7 +69,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -302,7 +302,18 @@ async function start_data_filter(db_data){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
         }         
     }
-    decide_algo_path(algorithm_type);
+    //decide_algo_path(algorithm_type);
+    edit_data();
+}
+
+async function edit_data(){
+    console.log('primary_sheet')
+    console.log(primary_sheet_name)
+    populate_file_names();
+    populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
+    populate_table_element(secondary_sheet_name, 2, 'mini_table2', null, 5);
+    populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
+    populate_table_element(fourth_sheet_name, 4, 'mini_table4', null, 5);
 }
 
 async function decide_algo_path(algorithm_type)
@@ -883,34 +894,36 @@ function adjust_col_header4(){
     col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid');
 }
 
-function populate_table_element(selected_sheet, tablenumber, data_tableid, result_data=null){
+function populate_table_element(selected_sheet, tablenumber, data_tableid, result_data=null, actual_max_col=null){
     //const data_json = JSON.parse(document.getElementById('data_dump').textContent); // get original json data gain
     //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names  
     var col_headers = null;
     if (tablenumber === 1){
         var repivoted_data = repivot_keyval(data_json, primary_file_name, selected_sheet);
-        createTable_values1 = createTable(repivoted_data, data_tableid);
+        //do you have problems?
+        //this used to be createTable(repivoted_data, data_tableid) you added the rest to be able to actual max col
+        createTable_values1 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values1[0];
         var createTable_html = createTable_values1[1];
         table_html_obj_arr = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 2){
         var repivoted_data = repivot_keyval(data_json, secondary_file_name, selected_sheet);
-        createTable_values2 = createTable(repivoted_data, data_tableid);
+        createTable_values2 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
         table_html_obj_arr2 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 3){
         var repivoted_data = repivot_keyval(data_json, third_file_name, selected_sheet);
-        createTable_values3 = createTable(repivoted_data, data_tableid);
+        createTable_values3 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values3[0];
         var createTable_html = createTable_values3[1];
         table_html_obj_arr3 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 4){
         var repivoted_data = repivot_keyval(data_json, fourth_file_name, selected_sheet);
-        createTable_values4 = createTable(repivoted_data, data_tableid);
+        createTable_values4 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values4[0];
         var createTable_html = createTable_values4[1];
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
@@ -994,7 +1007,8 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 
 // populate html table from repivoted key value db table
 // specified_header_row is when user clicks on table to change header row
-function createTable(objs, table_id, specified_header_row=0, max_col_display=5) {
+function createTable(objs, table_id, specified_header_row=0, max_col_display=5, actual_max_col=null) {
+    console.log('act ' + actual_max_col)
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
     tbody.innerHTML = '';
@@ -1006,7 +1020,12 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
     var col_headers = []
     //var max_col_display = 9;
     var col_display = 0;
+    var actual_col = 0;
     var all_html = '';
+    var one_extra_col = true;
+    if(actual_max_col==null){
+        actual_max_col = 100;
+    }
     // while still iterating thru each objects header + vals
     while(!isAllValsCollected){
         // if === 0 then collect headers
@@ -1023,9 +1042,12 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
                     }
                     else
                     {
-                        var th = '<th>' + objs[i].col_header + '</th>';
-                        col_headers.push(objs[i].col_header);
+                        if (actual_col < 3){
+                            var th = '<th>' + objs[i].col_header + '</th>';
+                            col_headers.push(objs[i].col_header);
+                        }
                     }
+                    actual_col+=1 
                 }
                 else
                 {
@@ -1042,8 +1064,16 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
                         col_headers.push(objs[i].vals[specified_header_row-1]);
                     }
                 }
-                
-                tr += th;
+                if(actual_col<actual_max_col){
+                    tr += th;
+                    one_extra_col = true;
+                }
+                else{
+                    if (one_extra_col){
+                        tr += '<th>' + '...' + '</th>';
+                        one_extra_col = false
+                    }
+                }
             }
             tr += '</tr>';
             // append header to inner html
@@ -1057,14 +1087,20 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
         {   
             // if not header collect object and append to inner html
             var tr = '<tr>';
-            for (var i = 0; i < objs.length; i++) {
+            for (var i = 0; i < objs.length; i++) { //for (var i = 0; i < objs.length; i++) {
                 if(objs[i].vals[obj_elem_iter-1] === 'nan')
                 {
                     tr  += '<td>' + '' + '</td>';
                 }
                 else
                 {
-                    tr  += '<td>' + objs[i].vals[obj_elem_iter-1] + '</td>';
+                    if (i<actual_max_col-1){
+                        tr  += '<td>' + objs[i].vals[obj_elem_iter-1] + '</td>';
+                    }
+                    else{
+                        tr  += '<td>' + '...' + '</td>';
+                    }
+                    
                 }
             }
             tr += '</tr>';
@@ -1084,6 +1120,7 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5) 
                 tr  += '<td>' + '.....' + '</td>';
             }
             tr += '</tr>';
+
             tbody.innerHTML += tr;
             all_html += tr;
             maxRowsReached = true;
