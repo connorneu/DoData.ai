@@ -50,6 +50,9 @@ var input_color = '#d93095';
 var second_color = '#92fcff';
 var third_color = '#fcdd43';
 var fourth_color = '#ac86db';
+var writings_color = '#008000';
+
+var color_array = [input_color, second_color, third_color, fourth_color, writings_color];
 
 var myanime = null;
 
@@ -69,7 +72,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -314,6 +317,28 @@ async function edit_data(){
     populate_table_element(secondary_sheet_name, 2, 'mini_table2', null, 5);
     populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
     populate_table_element(fourth_sheet_name, 4, 'mini_table4', null, 5);
+    populate_mini_table_headers();
+    await add_to_carousel(['Edit data:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
+
+}
+
+function populate_mini_table_headers(){
+    var table_names = user_tables_as_array_with_brackets();
+    var all_tables = document.getElementsByClassName('mini-table-wrap');
+    for (var i=0; i<all_tables.length; i++){
+        var table = all_tables[i];
+        var header = table.getElementsByTagName('h2')[0];
+        header.innerHTML = table_names[i];
+        header.style.color = color_array[i];
+    }
+}
+
+function user_tables_as_array_with_brackets(){
+    table_array = [primary_file_name + ' {' + primary_sheet_name + '}',
+                    secondary_file_name + ' {' + secondary_sheet_name + '}',
+                    third_file_name + ' {' + third_sheet_name + '}',
+                    fourth_file_name + ' {' + fourth_header_row + '}']
+    return table_array
 }
 
 async function decide_algo_path(algorithm_type)
@@ -1325,7 +1350,7 @@ async function begin_file_upload(){
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     //await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
     if (algorithm_type == 'Extract'){
-        await add_to_carousel('Extract Algorithm: Select data from files', input_color, [null], true, false);
+        await add_to_carousel('Extract Algorithm: Select data from files', writings_color, [null], true, false);
         await add_to_carousel('\xa0\xa0\xa0' + 'Use input file or enter values describing values to extract.', input_color, [null], true, false);
         await add_to_carousel('\xa0\xa0\xa0' + 'Search between 1 and 4 files for data, combining results into one file.', input_color, [null], true, false);
     } 

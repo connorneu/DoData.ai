@@ -29,856 +29,1042 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
         
-        <div class="sidebar">
-	        <div class="toggle">
-		        <i class="bx bx-chevron-right"></i>
-	        </div>
-                                  <div class="logo">
-        <img src="/static/images/DoData.ai Logo.png" alt="...">	        
-        </div>
-	        <nav>
-
-
-		        <div class="nav-title">
-			        MENU
-		        </div>
-		        <ul>
-			        <li class="nav-item active">
-				        <i class="bx bxs-dashboard"></i>
-				        <span>Algorithm Builder</span>
-			        </li>
-			        <li class="nav-item">
-				        <i class="bx bxs-bar-chart-alt-2"></i>
-				        <span>My Algorithms</span>
-			        </li>
-			        <li class="nav-item">
-				        <i class="bx bxs-user"></i>
-				        <span>Account</span>
-			        </li>
-			        <li class="nav-item">
-				        <i class="bx bxs-bell"></i>
-				        <span>Help</span>
-			        </li>
-			        <li class="nav-item">
-				        <i class="bx bxs-cog"></i>
-				        <span>Settings</span>
-			        </li>
-		        </ul>
-		        <hr>
-		        <div class="nav-title">
-			        Supports
-		        </div>
-		        <ul>
-			        <li class="nav-item">
-				        <i class="bx bxs-help-circle"></i>
-				        <span>Get Help</span>
-			        </li>
-			        <li class="nav-item">
-				        <i class="bx bxs-message-dots"></i>
-				        <span>Send Feedback</span>
-			        </li>
-		        </ul>
-		        <CENTER>
-			        <div class="nav-title">
-				        Automate away the most boring part of your day.
-			        </div>
-		        </CENTER>
-	        </nav>
-        </div>
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="notsidebar_wrap">
-
-
-            <div class="typecontainer" id="typingtextcontainer">
-                <div class="codebloxk" id="printitout">
-                {{ fande_data_dump|json_script:"fande_data_dump" }}
-                    <div class="typing-container" id="typing-container1">
-                        <div class="carouselcontainer" id="carouselcontainer1">      
-                            <h2 id="feature-text1" class="containerh"></h2> 
-                            <pre style="display:inline;" class="caret-underscore" id="caret"><span>&nbsp;</span></pre>                  
-                        </div>     
-                    </div>  
+        <div class="master-div-wrap">
+            <div class="sidebar">
+                <div class="toggle">
+                    <i class="bx bx-chevron-right"></i>
                 </div>
-            </div>
-
-
-            <div class="header-banner-wrap" id="describe-algo-banner">
-
-                <h2 id="describeheader-text">Describe what you want your algorithm to do:</h2>
-            
-                <div class="describetextboxwrap" id="textbox-algo-desc-wrap">
-                    <span id="submiticonwrap">
-                        <iconify-icon id="submittexticon" class="submiticon" icon="formkit:submit"></iconify-icon>
-                    </span>
-                    <textarea id="textbox-algo-desc" name="algodesctext" placeholder="eg. Find a list of employees and extract all of their sales           eg. Join two datasets based on column ID                       eg. Update the status of weekly shipping reports                    eg. Find all the records that don't match from 2 files" rows="5" cols="65" maxlength="135"></textarea>
+                <div class="logo">
+                    <img src="/static/images/DoData.ai Logo.png" alt="...">
                 </div>
-                <div class="help-banner-wrap" id="descriptionhelp">
-                    <h3>Help</h3>
-                </div>
-                <div class="algoloader" id="submitloadersvg">
-                    <div class="timerload">
-                        <h2>Calculating algorithm type</h2>
-                        <h4 id="calctimer">estimated time <span id="time">0:30</span> seconds</h4>
-                        <h4 id="hiddenstillcalculating">Still calculating...</h4>    
-                    </div>
-                    <div class="load">
-                        <hr/><hr/>  
-                        <hr/><hr/>                        
-                    </div>
-                    
-                </div>
-
+                <nav>
+                    <div class="nav-title"> MENU </div>
+                    <ul>
+                        <li class="nav-item active">
+                            <i class="bx bxs-dashboard"></i>
+                            <span>Algorithm Builder</span>
+                        </li>
+                        <li class="nav-item">
+                            <i class="bx bxs-bar-chart-alt-2"></i>
+                            <span>My Algorithms</span>
+                        </li>
+                        <li class="nav-item">
+                            <i class="bx bxs-user"></i>
+                            <span>Account</span>
+                        </li>
+                        <li class="nav-item">
+                            <i class="bx bxs-bell"></i>
+                            <span>Help</span>
+                        </li>
+                        <li class="nav-item">
+                            <i class="bx bxs-cog"></i>
+                            <span>Settings</span>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="nav-title"> Supports </div>
+                    <ul>
+                        <li class="nav-item">
+                            <i class="bx bxs-help-circle"></i>
+                            <span>Get Help</span>
+                        </li>
+                        <li class="nav-item">
+                            <i class="bx bxs-message-dots"></i>
+                            <span>Send Feedback</span>
+                        </li>
+                    </ul>
+                    <CENTER>
+                        <div class="nav-title"> Automate away the most boring part of your day. </div>
+                    </CENTER>
+                </nav>
             </div>
-
-            <div class="model-failure">
-                <h3>Service unavailable.</h3>
-            </div>
-
-            <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:none;"> 
-                <svg id="maine" class="selection-svg">
-                    <defs>
-                        <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
-                            <stop offset="30%" style="stop-color:#771dab;stop-opacity:1" />
-                            <stop offset="40%" style="stop-color:#924ae5;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#8f52ff;stop-opacity:1" />
-                            <stop offset="60%" style="stop-color:#8b4ae5;stop-opacity:1" />
-                            <stop offset="70%" style="stop-color:#7900bf;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <div class="algo-select">
-                    <div class="algo-details" id="search-file-one">
-                        <div class="description-box" id="graph-desc">
-                            <h3> This aglorithm will search for all of the values selected from one file in another.</h3>
-                            <h3> Upload a file that contains values you want to search for. If the file has more than one column, you will specify which column contains the values to search for.</h3>
-                            <h3> You can filter the input file to remove any values you don't want to search for.</h3>
-                            <h3> The algorithm will search for these values in the other uploaded file.</h3>
-                        </div>
-                        <div class="description-img">
-                            <img src="/static/images/search file from input description.png" alt="search file one"/>
-                        </div>
-                    </div>    
-                    <div class="button-banner" id="searchfileone-btns">
-                        <a class="myButton bigr" id="back-algoselect">Back</a>
-                        <a class="myButton bigr" id="start_algoselect">Start</a>                    
-                    </div>
-                </div>
-            </div>
-
-            <div class="filedrop" id="filedrops" style="display:none;">
-                <div class="changealgorithmwrap">
-                    <button type="button" class="btn btn-warning chngalgo" id="changealgorithm">Change Algorithm</button>
-                </div>
-                <form id="data_post_form" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                    <div class="file-drop-area" id="fileone">
-                        <span class="fake-btn">Choose files</span>
-                        <span class="file-msg">or drag and drop files here</span>
-                        <input id="firstfileinput" class="file-input" type="file" name="fileinput1">
-                    </div>
-                    <div class="file-drop-area" id="filetwo" style="display:none;">
-                        <span class="fake-btn">Choose files</span>
-                        <span class="file-msg">or drag and drop files here</span>
-                        <input id="secondfileinput" class="file-input" type="file" name="fileinput2">
-                    </div>
-                    <div class="file-drop-area" id="file3" style="display:none;">
-                        <span class="fake-btn">Choose files</span>
-                        <span class="file-msg">or drag and drop files here</span>
-                        <input id="3fileinput" class="file-input" type="file" name="fileinput3">
-                    </div>
-                    <div class="file-drop-area" id="file4" style="display:none;">
-                        <span class="fake-btn">Choose files</span>
-                        <span class="file-msg">or drag and drop files here</span>
-                        <input id="4fileinput" class="file-input" type="file" name="fileinput4">
-                    </div>
-                    <div class="addfile" id="addfiles" style="display:none">
-                        <a class="myButton conditionbtn" id="addsecondfile">Add Additional File</a>
-                        <a class="myButton" id="next_loadedfiles">Next</a>                    
-                    </div>
-                </form> 
-            </div>
-
-            <div id="mini_table_preview" class="mini_table_wraper">
-                <div class="mini-table-row">
-                    <div class="mini-table-wrap">
-                        <table class="mini-tables">
-                            <tbody id="mini_table1"></tbody>
-                        </table>
-                    </div>
-                    <div class="mini-table-wrap">
-                        <table class="mini-tables">
-                            <tbody id="mini_table2"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="mini-table-row">
-                    <div class="mini-table-wrap">
-                        <table class="mini-tables">
-                            <tbody id="mini_table3"></tbody>
-                        </table>
-                    </div>
-                    <div class="mini-table-wrap">
-                        <table class="mini-tables">
-                            <tbody id="mini_table4"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="option-select-wrap" id="user_select_input_file_or_custom">
-                <div class="button-banner" id="inputis_file_or_input">
-                    <a class="myButton bigr" id="inputis_file">Use Input File</a>
-                    <a class="myButton bigr" id="inputis_describe">Enter Values</a>                    
-                </div>
-            </div>
-
-            <div class="button-banner" id="merge_or_append">
-                <a class="myButton bigr" id="user_merge">Merge</a>
-                <a class="myButton bigr" id="user_append">Append</a>                    
-            </div>
-
-
-            <div class="button-banner" id="update_file_or_input">
-                <a class="myButton bigr" id="update_file">File</a>
-                <a class="myButton bigr" id="update_input">Input</a>                    
-            </div>
-
-
-
-            <div class="describe-data-wrap" id="describe-data-extract">
-                <div id="extract-descriptions">
-                    <div>
-                        <textarea class="describe-textarea" maxlength="60"></textarea>
-                    </div>
-                </div>
-                <div class="addcondition" id="parimaryaddcondition">
-                    <a id="add-describe-text" class="myButton conditionbtn">Add value</a>
-                    <a id ="next-describe-extract" class="myButton">Next</a>
-                </div>
-            </div>  
-
-            <div class="dropdown" id="primaryfiledrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select File
-                </button>
-                <ul class="dropdown-menu" id="primaryfile_ul"></ul>
-            </div>
-            <div class="dropdown" id="primarysheetdrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Sheet
-                </button>
-                <ul class="dropdown-menu" id="primarysheet_ul"></ul>
-            </div>
-            <!--
-                <div class="image-reference" id="extractinputfile">
-                    <img src="/static/images/Extract Input File.png" alt="Extract Input"> 
-                </div>
-            -->
-
-
-
-
-            <div class="dropdown" id="secondaryfiledrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select File
-                </button>
-                <ul class="dropdown-menu" id="secondaryfile_ul"></ul>
-            </div>
-            <div class="dropdown" id="secondarysheetdrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Sheet
-                </button>
-                <ul class="dropdown-menu" id="secondarysheet_ul"></ul>
-            </div>
-
         
-        
-            <div class="dropdown" id="thirdfiledrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select File
-                </button>
-                <ul class="dropdown-menu" id="thirdfile_ul"></ul>
-            </div>
-            <div class="dropdown" id="thirdsheetdrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Sheet
-                </button>
-                <ul class="dropdown-menu" id="thirdsheet_ul"></ul>
-            </div>
-
-
-
-            <div class="dropdown" id="fourthfiledrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select File
-                </button>
-                <ul class="dropdown-menu" id="fourthfile_ul"></ul>
-            </div>
-            <div class="dropdown" id="fourthsheetdrop">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Select Sheet
-                </button>
-                <ul class="dropdown-menu" id="fourthsheet_ul"></ul>
-            </div>
 
 
 
 
 
-            <div class="colheaderadjust" id="colselecttablecontainer" style="overflow-x:auto;display:none;">
-                <table>
-                    <tbody id="primary-colselecttable"></tbody>
-                </table>
-            </div>
-
-            <div class="adjustheadertable" id="colselecttablediv1" style="overflow-x:auto;display:none;">
-                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data1_table_reset">Reset</button>
-                <table class="headertable">
-                    <tbody id="data1_tableid"></tbody>
-                </table>
-                <button type="button" class="btn btn-secondary btn-lg" id="data1_next_colheader">Next</button>
-            </div>
 
 
 
-            <div class="adjustheadertable" id="colselecttablediv3" style="overflow-x:auto;display:none;">
-                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
-                <table class="headertable">
-                    <tbody id="data3_tableid"></tbody>
-                </table>
-                <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
-            </div>
 
-            <div class="adjustheadertable" id="colselecttablediv4" style="overflow-x:auto;display:none;">
-                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
-                <table class="headertable">
-                    <tbody id="data4_tableid"></tbody>
-                </table>
-                <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
-            </div>
 
+
+
+
+            <div class="notsidebar_wrap">
+
+
+                <div class="typecontainer" id="typingtextcontainer">
+                    <div class="codebloxk" id="printitout">
+                    {{ fande_data_dump|json_script:"fande_data_dump" }}
+                        <div class="typing-container" id="typing-container1">
+                            <div class="carouselcontainer" id="carouselcontainer1">      
+                                <h2 id="feature-text1" class="containerh"></h2> 
+                                <pre style="display:inline;" class="caret-underscore" id="caret"><span>&nbsp;</span></pre>                  
+                            </div>     
+                        </div>  
+                    </div>
+                </div>
+
+
+                <div class="header-banner-wrap" id="describe-algo-banner">
+
+                    <h2 id="describeheader-text">Describe what you want your algorithm to do:</h2>
+                
+                    <div class="describetextboxwrap" id="textbox-algo-desc-wrap">
+                        <span id="submiticonwrap">
+                            <iconify-icon id="submittexticon" class="submiticon" icon="formkit:submit"></iconify-icon>
+                        </span>
+                        <textarea id="textbox-algo-desc" name="algodesctext" placeholder="eg. Find a list of employees and extract all of their sales           eg. Join two datasets based on column ID                       eg. Update the status of weekly shipping reports                    eg. Find all the records that don't match from 2 files" rows="5" cols="65" maxlength="135"></textarea>
+                    </div>
+                    <div class="help-banner-wrap" id="descriptionhelp">
+                        <h3>Help</h3>
+                    </div>
+                    <div class="algoloader" id="submitloadersvg">
+                        <div class="timerload">
+                            <h2>Calculating algorithm type</h2>
+                            <h4 id="calctimer">estimated time <span id="time">0:30</span> seconds</h4>
+                            <h4 id="hiddenstillcalculating">Still calculating...</h4>    
+                        </div>
+                        <div class="load">
+                            <hr/><hr/>  
+                            <hr/><hr/>                        
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class="model-failure">
+                    <h3>Service unavailable.</h3>
+                </div>
+
+                <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:none;"> 
+                    <svg id="maine" class="selection-svg">
+                        <defs>
+                            <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
+                                <stop offset="30%" style="stop-color:#771dab;stop-opacity:1" />
+                                <stop offset="40%" style="stop-color:#924ae5;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#8f52ff;stop-opacity:1" />
+                                <stop offset="60%" style="stop-color:#8b4ae5;stop-opacity:1" />
+                                <stop offset="70%" style="stop-color:#7900bf;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="algo-select">
+                        <div class="algo-details" id="search-file-one">
+                            <div class="description-box" id="graph-desc">
+                                <h3> This aglorithm will search for all of the values selected from one file in another.</h3>
+                                <h3> Upload a file that contains values you want to search for. If the file has more than one column, you will specify which column contains the values to search for.</h3>
+                                <h3> You can filter the input file to remove any values you don't want to search for.</h3>
+                                <h3> The algorithm will search for these values in the other uploaded file.</h3>
+                            </div>
+                            <div class="description-img">
+                                <img src="/static/images/search file from input description.png" alt="search file one"/>
+                            </div>
+                        </div>    
+                        <div class="button-banner" id="searchfileone-btns">
+                            <a class="myButton bigr" id="back-algoselect">Back</a>
+                            <a class="myButton bigr" id="start_algoselect">Start</a>                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filedrop" id="filedrops" style="display:none;">
+                    <div class="changealgorithmwrap">
+                        <button type="button" class="btn btn-warning chngalgo" id="changealgorithm">Change Algorithm</button>
+                    </div>
+                    <form id="data_post_form" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                        <div class="file-drop-area" id="fileone">
+                            <span class="fake-btn">Choose files</span>
+                            <span class="file-msg">or drag and drop files here</span>
+                            <input id="firstfileinput" class="file-input" type="file" name="fileinput1">
+                        </div>
+                        <div class="file-drop-area" id="filetwo" style="display:none;">
+                            <span class="fake-btn">Choose files</span>
+                            <span class="file-msg">or drag and drop files here</span>
+                            <input id="secondfileinput" class="file-input" type="file" name="fileinput2">
+                        </div>
+                        <div class="file-drop-area" id="file3" style="display:none;">
+                            <span class="fake-btn">Choose files</span>
+                            <span class="file-msg">or drag and drop files here</span>
+                            <input id="3fileinput" class="file-input" type="file" name="fileinput3">
+                        </div>
+                        <div class="file-drop-area" id="file4" style="display:none;">
+                            <span class="fake-btn">Choose files</span>
+                            <span class="file-msg">or drag and drop files here</span>
+                            <input id="4fileinput" class="file-input" type="file" name="fileinput4">
+                        </div>
+                        <div class="addfile" id="addfiles" style="display:none">
+                            <a class="myButton conditionbtn" id="addsecondfile">Add Additional File</a>
+                            <a class="myButton" id="next_loadedfiles">Next</a>                    
+                        </div>
+                    </form> 
+                </div>
+
+                <div id="mini_table_preview" class="mini_table_master_wraper">
+                    <div class="mini-table-row">
+                        <div class="mini-table-wrap">
+                            <h2 class="mini-table-name"></h2>
+                            <table class="mini-tables">
+                                <tbody id="mini_table1"></tbody>
+                            </table>
+                            <a class="myButton edittable">Edit</a>
+                        </div>
+                        <div class="mini-table-wrap">
+                            <h2 class="mini-table-name"></h2>
+                            <table class="mini-tables">
+                                <tbody id="mini_table2"></tbody>
+                            </table>
+                            <a class="myButton edittable">Edit</a>
+                        </div>
+                    </div>
+                    <div class="mini-table-row">
+                        <div class="mini-table-wrap">
+                            <h2 class="mini-table-name"></h2>
+                            <table class="mini-tables">
+                                <tbody id="mini_table3"></tbody>
+                            </table>
+                            <a class="myButton edittable">Edit</a>
+                        </div>
+                        <div class="mini-table-wrap">
+                            <h2 class="mini-table-name"></h2>
+                            <table class="mini-tables">
+                                <tbody id="mini_table4"></tbody>
+                            </table>
+                            <a class="myButton edittable">Edit</a>
+                        </div>
+                    </div>
+                    <a class="myButton edittable">Next</a>
+                </div>
+
+
+
+                <div class="option-select-wrap" id="user_select_input_file_or_custom">
+                    <div class="button-banner" id="inputis_file_or_input">
+                        <a class="myButton bigr" id="inputis_file">Use Input File</a>
+                        <a class="myButton bigr" id="inputis_describe">Enter Values</a>                    
+                    </div>
+                </div>
+
+                <div class="button-banner" id="merge_or_append">
+                    <a class="myButton bigr" id="user_merge">Merge</a>
+                    <a class="myButton bigr" id="user_append">Append</a>                    
+                </div>
+
+
+                <div class="button-banner" id="update_file_or_input">
+                    <a class="myButton bigr" id="update_file">File</a>
+                    <a class="myButton bigr" id="update_input">Input</a>                    
+                </div>
+
+
+
+                <div class="describe-data-wrap" id="describe-data-extract">
+                    <div id="extract-descriptions">
+                        <div>
+                            <textarea class="describe-textarea" maxlength="60"></textarea>
+                        </div>
+                    </div>
+                    <div class="addcondition" id="parimaryaddcondition">
+                        <a id="add-describe-text" class="myButton conditionbtn">Add value</a>
+                        <a id ="next-describe-extract" class="myButton">Next</a>
+                    </div>
+                </div>  
+
+                <div class="dropdown" id="primaryfiledrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select File
+                    </button>
+                    <ul class="dropdown-menu" id="primaryfile_ul"></ul>
+                </div>
+                <div class="dropdown" id="primarysheetdrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Sheet
+                    </button>
+                    <ul class="dropdown-menu" id="primarysheet_ul"></ul>
+                </div>
+                <!--
+                    <div class="image-reference" id="extractinputfile">
+                        <img src="/static/images/Extract Input File.png" alt="Extract Input"> 
+                    </div>
+                -->
+
+
+
+
+                <div class="dropdown" id="secondaryfiledrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select File
+                    </button>
+                    <ul class="dropdown-menu" id="secondaryfile_ul"></ul>
+                </div>
+                <div class="dropdown" id="secondarysheetdrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Sheet
+                    </button>
+                    <ul class="dropdown-menu" id="secondarysheet_ul"></ul>
+                </div>
 
             
-
-            <div class="dropdown" id="firstmatchbox" style="display:none;">
-                <div id="matchboxcolumn" class="matchbox">
-                    <!-- <span>Column Name</span> -->
-                    <div class="dropdown matchdiv" id="matchprimarycolumn">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="matchprimarycol_ul"></ul>
-                    </div>
+            
+                <div class="dropdown" id="thirdfiledrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select File
+                    </button>
+                    <ul class="dropdown-menu" id="thirdfile_ul"></ul>
                 </div>
-                <table class="colselect-table" id="primarycolselect-table">
-                    <tbody id="matchprimary_table"></tbody>
-                </table>
-                <h2 id="selected-match-col-primary">&nbsp;</h2>
-            </div>
+                <div class="dropdown" id="thirdsheetdrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Sheet
+                    </button>
+                    <ul class="dropdown-menu" id="thirdsheet_ul"></ul>
+                </div>
 
-            <div class="condition-container" id="primarycondition-container" style="display:none;">
-                <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
-                    <div class="conditiondiv" id="primarycondition1" style="display:none;">
-                        <div class="dropdown condition-dropdown-andor" id="andor1" style="visibility:hidden;">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">And</a></li>
-                                <li><a class="dropdown-item">Or</a></li>
-                                <li><a class="dropdown-item">And + (Or)</a></li>
-                            </ul>
+
+
+                <div class="dropdown" id="fourthfiledrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select File
+                    </button>
+                    <ul class="dropdown-menu" id="fourthfile_ul"></ul>
+                </div>
+                <div class="dropdown" id="fourthsheetdrop">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Sheet
+                    </button>
+                    <ul class="dropdown-menu" id="fourthsheet_ul"></ul>
+                </div>
+
+
+
+
+
+                <div class="colheaderadjust" id="colselecttablecontainer" style="overflow-x:auto;display:none;">
+                    <table>
+                        <tbody id="primary-colselecttable"></tbody>
+                    </table>
+                </div>
+
+                <div class="adjustheadertable" id="colselecttablediv1" style="overflow-x:auto;display:none;">
+                    <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data1_table_reset">Reset</button>
+                    <table class="headertable">
+                        <tbody id="data1_tableid"></tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-lg" id="data1_next_colheader">Next</button>
+                </div>
+
+
+
+                <div class="adjustheadertable" id="colselecttablediv3" style="overflow-x:auto;display:none;">
+                    <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
+                    <table class="headertable">
+                        <tbody id="data3_tableid"></tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
+                </div>
+
+                <div class="adjustheadertable" id="colselecttablediv4" style="overflow-x:auto;display:none;">
+                    <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
+                    <table class="headertable">
+                        <tbody id="data4_tableid"></tbody>
+                    </table>
+                    <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
+                </div>
+
+
+                
+
+                <div class="dropdown" id="firstmatchbox" style="display:none;">
+                    <div id="matchboxcolumn" class="matchbox">
+                        <!-- <span>Column Name</span> -->
+                        <div class="dropdown matchdiv" id="matchprimarycolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="matchprimarycol_ul"></ul>
                         </div>
-                        <div class="dropdown condition-dropdown" id="cond1_col_drop">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect1">Select Column</button>            
-                            <ul class="dropdown-menu" id="conditiondropdowncols1"></ul>
-                        </div>
-                        <div class="input-group mb-3 condition-dropdown">
-                            <div class="dropdown condition-dropdown-col" id="cond1_action1">
-                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                    </div>
+                    <table class="colselect-table" id="primarycolselect-table">
+                        <tbody id="matchprimary_table"></tbody>
+                    </table>
+                    <h2 id="selected-match-col-primary">&nbsp;</h2>
+                </div>
+
+                <div class="condition-container" id="primarycondition-container" style="display:none;">
+                    <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
+                        <div class="conditiondiv" id="primarycondition1" style="display:none;">
+                            <div class="dropdown condition-dropdown-andor" id="andor1" style="visibility:hidden;">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Equals</a></li>
-                                    <li><a class="dropdown-item">Contains</a></li>
-                                    <li><a class="dropdown-item">Between</a></li>
-                                    <li><a class="dropdown-item">Greater Than</a></li>
-                                    <li><a class="dropdown-item">Less Than</a></li>
-                                    <li><a class="dropdown-item">Not Equal To</a></li>
-                                    <li><a class="dropdown-item">Does Not Contain</a></li>
-                                </ul>
-                                <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
-                            </div>
-                        </div>
-
-
-                        <div class="condition-input-div" style="display:none; vertical-align: middle;" id="condition1and">
-                            <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
-                        </div>
-                    </div>
-                </div>
-                <div class="addcondition" id="parimaryaddcondition">
-                    <a class="myButton conditionbtn" id="addconditionprimary">Add Condition</a>
-                    <a class="myButton" id="conditionnextprimary">Next</a>
-                </div>
-            </div>
-
-            <!-- Second file - specify where to extract from -->
-            <div id="findwherewrap" class="extractfromwrap">
-                <div id="second-extractfrom" class="extract-from-file">
-                    <h2 id="second-file-name" class="header-extractfrom">secondfilename</h2>
-                    <div class="dropdown extractfrom" id="second-file-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Sheet
-                        </button>
-                        <ul class="dropdown-menu" id="second-file_ul"></ul>
-                    </div>
-                    <div class="dropdown extractfrom" id="second-col-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="second-col_ul"></ul>
-                    </div>
-                    <button type="button" class="btn btn-warning" id="data2_adj_col_header">Adjust Column Headers</button>
-                    <div class="adjustheadertable extractfrom" id="colselecttablediv2">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data2_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data2_tableid"></tbody>
-                        </table>
-                        <button type="button" class="btn btn-secondary btn-lg" id="data2_next_colheader">Next</button>
-                    </div>
-                </div>
-                <!-- Third file - specify where to extract from -->
-                <div id="third-extractfrom" class="extract-from-file">
-                    <h2 id="third-file-name" class="header-extractfrom">secondfilename</h2>
-                    <div class="dropdown extractfrom" id="third-file-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Sheet
-                        </button>
-                        <ul class="dropdown-menu" id="third-file_ul"></ul>
-                    </div>
-                    <div class="dropdown extractfrom" id="third-col-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="third-col_ul"></ul>
-                    </div>
-                    <button type="button" class="btn btn-warning" id="data3_adj_col_header">Adjust Column Headers</button>
-                    <div class="adjustheadertable extractfrom" id="colselecttablediv3">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data3_tableid"></tbody>
-                        </table>
-                        <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
-                    </div>
-                </div>
-                <!-- Fourth file - specify where to extract from -->
-                <div id="fourth-extractfrom" class="extract-from-file">
-                    <h2 id="fourth-file-name" class="header-extractfrom">secondfilename</h2>
-                    <div class="dropdown extractfrom" id="fourth-file-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Sheet
-                        </button>
-                        <ul class="dropdown-menu" id="fourth-file_ul"></ul>
-                    </div>
-                    <div class="dropdown extractfrom" id="fourth-col-fileselect">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="fourth-col_ul"></ul>
-                    </div>
-                    <button type="button" class="btn btn-warning" id="data4_adj_col_header">Adjust Column Headers</button>
-                    <div class="adjustheadertable extractfrom" id="colselecttablediv4">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data4_tableid"></tbody>
-                        </table>
-                        <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
-                    </div>
-                </div>
-                <div class="submit-algo-buttons">
-                    <button type="button" class="btn btn-secondary btn-lg" id="submit-algo-back">Back</button>
-                    <button id="submit-extract" class="glowbutton">Build Algorithm</button>
-                </div>
-            </div>
-
-
-
-
-
-
-            <!-- Combine Files -->
-            <div id="combinehowwrap" class="combinewrap">
-                <div class="combinewrap">
-                    <div class="join-two-files">
-                        <div class="joined-file">
-                            <div class="dropdown flexdropdown selectfile">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select File
-                                </button>
-                                <ul class="joinfile dropdown-menu"></ul>
-                            </div>
-                            <div class="dropdown flexdropdown selectsheet">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="joinsheet dropdown-menu"></ul>
-                            </div>
-                            <div class="dropdown flexdropdown selectcolumn">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="joincol dropdown-menu"></ul>
-                            </div>
-                        </div>
-                        <div class="dropdown condition-dropdown-col flexdropdown action">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
-                            <ul class="joinaction dropdown-menu"> 
-                                <li><a class="dropdown-item">Inner Join</a></li>
-                                <li><a class="dropdown-item">Left Join</a></li>
-                                <li><a class="dropdown-item">Right Join</a></li>                    
-                            </ul>
-                        </div>
-                        <div class="joined-file">
-                            <div class="dropdown flexdropdown selectfile">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select File
-                                </button>
-                                <ul class="joinfile dropdown-menu"></ul>
-                            </div>
-                            <div class="dropdown flexdropdown selectsheet">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="joinsheet dropdown-menu"></ul>
-                            </div>
-                            <div class="dropdown flexdropdown selectcolumn">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="joincol dropdown-menu"></ul>
-                            </div>
-                        </div>
-                    </div>            
-                </div>
-                <div class="addcondition" id="joinbtnswrap">
-                    <a class="myButton conditionbtn" id="addjoin">Add Join</a>
-                    <a class="myButton" id="nextafterjoin">Next</a>
-                </div>
-                <div class="submit-algo-buttons">
-                    <button type="button" class="btn btn-secondary btn-lg" id="submit-merge-back">Back</button>
-                    <button id="submit-merge" class="glowbutton">Build Algorithm</button>
-                </div>
-            </div>
-
-
-
-            <!--<div class="dropdown" style="display:block;">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown button
-                </button>
-                <ul class="dropdown-menu">
-                    <input class="search-input" type="text"
-                    class="form-control border-0 border-bottom 
-                    shadow-none mb-2" placeholder="Search...">
-                    <li><a class="dropdown-item" href="#">apple</a></li>
-                    <li><a class="dropdown-item" href="#">banana</a></li>
-                    <li><a class="dropdown-item" href="#">cherry</a></li>
-                </ul>
-            </div> -->
-
-            <!-- Update File -->
-            <div class="update-from-file" id="update_file_wrap">
-                <div class="update-parent-wrap">
-                    <div class="flex-items-wrap">
-                        <div class="update-from-column">
-                            <h2>File</h2>
-                            <div class="dropdown flexdropdown updateflexdropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select File
-                                </button>
-                                <ul class="updatefile dropdown-menu">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                    <li><a class="dropdown-item">And + (Or)</a></li>
                                 </ul>
                             </div>
-                        </div>
-                        <div class="update-from-column">
-                            <h2>Sheet</h2>
-                            <div class="dropdown flexdropdown selectsheet">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="updatesheet dropdown-menu">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                </ul>
-                            </div>             
-                        </div>
+                            <div class="dropdown condition-dropdown" id="cond1_col_drop">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect1">Select Column</button>            
+                                <ul class="dropdown-menu" id="conditiondropdowncols1"></ul>
+                            </div>
+                            <div class="input-group mb-3 condition-dropdown">
+                                <div class="dropdown condition-dropdown-col" id="cond1_action1">
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                    </ul>
+                                    <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                </div>
+                            </div>
 
-                        <div class="update-from-column">
-                            <h2>Match the values from each of these columns</h2>
-                            <div class="dropdown flexdropdown selectcolumn">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="updatecol dropdown-menu findcol">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                </ul>
+
+                            <div class="condition-input-div" style="display:none; vertical-align: middle;" id="condition1and">
+                                <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
                             </div>
-                            <button class="sub-btn updatefile-add-match-col">Add Column</button>
-                        </div>
-                        <div class="update-from-column">
-                            <h2>Column with values to update</h2>
-                            <div class="dropdown flexdropdown selectcolumn">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="updatecol dropdown-menu updatedcol">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                </ul>
-                            </div>
-                            <button class="sub-btn updatefile-add-update-col">Add Column</button>
                         </div>
                     </div>
+                    <div class="addcondition" id="parimaryaddcondition">
+                        <a class="myButton conditionbtn" id="addconditionprimary">Add Condition</a>
+                        <a class="myButton" id="conditionnextprimary">Next</a>
+                    </div>
                 </div>
-                <div class="addcondition" id="next_update_from_file">
-                    <a class="myButton conditionbtn" id="back_update_from_file">Back</a>
-                    <a class="myButton" id="nextafter_define_update_file">Next</a>
-                </div>
-            </div>
 
-            
-            <!-- Update which files --> 
-            <div class="update-this-file" id="update_this_file_wrap">
-                <div class="update-parent-wrap">
-                    <div class="flex-items-wrap">
-                        <div class="update-from-column">
-                            <h2>File</h2>
-                            <div class="dropdown flexdropdown updateflexdropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select File
-                                </button>
-                                <ul class="updatefile dropdown-menu">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                <!-- Second file - specify where to extract from -->
+                <div id="findwherewrap" class="extractfromwrap">
+                    <div id="second-extractfrom" class="extract-from-file">
+                        <h2 id="second-file-name" class="header-extractfrom">secondfilename</h2>
+                        <div class="dropdown extractfrom" id="second-file-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="second-file_ul"></ul>
+                        </div>
+                        <div class="dropdown extractfrom" id="second-col-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="second-col_ul"></ul>
+                        </div>
+                        <button type="button" class="btn btn-warning" id="data2_adj_col_header">Adjust Column Headers</button>
+                        <div class="adjustheadertable extractfrom" id="colselecttablediv2">
+                            <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data2_table_reset">Reset</button>
+                            <table class="headertable">
+                                <tbody id="data2_tableid"></tbody>
+                            </table>
+                            <button type="button" class="btn btn-secondary btn-lg" id="data2_next_colheader">Next</button>
+                        </div>
+                    </div>
+                    <!-- Third file - specify where to extract from -->
+                    <div id="third-extractfrom" class="extract-from-file">
+                        <h2 id="third-file-name" class="header-extractfrom">secondfilename</h2>
+                        <div class="dropdown extractfrom" id="third-file-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="third-file_ul"></ul>
+                        </div>
+                        <div class="dropdown extractfrom" id="third-col-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="third-col_ul"></ul>
+                        </div>
+                        <button type="button" class="btn btn-warning" id="data3_adj_col_header">Adjust Column Headers</button>
+                        <div class="adjustheadertable extractfrom" id="colselecttablediv3">
+                            <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
+                            <table class="headertable">
+                                <tbody id="data3_tableid"></tbody>
+                            </table>
+                            <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
+                        </div>
+                    </div>
+                    <!-- Fourth file - specify where to extract from -->
+                    <div id="fourth-extractfrom" class="extract-from-file">
+                        <h2 id="fourth-file-name" class="header-extractfrom">secondfilename</h2>
+                        <div class="dropdown extractfrom" id="fourth-file-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="fourth-file_ul"></ul>
+                        </div>
+                        <div class="dropdown extractfrom" id="fourth-col-fileselect">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="fourth-col_ul"></ul>
+                        </div>
+                        <button type="button" class="btn btn-warning" id="data4_adj_col_header">Adjust Column Headers</button>
+                        <div class="adjustheadertable extractfrom" id="colselecttablediv4">
+                            <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
+                            <table class="headertable">
+                                <tbody id="data4_tableid"></tbody>
+                            </table>
+                            <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
+                        </div>
+                    </div>
+                    <div class="submit-algo-buttons">
+                        <button type="button" class="btn btn-secondary btn-lg" id="submit-algo-back">Back</button>
+                        <button id="submit-extract" class="glowbutton">Build Algorithm</button>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- Combine Files -->
+                <div id="combinehowwrap" class="combinewrap">
+                    <div class="combinewrap">
+                        <div class="join-two-files">
+                            <div class="joined-file">
+                                <div class="dropdown flexdropdown selectfile">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select File
+                                    </button>
+                                    <ul class="joinfile dropdown-menu"></ul>
+                                </div>
+                                <div class="dropdown flexdropdown selectsheet">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="joinsheet dropdown-menu"></ul>
+                                </div>
+                                <div class="dropdown flexdropdown selectcolumn">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="joincol dropdown-menu"></ul>
+                                </div>
+                            </div>
+                            <div class="dropdown condition-dropdown-col flexdropdown action">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
+                                <ul class="joinaction dropdown-menu"> 
+                                    <li><a class="dropdown-item">Inner Join</a></li>
+                                    <li><a class="dropdown-item">Left Join</a></li>
+                                    <li><a class="dropdown-item">Right Join</a></li>                    
                                 </ul>
                             </div>
-                        </div>
-                        <div class="update-from-column">
-                            <h2>Sheet</h2>
-                            <div class="dropdown flexdropdown selectsheet">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="updatesheet dropdown-menu">
-                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                </ul>
-                            </div>             
-                        </div>
-                        <div class="update-from-column">
-                            <h2>Match These Column Values (in other files)</h2>
-                            <div class="flexy-dropdown-wrap">
-                                <h2 class="updatedcol-match-label"></h2>
+                            <div class="joined-file">
+                                <div class="dropdown flexdropdown selectfile">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select File
+                                    </button>
+                                    <ul class="joinfile dropdown-menu"></ul>
+                                </div>
+                                <div class="dropdown flexdropdown selectsheet">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="joinsheet dropdown-menu"></ul>
+                                </div>
+                                <div class="dropdown flexdropdown selectcolumn">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="joincol dropdown-menu"></ul>
+                                </div>
+                            </div>
+                        </div>            
+                    </div>
+                    <div class="addcondition" id="joinbtnswrap">
+                        <a class="myButton conditionbtn" id="addjoin">Add Join</a>
+                        <a class="myButton" id="nextafterjoin">Next</a>
+                    </div>
+                    <div class="submit-algo-buttons">
+                        <button type="button" class="btn btn-secondary btn-lg" id="submit-merge-back">Back</button>
+                        <button id="submit-merge" class="glowbutton">Build Algorithm</button>
+                    </div>
+                </div>
+
+
+
+                <!--<div class="dropdown" style="display:block;">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown button
+                    </button>
+                    <ul class="dropdown-menu">
+                        <input class="search-input" type="text"
+                        class="form-control border-0 border-bottom 
+                        shadow-none mb-2" placeholder="Search...">
+                        <li><a class="dropdown-item" href="#">apple</a></li>
+                        <li><a class="dropdown-item" href="#">banana</a></li>
+                        <li><a class="dropdown-item" href="#">cherry</a></li>
+                    </ul>
+                </div> -->
+
+                <!-- Update File -->
+                <div class="update-from-file" id="update_file_wrap">
+                    <div class="update-parent-wrap">
+                        <div class="flex-items-wrap">
+                            <div class="update-from-column">
+                                <h2>File</h2>
+                                <div class="dropdown flexdropdown updateflexdropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select File
+                                    </button>
+                                    <ul class="updatefile dropdown-menu">
+                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="update-from-column">
+                                <h2>Sheet</h2>
+                                <div class="dropdown flexdropdown selectsheet">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="updatesheet dropdown-menu">
+                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                    </ul>
+                                </div>             
+                            </div>
+
+                            <div class="update-from-column">
+                                <h2>Match the values from each of these columns</h2>
                                 <div class="dropdown flexdropdown selectcolumn">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select Column
                                     </button>
                                     <ul class="updatecol dropdown-menu findcol">
                                         <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                    </ul>                                
-                                </div>          
+                                    </ul>
+                                </div>
+                                <button class="sub-btn updatefile-add-match-col">Add Column</button>
                             </div>
-                        </div>
-                        <div class="update-from-column">
-                            <h2>Column with values to update</h2>
-                            <div class="flexy-dropdown-wrap">
-                                <h2 class="updatedcol-match-label"></h2>
+                            <div class="update-from-column">
+                                <h2>Column with values to update</h2>
                                 <div class="dropdown flexdropdown selectcolumn">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select Column
                                     </button>
                                     <ul class="updatecol dropdown-menu updatedcol">
                                         <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                    </ul>                                
+                                    </ul>
                                 </div>
+                                <button class="sub-btn updatefile-add-update-col">Add Column</button>
                             </div>
                         </div>
                     </div>
+                    <div class="addcondition" id="next_update_from_file">
+                        <a class="myButton conditionbtn" id="back_update_from_file">Back</a>
+                        <a class="myButton" id="nextafter_define_update_file">Next</a>
+                    </div>
                 </div>
-                <div class="addcondition" id="next_update_this_file">
-                    <a class="myButton conditionbtn" id="add_file_update">Add File to Update</a>
-                    <button id="submit-update-file" class="glowbutton">Build Algorithm</button>
-                </div>
-            </div>
 
-            <!-- Reconcile -->
-            <div class="algo-path-wraper" id="reconcilefiles">
-                <div class="file-select-block">
-                    <div class="stretch-banner">
-                        <div class="flexy-wrap-child">
-                            <div class="reco-file-select-wrap" id="reco-first-file-wrap">
-                                <div>
-                                    <h2>First File</h2>
-                                </div>
-                                <div>
-                                    <div class="select-reconcile-file" id="reco-first-file">
-                                        <div class="dropdown nohide file-drop">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select File
-                                            </button>
-                                            <ul class="dropdown-menu reco-file">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>
-                                        </div>
-                                        <div class="dropdown nohide">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Sheet
-                                            </button>
-                                            <ul class="dropdown-menu reco-sheet">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>
-                                        </div>        
-                                    </div>   
+                
+                <!-- Update which files --> 
+                <div class="update-this-file" id="update_this_file_wrap">
+                    <div class="update-parent-wrap">
+                        <div class="flex-items-wrap">
+                            <div class="update-from-column">
+                                <h2>File</h2>
+                                <div class="dropdown flexdropdown updateflexdropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select File
+                                    </button>
+                                    <ul class="updatefile dropdown-menu">
+                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="reco-file-select-wrap">
-                                <div>
-                                    <h2>Second File</h2>
-                                </div>
-                                <div>
-                                    <div class="select-reconcile-file" id="reco-second-file">
-                                        <div class="dropdown nohide file-drop">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select File
-                                            </button>
-                                            <ul class="dropdown-menu reco-file">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>
-                                        </div>
-                                        <div class="dropdown nohide">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Sheet
-                                            </button>
-                                            <ul class="dropdown-menu reco-sheet">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>
-                                        </div>        
-                                    </div>   
+                            <div class="update-from-column">
+                                <h2>Sheet</h2>
+                                <div class="dropdown flexdropdown selectsheet">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="updatesheet dropdown-menu">
+                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                    </ul>
+                                </div>             
+                            </div>
+                            <div class="update-from-column">
+                                <h2>Match These Column Values (in other files)</h2>
+                                <div class="flexy-dropdown-wrap">
+                                    <h2 class="updatedcol-match-label"></h2>
+                                    <div class="dropdown flexdropdown selectcolumn">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="updatecol dropdown-menu findcol">
+                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                        </ul>                                
+                                    </div>          
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-match-block">
-                    <div>
-                        <h2>Match These Rows</h2>
-                    </div>
-                    <div id="reco-all-cols-to-match">
-                        <div class="reco-col-match">
-                            <div class="col-match-flexy-wrap" id="reco-match-columns">
-                                <div class="stretch-banner">
-                                    <div class="reconcile-column-flexy">
-                                        <div class="dropdown nohide matchcol-left">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu col-select">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
-                                        </div>
-                                    </div>
-                                    <div class="reconcile-column-flexy">
-                                        <div class="dropdown nohide matchcol-right">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu col-select">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
-                                        </div>
+                            <div class="update-from-column">
+                                <h2>Column with values to update</h2>
+                                <div class="flexy-dropdown-wrap">
+                                    <h2 class="updatedcol-match-label"></h2>
+                                    <div class="dropdown flexdropdown selectcolumn">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="updatecol dropdown-menu updatedcol">
+                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                        </ul>                                
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="addcondition nohide">                    
-                    <a class="myButton" id="reco-add-match">Add Matching Columns</a>
-                </div>
-                <div class="col-match-block">
-                    <div>
-                        <h2>Compare These Columns</h2>
+                    <div class="addcondition" id="next_update_this_file">
+                        <a class="myButton conditionbtn" id="add_file_update">Add File to Update</a>
+                        <button id="submit-update-file" class="glowbutton">Build Algorithm</button>
                     </div>
-                    <div id="reco-all-cols-to-compare">
-                        <div class="reco-col-match">
-                            <div class="col-match-flexy-wrap" id="reco-match-columns">
-                                <div class="stretch-banner">
-                                    <div class="reconcile-column-flexy">
-                                        <div class="dropdown nohide matchcol-left">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu col-select">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
-                                        </div>
+                </div>
+
+                <!-- Reconcile -->
+                <div class="algo-path-wraper" id="reconcilefiles">
+                    <div class="file-select-block">
+                        <div class="stretch-banner">
+                            <div class="flexy-wrap-child">
+                                <div class="reco-file-select-wrap" id="reco-first-file-wrap">
+                                    <div>
+                                        <h2>First File</h2>
                                     </div>
-                                    <div class="reconcile-column-flexy">
-                                        <div class="dropdown nohide matchcol-right">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu col-select">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
+                                    <div>
+                                        <div class="select-reconcile-file" id="reco-first-file">
+                                            <div class="dropdown nohide file-drop">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select File
+                                                </button>
+                                                <ul class="dropdown-menu reco-file">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown nohide">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Sheet
+                                                </button>
+                                                <ul class="dropdown-menu reco-sheet">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>
+                                            </div>        
+                                        </div>   
+                                    </div>
+                                </div>
+                                <div class="reco-file-select-wrap">
+                                    <div>
+                                        <h2>Second File</h2>
+                                    </div>
+                                    <div>
+                                        <div class="select-reconcile-file" id="reco-second-file">
+                                            <div class="dropdown nohide file-drop">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select File
+                                                </button>
+                                                <ul class="dropdown-menu reco-file">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown nohide">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Sheet
+                                                </button>
+                                                <ul class="dropdown-menu reco-sheet">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>
+                                            </div>        
+                                        </div>   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-match-block">
+                        <div>
+                            <h2>Match These Rows</h2>
+                        </div>
+                        <div id="reco-all-cols-to-match">
+                            <div class="reco-col-match">
+                                <div class="col-match-flexy-wrap" id="reco-match-columns">
+                                    <div class="stretch-banner">
+                                        <div class="reconcile-column-flexy">
+                                            <div class="dropdown nohide matchcol-left">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>                                
+                                            </div>
+                                        </div>
+                                        <div class="reconcile-column-flexy">
+                                            <div class="dropdown nohide matchcol-right">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>                                
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="addcondition nohide">                    
+                        <a class="myButton" id="reco-add-match">Add Matching Columns</a>
+                    </div>
+                    <div class="col-match-block">
+                        <div>
+                            <h2>Compare These Columns</h2>
+                        </div>
+                        <div id="reco-all-cols-to-compare">
+                            <div class="reco-col-match">
+                                <div class="col-match-flexy-wrap" id="reco-match-columns">
+                                    <div class="stretch-banner">
+                                        <div class="reconcile-column-flexy">
+                                            <div class="dropdown nohide matchcol-left">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>                                
+                                            </div>
+                                        </div>
+                                        <div class="reconcile-column-flexy">
+                                            <div class="dropdown nohide matchcol-right">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addcondition nohide">                    
+                        <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
+                    </div>
+                    <div class="addcondition nohide">                    
+                        <button id="submit-reco" class="glowbutton">Build Algorithm</button>
+                    </div>
                 </div>
-                <div class="addcondition nohide">                    
-                    <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
+
+
+
+
+
+                
+
+
+                <div class="condition-container" id="secondarycondition-container" style="display:none;">
+                    <div class="conditiondivcontainer" id = "secondaryconditionsq" style="display:none;">
+                        <div class="conditiondiv" id="secondaryconditions1" style="display:none;">
+                            <div class="dropdown condition-dropdown-andor" id="secondaryandor1" style="visibility:hidden;">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                    <li><a class="dropdown-item">And + (Or)</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown condition-dropdown" id="secondarycond1_col_drop">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="secondaryconditioncolselect1">Select Column</button>            
+                                <ul class="dropdown-menu" id="secondaryconditiondropdowncols1"></ul>
+                            </div>
+                            <div class="input-group mb-3 condition-dropdown">
+                                <div class="dropdown condition-dropdown-col" id="secondarycond1_action1">
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                    </ul>
+                                    <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                </div>
+                            </div>
+
+
+                            <div class="condition-input-div" style="display:none; vertical-align: middle;" id="secondarycondition1and">
+                                <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addcondition" id="secondaryaddcondition">
+                        <a class="myButton conditionbtn" id="addconditionsecondary">Add Condition</a>
+                        <a class="myButton" id="conditionnextsecondary">Next</a>
+                    </div>                
                 </div>
-                <div class="addcondition nohide">                    
-                    <button id="submit-reco" class="glowbutton">Build Algorithm</button>
+
+                <div class="datasetselection" id="secondmatchbox" style="display:none;">
+                    <div id="matchboxcolumn2" class="matchbox">
+                        <div class="dropdown matchdiv colselect" id="matchsecondcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="matchsecondcol_ul"></ul>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-
-
-
-
             
 
 
-            <div class="condition-container" id="secondarycondition-container" style="display:none;">
-                <div class="conditiondivcontainer" id = "secondaryconditionsq" style="display:none;">
-                    <div class="conditiondiv" id="secondaryconditions1" style="display:none;">
-                        <div class="dropdown condition-dropdown-andor" id="secondaryandor1" style="visibility:hidden;">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">And</a></li>
-                                <li><a class="dropdown-item">Or</a></li>
-                                <li><a class="dropdown-item">And + (Or)</a></li>
-                            </ul>
+                <div class="condition-container" id="thirdcondition-container" style="display:none;">
+                    <div class="conditiondivcontainer" id = "thirdconditionsq" style="display:none;">
+                        <div class="conditiondiv" id="thirdconditions1" style="display:none;">
+                            <div class="dropdown condition-dropdown-andor" id="thirdandor1" style="visibility:hidden;">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                    <li><a class="dropdown-item">And + (Or)</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown condition-dropdown" id="thirdcond1_col_drop">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="thirdconditioncolselect1">Select Column</button>            
+                                <ul class="dropdown-menu" id="thirdconditiondropdowncols1"></ul>
+                            </div>
+                            <div class="input-group mb-3 condition-dropdown">
+                                <div class="dropdown condition-dropdown-col" id="thirdcond1_action1">
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                    </ul>
+                                    <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                </div>
+                            </div>
+
+
+                            <div class="condition-input-div" style="display:none; vertical-align: middle;" id="thirdcondition1and">
+                                <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
+                            </div>
                         </div>
-                        <div class="dropdown condition-dropdown" id="secondarycond1_col_drop">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="secondaryconditioncolselect1">Select Column</button>            
-                            <ul class="dropdown-menu" id="secondaryconditiondropdowncols1"></ul>
+                    </div>
+                    <div class="addcondition" id="thirdaddcondition">
+                        <a class="myButton conditionbtn" id="addconditionthird">Add Condition</a>
+                        <a class="myButton" id="conditionnextthird">Next</a>
+                    </div>
+                </div>
+
+                <div class="datasetselection" id="thirdmatchbox" style="display:none;">                
+                    <div id="matchboxcolumn3" class="matchbox">
+                        <div class="dropdown matchdiv colselect" id="matchthirdcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="matchthirdcol_ul"></ul>
                         </div>
-                        <div class="input-group mb-3 condition-dropdown">
-                            <div class="dropdown condition-dropdown-col" id="secondarycond1_action1">
+                    </div>
+                </div>
+
+
+                <div class="condition-container" id="fourthcondition-container" style="display:none;">
+                    <div class="conditiondivcontainer" id = "fourthconditionsq">
+                        <div class="conditiondiv" id="fourthconditions1" style="display:none;">
+                            <div class="dropdown condition-dropdown-andor" id="fourthandor1" style="visibility:hidden;">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                    <li><a class="dropdown-item">And + (Or)</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown condition-dropdown" id="fourthcond1_col_drop">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="fourthconditioncolselect1">Select Column</button>            
+                                <ul class="dropdown-menu" id="fourthconditiondropdowncols1"></ul>
+                            </div>
+                            <div class="input-group mb-3 condition-dropdown">
+                                <div class="dropdown condition-dropdown-col" id="fourthcond1_action1">
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                    </ul>
+                                    <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                </div>
+                            </div>
+
+
+                            <div class="condition-input-div" style="display:none; vertical-align: middle;" id="fourthcondition1and">
+                                <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addcondition" id="fourthaddcondition">
+                        <a class="myButton conditionbtn" id="addconditionfourth">Add Condition</a>
+                        <a class="myButton" id="conditionnextfourth">Next</a>
+                    </div>
+                </div>
+
+                <div class="datasetselection" id="fourthmatchbox" style="display:none;">
+                    <div id="matchboxcolumn4" class="matchbox">
+                        <div class="dropdown matchdiv" id="matchfourthcolumn">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Column
+                            </button>
+                            <ul class="dropdown-menu" id="matchfourthcol_ul"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summarycontainer" id="selectionsummarycontainer">
+
+                </div>
+
+
+
+
+                <div class="addcondition" id="executeorrun" style= display:none;">
+                    <a class="myButton conditionbtn" id="addmatchdataset">Go BacK</a>
+                    <a class="myButton" id="runcode">RUN</a>
+                </div>
+
+
+                <div class="condition-container" id="matchcondition-container" style="display:none;">
+                    <div class="conditiondivcontainer" id ="matchconditioncontainer">
+                        <div class="conditiondiv" id="matchcondition1">
+                            <div id="matchwhenheader">
+                                <span class="header-span">When</span>
+                                <span class="header-span" id="matchprimaryheader"></span>
+                                <span class="header-span" id="matchsecondaryheader"></span>
+                            </div>
+
+                            <div class="dropdown condition-dropdown" id="matchcond1_andor">
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="dropdown condition-dropdown" id="matchcond1_primary_col">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="matchconditioncolselect1">Select Column</button>            
+                                <ul class="dropdown-menu" id="match_primary_col_dropdown"></ul>
+                            </div>
+
+                            <div class="dropdown condition-dropdown" id="matchcond1_action1">
                                 <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item">Equals</a></li>
@@ -889,261 +1075,77 @@
                                     <li><a class="dropdown-item">Not Equal To</a></li>
                                     <li><a class="dropdown-item">Does Not Contain</a></li>
                                 </ul>
-                                <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                            </div>
+
+                            <div class="dropdown condition-dropdown" id="matchcond1_secondary_col">
+                                <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="matchconditioncolselect1_scnd_col">Select Column</button>            
+                                <ul class="dropdown-menu" id="match_secondary_col_dropdown"></ul>
                             </div>
                         </div>
+                    </div>
+                    <div class="addcondition" id="matchaddcondition" style="margin-top:10%;">
+                        <a class="myButton conditionbtn" id="addconditionmatch">Add Condition</a>
+                        <a class="myButton" id="conditionnextmatch">Next</a>
+                    </div>
+                </div>             
 
 
-                        <div class="condition-input-div" style="display:none; vertical-align: middle;" id="secondarycondition1and">
-                            <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
-                        </div>
+
+
+
+                <div class="resultbox" id="resultbox_div" style="display:none;margin-top:2%;">
+                    <div class="resulttable_cont">
+                        <table class="headertable resulttable">
+                            <tbody id="result_table_tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="addcondition" id="executeorrun" style="margin-top:4%;">
+                        <a class="myButton conditionbtn" id="addmatchdataset">Edit</a>
+                        <a class="myButton" id="runcode">EXTRACT </a>
                     </div>
                 </div>
-                <div class="addcondition" id="secondaryaddcondition">
-                    <a class="myButton conditionbtn" id="addconditionsecondary">Add Condition</a>
-                    <a class="myButton" id="conditionnextsecondary">Next</a>
-                </div>                
-            </div>
 
-            <div class="datasetselection" id="secondmatchbox" style="display:none;">
-                <div id="matchboxcolumn2" class="matchbox">
-                    <div class="dropdown matchdiv colselect" id="matchsecondcolumn">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="matchsecondcol_ul"></ul>
-                    </div>
+
+
+
+
+
+                <div id="page" >
+                <div id="phrase_box">
+                <svg width="100%" height="100%">
+                    <defs>
+                    <!--<style type="text/css">
+                        @font-face {
+                        font-family: "Proxima";
+                        src: url('');
+                        }
+                    </style>-->
+                    <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+                        <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
+                        <stop stop-color="white" stop-opacity="0" offset="0%"/>
+                        <stop stop-color="white" stop-opacity="1" offset="30%"/>
+                        <stop stop-color="white" stop-opacity="1" offset="70%"/>
+                        <stop stop-color="white" stop-opacity="0" offset="100%"/>
+                        </linearGradient>
+                        <rect width="100%" height="100%" fill="url(#linearGradient)"/>
+                    </mask>
+                    </defs>
+                    <g width="100%" height="100%" style="mask: url(#mask);">
+                    <g id="phrases"></g>
+                    </g>
+                </svg>
                 </div>
-            </div>
-        
-
-
-            <div class="condition-container" id="thirdcondition-container" style="display:none;">
-                <div class="conditiondivcontainer" id = "thirdconditionsq" style="display:none;">
-                    <div class="conditiondiv" id="thirdconditions1" style="display:none;">
-                        <div class="dropdown condition-dropdown-andor" id="thirdandor1" style="visibility:hidden;">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">And</a></li>
-                                <li><a class="dropdown-item">Or</a></li>
-                                <li><a class="dropdown-item">And + (Or)</a></li>
-                            </ul>
-                        </div>
-                        <div class="dropdown condition-dropdown" id="thirdcond1_col_drop">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="thirdconditioncolselect1">Select Column</button>            
-                            <ul class="dropdown-menu" id="thirdconditiondropdowncols1"></ul>
-                        </div>
-                        <div class="input-group mb-3 condition-dropdown">
-                            <div class="dropdown condition-dropdown-col" id="thirdcond1_action1">
-                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Equals</a></li>
-                                    <li><a class="dropdown-item">Contains</a></li>
-                                    <li><a class="dropdown-item">Between</a></li>
-                                    <li><a class="dropdown-item">Greater Than</a></li>
-                                    <li><a class="dropdown-item">Less Than</a></li>
-                                    <li><a class="dropdown-item">Not Equal To</a></li>
-                                    <li><a class="dropdown-item">Does Not Contain</a></li>
-                                </ul>
-                                <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
-                            </div>
-                        </div>
-
-
-                        <div class="condition-input-div" style="display:none; vertical-align: middle;" id="thirdcondition1and">
-                            <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
-                        </div>
-                    </div>
                 </div>
-                <div class="addcondition" id="thirdaddcondition">
-                    <a class="myButton conditionbtn" id="addconditionthird">Add Condition</a>
-                    <a class="myButton" id="conditionnextthird">Next</a>
-                </div>
-            </div>
-
-            <div class="datasetselection" id="thirdmatchbox" style="display:none;">                
-                <div id="matchboxcolumn3" class="matchbox">
-                    <div class="dropdown matchdiv colselect" id="matchthirdcolumn">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="matchthirdcol_ul"></ul>
-                    </div>
-                </div>
-            </div>
 
 
-            <div class="condition-container" id="fourthcondition-container" style="display:none;">
-                <div class="conditiondivcontainer" id = "fourthconditionsq">
-                    <div class="conditiondiv" id="fourthconditions1" style="display:none;">
-                        <div class="dropdown condition-dropdown-andor" id="fourthandor1" style="visibility:hidden;">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">And</a></li>
-                                <li><a class="dropdown-item">Or</a></li>
-                                <li><a class="dropdown-item">And + (Or)</a></li>
-                            </ul>
-                        </div>
-                        <div class="dropdown condition-dropdown" id="fourthcond1_col_drop">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="fourthconditioncolselect1">Select Column</button>            
-                            <ul class="dropdown-menu" id="fourthconditiondropdowncols1"></ul>
-                        </div>
-                        <div class="input-group mb-3 condition-dropdown">
-                            <div class="dropdown condition-dropdown-col" id="fourthcond1_action1">
-                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Equals</a></li>
-                                    <li><a class="dropdown-item">Contains</a></li>
-                                    <li><a class="dropdown-item">Between</a></li>
-                                    <li><a class="dropdown-item">Greater Than</a></li>
-                                    <li><a class="dropdown-item">Less Than</a></li>
-                                    <li><a class="dropdown-item">Not Equal To</a></li>
-                                    <li><a class="dropdown-item">Does Not Contain</a></li>
-                                </ul>
-                                <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
-                            </div>
-                        </div>
 
 
-                        <div class="condition-input-div" style="display:none; vertical-align: middle;" id="fourthcondition1and">
-                            <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
-                        </div>
-                    </div>
-                </div>
-                <div class="addcondition" id="fourthaddcondition">
-                    <a class="myButton conditionbtn" id="addconditionfourth">Add Condition</a>
-                    <a class="myButton" id="conditionnextfourth">Next</a>
-                </div>
-            </div>
 
-            <div class="datasetselection" id="fourthmatchbox" style="display:none;">
-                <div id="matchboxcolumn4" class="matchbox">
-                    <div class="dropdown matchdiv" id="matchfourthcolumn">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Select Column
-                        </button>
-                        <ul class="dropdown-menu" id="matchfourthcol_ul"></ul>
-                    </div>
-                </div>
-            </div>
 
-            <div class="summarycontainer" id="selectionsummarycontainer">
+
 
             </div>
-
-
-
-
-            <div class="addcondition" id="executeorrun" style= display:none;">
-                <a class="myButton conditionbtn" id="addmatchdataset">Go BacK</a>
-                <a class="myButton" id="runcode">RUN</a>
-            </div>
-
-
-            <div class="condition-container" id="matchcondition-container" style="display:none;">
-                <div class="conditiondivcontainer" id ="matchconditioncontainer">
-                    <div class="conditiondiv" id="matchcondition1">
-                        <div id="matchwhenheader">
-                            <span class="header-span">When</span>
-                            <span class="header-span" id="matchprimaryheader"></span>
-                            <span class="header-span" id="matchsecondaryheader"></span>
-                        </div>
-
-                        <div class="dropdown condition-dropdown" id="matchcond1_andor">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">And</a></li>
-                                <li><a class="dropdown-item">Or</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown condition-dropdown" id="matchcond1_primary_col">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="matchconditioncolselect1">Select Column</button>            
-                            <ul class="dropdown-menu" id="match_primary_col_dropdown"></ul>
-                        </div>
-
-                        <div class="dropdown condition-dropdown" id="matchcond1_action1">
-                            <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item">Equals</a></li>
-                                <li><a class="dropdown-item">Contains</a></li>
-                                <li><a class="dropdown-item">Between</a></li>
-                                <li><a class="dropdown-item">Greater Than</a></li>
-                                <li><a class="dropdown-item">Less Than</a></li>
-                                <li><a class="dropdown-item">Not Equal To</a></li>
-                                <li><a class="dropdown-item">Does Not Contain</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="dropdown condition-dropdown" id="matchcond1_secondary_col">
-                            <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="matchconditioncolselect1_scnd_col">Select Column</button>            
-                            <ul class="dropdown-menu" id="match_secondary_col_dropdown"></ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="addcondition" id="matchaddcondition" style="margin-top:10%;">
-                    <a class="myButton conditionbtn" id="addconditionmatch">Add Condition</a>
-                    <a class="myButton" id="conditionnextmatch">Next</a>
-                </div>
-            </div>             
-
-
-
-
-
-            <div class="resultbox" id="resultbox_div" style="display:none;margin-top:2%;">
-                <div class="resulttable_cont">
-                    <table class="headertable resulttable">
-                        <tbody id="result_table_tbody"></tbody>
-                    </table>
-                </div>
-                <div class="addcondition" id="executeorrun" style="margin-top:4%;">
-                    <a class="myButton conditionbtn" id="addmatchdataset">Edit</a>
-                    <a class="myButton" id="runcode">EXTRACT </a>
-                </div>
-            </div>
-
-
-
-
-
-
-            <div id="page" >
-              <div id="phrase_box">
-              <svg width="100%" height="100%">
-                <defs>
-                  <!--<style type="text/css">
-                    @font-face {
-                      font-family: "Proxima";
-                      src: url('');
-                    }
-                  </style>-->
-                  <mask id="mask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
-                    <linearGradient id="linearGradient" gradientUnits="objectBoundingBox" x2="0" y2="1">
-                      <stop stop-color="white" stop-opacity="0" offset="0%"/>
-                      <stop stop-color="white" stop-opacity="1" offset="30%"/>
-                      <stop stop-color="white" stop-opacity="1" offset="70%"/>
-                      <stop stop-color="white" stop-opacity="0" offset="100%"/>
-                    </linearGradient>
-                    <rect width="100%" height="100%" fill="url(#linearGradient)"/>
-                  </mask>
-                </defs>
-                <g width="100%" height="100%" style="mask: url(#mask);">
-                  <g id="phrases"></g>
-                </g>
-              </svg>
-              </div>
-            </div>
-
-
-
-
-
-
-
-
         </div>
-
 
     </body>
 </html>
