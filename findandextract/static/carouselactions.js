@@ -72,7 +72,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -85,7 +85,8 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    start_algo_path('START', 'Extract');
+    var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
+    start_algo_path('START', 'Extract', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1498,7 +1499,7 @@ async function convert_text_to_decision(algo_type){
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel(['Confirm algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>: '
+    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u>:</b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
@@ -1855,7 +1856,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    var fiveMinutes = 10 * 1,
+    var fiveMinutes = 5 * 1,
         display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
 };
