@@ -61,7 +61,8 @@ root = null;
 treeData = null;
 
 var action_color = "#ffd9cb";  //coral
-var standard_color = "white";
+var standard_color = '#9e6236';
+var codexdisplaycolor = "#969696";
 var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a63c7
 
 
@@ -72,7 +73,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -106,7 +107,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 30) {
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -782,7 +783,7 @@ function updateFontColor(eleRef, color) {
         $(eleRef).css('color', 'grey');
     }
     else{
-        $(eleRef).css('color', 'white');
+        $(eleRef).css('color', codexdisplaycolor);
     }
    
 }
@@ -1348,7 +1349,7 @@ async function begin_file_upload(algo_desc){
     //document.getElementById('algo-desc-graph').style.display = 'none';
     //document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     //hide_containers(3);
-    await add_to_carousel('SUMMARY OF ALGORITHM', standard_color, [null], true, false);
+    await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
     await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -1469,6 +1470,7 @@ $(document).ready(function() {
     textarea.addEventListener('input', icon_color_on_empty);
     function icon_color_on_empty() {
         var text = this.value;
+
         if (text !== ''){
             document.getElementById("submittexticon").style.color = "white";              
         }
