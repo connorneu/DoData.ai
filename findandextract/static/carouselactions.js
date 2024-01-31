@@ -1505,7 +1505,7 @@ async function confirm_algorithm_type(algo_type){
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
-    //start_algo_path('START', algo_type['algo_type'])
+    
 }
 
 function capitalizeFirstLetter(string) {

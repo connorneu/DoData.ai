@@ -707,3 +707,9 @@ $(document.body).on('click', '#descriptionhelp' , async function(){
     elem.fadeIn(10);
     
 });
+
+//start_algo_path('START', algo_type['algo_type'])
+// click continue after confirm algorithm text
+$(document.body).on('click', '#descriptionhelp' , async function(){   
+    start_algo_path('START', algo_type['algo_type'])
+});
