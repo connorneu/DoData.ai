@@ -1494,10 +1494,22 @@ async function convert_text_to_decision(algo_type){
             document.getElementsByClassName('model-failure')[0].style.display = 'block';
         }
         else{
-            
-            start_algo_path('START', algo_type['algo_type'])
+            confirm_algorithm_type(algo_type)
         }
     }, 2800);
+}
+
+async function confirm_algorithm_type(algo_type){
+    await add_to_carousel(['Confirm algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + capitalizeFirstLetter(algo_type['algo_type']) + ':</u></b> '
+    document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
+    document.getElementById('confirm-algo-select').style.display = 'block';
+    document.getElementById('confirmalgo-btns').style.display = 'block';
+    //start_algo_path('START', algo_type['algo_type'])
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function find_described_node(algo_type){

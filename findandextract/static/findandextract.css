@@ -1070,8 +1070,20 @@ display: inline-block;
     display:none;
 }
 
-
-
+.display-text-prompt{
+    display:none;
+    text-align: center;
+    width:50%;
+    margin: 0 auto;
+    margin-top:5%;
+}
+.side-by-side-tags{
+    display:flex;
+    float:left;
+}
+.side-by-side-tags :first-child{
+    margin-right: 20px;
+}
 
 /*loader*/
 @keyframes spinq{

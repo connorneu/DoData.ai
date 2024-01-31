@@ -192,8 +192,8 @@ def findandextract(request):
                 algo_type, algo_desc = classify_zeroshot(nli, user_desc)
                 print('algo_type', algo_type)
                 print('algo desc', algo_desc)
-                return JsonResponse({'algo_type': algo_type})
-                return JsonResponse({'algo_type': 'failure'})
+                return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
+                #return JsonResponse({'algo_type': 'failure'})
             else:
                 print('DATA UPLOAD POS')
                 print(request.POST)
