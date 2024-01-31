@@ -29,6 +29,7 @@ from functools import reduce
 goog_w2v_model = None
 nlp = None
 threads = []
+nli = None
 # Create your views here.
 
 def Load_Language_Model():
@@ -41,7 +42,12 @@ def Load_Language_Model():
     # Build_Quick_Gensim_Model() needs to be called first time on .bin Google Word vectors to create quick version in directory (cannot copy paste)
     print('model loaded')
 
+def Get_LNI_Model():
+    global nli
+    nli = Load_NLI_Model()
+
 def findandextract(request):
+    global nli
     global threads
     if request.method == 'POST':
         print("POST REQUEST MADE")
@@ -181,31 +187,12 @@ def findandextract(request):
                     obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
                 return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'classify_text':
-                attempts = 0
-                while(attempts<3):
-                    try:
-                        
-                        print('POST: classify_text')
-                        user_desc = request.POST.get('user_algo_desc')
-                        #all_related_str = Convert_Source_Sentence(user_desc, goog_w2v_model, nlp) 
-                        all_related_str = Convert_Source_Sentence_Single_Word(user_desc, goog_w2v_model, nlp) 
-                        print()
-                        print()
-                        print('ALL RELATED WORDS')
-                        print(all_related_str)
-                        #words_dic = Read_Category_Words()
-                        words_dic = {'combine':'combine', 'extract':'extract', 'reconcile':'reconcile', 'update':'update'} 
-                        print()
-                        print('WORDS_DIC')
-                        print(words_dic)
-                        algo_type = hf_sent_sim_classification_model(all_related_str, words_dic)
-                        print('algo_type', algo_type)
-                        return JsonResponse({'algo_type': algo_type})
-                    except:
-                        print('retrying to submit text', attempts)
-                        Load_Language_Model()
-                        time.sleep(30)
-                        attempts+=1
+                print('POST: classify_text')
+                user_desc = request.POST.get('user_algo_desc')
+                algo_type, algo_desc = classify_zeroshot(nli, user_desc)
+                print('algo_type', algo_type)
+                print('algo desc', algo_desc)
+                return JsonResponse({'algo_type': algo_type})
                 return JsonResponse({'algo_type': 'failure'})
             else:
                 print('DATA UPLOAD POS')
@@ -236,7 +223,7 @@ def findandextract(request):
                 fande_db_data = list(KeyValueDataFrame.objects.values())
                 return JsonResponse({'fande_data_dump' : fande_db_data})
         else:
-            x = threading.Thread(target=Load_Language_Model)
+            x = threading.Thread(target=Get_LNI_Model) # target=Load_Language_Model
             x.start()
             threads.append(x)
             return render(request, "findandextract/fandemain.html")

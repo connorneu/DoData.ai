@@ -50,7 +50,7 @@ var input_color = '#d93095';
 var second_color = '#92fcff';
 var third_color = '#fcdd43';
 var fourth_color = '#ac86db';
-var writings_color = '#008000';
+var writings_color = '#bf855b';
 
 var color_array = [input_color, second_color, third_color, fourth_color, writings_color];
 
@@ -72,7 +72,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -105,7 +105,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 0) {
+async function typeSentence(sentence, eleRef, color, delay = 30) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -305,8 +305,8 @@ async function start_data_filter(db_data){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
         }         
     }
-    //decide_algo_path(algorithm_type);
-    edit_data();
+    decide_algo_path(algorithm_type);
+    //edit_data();
 }
 
 async function edit_data(){
@@ -330,6 +330,7 @@ function populate_mini_table_headers(){
         var header = table.getElementsByTagName('h2')[0];
         header.innerHTML = table_names[i];
         header.style.color = color_array[i];
+        table.style.display = 'block';
     }
 }
 
@@ -1493,6 +1494,7 @@ async function convert_text_to_decision(algo_type){
             document.getElementsByClassName('model-failure')[0].style.display = 'block';
         }
         else{
+            
             start_algo_path('START', algo_type['algo_type'])
         }
     }, 2800);

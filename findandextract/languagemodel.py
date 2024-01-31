@@ -9,7 +9,9 @@ from nltk.corpus import stopwords
 import spacy
 import time
 import sys
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+from transformers import pipeline
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -37,6 +39,37 @@ def Load_Gensim_Model():
 def Load_Gensim_Model_Quick():
     goog_w2v_model = models.KeyedVectors.load(GOOGLE_NEG_300_Q, mmap='r')
     return goog_w2v_model
+
+
+#https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli?candidate_labels=join+two+datasets+on+either+row+values+or+column+headers+to+combine+the+values+into+one+dataset%2C+select+rows+of+data+from+one+or+multiple+files+based+on+an+uploaded+list+or+specified+conditions%2C+reconcile+values+in+two+similar+datasets+by+matching+common+values+and+comparing+the+other+columns%2C+replace+the+values+in+a+dataset+with+updated+values+from+an+uploaded+list+or+specified+conditions&multi_class=false&text=search+for+the+first+name+and+join+the+column+with+the+last+name
+def Load_NLI_Model():
+    # faster worse 
+    #classifier = pipeline("zero-shot-classification", model="MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli")
+    # slower better
+    classifier = pipeline("zero-shot-classification", model="MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli")
+    return classifier
+
+def classify_zeroshot(classifier, user_text):
+    candidate_labels = ["join combine",
+                        "select extract",
+                        "reconcile compare",
+                        "modify update"]
+    output = classifier(user_text, candidate_labels, multi_label=False)
+    print('classifier output:', output)
+    scores = output['scores']
+    result_index = scores.index(max(scores))
+    result_raw = output['labels'][result_index]
+    result_word = {'join combine': 'combine', 'select extract': 'extract', 'reconcile compare': 'reconcile', 'modify update': 'update'}
+    result_desc = {'combine': 'Join two datasets on either rows or column headers to combine the values into one file.',
+                   'extract': 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.',
+                   'reconcile': 'Reconcile values of two datasets by matching rows and comparing similarities and differences.',
+                   'update': 'Change values in one or more dataset based on values or conditions.'}
+    result = result_word[result_raw]
+    result_desc = result_desc[result]
+    print('result:', result)
+    print('result description:', result_desc)
+    return result, result_desc
+
 
 def gensim_word2vec(goog_w2v_model):
     topn = 25
