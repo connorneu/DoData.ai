@@ -1343,23 +1343,19 @@ function force_first_node_as_active(class_name, root_node_name){
     }
 }
 
-async function begin_file_upload(){
+async function begin_file_upload(algo_desc){
     //document.getElementById('algo-desc-graph').style.display = 'none';
     //document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     //hide_containers(3);
     await add_to_carousel('SUMMARY OF ALGORITHM', standard_color, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
-    //await add_to_carousel('\xa0\xa0$\xa0' + 'Input Format: ' + input_type, standard_color, [], true, false);
-    if (algorithm_type == 'Extract'){
-        await add_to_carousel('Extract Algorithm: Select data from files', writings_color, [null], true, false);
-        await add_to_carousel('\xa0\xa0\xa0' + 'Use input file or enter values describing values to extract.', input_color, [null], true, false);
-        await add_to_carousel('\xa0\xa0\xa0' + 'Search between 1 and 4 files for data, combining results into one file.', input_color, [null], true, false);
-    } 
+    await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
     await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     await add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 }
 
-async function start_algo_path(node_name, parent_node_name){
+async function start_algo_path(node_name, parent_node_name, algo_desc){
+    console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
     if (node_name === 'START'){
         if (document.getElementById('algo-desc-graph').style.display == 'block'){
             hide_containers(1);
@@ -1382,7 +1378,7 @@ async function start_algo_path(node_name, parent_node_name){
             console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
         }
-        begin_file_upload();
+        begin_file_upload(algo_desc);
     }
     //describe_search_file_single(); // the zoom feature that brings to more detailed description
     
@@ -1500,12 +1496,20 @@ async function convert_text_to_decision(algo_type){
 }
 
 async function confirm_algorithm_type(algo_type){
+    var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel(['Confirm algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + capitalizeFirstLetter(algo_type['algo_type']) + ':</u></b> '
+    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>: '
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
-    
+
+    // click continue after confirm algorithm text
+    $(document.body).on('click', '#confirm-algo-yes' , async function(){ 
+        hide_containers(1);  
+        document.getElementById('confirm-algo-select').style.display = 'none';
+        document.getElementById('confirmalgo-btns').style.display = 'none';
+        start_algo_path('START', algo, algo_type['algo_desc'])
+    });
 }
 
 function capitalizeFirstLetter(string) {
@@ -1851,7 +1855,7 @@ function startTimer(duration, display) {
 }
 
 window.onload = function () {
-    var fiveMinutes = 20 * 1,
+    var fiveMinutes = 10 * 1,
         display = document.querySelector('#time');
     startTimer(fiveMinutes, display);
 };
