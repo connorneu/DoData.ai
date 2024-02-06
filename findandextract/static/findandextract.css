@@ -294,7 +294,20 @@ pre.caret-underscore > span {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
+    background-color:white;
+    color:black;
 }
+.btn:hover{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    background-color:white;
+    color:black;
+}
+.dropdown-menu a{
+    font-size:12px;
+}
+
 .bigr{
     font-size:14px;
 }
@@ -310,8 +323,10 @@ table, th, td {
     color:white;
     z-index: 1;
     overflow:hidden;
+    font-size:12px;
     /*align-left:auto;
     align-right:auto;      */
+    cursor:pointer;
     
 
 }

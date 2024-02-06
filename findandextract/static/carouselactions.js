@@ -1738,46 +1738,46 @@ function get_createTable_by_index(index_num){
 
 
 //searchable dropdown
+
 //https://www.geeksforgeeks.org/how-to-add-dropdown-search-bar-in-bootstrap-5/
 $(document.body).on('input', '.search-input' , function(){  
-console.log('she')
-    
-//const handleInput = () => {
-
-
     inputValue = this.value
-        //document
-        //    .querySelector('.form-control').value;
-    //    ;
-    console.log('input val')
-    console.log(this.value)
     var results = [];
-    var dropdown_parent = $(this).closest('.dropdown-menu').find('a');
-    console.log('fart')
-    console.log(dropdown_parent.length)
-    dropdown_parent.each(function(i){
-        console.log(dropdown_parent[i].text)
-        results.push(dropdown_parent[i].text)
-    })
+    // if no div child containing original value exists use dropdown parent  else read values into array
+    // prevents having to refresh to get back original values when searched value is deleted
+    if (this.children.length > 0){
+        var data = this.firstChild.innerHTML;
+        var arr = data.split(',')
+        arr.forEach(function(elem){
+            results.push(elem)
+        })
+    }
+    else{
+        var dropdown_parent = $(this).closest('.dropdown-menu').find('a');
+        console.log(dropdown_parent.length)
+        dropdown_parent.each(function(i){
+            results.push(dropdown_parent[i].text)
+        })
+    }
 
-
+    // if there is no child div containing original values of dropdown then create it
+    if (this.children.length === 0){
+        var e = document.createElement('div');
+        e.innerHTML = results;
+        this.appendChild(e);
+    }
+    
 
     var parentElement = $(this).closest('.dropdown').find('.dropdown-menu')[0];
-   //     document
-   //         .querySelector(".dropdown-menu");
-    console.log('parents')
-    console.log(parentElement)
-
     const elementsToRemove = parentElement.querySelectorAll("li");
     elementsToRemove.forEach(element => {
-        //console.log(element)
         element.remove();
     });
     if (inputValue) {
         const matchingWords =
             results
-                .filter(word => word
-                    .includes(inputValue));
+                .filter((word) => 
+                    {return word.toLowerCase().includes(inputValue.toLowerCase())});
         matchingWords.sort((a, b) => {
             const indexA =
                 a.indexOf(inputValue);

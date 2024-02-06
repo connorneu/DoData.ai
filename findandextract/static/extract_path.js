@@ -34,7 +34,7 @@ async function display_primaryfileselect_drop(){
 }
 
  // file input: when primary file is selected hide dropdown + hide header + print selection
- $(document.body).on('click', '#primaryfile_ul' ,async function(){ 
+ $(document.body).on('click', '#primaryfile_ul li' ,async function(){ 
     hide_containers(2);
     document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
     //document.getElementById('extractinputfile').style.display = 'none';
@@ -51,7 +51,7 @@ async function primary_sheet_selection(){
     }
     else{
         primary_sheet_name = "Sheet1";
-        await add_to_carousel('\xa0\xa0\xa0' + 'Input Sheet: Sheet1 (default - file only has one sheet)', input_color, ['adjust_col_header()'], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + 'Input Sheet: Sheet1 (default - file only has one sheet)', input_color, ['adjust_col_header()'], true, false);        
     }   
 }
 
