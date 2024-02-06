@@ -346,7 +346,7 @@ function user_tables_as_array_with_brackets(){
 
 async function decide_algo_path(algorithm_type)
 {
-    await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
+    //await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     console.log('algorithm_type ' + algorithm_type)
     if (algorithm_type === 'Extract'){
         start_extract_file();

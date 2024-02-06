@@ -1,6 +1,6 @@
 async function start_extract_file(){
     await add_to_carousel(['Define values to extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Select values from file or describe values to search for?'], action_color, ["document.getElementById('inputis_file_or_input').style.display = 'block';", "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
+    await add_to_carousel(['Use an uploaded file to define values to search for in other files or enter them in individually'], action_color, ["document.getElementById('inputis_file_or_input').style.display = 'block';", "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
 }
 
 // user selects use input file
@@ -8,7 +8,7 @@ $(document.body).on('click', '#inputis_file' ,async function(){
     input_or_description = 'input';
     hide_containers(2);
     document.getElementById('user_select_input_file_or_custom').style.display = 'none';
-    await add_to_carousel('Extract values using input file.', 'white', ['primary_file_selection_extract()'], true, false);
+    await add_to_carousel('Extract values using: Input File', standard_color, ['primary_file_selection_extract()'], true, false);
 });
 
 // user selects use description
@@ -16,7 +16,7 @@ $(document.body).on('click', '#inputis_describe' ,async function(){
     input_or_description = 'describe';
     hide_containers(2);
     document.getElementById('user_select_input_file_or_custom').style.display = 'none';
-    await add_to_carousel('Extract values using custom description.', 'white', ['describe_data_extract()'], true, false);
+    await add_to_carousel('Extract values using: Custom Description', 'white', ['describe_data_extract()'], true, false);
 });
 
 // display_primaryfileselect_drop in in carouselaction.js as it can be used by other algorithm paths
