@@ -41,9 +41,10 @@ body {
 }
 .typecontainer{
     display:block;
-    max-height:350px;
-    overflow: hidden;
-
+    max-height:200px;
+    min-height:200px;
+    overflow: scroll;
+    margin-bottom:1%;
 }
 
 h1{
@@ -52,11 +53,21 @@ h1{
     display:block;
     color: white;  
 }
-h2{
-    font-size:14px; 
+h2 {
+    font-size:16px;
     color: rgb(255, 255, 255);  
     text-align:left;
     display:inline;
+}
+
+.carouselcontainer h2{
+    font-size:12px; 
+    color: rgb(255, 255, 255);  
+    text-align:left;
+    display:inline;
+}
+.carouselcontainer.actionfyi h2{
+    font-size:15px; 
 }
 h3{
     font-size:20px;   
@@ -67,7 +78,7 @@ h3{
     margin-bottom:50px;
 }
 .action h2{
-    font-size:16px;
+    font-size:20px;
     color:rgba(255, 255, 255) !important;
     /*animation: flicker 5s infinite alternate;
     text-shadow: 1px 0px 4px #7e7e7e,
@@ -135,18 +146,18 @@ li { cursor: pointer; }
     width: 24rem;
     height: 15rem;*/
 
-    animation: unblur .1s .2s ease both;
-    -webkit-filter: blur(1px);
+    animation: unblur 1s 0s ease both;
+    -webkit-filter: blur(10px);
     
 
     background: rgba(53, 1, 95, 0.037);
     border-radius: .25rem;
     box-shadow:
-      inset 0 0 8rem rgba(50,50,50,.02),
-      inset 0 0 8rem rgba(98, 0, 255, 0.02),
-      inset 0 0 8rem rgba(36, 1, 75, 0.02),
+      inset 0 0 8rem rgba(50,50,50,.08),
+      inset 0 0 8rem rgba(98, 0, 255, 0.08),
+      inset 0 0 8rem rgba(36, 1, 75, 0.08),
       inset 0 0 8rem rgba(62, 43, 116, 0.064),
-      inset 0 0 5rem rgba(250,245,255,.03);
+      inset 0 0 5rem rgba(250,245,255,.09);
 }
 @keyframes unblur { to { -webkit-filter: blur(0px); } }
 @keyframes blur { to { -webkit-filter: blur(1px); } }
@@ -157,7 +168,7 @@ li { cursor: pointer; }
 }
 .action{
     text-align : center;
-    margin-top: 6%;
+    margin-top: 1%;
 }
 .actionfyi{
     text-align : center;
@@ -167,7 +178,7 @@ li { cursor: pointer; }
 }
 /*carot*/
 pre {
-  background: #000;
+  background: rgba(0, 0, 0, 0.0);
   color: white;
   padding: 1ch;
 }
@@ -175,6 +186,7 @@ pre {
 pre.caret-underscore > span {
   animation: blink 1s step-end infinite;
   border-bottom: 2px solid white;
+  
 }
 
 @keyframes blink {
@@ -265,9 +277,10 @@ pre.caret-underscore > span {
 	color:#505739;
 	font-size:14px;
 	font-weight:bold;
-	padding:12px 16px;
+	padding:8px 14px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #ffffff;
+    margin-top:2%;
 }
 .myButton:hover {
 	background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
@@ -283,7 +296,7 @@ pre.caret-underscore > span {
     margin-top: 2%;
 }
 .bigr{
-    font-size:16px;
+    font-size:14px;
 }
 /*style="margin-left: auto;margin-right: auto;margin-top: 2%;"*/
 
@@ -488,33 +501,36 @@ margin-top:1%;
   align-items: center;  
   display:inline-block;
   width: 250px;
-  height:90px;
+  height:70px;
   max-width: 100%;
   padding: 25px;
   border: 1px dashed rgba(255, 255, 255, 0.4);
   border-radius: 3px;
   transition: 0.2s;
-  margin-bottom:2%;
+  margin-bottom:0%;
   text-align: center;
+  background-color: rgba(132, 0, 255, 0.123);
+  vertical-align: bottom;
   &.is-active {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(0, 0, 0, 0.24);
   }
 }
 .file-drop-area:hover{
-    background-color: rgba(255, 255, 255, 0.185);
+    background-color: rgba(162, 0, 255, 0.301);
 }
 
 
 .fake-btn {
   flex-shrink: 0;
-  background-color: rgba(255, 255, 255, 0.144);
+  background-color: rgba(38, 0, 59, 0.822);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 3px;
   padding: 6px 10px;
   font-size: 14px;
   text-align: center;
-  
-
+  display: block;
+  margin-bottom: 1px;
+  margin-top:-14px;
 }
 
 .file-msg {
@@ -942,13 +958,15 @@ textarea {
     font-size: 36px;
     height:1.5em;
     color: grey;
-    margin-left:630px;
-    margin-top:170px;
-    position: relative;
+    margin-left:620px;
+    margin-top:160px;
+    position: absolute;
     z-index:10;
     width:100%;
     height:100%;
-    left:50px;
+    left:0px;
+    top:0px;
+    cursor: pointer;
 }
 
 #submiticonwrap{
@@ -964,7 +982,7 @@ display: inline-block;
     display:none;
 }
 .describe-textarea{
-    color:#999;
+    color:#999; 
     height: 50px;
     width: 300px;
 }
@@ -973,8 +991,11 @@ display: inline-block;
     margin-top:10%;
     color:white;
 }
+#textbox-algo-desc{
+    font-size:18px;
+}
 .header-banner-wrap h2{
-    font-size:24px;
+    font-size:18px;
 }
 
 .help-banner-wrap{
@@ -1049,7 +1070,7 @@ display: inline-block;
     margin: 0 auto;
 }
 .timerload h2{
-    font-size: 28px;
+    font-size: 18px;
 }
 .timerload h4{
     font-size: 14px;

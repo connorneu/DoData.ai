@@ -495,21 +495,24 @@ $(document.body).on('click', '#matchaddcondition' ,function(){
 });
 
 $(document.body).on('dragenter focus click', '.file-input' ,function(e){
-    $(e.target.parentNode).addClass('is-active');
+    console.log('char')
+    var node = $(e.target).parent()
+    console.log(node.attr('class'))
+    node.addClass('is-active');
 });
 
-$(document.body).on('dragenter focus click', '.file-input' ,function(e){
-    $(e.target.parentNode).removeClass('is-active');
-});
-
+// change text of file drop
 //unhide add additional file and next buttons
 $(document.body).on('change', '.file-input' ,function(){
     var filesCount = $(this)[0].files.length;
-    var $textContainer = $(this).prev();
+    var $textContainer = $(this).prev().prev();
+    var $textbanner = $(this).prev();
     if (filesCount === 1) {
     // if single file is selected, show file name
     var fileName = $(this).val().split('\\').pop();  
     $textContainer.text(fileName);
+    $($textContainer).css({marginTop: '+=6px'});;
+    $textbanner.text('');
     } else {
     // otherwise show number of files
     $textContainer.text(filesCount + ' files selected');

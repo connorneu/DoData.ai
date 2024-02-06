@@ -61,8 +61,8 @@ root = null;
 treeData = null;
 
 var action_color = "#ffd9cb";  //coral
-var standard_color = '#9e6236';
-var codexdisplaycolor = "#969696";
+var standard_color =  "#f57542"; 
+var codexdisplaycolor = '#f5f1f0';
 var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a63c7
 
 
@@ -73,7 +73,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -107,7 +107,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 0) {
+async function typeSentence(sentence, eleRef, color, delay = 10) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -205,8 +205,8 @@ async function carousel(carousel_obj) {
             }
         }
     }
-    if (carousel_num > 14){
-        document.getElementById("printitout").style.minHeight = 378 + "px";
+    if (carousel_num > 7){
+        //document.getElementById("printitout").style.minHeight = 378 + "px";
         var element = document.getElementById('typingtextcontainer');
         element.scrollIntoView(false);
         element.scroll(-1000,500);
@@ -738,6 +738,7 @@ function hide_containers(num_to_hide){
         try {
             var container = 'carouselcontainer' + current_cont;
             document.getElementById(container).style.display = 'none';
+            //document.getElementById(container).style.visibility = 'hidden';
             current_cont--;
         } catch (error) {
             console.error(error);
@@ -1501,7 +1502,7 @@ async function convert_text_to_decision(algo_type){
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel(['Confirm algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u>:</b>' 
+    document.getElementById('confirm-algo-header-type').innerHTML = '<b>' + algo + ':</b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';

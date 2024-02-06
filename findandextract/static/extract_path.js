@@ -155,7 +155,7 @@ async function write_extract_column_to_console(){
     hide_containers(2);
     var extract_from_str = '\xa0\xa0\xa0' + 'Find values from column: ' + extract_col; 
     await add_to_carousel(extract_from_str, input_color , [null], true, false);
-    await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
+    //await add_to_carousel('', input_color , ['add_linebreak_to_carousel()'], true, false);
 }
 
 $(document.body).on('click', '#conditionnextprimary' ,async function(){
@@ -245,7 +245,7 @@ async function where_to_search(){
     populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
     populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
     await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['If the column contains the value being searched for then the row will be extracted.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
+    //await add_to_carousel(['If the column contains the value being searched for then the row will be extracted.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
     document.getElementById('findwherewrap').style.display = 'block';
     document.getElementById('second-extractfrom').style.display = 'flex'; 
     document.getElementById("second-file-name").innerHTML = secondary_file_name;
