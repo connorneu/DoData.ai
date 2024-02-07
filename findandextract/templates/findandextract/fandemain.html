@@ -215,14 +215,14 @@
                                     <table class="mini-tables">
                                         <tbody id="mini_table1"></tbody>
                                     </table>
-                                    <a class="btn btn-warning" id="edit-mini1">Edit</a>
+                                    <a class="btn btn-warning edittable" id="edit-mini1">Edit</a>
                                 </div>
                                 <div class="mini-table-wrap">
                                     <h2 class="mini-table-name"></h2>
                                     <table class="mini-tables">
                                         <tbody id="mini_table2"></tbody>
                                     </table>
-                                    <a class="btn btn-warning" id="edit-mini2">Edit</a>
+                                    <a class="btn btn-warning edittable" id="edit-mini2">Edit</a>
                                 </div>
                             </div>
                             <div class="mini-table-row">
@@ -231,14 +231,14 @@
                                     <table class="mini-tables">
                                         <tbody id="mini_table3"></tbody>
                                     </table>
-                                    <a class="btn btn-warning" id="edit-mini3">Edit</a>
+                                    <a class="btn btn-warning edittable" id="edit-mini3">Edit</a>
                                 </div>
                                 <div class="mini-table-wrap">
                                     <h2 class="mini-table-name"></h2>
                                     <table class="mini-tables">
                                         <tbody id="mini_table4"></tbody>
                                     </table>
-                                    <a class="btn btn-warning" id="edit-mini4">Edit</a>
+                                    <a class="btn btn-warning edittable" id="edit-mini4">Edit</a>
                                 </div>
                             </div>
                         </div>
@@ -248,20 +248,59 @@
                     </div>
 
 
+                    <!-- ADJUST COLUMN HEADER -->
+                    <div class="adjustheadertable" id="colselecttablediv1">
+                        <button type="button" class="btn btn-warning bigr" id="data1_table_reset">Reset</button>
+                        <table class="headertable">
+                            <tbody id="data1_tableid"></tbody>
+                        </table>
+                        <div class="bottom-btns">
+                            <a class="myButton" id="data1_next_colheader">Next</a>                    
+                        </div>
+                    </div>
+                    <div class="adjustheadertable" id="colselecttablediv2">
+                        <button type="button" class="btn btn-warning bigr" id="data2_table_reset">Reset</button>
+                        <table class="headertable">
+                            <tbody id="data2_tableid"></tbody>
+                        </table>
+                        <div class="bottom-btns">
+                            <a class="myButton" id="data2_next_colheader">Next</a>                    
+                        </div>
+                    </div>
+                    <div class="adjustheadertable" id="colselecttablediv3">
+                        <button type="button" class="btn btn-warning bigr" id="data3_table_reset">Reset</button>
+                        <table class="headertable">
+                            <tbody id="data3_tableid"></tbody>
+                        </table>
+                        <div class="bottom-btns">
+                            <a class="myButton" id="data3_next_colheader">Next</a>                    
+                        </div>
+                    </div>
 
+                    <div class="adjustheadertable" id="colselecttablediv4">
+                        <button type="button" class="btn btn-warning bigr" id="data4_table_reset">Reset</button>
+                        <table class="headertable">
+                            <tbody id="data4_tableid"></tbody>
+                        </table>
+                        <div class="bottom-btns">
+                            <a class="myButton" id="data4_next_colheader">Next</a>                    
+                        </div>
+                    </div>
+
+
+
+
+                    <!-- ALGO PATCH OPTIONS -->
                     <div class="option-select-wrap" id="user_select_input_file_or_custom">
                         <div class="button-banner" id="inputis_file_or_input">
                             <a class="myButton bigr" id="inputis_file">Use Input File</a>
                             <a class="myButton bigr" id="inputis_describe">Enter Values</a>                    
                         </div>
                     </div>
-
                     <div class="button-banner" id="merge_or_append">
                         <a class="myButton bigr" id="user_merge">Merge</a>
                         <a class="myButton bigr" id="user_append">Append</a>                    
                     </div>
-
-
                     <div class="button-banner" id="update_file_or_input">
                         <a class="myButton bigr" id="update_file">File</a>
                         <a class="myButton bigr" id="update_input">Input</a>                    
@@ -269,6 +308,8 @@
 
 
 
+
+                    
                     <div class="describe-data-wrap" id="describe-data-extract">
                         <div id="extract-descriptions">
                             <div>
@@ -355,31 +396,7 @@
                         </table>
                     </div>
 
-                    <div class="adjustheadertable" id="colselecttablediv1" style="overflow-x:auto;display:none;">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data1_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data1_tableid"></tbody>
-                        </table>
-                        <button type="button" class="myButton bigr" id="data1_next_colheader">Next</button>
-                    </div>
-
-
-
-                    <div class="adjustheadertable" id="colselecttablediv3" style="overflow-x:auto;display:none;">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data3_tableid"></tbody>
-                        </table>
-                        <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
-                    </div>
-
-                    <div class="adjustheadertable" id="colselecttablediv4" style="overflow-x:auto;display:none;">
-                        <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data4_tableid"></tbody>
-                        </table>
-                        <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
-                    </div>
+                    
 
 
                     
@@ -408,7 +425,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item">And</a></li>
                                         <li><a class="dropdown-item">Or</a></li>
-                                        <li><a class="dropdown-item">And + (Or)</a></li>
+                                        <!-- <li><a class="dropdown-item">And + (Or)</a></li> -->
                                     </ul>
                                 </div>
                                 <div class="dropdown condition-dropdown" id="cond1_col_drop">
@@ -460,13 +477,7 @@
                                 <ul class="dropdown-menu" id="second-col_ul"></ul>
                             </div>
                             <button type="button" class="btn btn-warning" id="data2_adj_col_header">Adjust Column Headers</button>
-                            <div class="adjustheadertable extractfrom" id="colselecttablediv2">
-                                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data2_table_reset">Reset</button>
-                                <table class="headertable">
-                                    <tbody id="data2_tableid"></tbody>
-                                </table>
-                                <button type="button" class="btn btn-secondary btn-lg" id="data2_next_colheader">Next</button>
-                            </div>
+                            
                         </div>
                         <!-- Third file - specify where to extract from -->
                         <div id="third-extractfrom" class="extract-from-file">

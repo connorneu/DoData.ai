@@ -70,22 +70,6 @@ function display_primaryfilesheets_drop() {
     add_to_carousel('Input Sheet: ', input_color, ['update_item_text_params(primary_sheet_name)', 'adjust_col_header()'], true, false);
 });
 
-// adjust column header
-function adjust_col_header(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    document.getElementById("colselecttablediv1").style.display = "block";
-    col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
-}
-
-// next after adjusting col headers primary data
-// function at next step changed from display_add_conditions_btn to select find column
-$(document.body).on('click', '#data1_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv1").style.display = "none";
-    select_find_column();
-});
-
 async function select_find_column(){    
     await add_to_carousel(['Select column with values to search for in other datasets:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     await add_to_carousel(['Values in this column will be searched for in other datasets.'],
@@ -273,26 +257,6 @@ async function where_to_search(){
     $('#third-file_ul').parents(".dropdown").find('.btn').text(third_file_sheets[0]); // set default value to first sheet
     $('#fourth-file_ul').parents(".dropdown").find('.btn').text(fourth_file_sheets[0]); // set default value to first sheet
 }
-
-$(document.body).on('click', '#data2_tableid' ,function(e){      
-    populate_table_element(secondary_sheet_name, 2, 'data2_tableid');
-});
-
-// when col header for table 2 is adjusted
-$(document.body).on('click', '#data2_tableid' ,function(e){  
-    const cell = e.target.closest('td');
-    if (!cell) {return;} // Quit, not clicked on a cell
-    const row = cell.parentElement; // row user clicked on
-    secondary_header_row = row.rowIndex;
-    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
-    createTable_values2 = createTable(repivoted_data, 'data2_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
-    var col_headers = createTable_values2[0];
-    var createTable_html = createTable_values2[1];
-    table_html_obj_arr2 = parse_table_column_values(createTable_html);
-    populate_drop_down("#data2columns", col_headers, true); // populate data column selection with header update
-    document.getElementById("data2_table_reset").style.display = "block";
-    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
-});
 
 // if adjust header column button is clicken when describing where to search for values to extract
 $(document.body).on('click', '#data2_adj_col_header' ,async function(){

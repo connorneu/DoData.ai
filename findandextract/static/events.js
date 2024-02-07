@@ -21,18 +21,65 @@ $(document.body).on('click', '.dropdown-menu li a' ,function(){
     $(this).parents(".dropdown").find('.btn').val($(this).data('value')); 
 });
 
+// if edit mini table selected
+// triggers header edit and condition creation
+$(document.body).on('click', '.edittable' ,async function(){ 
+    hide_containers(2);
+    document.getElementById('edit-data-tables').style.display = 'none';
+    var edit_table_id = this.id
+    console.log(edit_table_id)
+    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.', 'Otherwise, click Next'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    if (edit_table_id === "edit-mini1"){
+        document.getElementById("colselecttablediv1").style.display = "block";
+        populate_table_element(primary_sheet_name, 1, 'data1_tableid', null, 5);
+    } 
+    else if (edit_table_id === "edit-mini2"){
+        document.getElementById("colselecttablediv2").style.display = "block";
+        populate_table_element(secondary_sheet_name, 2, 'data2_tableid', null, 5);
+    }
+    else if (edit_table_id === "edit-mini3"){
+        document.getElementById("colselecttablediv3").style.display = "block";
+        populate_table_element(third_sheet_name, 3, 'data3_tableid', null, 5);
+    }
+    else if (edit_table_id === "edit-mini4"){
+        document.getElementById("colselecttablediv4").style.display = "block";
+        populate_table_element(fourth_sheet_name, 4, 'data4_tableid', null, 5);
+    }
+});
 
-// ! moved to extract_path.js
- // if primary file is selected hide dropdown + hide header + print selection
-//$(document.body).on('click', '#primaryfile_ul' ,async function(){ 
-//    hide_containers(2);
-//    document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
-//    document.getElementById('extractinputfile').style.display = 'none';
-//    var user_selection =  $(this).parents(".dropdown").find('.btn').text();
-//    primary_file_name = user_selection;
-//    primary_file_sheets = get_file_sheets(primary_file_name); 
-//    await add_to_carousel('Input File: ', input_color, ['update_item_text_params(primary_file_name)', 'primary_sheet_selection()'], true, false);    
-//});
+
+// reset table 1
+$(document.body).on('click', '#data1_table_reset' ,function(e){
+    populate_table_element(primary_sheet_name, 1, 'data1_tableid', null, 5);
+    document.getElementById("data1_table_reset").style.display = "none";
+    primary_header_row = 0;
+});
+
+// reset table 2
+$(document.body).on('click', '#data2_table_reset' ,function(e){
+    populate_table_element(secondary_sheet_name, 2, 'data2_tableid', null, 5);
+    document.getElementById("data2_table_reset").style.display = "none";
+    secondary_header_row = 0;
+});
+
+// reset table 3
+$(document.body).on('click', '#data3_table_reset' ,function(e){
+    var col_headers = populate_table_element(third_sheet_name, 3, 'data3_tableid') // populate table with selected values
+    document.getElementById("data3_table_reset").style.display = "none";
+    third_header_row = 0;
+});
+
+// reset table 4
+$(document.body).on('click', '#data4_table_reset' ,function(e){
+    var col_headers = populate_table_element(third_sheet_name, 3, 'data4_tableid') // populate table with selected values
+    document.getElementById("data4_table_reset").style.display = "none";
+    fourth_header_row = 0;
+});
+
+
+
+
 
  // if secondary file is selected hide dropdown + hide header + print selection
 $(document.body).on('click', '#secondaryfile_ul' ,async function(){ 
@@ -122,7 +169,21 @@ $(document.body).on('click', '#data1_tableid' ,function(e){
     //console.log(cell.innerHTML, row.rowIndex, cell.cellIndex);
 });
 
-
+// when col header for table 2 is adjusted
+$(document.body).on('click', '#data2_tableid' ,function(e){  
+    const cell = e.target.closest('td');
+    if (!cell) {return;} // Quit, not clicked on a cell
+    const row = cell.parentElement; // row user clicked on
+    secondary_header_row = row.rowIndex;
+    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
+    createTable_values2 = createTable(repivoted_data, 'data2_tableid', secondary_header_row); // create html table for data 1 from repivoted key value table
+    var col_headers = createTable_values2[0];
+    var createTable_html = createTable_values2[1];
+    table_html_obj_arr2 = parse_table_column_values(createTable_html);
+    populate_drop_down("#data2columns", col_headers, true); // populate data column selection with header update
+    document.getElementById("data2_table_reset").style.display = "block";
+    $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
+});
 
 // when col header for table 3 is adjusted
 $(document.body).on('click', '#data3_tableid' ,function(e){  
@@ -130,9 +191,6 @@ $(document.body).on('click', '#data3_tableid' ,function(e){
     if (!cell) {return;} // Quit, not clicked on a cell
     const row = cell.parentElement; // row user clicked on
     third_header_row = row.rowIndex;
-    console.log("si")
-    console.log(third_file_name)
-    console.log(third_sheet_name)
     var repivoted_data = repivot_keyval(data_json, third_file_name, third_sheet_name); // create array original table dimension from key value table
     createTable_values3 = createTable(repivoted_data, 'data3_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
     var col_headers = createTable_values3[0];
@@ -159,33 +217,7 @@ $(document.body).on('click', '#data4_tableid' ,function(e){
     $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
 });
 
-// reset table 1
-$(document.body).on('click', '#data1_table_reset' ,function(e){
-    var col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid') // populate table with selected values
-    document.getElementById("data1_table_reset").style.display = "none";
-    primary_header_row = 0;
-});
 
-// reset table 2
-$(document.body).on('click', '#data2_table_reset' ,function(e){
-    var col_headers = populate_table_element(secondary_sheet_name, 2, 'data2_tableid') // populate table with selected values
-    document.getElementById("data2_table_reset").style.display = "none";
-    secondary_header_row = 0;
-});
-
-// reset table 3
-$(document.body).on('click', '#data3_table_reset' ,function(e){
-    var col_headers = populate_table_element(third_sheet_name, 3, 'data3_tableid') // populate table with selected values
-    document.getElementById("data3_table_reset").style.display = "none";
-    third_header_row = 0;
-});
-
-// reset table 4
-$(document.body).on('click', '#data4_table_reset' ,function(e){
-    var col_headers = populate_table_element(third_sheet_name, 3, 'data4_tableid') // populate table with selected values
-    document.getElementById("data4_table_reset").style.display = "none";
-    fourth_header_row = 0;
-});
 
 // ! moved to extract_path.js
 // next after adjusting col headers primary data
@@ -197,31 +229,42 @@ $(document.body).on('click', '#data4_table_reset' ,function(e){
 //    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
 //});
 
+// next after adjusting col headers primary data
+$(document.body).on('click', '#data1_next_colheader' ,function(){
+    hide_containers(2);
+    document.getElementById("colselecttablediv1").style.display = "none";
+    add_to_carousel(['Filter: ' + primary_file_name + ' {' + primary_sheet_name + '}'], input_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById("primarycondition-container").style.display = 'block';
+    //select_find_column();
+});
+
+
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data2_next_colheader' ,function(){
-    hide_containers(3);
+    hide_containers(2);
     document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['[' + secondary_file_name + ' ' + secondary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn2()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    add_to_carousel(['Filter ' + secondary_file_name + ' {' + secondary_sheet_name + '}:'], second_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    document.getElementById('secondarycondition-container').style.display = 'block';
 });
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data3_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv3").style.display = "none";
-    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['[' + third_file_name + ' ' + third_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn3()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    add_to_carousel(['Filter ' + third_file_name + ' {' + third_sheet_name + '}:'], third_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    document.getElementById('thirdcondition-container').style.display = 'block';
 });
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data4_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv4").style.display = "none";
-    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['[' + fourth_file_name + ' ' + fourth_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn4()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    add_to_carousel(['Filter ' + fourth_file_name + ' {' + fourth_sheet_name + '}:'], fourth_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    document.getElementById('fourthcondition-container').style.display = 'block';
 })
 
 // when add condition is clicked

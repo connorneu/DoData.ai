@@ -136,12 +136,34 @@ async function typeSentence(sentence, eleRef, color, delay = 10) {
 
 
 // for sentences too long to be typed out - accepts array of sentences and adds the faded class so they fade in slowly
-async function displaySentence(sentences, eleRef)
+async function displaySentence(sentences, eleRef, color)
 {
     $(eleRef).addClass('faded');
+    var clean_id = 'span' + eleRef.substring(1);
+    var eleRefSpan = '#' + clean_id;
     for(var i=0;i<sentences.length;i++)
     {
-        $(eleRef).append(sentences[i]);
+        var is_spaned = false;
+        const letters = sentences[i].split("");
+        var j = 0;
+        while(j < letters.length) {
+            if(letters[j-1] === ':' || letters[j-1] === '$'){
+                is_spaned = true;
+                $(eleRef).append('<span id="' + clean_id + '" style="color:' + color + ';">')   
+            }
+            if(!is_spaned){
+                $(eleRef).append(letters[j]);    
+            }
+            else{
+                var curr_text = $(eleRefSpan).text()
+                $(eleRefSpan).text(curr_text + letters[j]);
+            }
+            
+            j++
+        }
+
+
+        //$(eleRef).append(sentences[i]);
         //if theres more than 1 sentence add line break - dont add linebreak if there are no more sentences
         if(sentences.length > 1 && i<sentences.length-1) {
             linebreak = document.createElement("br");
@@ -190,7 +212,8 @@ async function carousel(carousel_obj) {
     }
     else
     {
-        await displaySentence(carousel_obj.text, carousel_obj.id);
+        console.log('disp color ' + carousel_obj.color)
+        await displaySentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
     }
     // evaluate functions after text has been written
     for(var j=0;j<carousel_obj.func.length;j++)
@@ -341,6 +364,14 @@ function user_tables_as_array_with_brackets(){
                     third_file_name + ' {' + third_sheet_name + '}',
                     fourth_file_name + ' {' + fourth_header_row + '}']
     return table_array
+}
+
+// adjust column header
+function adjust_col_header(){
+    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    document.getElementById("colselecttablediv1").style.display = "block";
+    col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }
 
 async function decide_algo_path(algorithm_type)
@@ -710,23 +741,6 @@ function display_fourthfilesheets_drop() {
     populate_drop_down('#secondarysheet_ul', fourth_file_sheets, true)
 }
 
-// ! moved to extract_path
-//function display_add_conditions_btn(){
-//    document.getElementById('primarycondition-container').style.display = 'block';
-//}
-
-function display_add_conditions_btn2(){
-    document.getElementById('secondarycondition-container').style.display = 'block';
-}
-
-function display_add_conditions_btn3(){
-    document.getElementById('thirdcondition-container').style.display = 'block';
-}
-
-function display_add_conditions_btn4(){
-    document.getElementById('fourthcondition-container').style.display = 'block';
-}
-
 function display_colselect_table(){
     document.getElementById('colselecttablecontainer').style.display = 'block';
 }
@@ -1036,7 +1050,6 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 // populate html table from repivoted key value db table
 // specified_header_row is when user clicks on table to change header row
 function createTable(objs, table_id, specified_header_row=0, max_col_display=5, actual_max_col=null) {
-    console.log('act ' + actual_max_col)
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
     tbody.innerHTML = '';

@@ -302,6 +302,7 @@ pre.caret-underscore > span {
     margin-right: auto;
     margin-top: 2%;
     background-color:rgb(143, 69, 0);
+    background:linear-gradient(to bottom, #f07707 5%, #8f4500 100%);
     color:rgb(231, 223, 223);
     font-size:12px;
     width:45px;
@@ -312,15 +313,21 @@ pre.caret-underscore > span {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    background-color:rgb(255, 255, 255);
-    color:black;
+    background:linear-gradient(to top, #f078079f 5%, #532800 100%);
+    color:rgb(231, 223, 223);
 }
 .dropdown-menu a{
     font-size:12px;
 }
 
 .bigr{
+    display:none;
     font-size:14px;
+    width:65px;
+    height:30px;
+    margin-left:70%; 
+    margin-top:1%;
+
 }
 /*style="margin-left: auto;margin-right: auto;margin-top: 2%;"*/
 
