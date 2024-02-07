@@ -51,6 +51,7 @@ body {
 .interaction-container{
     height:80%;
     overflow:scroll;
+    width:100%;
 }
 
 h1{
@@ -300,14 +301,18 @@ pre.caret-underscore > span {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    background-color:rgb(168, 78, 17);
+    background-color:rgb(143, 69, 0);
     color:rgb(231, 223, 223);
+    font-size:12px;
+    width:45px;
+    height:15px;
+    line-height: 12px;  
 }
 .btn:hover{
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    background-color:white;
+    background-color:rgb(255, 255, 255);
     color:black;
 }
 .dropdown-menu a{
@@ -593,8 +598,8 @@ margin-top:1%;
     width:80%;
     height:450px;
     flex-shrink: 0;
-    margin-left:10%;
     margin-top:4%;
+
 }
 .mini-table-wrap{
     width: 400px;
@@ -603,11 +608,27 @@ margin-top:1%;
     float:left;
     margin-bottom:100px;
     text-align: center;
+    position:relative; 
+    justify-content: center;
+    
+
+}
+.mini-table-wrap a{
+    position:absolute; 
+    top:140px;
+    left:0;
+    right:0;
+    width:53px;
+    height:25px;
 }
 
 .mini-table-row{
-    vertical-align: bottom;
-    margin-bottom:100px;
+    /*vertical-align: bottom;
+    margin-bottom:100px;*/
+    margin-left: auto;
+    margin-right: auto;
+    width:400px;
+
 }
 
 .mini-table-wrap h2{
@@ -616,8 +637,7 @@ margin-top:1%;
 
 .mini-tables{
     table-layout: fixed;
-    
- white-space: nowrap;
+    white-space: nowrap;
     width: 100%;
 
 } 
