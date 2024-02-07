@@ -307,13 +307,11 @@ async function start_data_filter(db_data){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
         }         
     }
-    decide_algo_path(algorithm_type);
-    //edit_data();
+    edit_data();
+    //decide_algo_path(algorithm_type);
 }
 
 async function edit_data(){
-    console.log('primary_sheet')
-    console.log(primary_sheet_name)
     populate_file_names();
     populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
     populate_table_element(secondary_sheet_name, 2, 'mini_table2', null, 5);
@@ -321,7 +319,8 @@ async function edit_data(){
     populate_table_element(fourth_sheet_name, 4, 'mini_table4', null, 5);
     populate_mini_table_headers();
     await add_to_carousel(['Edit data:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-
+    await add_to_carousel(['Filter data or adjust column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
+    document.getElementById('edit-data-tables').style.display = "block";
 }
 
 function populate_mini_table_headers(){

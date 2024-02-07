@@ -73,8 +73,7 @@ function display_primaryfilesheets_drop() {
 // adjust column header
 function adjust_col_header(){
     add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
-    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById("colselecttablediv1").style.display = "block";
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }
@@ -101,7 +100,7 @@ async function select_find_column(){
     document.getElementById('primarycolselect-table').style.display = 'block';
 }
 
-$(document.body).on('click', '#matchprimarycol_ul' , async function(){ 
+$(document.body).on('click', '#matchprimarycol_ul li' , async function(){ 
     var selected_colheader = $(this).parents(".dropdown").find('.btn').text();
     extract_col = selected_colheader;
     document.getElementById("selected-match-col-primary").innerHTML = "Selected Column: " + selected_colheader; 
