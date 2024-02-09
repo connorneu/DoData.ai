@@ -215,6 +215,7 @@ pre.caret-underscore > span {
     width:70%;
     margin-top:2%;
     display:inline;
+    font-size:14px;
 }
 
 .dropdown{
@@ -303,7 +304,7 @@ pre.caret-underscore > span {
     margin-top: 2%;
     background-color:rgb(143, 69, 0);
     background:linear-gradient(to bottom, #f07707 5%, #8f4500 100%);
-    color:rgb(231, 223, 223);
+    color:rgb(34, 32, 32);
     font-size:12px;
     width:45px;
     height:15px;
@@ -316,8 +317,14 @@ pre.caret-underscore > span {
     background:linear-gradient(to top, #f078079f 5%, #532800 100%);
     color:rgb(231, 223, 223);
 }
+
+
 .dropdown-menu a{
     font-size:12px;
+}
+
+.condition-dropdown-andor > .dropdown-menu{
+    --bs-dropdown-min-width: 4rem;
 }
 
 .bigr{
@@ -392,7 +399,7 @@ margin-top:1%;
     height:60px;
     white-space: nowrap;
     text-align:left;
-    
+    vertical-align: bottom;
      
 }
 
@@ -421,38 +428,59 @@ margin-top:1%;
    
 }
 
-.condition-dropdown-btn-andor{
+       
+.condition-dropdown-btn, .dropdown-toggle{
     /*float:left;*/
     display:inline-block;
-    width:120px;
-    height:50px;
+    width:150px;
+    height:35px;
     overflow:hidden;
-    background-color: black;
-    border-color: red;
-    color: white; 
-    vertical-align: middle
-
-}
-         
-.condition-dropdown-btn{
-    /*float:left;*/
-    display:inline-block;
-    width:200px;
-    height:50px;
-    overflow:hidden;
-    background-color: black;
-    border-color: red;
+    background: black;
+    border-color: white;
     color: white; 
     vertical-align: middle;
 
 }
+.condition-dropdown-btn:hover{
+    /*float:left;*/
+    display:inline-block;
+    width:150px;
+    height:35px;
+    overflow:hidden;
+    background: white;
+    border-color: black;
+    color: black; 
+    vertical-align: middle;
+
+}
+.condition-dropdown-btn-andor{
+    background: white;
+    border-color: black;
+    color: black; 
+    display:inline-block;
+    width:50px;
+    height:35px;
+    vertical-align: middle
+
+}
+.condition-dropdown-btn-andor:hover{
+    background: white;
+    border-color: black;
+    color: black; 
+    display:inline-block;
+    width:50px;
+    height:35px;
+    vertical-align: middle
+
+}
+
 .condition-input{
-    width:250px;
-    height:50px;
+    width:150px;
+    height:35px;
     text-align:center;
         /*float:left;*/
     display:inline-block;
-    margin-left:-10px;
+    margin-left:0px;
     vertical-align: middle;
 
 }
@@ -466,20 +494,19 @@ margin-top:1%;
      text-align:center;
 }
 .condition-input-and{
-    width:250px;
+    display:inline-block;
+    width:150px;
     /*float:left;*/
-    height:50px;
-    border-color: red; 
-    vertical-align: middle;
+    height:35px;
+    border-color: white; 
+    text-align:center;
 }
 .condition-input-div{
-    width:250px;
-    /*float:left;*/
+    width:150px;
     display:inline-block;
-    height:50px;
-    border-color: red; 
+    height:35px;
     vertical-align: middle;
-    margin-left:250px;
+    margin-left:105px;
 }
 
 .matchdiv{

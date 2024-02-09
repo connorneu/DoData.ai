@@ -134,7 +134,6 @@ async function typeSentence(sentence, eleRef, color, delay = 10) {
 }
 
 
-
 // for sentences too long to be typed out - accepts array of sentences and adds the faded class so they fade in slowly
 async function displaySentence(sentences, eleRef, color)
 {
