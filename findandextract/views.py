@@ -138,6 +138,24 @@ def findandextract(request):
                 #    print(exc_type, fname, exc_tb.tb_lineno)
                 #    print(e)
                 #    return HttpResponse(status=400)
+            elif request.POST.get('ajax_name') == 'filter_data':
+                conds = request.POST.get('conds')
+                print('conds')
+                print(conds)
+                header_row = int(request.POST.get('header_row'))
+                print('header row:', header_row)
+                table_name = request.POST.get('table_name')
+                print('table num:', table_name)
+                sheet_name = request.POST.get('sheet_name')
+                print('sheet name:', sheet_name)
+                df = unmelt(primary_file_name, primary_sheet_name)
+                if header_row > 0:
+                    df = change_header(df1, header_row)
+                if conds is not None:
+                    df = apply_conditions(df1, primary_conditions) 
+                print(df)
+
+
             elif request.POST.get('ajax_name') == 'combine_merge':
                 print("START OF AJAX POST combine_merge")
                 print(request.POST)
@@ -240,10 +258,14 @@ def upload_data_files(request):
         print('melting df')
         df_columns, df_list = build_df_melt(myfile)
         print("saving to db...")
+        sluts = []
         for dbframe in df_list:
-            obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3])           
-            #obj.save()
+            #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+            sluts.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+        KeyValueDataFrame.objects.bulk_create(sluts)
+        print('saved')
         db_data = list(KeyValueDataFrame.objects.values())
+        print('myees')
         #return redirect("findandextract")
     if 'file_2' in request.FILES:
         if request.method == 'POST' and request.FILES['file_2']:    

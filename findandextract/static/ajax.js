@@ -320,4 +320,37 @@ function ajax_submit_user_input_text(){
        return false;
     }
 
+function ajax_submit_filters(conds, header_row, table_num){
+    var user_algo_desc = collect_user_input_text();
+    console.log('ajax submit filters')
+    console.log(conds)
+    console.log(header_row)
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {   //JSON.stringify(condition_arr2)
+            
+            'ajax_name' : 'filter_data',
+            'conds' : JSON.stringify(conds),
+            'header_row' : header_row,
+            'table_num' : table_num
+            
+        },
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        success: function (update_data) {
+            console.log("applied conditions to data");
+            //convert_text_to_decision(model_result);
+
+        },
+        // on error
+        error: function (request, status, error) {
+
+            alert(request.responseText);
+
+        }
+    });
+    return false;
+    }
     
