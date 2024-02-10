@@ -320,7 +320,7 @@ function ajax_submit_user_input_text(){
        return false;
     }
 
-function ajax_submit_filters(conds, header_row, table_num){
+function ajax_submit_filters(conds, header_row, table_name, sheet_name){
     var user_algo_desc = collect_user_input_text();
     console.log('ajax submit filters')
     console.log(conds)
@@ -333,7 +333,8 @@ function ajax_submit_filters(conds, header_row, table_num){
             'ajax_name' : 'filter_data',
             'conds' : JSON.stringify(conds),
             'header_row' : header_row,
-            'table_num' : table_num
+            'table_name' : table_name,
+            'sheet_name' : sheet_name
             
         },
         type: 'POST',

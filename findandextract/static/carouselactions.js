@@ -336,9 +336,28 @@ async function start_data_filter(db_data){
 async function edit_data(){
     populate_file_names();
     populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
-    populate_table_element(secondary_sheet_name, 2, 'mini_table2', null, 5);
-    populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
-    populate_table_element(fourth_sheet_name, 4, 'mini_table4', null, 5);
+    var table_div = document.getElementById('mini_table1').closest('.mini-table-wrap');
+    table_div.style.display = 'block';
+    if (secondary_file_name != null){
+        populate_table_element(secondary_sheet_name, 2, 'mini_table2', null, 5);
+        var table_div = document.getElementById('mini_table2').closest('.mini-table-wrap');
+        table_div.style.display = 'block';
+    }
+    if (third_file_name != null){
+        populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
+        var table_div = document.getElementById('mini_table3').closest('.mini-table-wrap');
+        table_div.style.display = 'block';
+    }
+    if (fourth_file_name != null){
+        populate_table_element(fourth_sheet_name, 4, 'mini_table4', null, 5);
+        var table_div = document.getElementById('mini_table4').closest('.mini-table-wrap');
+        table_div.style.display = 'block';
+    }
+    if (third_file_name === null && fourth_file_name === null){
+        console.log('washere')
+        var table_div = document.getElementById('mini_table4').closest('.mini-table-row');
+        table_div.style.display = 'none';
+    }
     populate_mini_table_headers();
     await add_to_carousel(['Edit data:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
     await add_to_carousel(['Filter data or adjust column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
@@ -353,7 +372,7 @@ function populate_mini_table_headers(){
         var header = table.getElementsByTagName('h2')[0];
         header.innerHTML = table_names[i];
         header.style.color = color_array[i];
-        table.style.display = 'block';
+        //table.style.display = 'block';
     }
 }
 

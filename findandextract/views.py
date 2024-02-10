@@ -139,6 +139,7 @@ def findandextract(request):
                 #    print(e)
                 #    return HttpResponse(status=400)
             elif request.POST.get('ajax_name') == 'filter_data':
+                print(request.POST)
                 conds = request.POST.get('conds')
                 print('conds')
                 print(conds)
@@ -148,11 +149,11 @@ def findandextract(request):
                 print('table num:', table_name)
                 sheet_name = request.POST.get('sheet_name')
                 print('sheet name:', sheet_name)
-                df = unmelt(primary_file_name, primary_sheet_name)
+                df = unmelt(table_name, sheet_name)
                 if header_row > 0:
-                    df = change_header(df1, header_row)
+                    df = change_header(df, header_row)
                 if conds is not None:
-                    df = apply_conditions(df1, primary_conditions) 
+                    df = apply_conditions(df, conds) 
                 print(df)
 
 
@@ -258,14 +259,13 @@ def upload_data_files(request):
         print('melting df')
         df_columns, df_list = build_df_melt(myfile)
         print("saving to db...")
-        sluts = []
+        db_obj_list = []
         for dbframe in df_list:
             #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-            sluts.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
-        KeyValueDataFrame.objects.bulk_create(sluts)
+            db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+        KeyValueDataFrame.objects.bulk_create(db_obj_list)
         print('saved')
         db_data = list(KeyValueDataFrame.objects.values())
-        print('myees')
         #return redirect("findandextract")
     if 'file_2' in request.FILES:
         if request.method == 'POST' and request.FILES['file_2']:    
@@ -275,9 +275,12 @@ def upload_data_files(request):
             print('melting df')
             df2_columns, df2_list = build_df_melt(myfile2)
             print('saving to db...')
+            db_obj_list = []
             for dbframe in df2_list:
-                obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3])           
-                #obj.save()
+                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+            KeyValueDataFrame.objects.bulk_create(db_obj_list)
+            print('saved')            
             db_data = list(KeyValueDataFrame.objects.values())
     if 'file_3' in request.FILES:
         if request.method == 'POST' and request.FILES['file_3']:    
@@ -287,9 +290,12 @@ def upload_data_files(request):
             print('melting df')
             df3_columns, df3_list = build_df_melt(myfile3)
             print('saving to db...')
+            db_obj_list = []
             for dbframe in df3_list:
-                obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3])           
-                #obj.save()
+                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+            KeyValueDataFrame.objects.bulk_create(db_obj_list)
+            print('saved')            
             db_data = list(KeyValueDataFrame.objects.values())
     if 'file_4' in request.FILES:
         if request.method == 'POST' and request.FILES['file_4']:    
@@ -299,9 +305,12 @@ def upload_data_files(request):
             print('melting df')
             df4_columns, df4_list = build_df_melt(myfile4)
             print('saving to db...')
+            db_obj_list = []
             for dbframe in df4_list:
-                obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3])           
-                #obj.save()
+                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+            KeyValueDataFrame.objects.bulk_create(db_obj_list)
+            print('saved')            
             db_data = list(KeyValueDataFrame.objects.values())
             #return redirect("findandextract")
 
