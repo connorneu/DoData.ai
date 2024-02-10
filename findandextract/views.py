@@ -458,7 +458,8 @@ def apply_conditions(df, conditions):
             if condition[4] != '':
                 condition[4] = float(condition[4])   
         else:
-            condition[3] = condition[3].lower()
+            #condition[3] = condition[3].lower()
+            condition[3] = condition[3]
 
     conditions_str = 'df.loc['
     for i in range(0, len(conditions)):
@@ -485,6 +486,12 @@ def apply_conditions(df, conditions):
         if condition[2] == 'Does Not Contain':
             #df_new = df[~df[condition[1]].str.contains(condition[3])]
             condition_str = '(~df[\'' + condition[1] + '\'].str.contains(\'' + str(condition[3]) + '\'))'
+        if condition[2] == 'Starts With':
+            #df_new = df[~df[condition[1]].str.contains(condition[3])]
+            condition_str = '(df[\'' + condition[1] + '\'].str.startswith(\'' + str(condition[3]) + '\'))'
+        if condition[2] == 'Ends With':
+            #df_new = df[~df[condition[1]].str.contains(condition[3])]
+            condition_str = '(df[\'' + condition[1] + '\'].str.endswith(\'' + str(condition[3]) + '\'))'
         if i == 0:
             conditions_str += condition_str
         else:

@@ -353,7 +353,7 @@ async function edit_data(){
         var table_div = document.getElementById('mini_table4').closest('.mini-table-wrap');
         table_div.style.display = 'block';
     }
-    if (third_file_name === null && fourth_file_name === null){
+    if (third_file_name == null && fourth_file_name == null){
         console.log('washere')
         var table_div = document.getElementById('mini_table4').closest('.mini-table-row');
         table_div.style.display = 'none';
