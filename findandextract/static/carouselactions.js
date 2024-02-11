@@ -354,7 +354,6 @@ async function edit_data(){
         table_div.style.display = 'block';
     }
     if (third_file_name == null && fourth_file_name == null){
-        console.log('washere')
         var table_div = document.getElementById('mini_table4').closest('.mini-table-row');
         table_div.style.display = 'none';
     }
@@ -964,6 +963,8 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         //this used to be createTable(repivoted_data, data_tableid) you added the rest to be able to actual max col
         createTable_values1 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values1[0];
+        console.log('datadys headers')
+        console.log(col_headers)
         var createTable_html = createTable_values1[1];
         table_html_obj_arr = parse_table_column_values(createTable_html);
     }
@@ -1103,6 +1104,9 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5, 
                     {
                         if (actual_col < 3){
                             var th = '<th>' + objs[i].col_header + '</th>';
+                            col_headers.push(objs[i].col_header);
+                        }
+                        else{
                             col_headers.push(objs[i].col_header);
                         }
                     }

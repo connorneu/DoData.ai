@@ -142,14 +142,45 @@ async function write_extract_column_to_console(){
 }
 
 
-async function display_conditions(){
+async function display_conditions(condition_arr, header_row, file_name, sheet_name){
     //hide_containers(2);
+    var color = null;
+    var mini_table_name = '';
+    var sheet = sheet_name;
+    var filenum = 0;
+    if (file_name === primary_file_name){
+        color = input_color;
+        mini_table_name = 'mini_table1';
+        sheet = primary_sheet_name;
+        filenum = 1;
+    }
+    else if (file_name === secondary_file_name){
+        color = second_color;
+        mini_table_name = 'mini_table2';
+        sheet = secondary_sheet_name;
+        filenum = 2;
+    }
+    else if (file_name === third_file_name){
+        color = third_file_name;
+        mini_table_name = 'mini_table3';
+        sheet = third_sheet_name;
+        filenum = 3;
+    }
+    else if (file_name === fourth_file_name){
+        color = fourth_file_name;
+        mini_table_name = 'mini_table4';
+        sheet = fourth_sheet_name;
+        filenum = 4;
+    }
+    if (header_row > 0){
+        await add_to_carousel('Header row updated: ' + header_row+1, color, [null], true, false);
+    }
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', input_color, [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', color, [null], true, false);
     if (condition_arr.length === 1 && condition_arr[0][1] === 'Select Column' &&  condition_arr[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
-        await add_to_carousel(condition_string, input_color, [null], true, false);
+        await add_to_carousel(condition_string, color, [null], true, false);
     }
     else{
         for (var i = condition_arr.length-1; i >= 0; i--){
@@ -159,11 +190,13 @@ async function display_conditions(){
             else{
                 condition_string = '\xa0\xa0\xa0' + '\xa0\xa0$\xa0' + condition_arr[i][1] + ' ' + condition_arr[i][2] + ' ' + condition_arr[i][3] + ' and ' + condition_arr[i][4]
             }
-            await add_to_carousel(condition_string, input_color , [null], true, false);
+            await add_to_carousel(condition_string, color , [null], true, false);
             cond_count++;
         }    
     }
-    where_to_search();
+    //where_to_search();
+    document.getElementById('edit-data-tables').style.display = "block";
+    populate_table_element(sheet, filenum, mini_table_name, null, 5);
 }
 
 // describe data to be extracted menu show

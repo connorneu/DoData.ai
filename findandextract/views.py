@@ -154,7 +154,10 @@ def findandextract(request):
                     df = change_header(df, header_row)
                 if conds is not None:
                     df = apply_conditions(df, conds) 
-                print(df)
+                    print(df)
+                    fande_db_data = list(KeyValueDataFrame.objects.values())
+                    return JsonResponse({'fande_data_dump' : fande_db_data})
+                return HttpResponse(status=200)
 
 
             elif request.POST.get('ajax_name') == 'combine_merge':
@@ -461,49 +464,58 @@ def apply_conditions(df, conditions):
             #condition[3] = condition[3].lower()
             condition[3] = condition[3]
 
-    conditions_str = 'df.loc['
+    #conditions_str = 'df.loc['
+    condition_arr = []
     for i in range(0, len(conditions)):
         condition = conditions[i]
         if condition[2] == 'Equals':   
             #df_new = df.loc[df[condition[1]] == condition[3]]
-            condition_str = '(df[\'' + condition[1] + '\'] == \'' + str(condition[3]) + '\')'
+            #condition_str = '(df[\'' + condition[1] + '\'] == \'' + str(condition[3]) + '\')'
+            condition_str = df[condition[1] == str(condition[3])]
         if condition[2] == 'Contains':
             #df_new = df.loc[df[condition[1]].str.contains(str(condition[3]))]
-            condition_str = '(df[\'' + condition[1] + '\'].str.contains(str(\'' + str(condition[3]) + '\')))'
+            #condition_str = '(df[\'' + condition[1] + '\'].str.contains(str(\'' + str(condition[3]) + '\')))'
+            condition_str = df[condition[1]].str.contains(str(condition[3]))            
         if condition[2] == 'Between':
             #df_new = df.loc[(df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])]
-            condition_str = '(df[\'' + condition[1] +'\'] >' + str(condition[3]) + ') & (df[\'' + condition[1] + '] <' + str(condition[4]) + ')'
+            #condition_str = '(df[\'' + condition[1] +'\'] >' + str(condition[3]) + ') & (df[\'' + condition[1] + '] <' + str(condition[4]) + ')'
+            condition_str = (df[condition[1]] > str(condition[3])) & (df[condition[1]] < str(condition[4]))
         if condition[2] == 'Greater Than':
             #df_new = df.loc[df[condition[1]] > condition[3]]
-            condition_str = '(df[\'' + condition[1] + '\'] >' + str(condition[3]) + ')'
+            #condition_str = '(df[\'' + condition[1] + '\'] >' + str(condition[3]) + ')'
+            condition_str = df[condition[1]] > str(condition[3])
         if condition[2] == 'Less Than':
             #df_new = df.loc[df[condition[1]] < condition[3]]
-            condition_str = '(df[\'' + condition[1] + '\'] <' + str(condition[3]) + ')'
-            print('CONDITIOON 3 TYPE', type(condition[3]))
+            #condition_str = '(df[\'' + condition[1] + '\'] <' + str(condition[3]) + ')'
+            condition_str = df[condition[1]] < str(condition[3])
         if condition[2] == 'Not Equal To':
             #df_new = df.loc[df[condition[1]] != condition[3]]
-            condition_str = '(df[\'' + condition[1] + '\'] !=' + str(condition[3]) + ')'
+            #condition_str = '(df[\'' + condition[1] + '\'] !=' + str(condition[3]) + ')'
+            condition_str = df[condition[1]] != str(condition[3])
         if condition[2] == 'Does Not Contain':
             #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            condition_str = '(~df[\'' + condition[1] + '\'].str.contains(\'' + str(condition[3]) + '\'))'
+            #condition_str = '(~df[\'' + condition[1] + '\'].str.contains(\'' + str(condition[3]) + '\'))'
+            condition_str = ~df[condition[1]].str.contains(str(condition[3]))
         if condition[2] == 'Starts With':
             #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            condition_str = '(df[\'' + condition[1] + '\'].str.startswith(\'' + str(condition[3]) + '\'))'
+            #condition_str = '(df[\'' + condition[1] + '\'].str.startswith(\'' + str(condition[3]) + '\'))'
+            condition_str = df[condition[1]].str.startswith(str(condition[3]))
         if condition[2] == 'Ends With':
             #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            condition_str = '(df[\'' + condition[1] + '\'].str.endswith(\'' + str(condition[3]) + '\'))'
-        if i == 0:
-            conditions_str += condition_str
-        else:
-            if condition[0] == 'And':
-                conditions_str += ' & ' + condition_str
-            if condition[0] == 'Or':
-                conditions_str += ' | ' + condition_str
-        if i == (len(conditions)-1):
-            conditions_str += ']'
-    print("CONDITIONS STRING")
-    print(conditions_str)
-    df_new = eval(conditions_str)
+            #condition_str = '(df[\'' + condition[1] + '\'].str.endswith(\'' + str(condition[3]) + '\'))'
+            condition_str = df[condition[1]].str.endswith(str(condition[3]))
+        condition_arr.append(condition_str)
+        #if i == 0:
+        #    conditions_str += condition_str
+        #else:
+        #    if condition[0] == 'And':
+        #        conditions_str += ' & ' + condition_str
+        #    if condition[0] == 'Or':
+        #        conditions_str += ' | ' + condition_str
+        #if i == (len(conditions)-1):
+        #       conditions_str += ']'
+    #df_new = pd.eval(conditions_str)
+    df_new = df.loc[np.logical_and.reduce(condition_arr)]
     return df_new
                         
 

@@ -343,11 +343,11 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
         success: function (update_data) {
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
-
+            edit_data();
         },
         // on error
         error: function (request, status, error) {
-
+            
             alert(request.responseText);
 
         }
