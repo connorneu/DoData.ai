@@ -151,13 +151,32 @@ def findandextract(request):
                 print('sheet name:', sheet_name)
                 df = unmelt(table_name, sheet_name)
                 if header_row > 0:
-                    df = change_header(df, header_row)
-                if conds is not None:
-                    df = apply_conditions(df, conds) 
+                    print('BEFORE CHANGE')
                     print(df)
+                    df = change_header(df, header_row)
+                    print('changed header')
+                    print(df)
+                    print('end change header')
+                #if conds[0][1] != 'Select Column':
+                df = apply_conditions(df, conds) 
+                print('apply conditions')
+                print(df)
+
+                if header_row > 0 or conds is not None:
+                    print('deleting old records')
+                    objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name)
+                    objs_del.delete()
+                    df_list = melt_filtered_df(df, table_name, sheet_name)
+                    print('saving to db...')
+                    db_obj_list = []
+                    for dbframe in df_list:                    
+                        db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+                    KeyValueDataFrame.objects.bulk_create(db_obj_list)
+                    print('saved')            
                     fande_db_data = list(KeyValueDataFrame.objects.values())
                     return JsonResponse({'fande_data_dump' : fande_db_data})
-                return HttpResponse(status=200)
+                else:            
+                    return HttpResponse(status=200)
 
 
             elif request.POST.get('ajax_name') == 'combine_merge':
@@ -350,6 +369,18 @@ def findandextract_data_upload(request):
     fande_db_data = list(KeyValueDataFrame.objects.values())
     return render(request, "findandextract/fandeload.html", {'fande_data_dump' : fande_db_data})
 
+def melt_filtered_df(df, filename, sheetname):
+    df['sheet'] = sheetname
+    df_keyvalue = df.melt(id_vars = ['sheet'])
+    df_keyvalue['file_name'] = str(filename)
+    print(df_keyvalue)
+    if 'key' not in df_keyvalue.columns:
+        print('nokey')
+        df.rename(columns={'variable':'key'}, inplace=True)
+        print(list(df.columns.values))
+    df_list = list(df_keyvalue[['file_name', 'sheet', 'key', 'value']].values)
+    return df_list
+
 
 # for raw input
 def build_df_melt(myfile):
@@ -433,8 +464,24 @@ def unmelt_result_df(result_db_data):
     return df
 
 def change_header(df, header_row):
+    print('REchange')
+    print(list(df.columns.values))
+    print(df.index.name)
+    print(df)
     df.columns = df.iloc[header_row-1]    
     df = df.iloc[pd.RangeIndex(len(df)).drop(header_row-1)]
+    print('?df', isinstance(df,pd.DataFrame))
+    print('?s', isinstance(df,pd.Series))
+    #df = df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
+    column_names = list(df.columns.values)
+    df.columns = column_names
+    print('new df')
+    print(list(df.columns.values))
+    print(df.index.name)
+    print(df)
+
+    #df = df.reset_index(drop=True)
     return df
 
 def f7(seq):

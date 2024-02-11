@@ -340,9 +340,10 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
         type: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
-        success: function (update_data) {
+        success: function (db_data) {
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
+            data_json = db_data['fande_data_dump'];
             edit_data();
         },
         // on error

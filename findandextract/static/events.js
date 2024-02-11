@@ -452,8 +452,8 @@ $(document.body).on('click', '#conditionnextprimary' ,async function(){
     document.getElementById('primarycondition-container').style.display = 'none';
     //table_html_obj_arr = filter_data('table1');
     //console.log(table_html_obj_arr)
-    display_conditions(condition_arr, primary_header_row, primary_file_name, primary_sheet_name);
-    ajax_submit_filters(condition_arr, primary_header_row, primary_file_name, primary_sheet_name)
+    await display_conditions(condition_arr, primary_header_row, primary_file_name, primary_sheet_name);
+    ajax_submit_filters(condition_arr, primary_header_row, primary_file_name, primary_sheet_name);
 });
 
 // next after conditions secondary

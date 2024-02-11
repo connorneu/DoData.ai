@@ -143,7 +143,7 @@ async function write_extract_column_to_console(){
 
 
 async function display_conditions(condition_arr, header_row, file_name, sheet_name){
-    //hide_containers(2);
+    hide_containers(2);
     var color = null;
     var mini_table_name = '';
     var sheet = sheet_name;
@@ -173,11 +173,11 @@ async function display_conditions(condition_arr, header_row, file_name, sheet_na
         filenum = 4;
     }
     if (header_row > 0){
-        await add_to_carousel('Header row updated: ' + header_row+1, color, [null], true, false);
+        await add_to_carousel('Header row updated: ' + header_row + 1, color, [null], true, false);
     }
     var cond_count = 1;
     var condition_string = null;
-    await add_to_carousel('\xa0\xa0\xa0' + 'Filter:', color, [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0' + 'Filter: ' + file_name + ' {' + sheet_name + '}', color, [null], true, false);
     if (condition_arr.length === 1 && condition_arr[0][1] === 'Select Column' &&  condition_arr[0][2] === 'Equals'){
         condition_string = '\xa0\xa0\xa0' + '\xa0\xa0\xa0' + 'No conditions applied';
         await add_to_carousel(condition_string, color, [null], true, false);
