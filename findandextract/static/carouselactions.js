@@ -211,7 +211,6 @@ async function carousel(carousel_obj) {
     }
     else
     {
-        console.log('disp color ' + carousel_obj.color)
         await displaySentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
     }
     // evaluate functions after text has been written
@@ -379,7 +378,7 @@ function user_tables_as_array_with_brackets(){
     table_array = [primary_file_name + ' {' + primary_sheet_name + '}',
                     secondary_file_name + ' {' + secondary_sheet_name + '}',
                     third_file_name + ' {' + third_sheet_name + '}',
-                    fourth_file_name + ' {' + fourth_header_row + '}']
+                    fourth_file_name + ' {' + fourth_sheet_name + '}']
     return table_array
 }
 

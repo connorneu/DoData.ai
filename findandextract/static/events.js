@@ -218,17 +218,6 @@ $(document.body).on('click', '#data4_tableid' ,function(e){
 });
 
 
-
-// ! moved to extract_path.js
-// next after adjusting col headers primary data
-//$(document.body).on('click', '#data1_next_colheader' ,function(){
-//    hide_containers(2);
-//    document.getElementById("colselecttablediv1").style.display = "none";
-//    add_to_carousel(['Filter data?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-//    add_to_carousel(['[' + primary_file_name + ' ' + primary_sheet_name + ']'], 'urgent', ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionsubtext')"], false, false)
-//    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ['display_add_conditions_btn()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
-//});
-
 // next after adjusting col headers primary data
 $(document.body).on('click', '#data1_next_colheader' ,function(){
     hide_containers(2);
@@ -343,10 +332,6 @@ $(document.body).on('click', '#addconditionsecondary' ,function(){
 });
 
 
-
-
-
-
 // when add condition is added for third
 $(document.body).on('click', '#addconditionthird' ,function(){
     var current_selection = $('#thirdcond1_col_drop').find('.btn').text()
@@ -457,7 +442,7 @@ $(document.body).on('click', '#conditionnextprimary' ,async function(){
 });
 
 // next after conditions secondary
-$(document.body).on('click', '#conditionnextsecondary' , function(){
+$(document.body).on('click', '#conditionnextsecondary' , async function(){
     var $last_condition = $('div[id^="secondaryconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -472,11 +457,12 @@ $(document.body).on('click', '#conditionnextsecondary' , function(){
         condition_num--;        
     } 
     document.getElementById('secondarycondition-container').style.display = 'none';
-    display_conditions2();
+    await display_conditions(condition_arr2, secondary_header_row, secondary_file_name, secondary_sheet_name);
+    ajax_submit_filters(condition_arr2, secondary_header_row, secondary_file_name, secondary_sheet_name);
 });
 
 // next after conditions third
-$(document.body).on('click', '#conditionnextthird' ,function(){
+$(document.body).on('click', '#conditionnextthird' ,async function(){
     var $last_condition = $('div[id^="thirdconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -491,12 +477,13 @@ $(document.body).on('click', '#conditionnextthird' ,function(){
         condition_num--;        
     } 
     document.getElementById('thirdcondition-container').style.display = 'none';
-    display_conditions3();
+    await display_conditions(condition_arr3, third_header_row, third_file_name, third_sheet_name);
+    ajax_submit_filters(condition_arr3, third_header_row, third_file_name, third_sheet_name);
 });
 
 
 // next after conditions fourth
-$(document.body).on('click', '#conditionnextfourth' ,function(){
+$(document.body).on('click', '#conditionnextfourth' , async function(){
     var $last_condition = $('div[id^="fourthconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -511,7 +498,8 @@ $(document.body).on('click', '#conditionnextfourth' ,function(){
         condition_num--;        
     } 
     document.getElementById('fourthcondition-container').style.display = 'none';
-    display_conditions4();
+    await display_conditions(condition_arr4, fourth_header_row, fourth_file_name, fourth_sheet_name);
+    ajax_submit_filters(condition_arr4, fourth_header_row, fourth_file_name, fourth_sheet_name);
 });
 
 

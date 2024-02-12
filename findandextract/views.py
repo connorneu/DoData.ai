@@ -151,12 +151,7 @@ def findandextract(request):
                 print('sheet name:', sheet_name)
                 df = unmelt(table_name, sheet_name)
                 if header_row > 0:
-                    print('BEFORE CHANGE')
-                    print(df)
                     df = change_header(df, header_row)
-                    print('changed header')
-                    print(df)
-                    print('end change header')
                 #if conds[0][1] != 'Select Column':
                 df = apply_conditions(df, conds) 
                 print('apply conditions')
@@ -373,11 +368,8 @@ def melt_filtered_df(df, filename, sheetname):
     df['sheet'] = sheetname
     df_keyvalue = df.melt(id_vars = ['sheet'])
     df_keyvalue['file_name'] = str(filename)
-    print(df_keyvalue)
-    if 'key' not in df_keyvalue.columns:
-        print('nokey')
-        df.rename(columns={'variable':'key'}, inplace=True)
-        print(list(df.columns.values))
+    if 'variable' in df_keyvalue.columns:
+        df_keyvalue.rename(columns={'variable':'key'}, inplace=True)
     df_list = list(df_keyvalue[['file_name', 'sheet', 'key', 'value']].values)
     return df_list
 
