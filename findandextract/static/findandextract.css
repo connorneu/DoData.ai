@@ -66,6 +66,10 @@ h2 {
     text-align:left;
     display:inline;
 }
+.describe-data-wrap > h2{
+    left: 50%;
+    text-align: center;
+}
 
 .carouselcontainer h2{
     font-size:12px; 
@@ -301,12 +305,21 @@ pre.caret-underscore > span {
 	position:relative;
 	top:1px;
 }
+.myButton.special-selection{
+    background:linear-gradient(to bottom, #646464 5%, #000 100%);
+    color: #fdd;
+    margin-bottom:2%;
+}
+.myButton.special-selection:hover{
+    background:linear-gradient(to bottom, #000 5%, #646464 100%);
+    color: #fdd;
+}
 .btn{
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
     background-color:rgb(143, 69, 0);
-    background:linear-gradient(to bottom, #f07707 5%, #8f4500 100%);
+    background:linear-gradient(to bottom, #f2d9c2 5%, #8f4500 100%);
     color:rgb(34, 32, 32);
     font-size:12px;
     width:45px;
@@ -320,6 +333,7 @@ pre.caret-underscore > span {
     background:linear-gradient(to top, #f078079f 5%, #532800 100%);
     color:rgb(231, 223, 223);
 }
+
 
 
 .dropdown-menu a{
@@ -338,7 +352,7 @@ pre.caret-underscore > span {
 }
 
 .bigr{
-    display:none;
+    display:block;
     font-size:14px;
     width:65px;
     height:30px;

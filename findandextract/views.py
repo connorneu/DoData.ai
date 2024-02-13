@@ -140,7 +140,7 @@ def findandextract(request):
                 #    return HttpResponse(status=400)
             elif request.POST.get('ajax_name') == 'filter_data':
                 print(request.POST)
-                conds = request.POST.get('conds')
+                conds = json.loads(request.POST.get('conds'))
                 print('conds')
                 print(conds)
                 header_row = int(request.POST.get('header_row'))
@@ -152,8 +152,8 @@ def findandextract(request):
                 df = unmelt(table_name, sheet_name)
                 if header_row > 0:
                     df = change_header(df, header_row)
-                #if conds[0][1] != 'Select Column':
-                df = apply_conditions(df, conds) 
+                if conds[0][1] != 'Select Column':
+                    df = apply_conditions(df, conds) 
                 print('apply conditions')
                 print(df)
 
@@ -487,7 +487,8 @@ def apply_conditions(df, conditions):
     #conditions are collected inversedly - so reverse them
 
     df_new = df.copy()
-    conditions_reversed = json.loads(conditions)
+    #conditions_reversed = json.loads(conditions)
+    conditions_reversed = conditions
     conditions = []
     for condition in reversed(conditions_reversed):
         conditions.append(condition)

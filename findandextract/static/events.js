@@ -21,6 +21,22 @@ $(document.body).on('click', '.dropdown-menu li a' ,function(){
     $(this).parents(".dropdown").find('.btn').val($(this).data('value')); 
 });
 
+
+// on change dropdown-menu
+// if Between selected unhide second input box
+$(document.body).on('click', '.dropdown-menu li a' ,function(){      
+
+    if ($(this).closest('div').hasClass('condition-dropdown-col')){
+        if (selected_dropdown_value == "Between"){
+            console.log("EE")
+            var condition_div_parent = $(this).closest('.conditiondiv').find('.condition-input-and').closest('.condition-input-div').show();
+        }
+        else{
+            var condition_div_parent = $(this).closest('.conditiondiv').find('.condition-input-and').closest('.condition-input-div').hide();
+        }
+    }
+});
+
 // if edit mini table selected
 // triggers header edit and condition creation
 $(document.body).on('click', '.edittable' ,async function(){ 
@@ -407,15 +423,10 @@ $(document.body).on('click', '#addconditionfourth' ,function(){
     }
 });
 
-// if between is selected from condition dropdown update relevant andcondition
-$(document.body).on('click', '.input-group.mb-3' ,function(){
-    var cond_action = $(this).find('.btn').text();
-    if (cond_action === 'Between'){
-        $(this).parent('.conditiondiv').find('.condition-input-div').css('display','inline-block');
-    }
-    else{
-        $(this).parent('.conditiondiv').find('.condition-input-div').css('display','none');
-    }
+
+// Start Algo Path
+$(document.body).on('click', '#next-edit-mini' ,function(){
+    decide_algo_path(algorithm_type);
 });
 
 
