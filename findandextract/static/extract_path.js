@@ -4,8 +4,49 @@ async function start_extract_file(){
     await add_to_carousel(['Define values to extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     await add_to_carousel(['These values will be searched in uploaded files and matching rows will be extracted'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
     //document.getElementById('inputis_file_or_input').style.display = 'block';
+    populate_drop_down('#extractinputfile_ul', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';
 }
+
+
+// when input dropdown has file selected make textboxes disabled
+$(document.body).on('click', '#extractinputfile_ul li a' ,async function(){   
+    var selected_val = $(this).text();
+    if (selected_val != 'Use Input File:'){
+        var text_boxes = document.getElementsByClassName('describe-textarea');
+        for (var i=0;i<text_boxes.length;i++){
+            text_boxes[i].value = '';
+            text_boxes[i].classList.add('gently-blur');
+        }
+    }
+    //$('#extract-descriptions').find('.regular-header:first').css('visibility', 'hidden');
+});
+
+
+// when textarea has text then grey dropdown when empty un-grey dropdown
+$(document.body).on('input propertychange', '.describe-textarea', async function(){  
+    $('#extractinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
+    $('#extractinputfile_ul').parents(".dropdown").find('.btn').addClass('disabled');
+    if ($(this).val() === ''){
+        $('#extractinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
+    }
+});
+
+
+
+$(document.body).on('click', '#extract-descriptions, #extract-descriptions > textarea', async function(){   
+    $('#extractinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
+    var text_boxes = document.getElementsByClassName('describe-textarea');
+    for (var i=0;i<text_boxes.length;i++){
+        text_boxes[i].classList.remove('gently-blur');
+    }
+
+});
+
+
+
+
+
 
 // user selects use input file
 $(document.body).on('click', '#inputis_file' ,async function(){   

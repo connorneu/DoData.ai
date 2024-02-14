@@ -311,15 +311,20 @@
 
                     
                     <div class="describe-data-wrap" id="describe-data-extract">
-                        <div>
-                            <a class="myButton special-selection" id="inputis_file">Use Input File</a>
+                        <div class="dropdown show" id="extract-from-file-drop">
+                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Use Input File:
+                            </button>
+                            <ul class="dropdown-menu" id="extractinputfile_ul"></ul>
                         </div>
+                        <!-- <a class="myButton special-selection" id="inputis_file">Use Input File</a> -->
                         <div>
-                            <h2>Or</h2>
+                            <h2 class="regular-header">Or</h2>
                         </div>
                         <div id="extract-descriptions">
-                            <h2>Enter values:</h2>
-                            <div>
+                            <h2 class="regular-header">Enter values:</h2>
+                            <!-- <h2 class="hidden-prompt">Enter custom values <br>&emsp;(click)</br></h2>  -->
+                            <div class="describe-textarea-div-wrap">
                                 <textarea class="describe-textarea" maxlength="60"></textarea>
                             </div>
                         </div>

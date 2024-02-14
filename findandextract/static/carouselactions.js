@@ -334,6 +334,7 @@ async function start_data_filter(db_data){
 
 async function edit_data(){
     populate_file_names();
+    populate_dataset_names();
     populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
     var table_div = document.getElementById('mini_table1').closest('.mini-table-wrap');
     table_div.style.display = 'block';

@@ -232,6 +232,9 @@ pre.caret-underscore > span {
     margin-bottom: 2%;
     margin-top: 0%;
 }
+.dropdown.show{
+    display:block;
+}
 
 
 /*fadein*/
@@ -333,7 +336,22 @@ pre.caret-underscore > span {
     background:linear-gradient(to top, #f078079f 5%, #532800 100%);
     color:rgb(231, 223, 223);
 }
+.gently-blur{
+    background-color: #2b2b2b;
+    filter: blur(3px);
+}
 
+.hidden-prompt{
+    color: white;
+    visibility:hidden;
+    border-bottom: solid;
+    position: absolute; 
+    left: 50%;
+    top:285px;
+    transform: translateX(-50%);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.5);
+}
 
 
 .dropdown-menu a{
@@ -476,6 +494,21 @@ margin-top:1%;
     color: black; 
     vertical-align: middle;
 
+}
+.special-interaction-dropdown{
+    font-size:16px;
+    width:400px;
+    height:35px;
+    background: black;
+    border-color: white;
+    color: white; 
+}
+.special-interaction-dropdown:hover{
+    width:400px;
+    height:35px;
+    background: white;
+    border-color: white;
+    color: black; 
 }
 .condition-dropdown-btn-andor{
     background: white;
@@ -1051,10 +1084,11 @@ margin-top:1%;
 
 /*Text box*/
 textarea {
-    font-size:20px;
+    font-size:16px;
   letter-spacing: 1px;
-  padding: 10px;
-  max-width: 100%;
+  padding: 2px;
+  width: 400px;
+  height: 35px;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -1067,6 +1101,8 @@ textarea {
   height: 180px;
   overflow:hidden;
   margin-top:2%;
+  text-align-last: center;
+  align-content:center
 }
 
 /*send icon*/
@@ -1098,9 +1134,9 @@ display: inline-block;
     display:none;
 }
 .describe-textarea{
-    color:#999; 
-    height: 50px;
-    width: 300px;
+    color:#f7eaea; 
+    height: 35px;
+    width: 400px;
 }
 
 .header-banner-wrap{
