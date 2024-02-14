@@ -322,12 +322,13 @@ pre.caret-underscore > span {
     margin-right: auto;
     margin-top: 2%;
     background-color:rgb(143, 69, 0);
-    background:linear-gradient(to bottom, #f2d9c2 5%, #8f4500 100%);
+    background:linear-gradient(to bottom, #f2d9c2 5%, #f0bc8b 100%);
     color:rgb(34, 32, 32);
     font-size:12px;
     width:45px;
     height:15px;
-    line-height: 12px;  
+    line-height: 12px; 
+    border:black; 
 }
 .btn:hover{
     margin-left: auto;
@@ -1088,7 +1089,6 @@ textarea {
   letter-spacing: 1px;
   padding: 2px;
   width: 400px;
-  height: 35px;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -1098,11 +1098,11 @@ textarea {
   color: white;
   opacity:95%;
   line-height: 2;
-  height: 180px;
+  height: 135px;
   overflow:hidden;
   margin-top:2%;
-  text-align-last: center;
-  align-content:center
+  /*text-align-last: center;
+  align-content:center*/
 }
 
 /*send icon*/
@@ -1110,8 +1110,8 @@ textarea {
     font-size: 36px;
     height:1.5em;
     color: grey;
-    margin-left:620px;
-    margin-top:160px;
+    margin-left:560px;
+    margin-top:110px;
     position: absolute;
     z-index:10;
     width:100%;
@@ -1137,14 +1137,17 @@ display: inline-block;
     color:#f7eaea; 
     height: 35px;
     width: 400px;
+    text-align-last: center;
+    align-content:center
 }
 
 .header-banner-wrap{
-    margin-top:10%;
+    margin-top:4%;
     color:white;
 }
 #textbox-algo-desc{
-    font-size:18px;
+    font-size:16px;
+    width:600px;
 }
 .header-banner-wrap h2{
     font-size:18px;
