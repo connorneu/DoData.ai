@@ -25,6 +25,7 @@ import os
 import ast
 import collections
 from functools import reduce
+import traceback
 
 goog_w2v_model = None
 nlp = None
@@ -139,6 +140,7 @@ def findandextract(request):
                 #    print(e)
                 #    return HttpResponse(status=400)
             elif request.POST.get('ajax_name') == 'filter_data':
+                warnings = "No warnings"
                 print(request.POST)
                 conds = json.loads(request.POST.get('conds'))
                 print('conds')
@@ -150,12 +152,15 @@ def findandextract(request):
                 sheet_name = request.POST.get('sheet_name')
                 print('sheet name:', sheet_name)
                 df = unmelt(table_name, sheet_name)
+                df_og = df.copy(deep=True)
                 if header_row > 0:
                     df = change_header(df, header_row)
                 if conds[0][1] != 'Select Column':
                     df = apply_conditions(df, conds) 
                 print('apply conditions')
                 print(df)
+                if df.equals(df_og):
+                    warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
 
                 if header_row > 0 or conds is not None:
                     print('deleting old records')
@@ -169,7 +174,7 @@ def findandextract(request):
                     KeyValueDataFrame.objects.bulk_create(db_obj_list)
                     print('saved')            
                     fande_db_data = list(KeyValueDataFrame.objects.values())
-                    return JsonResponse({'fande_data_dump' : fande_db_data})
+                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings':warnings})
                 else:            
                     return HttpResponse(status=200)
 
@@ -490,74 +495,47 @@ def apply_conditions(df, conditions):
     #conditions_reversed = json.loads(conditions)
     conditions_reversed = conditions
     conditions = []
-    for condition in reversed(conditions_reversed):
-        conditions.append(condition)
+    try:
+        for condition in reversed(conditions_reversed):
+            conditions.append(condition)
 
-    for condition in conditions:
-        if condition[3].isnumeric():
-            print("NUMNERCI CONDITION", condition[3])
-            df[condition[1]] = df[condition[1]].astype(np.float64)
-            condition[3] = float(condition[3])
-            if condition[4] != '':
-                condition[4] = float(condition[4])   
-        else:
-            #condition[3] = condition[3].lower()
-            condition[3] = condition[3]
-
-    #conditions_str = 'df.loc['
-    condition_arr = []
-    for i in range(0, len(conditions)):
-        condition = conditions[i]
-        if condition[2] == 'Equals':   
-            #df_new = df.loc[df[condition[1]] == condition[3]]
-            #condition_str = '(df[\'' + condition[1] + '\'] == \'' + str(condition[3]) + '\')'
-            condition_str = df[condition[1] == str(condition[3])]
-        if condition[2] == 'Contains':
-            #df_new = df.loc[df[condition[1]].str.contains(str(condition[3]))]
-            #condition_str = '(df[\'' + condition[1] + '\'].str.contains(str(\'' + str(condition[3]) + '\')))'
-            condition_str = df[condition[1]].str.contains(str(condition[3]))            
-        if condition[2] == 'Between':
-            #df_new = df.loc[(df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])]
-            #condition_str = '(df[\'' + condition[1] +'\'] >' + str(condition[3]) + ') & (df[\'' + condition[1] + '] <' + str(condition[4]) + ')'
-            condition_str = (df[condition[1]] > str(condition[3])) & (df[condition[1]] < str(condition[4]))
-        if condition[2] == 'Greater Than':
-            #df_new = df.loc[df[condition[1]] > condition[3]]
-            #condition_str = '(df[\'' + condition[1] + '\'] >' + str(condition[3]) + ')'
-            condition_str = df[condition[1]] > str(condition[3])
-        if condition[2] == 'Less Than':
-            #df_new = df.loc[df[condition[1]] < condition[3]]
-            #condition_str = '(df[\'' + condition[1] + '\'] <' + str(condition[3]) + ')'
-            condition_str = df[condition[1]] < str(condition[3])
-        if condition[2] == 'Not Equal To':
-            #df_new = df.loc[df[condition[1]] != condition[3]]
-            #condition_str = '(df[\'' + condition[1] + '\'] !=' + str(condition[3]) + ')'
-            condition_str = df[condition[1]] != str(condition[3])
-        if condition[2] == 'Does Not Contain':
-            #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            #condition_str = '(~df[\'' + condition[1] + '\'].str.contains(\'' + str(condition[3]) + '\'))'
-            condition_str = ~df[condition[1]].str.contains(str(condition[3]))
-        if condition[2] == 'Starts With':
-            #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            #condition_str = '(df[\'' + condition[1] + '\'].str.startswith(\'' + str(condition[3]) + '\'))'
-            condition_str = df[condition[1]].str.startswith(str(condition[3]))
-        if condition[2] == 'Ends With':
-            #df_new = df[~df[condition[1]].str.contains(condition[3])]
-            #condition_str = '(df[\'' + condition[1] + '\'].str.endswith(\'' + str(condition[3]) + '\'))'
-            condition_str = df[condition[1]].str.endswith(str(condition[3]))
-        condition_arr.append(condition_str)
-        #if i == 0:
-        #    conditions_str += condition_str
-        #else:
-        #    if condition[0] == 'And':
-        #        conditions_str += ' & ' + condition_str
-        #    if condition[0] == 'Or':
-        #        conditions_str += ' | ' + condition_str
-        #if i == (len(conditions)-1):
-        #       conditions_str += ']'
-    #df_new = pd.eval(conditions_str)
-    df_new = df.loc[np.logical_and.reduce(condition_arr)]
-    return df_new
-                        
+        for condition in conditions:
+            if condition[3].isnumeric():
+                print("NUMNERCI CONDITION", condition[3])
+                df[condition[1]] = df[condition[1]].astype(np.float64)
+                condition[3] = float(condition[3])
+                if condition[4] != '':
+                    condition[4] = float(condition[4])   
+            else:
+                condition[3] = condition[3]
+        condition_arr = []
+        for i in range(0, len(conditions)):
+            condition = conditions[i]
+            if condition[2] == 'Equals':   
+                condition_str = df[condition[1] == str(condition[3])]
+            if condition[2] == 'Contains':
+                condition_str = df[condition[1]].str.contains(str(condition[3]))            
+            if condition[2] == 'Between':
+                condition_str = (df[condition[1]] > str(condition[3])) & (df[condition[1]] < str(condition[4]))
+            if condition[2] == 'Greater Than':
+                condition_str = df[condition[1]] > str(condition[3])
+            if condition[2] == 'Less Than':
+                condition_str = df[condition[1]] < str(condition[3])
+            if condition[2] == 'Not Equal To':
+                condition_str = df[condition[1]] != str(condition[3])
+            if condition[2] == 'Does Not Contain':
+                condition_str = ~df[condition[1]].str.contains(str(condition[3]))
+            if condition[2] == 'Starts With':
+                condition_str = df[condition[1]].str.startswith(str(condition[3]))
+            if condition[2] == 'Ends With':
+                condition_str = df[condition[1]].str.endswith(str(condition[3]))
+            condition_arr.append(condition_str)
+        df_new = df.loc[np.logical_and.reduce(condition_arr)]
+        return df_new
+    except Exception:
+        print("ERROR: CONDITIONS")
+        traceback.print_exc()
+        return df                    
 
 def Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from):
     df_result = None

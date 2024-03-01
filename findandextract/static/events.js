@@ -235,8 +235,16 @@ $(document.body).on('click', '#data4_tableid' ,function(e){
 
 
 // next after adjusting col headers primary data
-$(document.body).on('click', '#data1_next_colheader' ,function(){
+$(document.body).on('click', '#data1_next_colheader' ,async function(){
     hide_containers(2);
+    //if (primary_header_row !== 0){
+    //    add_to_carousel('Header change $' + primary_file_name + ': ', input_color, [null], true, false);
+    //    add_to_carousel('\xa0\xa0\xa0' + primary_header_row, input_color, [null], true, false);
+    //}
+    //else{
+    //    add_to_carousel('Header change $' + primary_file_name + ': ', input_color, [null], true, false);
+    //    add_to_carousel('\xa0\xa0\xa0' + 'No change', input_color, [null], true, false);
+    //}
     document.getElementById("colselecttablediv1").style.display = "none";
     add_to_carousel(['Filter: ' + primary_file_name + ' {' + primary_sheet_name + '}'], input_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
     add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);

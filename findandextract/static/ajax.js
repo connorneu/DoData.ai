@@ -344,6 +344,9 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
             data_json = db_data['fande_data_dump'];
+            if (db_data['warnings'] !== 'No warnings'){
+                alert(db_data['warnings'])
+            }
             edit_data();
         },
         // on error
