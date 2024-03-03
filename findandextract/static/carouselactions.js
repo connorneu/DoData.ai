@@ -234,7 +234,30 @@ async function carousel(carousel_obj) {
         window.focus();
         //window.scrollTo(0,800);
     }
+    //adjust_glass_height();
     return true;
+}
+
+function adjust_glass_height(){
+    var typingcontainer_height = document.getElementById('typingtextcontainer').offsetHeight;
+    console.log('typing container height' + typingcontainer_height)
+    var glass_elem = document.getElementById('glass-pane-wrap-i');
+    var typing_container = document.getElementById('typing-container1');
+    var containers = typing_container.getElementsByClassName('carouselcontainer');
+    console.log('containers ' + containers.length)
+    var num_active_containers = 0;
+    var active_container_height = 0.0;
+    for(var i=0;i<containers.length;i++){
+        if((containers[i].classList.contains('action') || containers[i].classList.contains('actionfyi')) && containers[i].style.display === 'block'){
+            num_active_containers ++;
+            active_container_height = containers[i].offsetHeight;
+        }
+    }
+    console.log('activecontainers ' + num_active_containers)
+    console.log('height ' + active_container_height)
+    var adjusted_height = typingcontainer_height - (num_active_containers * active_container_height) + "px";
+    console.log('setting height ' + adjusted_height)
+    glass_elem.style.height = adjusted_height;
 }
 
 // create carousel element if it doesnt exist
@@ -1958,10 +1981,11 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-window.onload = function () {
-    var fiveMinutes = 5 * 1,
-        display = document.querySelector('#time');
-    startTimer(fiveMinutes, display);
-};
+// countdown for determining algoirthm type
+//window.onload = function () {
+//    var fiveMinutes = 5 * 1,
+//        display = document.querySelector('#time');
+//    startTimer(fiveMinutes, display);
+//};
 
 
