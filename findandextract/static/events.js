@@ -44,8 +44,8 @@ $(document.body).on('click', '.edittable' ,async function(){
     document.getElementById('edit-data-tables').style.display = 'none';
     var edit_table_id = this.id
     console.log(edit_table_id)
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.', 'Otherwise, click Next'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('If your column headers are not on the first row, then click on the row containing your column headers.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     if (edit_table_id === "edit-mini1"){
         document.getElementById("colselecttablediv1").style.display = "block";
         populate_table_element(primary_sheet_name, 1, 'data1_tableid', null, 5);
@@ -246,8 +246,9 @@ $(document.body).on('click', '#data1_next_colheader' ,async function(){
     //    add_to_carousel('\xa0\xa0\xa0' + 'No change', input_color, [null], true, false);
     //}
     document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel(['Filter: ' + primary_file_name + ' {' + primary_sheet_name + '}'], input_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Filter: ' + primary_file_name + ' {' + primary_sheet_name + '}', input_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("primarycondition-container").style.display = 'block';
     //select_find_column();
 });
@@ -257,8 +258,8 @@ $(document.body).on('click', '#data1_next_colheader' ,async function(){
 $(document.body).on('click', '#data2_next_colheader' ,function(){
     hide_containers(2);
     document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel(['Filter: ' + secondary_file_name + ' {' + secondary_sheet_name + '}:'], second_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    add_to_carousel('Filter: ' + secondary_file_name + ' {' + secondary_sheet_name + '}:', second_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    //add_to_carousel('These conditions will limit the rows imported into the algorithm.', 'If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
     document.getElementById('secondarycondition-container').style.display = 'block';
 });
 

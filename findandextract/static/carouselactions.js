@@ -205,9 +205,6 @@ async function carousel(carousel_obj) {
         }
     }
     updateFontColor(carousel_obj.id, carousel_obj.color)
-
-
-
     // evaluate functions after text has been written
     for(var j=0;j<carousel_obj.func.length;j++)
     {
@@ -231,22 +228,48 @@ async function carousel(carousel_obj) {
         //window.scrollTo(0,800);
     }
 
-
     if (carousel_obj.isTyped)
     {
+        center_action_text(carousel_obj.text, carousel_obj.id)
         await typeSentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
     }
     else
     {
         await displaySentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
     }
-
-
-
-    //adjust_glass_height();
     return true;
 }
 
+
+function center_action_text(obj_text, obj_id_raw){
+    var actionfyi_spacing = 9; // 9 is a random number fuckface
+    var action_spacing = 10;
+    var obj_id = obj_id_raw.replace('#', '');
+    var actionfyi_elem = document.getElementById(obj_id);
+    var carousel_parent = actionfyi_elem.closest('.carouselcontainer');
+    console.log('carouslparent ' + obj_id + ' ' + carousel_parent)
+    if (carousel_parent !== null){
+        if (carousel_parent.classList.contains('actionfyi') || carousel_parent.classList.contains('action')){
+            if (carousel_parent.classList.contains('actionfyi')){
+                var spacing = actionfyi_spacing;
+            }
+            else{
+                var spacing = action_spacing;
+            }
+            var typingcontainer_width = document.getElementById('printitout').offsetWidth;
+            console.log('container width: ' + typingcontainer_width)
+            console.log('obj text: ' + obj_text + ' length ' + obj_text.length)
+            var adjustment = ((typingcontainer_width - (obj_text.length * spacing)) / 2) + 'px'; 
+            console.log('adjustment ' + adjustment)
+            console.log('objid ' + obj_id)
+            actionfyi_elem.style.marginLeft = adjustment;
+        }
+    }   
+}
+
+
+
+// NOT USED
 function adjust_glass_height(){
     var typingcontainer_height = document.getElementById('typingtextcontainer').offsetHeight;
     console.log('typing container height' + typingcontainer_height)
@@ -390,8 +413,8 @@ async function edit_data(){
         table_div.style.display = 'none';
     }
     populate_mini_table_headers();
-    await add_to_carousel(['Edit data:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false); 
-    await add_to_carousel(['Filter data or adjust column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
+    await add_to_carousel('Edit data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false); 
+    await add_to_carousel('Filter data or adjust column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     document.getElementById('edit-data-tables').style.display = "block";
 }
 
@@ -417,8 +440,8 @@ function user_tables_as_array_with_brackets(){
 
 // adjust column header
 function adjust_col_header(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['If your column headers are not on the first row, then click on the row containing your column headers.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('If your column headers are not on the first row, then click on the row containing your column headers.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv1").style.display = "block";
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }
@@ -1017,33 +1040,33 @@ async function fourth_sheet_selection(){
 }
 
 function adjust_col_header(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
-    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+        fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv1").style.display = "block";
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }
 
 function adjust_col_header2(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
-    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv2").style.display = "block";
     col_headers = populate_table_element(secondary_sheet_name, 2, 'data2_tableid');
 }
 
 function adjust_col_header3(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
-    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv3").style.display = "block";
     col_headers = populate_table_element(third_sheet_name, 3, 'data3_tableid');
 }
 
 function adjust_col_header4(){
-    add_to_carousel(['Change column headers'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    add_to_carousel(['Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
-    'Otherwise, click next.'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
+    'Otherwise, click next.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv4").style.display = "block";
     col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid');
 }

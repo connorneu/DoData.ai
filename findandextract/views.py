@@ -159,12 +159,13 @@ def findandextract(request):
                     df = apply_conditions(df, conds) 
                 print('apply conditions')
                 print(df)
-                if df.equals(df_og) or df.empty:                    
+                print(conds[0][1])
+                if df.equals(df_og) or conds[0][1] != 'Select Column' or df.empty:                    
                     warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
                     print('WARNING:', warnings) 
                     df = df_og
 
-                if header_row > 0 or conds is not None:
+                if header_row > 0 or conds[0][1] != 'Select Column':
                     print('deleting old records')
                     objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name)
                     objs_del.delete()
@@ -176,9 +177,14 @@ def findandextract(request):
                     KeyValueDataFrame.objects.bulk_create(db_obj_list)
                     print('saved')            
                     fande_db_data = list(KeyValueDataFrame.objects.values())
-                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings':warnings})
-                else:            
-                    return HttpResponse(status=200)
+                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
+                else:     
+                    print('returning 200 - headerrow > 0 and no conds')  
+                    fande_db_data = list(KeyValueDataFrame.objects.values()) 
+                    print('warnings', warnings)
+                    print('dmbp')
+                    #print(fande_db_data)    
+                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
 
 
             elif request.POST.get('ajax_name') == 'combine_merge':
