@@ -223,14 +223,23 @@ async function where_to_search(){
     secondary_file_name = unique_file_names[1];
     third_file_name = unique_file_names[2];
     fourth_file_name = unique_file_names[3];
+    console.log(secondary_file_name)
+    console.log(third_file_name)
+    console.log(fourth_file_name)
     var secondary_file_sheets = get_file_sheets(secondary_file_name); 
     var third_file_sheets = get_file_sheets(third_file_name); 
     var fourth_file_sheets = get_file_sheets(fourth_file_name); 
-    populate_table_element(secondary_file_sheets[0], 2, 'data2_tableid');
-    populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
-    populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
+    if (typeof secondary_file_name !== 'undefined'){
+        populate_table_element(secondary_file_sheets[0], 2, 'data2_tableid');
+    }
+    if (typeof third_file_name !== 'undefined'){
+        populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
+    }
+    if (typeof fourth_file_name !== 'undefined'){
+        populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
+    }
+    
     await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    //await add_to_carousel(['If the column contains the value being searched for then the row will be extracted.'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false);
     document.getElementById('findwherewrap').style.display = 'block';
     document.getElementById('second-extractfrom').style.display = 'flex'; 
     document.getElementById("second-file-name").innerHTML = secondary_file_name;

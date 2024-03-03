@@ -159,8 +159,10 @@ def findandextract(request):
                     df = apply_conditions(df, conds) 
                 print('apply conditions')
                 print(df)
-                if df.equals(df_og):
+                if df.equals(df_og) or df.empty:                    
                     warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
+                    print('WARNING:', warnings) 
+                    df = df_og
 
                 if header_row > 0 or conds is not None:
                     print('deleting old records')

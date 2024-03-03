@@ -73,7 +73,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -205,14 +205,9 @@ async function carousel(carousel_obj) {
         }
     }
     updateFontColor(carousel_obj.id, carousel_obj.color)
-    if (carousel_obj.isTyped)
-    {
-        await typeSentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
-    }
-    else
-    {
-        await displaySentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
-    }
+
+
+
     // evaluate functions after text has been written
     for(var j=0;j<carousel_obj.func.length;j++)
     {
@@ -226,7 +221,8 @@ async function carousel(carousel_obj) {
             }
         }
     }
-    if (carousel_num > 7){
+
+    if (carousel_num > 3){
         //document.getElementById("printitout").style.minHeight = 378 + "px";
         var element = document.getElementById('typingtextcontainer');
         element.scrollIntoView(false);
@@ -234,6 +230,19 @@ async function carousel(carousel_obj) {
         window.focus();
         //window.scrollTo(0,800);
     }
+
+
+    if (carousel_obj.isTyped)
+    {
+        await typeSentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
+    }
+    else
+    {
+        await displaySentence(carousel_obj.text, carousel_obj.id, carousel_obj.color);
+    }
+
+
+
     //adjust_glass_height();
     return true;
 }
@@ -1476,8 +1485,8 @@ async function begin_file_upload(algo_desc){
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
-    await add_to_carousel(['File Selection'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['Select files to include in algorithm.'], fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);    
+    await add_to_carousel('File Selection', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Select files to include in algorithm.', fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
 }
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
