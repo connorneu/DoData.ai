@@ -247,7 +247,6 @@ function center_action_text(obj_text, obj_id_raw){
     var obj_id = obj_id_raw.replace('#', '');
     var actionfyi_elem = document.getElementById(obj_id);
     var carousel_parent = actionfyi_elem.closest('.carouselcontainer');
-    console.log('carouslparent ' + obj_id + ' ' + carousel_parent)
     if (carousel_parent !== null){
         if (carousel_parent.classList.contains('actionfyi') || carousel_parent.classList.contains('action')){
             if (carousel_parent.classList.contains('actionfyi')){
@@ -257,11 +256,7 @@ function center_action_text(obj_text, obj_id_raw){
                 var spacing = action_spacing;
             }
             var typingcontainer_width = document.getElementById('printitout').offsetWidth;
-            console.log('container width: ' + typingcontainer_width)
-            console.log('obj text: ' + obj_text + ' length ' + obj_text.length)
             var adjustment = ((typingcontainer_width - (obj_text.length * spacing)) / 2) + 'px'; 
-            console.log('adjustment ' + adjustment)
-            console.log('objid ' + obj_id)
             actionfyi_elem.style.marginLeft = adjustment;
         }
     }   
@@ -1508,7 +1503,7 @@ async function begin_file_upload(algo_desc){
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
-    await add_to_carousel('File Selection', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('File Selection:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('Select files to include in algorithm.', fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
 }
 
@@ -1881,7 +1876,30 @@ function get_createTable_by_index(index_num){
 }
 
 
-
+function get_col_headers_for_filename(filename){
+    var col_headers = null;
+    if (filename === primary_file_name + ' {' + primary_sheet_name + '}'){
+        col_headers = createTable_values1[0];
+        console.log('match 1: ')
+        console.log(col_headers)
+    }
+    else if(filename === secondary_file_name + ' {' + secondary_sheet_name + '}'){
+        col_headers = createTable_values2[0];
+        console.log('match 2: ')
+        console.log(col_headers)
+    }
+    else if(filename === third_file_name + ' {' + third_sheet_name + '}'){
+        col_headers = createTable_values3[0];
+        console.log('match 3: ')
+        console.log(col_headers)
+    }
+    else if(filename === fourth_file_name + ' {' + fourth_sheet_name + '}'){
+        col_headers = createTable_values4[0];
+        console.log('match 4: ')
+        console.log(col_headers)
+    }
+    return col_headers 
+}
 
 
 

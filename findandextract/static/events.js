@@ -441,6 +441,7 @@ $(document.body).on('click', '#next-edit-mini' ,function(){
 
 $(document.body).on('click', '#conditionnextprimary' ,async function(){
     //await write_extract_column_to_console();
+    hide_containers(3);
     var $last_condition = $('div[id^="primarycondition"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -463,6 +464,7 @@ $(document.body).on('click', '#conditionnextprimary' ,async function(){
 
 // next after conditions secondary
 $(document.body).on('click', '#conditionnextsecondary' , async function(){
+    hide_containers(3);
     var $last_condition = $('div[id^="secondaryconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -483,6 +485,7 @@ $(document.body).on('click', '#conditionnextsecondary' , async function(){
 
 // next after conditions third
 $(document.body).on('click', '#conditionnextthird' ,async function(){
+    hide_containers(3);
     var $last_condition = $('div[id^="thirdconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -504,6 +507,7 @@ $(document.body).on('click', '#conditionnextthird' ,async function(){
 
 // next after conditions fourth
 $(document.body).on('click', '#conditionnextfourth' , async function(){
+    hide_containers(3);
     var $last_condition = $('div[id^="fourthconditions"]:last'); //find last condition
     var condition_num = $last_condition.prop("id").slice(-1);
     while (condition_num >= 1){
@@ -548,7 +552,6 @@ $(document.body).on('click', '#matchaddcondition' ,function(){
 });
 
 $(document.body).on('dragenter focus click', '.file-input' ,function(e){
-    console.log('char')
     var node = $(e.target).parent()
     console.log(node.attr('class'))
     node.addClass('is-active');

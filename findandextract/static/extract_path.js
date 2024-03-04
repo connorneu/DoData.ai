@@ -1,8 +1,8 @@
 async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
-    await add_to_carousel(['Define values to extract:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    await add_to_carousel(['These values will be searched in uploaded files and matching rows will be extracted'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, false); 
+    await add_to_carousel('Define values to extract:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('These values will be searched in uploaded files and matching rows will be extracted', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     //document.getElementById('inputis_file_or_input').style.display = 'block';
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';
@@ -40,6 +40,7 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     for (var i=0;i<text_boxes.length;i++){
         text_boxes[i].classList.remove('gently-blur');
     }
+    document.getElementById('extract-from-file-column-drop').style.display = 'none';
 
 });
 
@@ -195,6 +196,16 @@ async function describe_data_extract(){
     
 }
 
+
+// when file selected show column dropdown
+$(document.body).on('click', '#describe-data-extract li a' ,function(){
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    populate_drop_down("#extractinputcol_ul", colheaders, true);
+    document.getElementById('extract-from-file-column-drop').style.display = 'block';
+});
+
+
 // when add condition is clicked
 $(document.body).on('click', '#add-describe-text' ,function(){
     var desc_div_wrap = document.getElementById("extract-descriptions");
@@ -209,12 +220,25 @@ $(document.body).on('click', '#add-describe-text' ,function(){
 $(document.body).on('click', '#next-describe-extract' ,async function(){
     hide_containers(2)
     document.getElementById('describe-data-extract').style.display = 'none';
+    document.getElementById('extract-from-file-column-drop').style.display = 'none';
     descriptions = document.getElementsByClassName('describe-textarea');
     await add_to_carousel('\xa0\xa0\xa0' + 'Values to extract:', input_color, [null], true, false);
-    for (var i=0;i<descriptions.length;i++){
-        description = descriptions[i].value;
-        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + description, input_color, [null], true, false);
+    if (descriptions[0].classList.contains('gently-blur')){
+        console.log('thereisblur')
+        var filename = document.getElementById('extractinputfile_ul').closest('.dropdown').querySelector('.btn').firstChild.data;
+        var columnname = document.getElementById('extractinputcol_ul').closest('.dropdown').querySelector('.btn').firstChild.data;
+        console.log('filecolumn: ' + filename + ' ' + columnname)
+        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + filename, input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + columnname, input_color, [null], true, false);
     }
+    else{
+        console.log('noblur')
+        for (var i=0;i<descriptions.length;i++){
+            description = descriptions[i].value;
+            await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + description, input_color, [null], true, false);
+        }
+    }
+
     where_to_search();
 });
 
