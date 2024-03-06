@@ -375,8 +375,8 @@ pre.caret-underscore > span {
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
-    background:linear-gradient(to top, #f078079f 5%, #532800 100%);
-    color:rgb(231, 223, 223);
+    background:linear-gradient(to top, #f2d9c2 5%, #f0bc8b 100%);
+    color:rgb(34, 32, 32);
 }
 .gently-blur{
     background-color: #2b2b2b;

@@ -157,14 +157,11 @@ def findandextract(request):
                     df = change_header(df, header_row)
                 if conds[0][1] != 'Select Column':
                     df = apply_conditions(df, conds) 
-                print('apply conditions')
-                print(df)
-                print(conds[0][1])
-                if df.equals(df_og) or conds[0][1] != 'Select Column' or df.empty:                    
-                    warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
-                    print('WARNING:', warnings) 
-                    df = df_og
-
+                    print('apply conditions')
+                    if df.equals(df_og) or df.empty:                
+                        warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
+                        print('WARNING:', warnings) 
+                        df = df_og
                 if header_row > 0 or conds[0][1] != 'Select Column':
                     print('deleting old records')
                     objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name)
