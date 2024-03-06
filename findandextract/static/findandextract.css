@@ -267,8 +267,9 @@ pre.caret-underscore > span {
 .dropdown.show{
     display:block;
 }
-
-
+.submit-algo-buttons.show{
+    display:block;
+}
 /*fadein*/
 .faded{
     margin-top: 25px;
@@ -542,18 +543,18 @@ margin-top:1%;
 }
 .special-interaction-dropdown{
     font-size:16px;
-    width:400px;
+    width:fit-content;
     height:35px;
-    background: #484848;
-    border-color: white;
-    color: white; 
+    background: rgb(208, 208, 215);
+    border-color: rgb(208, 208, 215);
+    color: black; 
 }
 .special-interaction-dropdown:hover{
-    width:400px;
+    width:fit-content;
     height:35px;
-    background: white;
-    border-color: white;
-    color: black; 
+    background: #484848;
+    border-color: rgb(208, 208, 215);
+    color: rgb(208, 208, 215);
 }
 .condition-dropdown-btn-andor{
     background: white;
@@ -1309,6 +1310,9 @@ display: inline-block;
 
 .extractfromwrap{
     display: none;
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
 }
 .extract-from-file{
     display:none;
@@ -1319,6 +1323,7 @@ display: inline-block;
 }
 .dropdown.extractfrom{
     display:flex;
+    flex: 1 0 0%;
 }
 .adjustheadertable.extractfrom{
     display:none;
@@ -1394,9 +1399,11 @@ display: inline-block;
     background-color: var(--btn-color);
     border-radius: 1em;
     outline: none;
-    box-shadow: 0 0 1em .25em var(--glow-color),
-           0 0 4em 1em var(--glow-spread-color),
-           inset 0 0 .75em .25em var(--glow-color);
+    box-shadow: 
+           0 0 1em .025em var(--glow-color), 
+           0 0 40em 1em var(--glow-spread-color), 
+           inset 0 0 .075em .025em var(--glow-color);
+
     text-shadow: 0 0 .5em var(--glow-color);
     position: relative;
     transition: all 0.3s;
@@ -1431,11 +1438,18 @@ display: inline-block;
    }
 
    .submit-algo-buttons{
-    display:none;
+        display:none;
+        position: fixed;
+        bottom: 0%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin-bottom: 10%;
    }
-
+   .submit-algo-buttons.show{
+        display:block;
+    }
    .update-from-file{
-    display:none;
+        display:none;
    }
 
 .sub-btn{
@@ -1512,4 +1526,7 @@ display: inline-block;
 }
 .file-drop{
     margin-right:1%;
+}
+.extractfrom.col{
+    display:none;
 }

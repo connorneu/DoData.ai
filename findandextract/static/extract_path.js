@@ -1,8 +1,8 @@
 async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
-    await add_to_carousel('Define values to extract:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('These values will be searched in uploaded files and matching rows will be extracted', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    await add_to_carousel('Define values to find and extract:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Any row containing these values will be extracted', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     //document.getElementById('inputis_file_or_input').style.display = 'block';
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';
@@ -43,10 +43,6 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
 
 });
-
-
-
-
 
 
 // user selects use input file
@@ -218,79 +214,69 @@ $(document.body).on('click', '#add-describe-text' ,function(){
 });
 
 $(document.body).on('click', '#next-describe-extract' ,async function(){
+    var file_or_input = 'file';
+    var search_file = 'none';
     hide_containers(2)
     document.getElementById('describe-data-extract').style.display = 'none';
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
     descriptions = document.getElementsByClassName('describe-textarea');
     await add_to_carousel('\xa0\xa0\xa0' + 'Values to extract:', input_color, [null], true, false);
     if (descriptions[0].classList.contains('gently-blur')){
-        console.log('thereisblur')
         var filename = document.getElementById('extractinputfile_ul').closest('.dropdown').querySelector('.btn').firstChild.data;
         var columnname = document.getElementById('extractinputcol_ul').closest('.dropdown').querySelector('.btn').firstChild.data;
-        console.log('filecolumn: ' + filename + ' ' + columnname)
-        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + filename, input_color, [null], true, false);
-        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + columnname, input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + 'FILE: ' + filename, input_color, [null], true, false);
+        await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + 'SHEET: ' + columnname, input_color, [null], true, false);
+        search_file = filename;
     }
     else{
-        console.log('noblur')
+        file_or_input = 'input';
         for (var i=0;i<descriptions.length;i++){
             description = descriptions[i].value;
             await add_to_carousel('\xa0\xa0\xa0' + '\xa0\xa0\xa0' + '$\xa0' + description, input_color, [null], true, false);
         }
     }
-
-    where_to_search();
+    where_to_search(file_or_input, search_file);
 });
 
+
+$(document.body).on('click', '#extractfrom-addfile' ,async function(){
+    if ($('#second-extractfrom').css('display') === 'none'){
+        document.getElementById('second-extractfrom').style.display = 'flex';
+    }
+    else if($('#third-extractfrom').css('display') === 'none'){
+        document.getElementById('third-extractfrom').style.display = 'flex';
+    }
+    else if($('#fourth-extractfrom').css('display') === 'none'){
+        document.getElementById('fourth-extractfrom').style.display = 'flex';
+        document.getElementById('extractfrom-addfile').style.display = 'none';
+    }
+}); 
+
 // where in other files to find values to extract
-async function where_to_search(){
-    secondary_file_name = unique_file_names[1];
-    third_file_name = unique_file_names[2];
-    fourth_file_name = unique_file_names[3];
-    console.log(secondary_file_name)
-    console.log(third_file_name)
-    console.log(fourth_file_name)
-    var secondary_file_sheets = get_file_sheets(secondary_file_name); 
-    var third_file_sheets = get_file_sheets(third_file_name); 
-    var fourth_file_sheets = get_file_sheets(fourth_file_name); 
-    if (typeof secondary_file_name !== 'undefined'){
-        populate_table_element(secondary_file_sheets[0], 2, 'data2_tableid');
-    }
-    if (typeof third_file_name !== 'undefined'){
-        populate_table_element(third_file_sheets[0], 3, 'data3_tableid');
-    }
-    if (typeof fourth_file_name !== 'undefined'){
-        populate_table_element(fourth_file_sheets[0], 4, 'data4_tableid');
-    }
-    
-    await add_to_carousel(['Where to search for these values?'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+async function where_to_search(file_or_input, search_file){
+    var table_array = user_tables_as_array_with_brackets();
+    await add_to_carousel('Match values to extract row:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('findwherewrap').style.display = 'block';
-    document.getElementById('second-extractfrom').style.display = 'flex'; 
-    document.getElementById("second-file-name").innerHTML = secondary_file_name;
-    populate_drop_down('#second-file_ul', secondary_file_sheets, true);
+    document.getElementById('first-extractfrom').style.display = 'flex'; 
+    populate_drop_down('#first-file_ul', table_array, true);
+    populate_drop_down('#second-file_ul', table_array, true);
+    populate_drop_down('#third-file_ul', table_array, true);
+    populate_drop_down('#fourth-file_ul', table_array, true);
 
-    document.getElementById('third-extractfrom').style.display = 'flex'; 
-    document.getElementById("third-file-name").innerHTML = third_file_name;
-    populate_drop_down('#third-file_ul', third_file_sheets, true);
 
-    document.getElementById('fourth-extractfrom').style.display = 'flex'; 
-    document.getElementById("fourth-file-name").innerHTML = fourth_file_name;
-    populate_drop_down('#fourth-file_ul', fourth_file_sheets, true);
-    
-    var col_headers = createTable_values2[0];
-    populate_drop_down("#second-col_ul", col_headers, true);
+    $(document.body).on('click', '.dropdown.extractfrom li a' ,async function(){
+        var selectedfile = this.firstChild.data;
+        var colheaders = get_col_headers_for_filename(selectedfile);
+        var extractfrom_col_ul = $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').find('ul');
+        populate_drop_down(extractfrom_col_ul, colheaders, true);
+        // extract from make column visible after selecting file
+        $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').css("display", "flex");
+    }); 
 
-    var col_headers = createTable_values3[0];
-    console.log('third col headers', col_headers)
-    populate_drop_down("#third-col_ul", col_headers, true);
-
-    var col_headers = createTable_values4[0];
-    console.log('fourth col headers', col_headers)
-    populate_drop_down("#fourth-col_ul", col_headers, true);
-
-    $('#second-file_ul').parents(".dropdown").find('.btn').text(secondary_file_sheets[0]); // set default value to first sheet
-    $('#third-file_ul').parents(".dropdown").find('.btn').text(third_file_sheets[0]); // set default value to first sheet
-    $('#fourth-file_ul').parents(".dropdown").find('.btn').text(fourth_file_sheets[0]); // set default value to first sheet
+    $(document.body).on('click', '#first-col_ul li a' ,async function(){
+        console.log('fre')
+        document.getElementById('submit-extract-wrap').style.display = 'block';
+    }); 
 }
 
 // if adjust header column button is clicken when describing where to search for values to extract

@@ -325,7 +325,7 @@
                         <div>
                             <div class="dropdown show" id="extract-from-file-drop">
                                 <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Use Input File:
+                                Use Uploaded File:
                                 </button>
                                 <ul class="dropdown-menu" id="extractinputfile_ul"></ul>
                             </div>
@@ -347,7 +347,7 @@
                                 <textarea class="describe-textarea" maxlength="60"></textarea>
                             </div>
                         </div>
-                        <div class="addcondition" id="parimaryaddcondition">
+                        <div class="addcondition">
                             <a id="add-describe-text" class="myButton conditionbtn">Add value</a>
                             <a id ="next-describe-extract" class="myButton">Next</a>
                         </div>
@@ -493,77 +493,74 @@
                         </div>
                     </div>
 
-                    <!-- Second file - specify where to extract from -->
+                    <!-- Extract from -->
                     <div id="findwherewrap" class="extractfromwrap">
+                        <!-- First file - specify where to extract from -->
+                        <div id="first-extractfrom" class="extract-from-file">
+                            <div class="dropdown extractfrom" id="first-file-fileselect">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select File
+                                </button>
+                                <ul class="dropdown-menu" id="first-file_ul"></ul>
+                            </div>
+                            <div class="dropdown extractfrom col" id="first-col-fileselect">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="dropdown-menu" id="first-col_ul"></ul>
+                            </div>   
+                        </div>
+                        <!-- Second file - specify where to extract from -->
                         <div id="second-extractfrom" class="extract-from-file">
-                            <h2 id="second-file-name" class="header-extractfrom">secondfilename</h2>
                             <div class="dropdown extractfrom" id="second-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Sheet
                                 </button>
                                 <ul class="dropdown-menu" id="second-file_ul"></ul>
                             </div>
-                            <div class="dropdown extractfrom" id="second-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown extractfrom col" id="second-col-fileselect">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Column
                                 </button>
                                 <ul class="dropdown-menu" id="second-col_ul"></ul>
-                            </div>
-                            
-                            
+                            </div>   
                         </div>
                         <!-- Third file - specify where to extract from -->
                         <div id="third-extractfrom" class="extract-from-file">
-                            <h2 id="third-file-name" class="header-extractfrom">secondfilename</h2>
                             <div class="dropdown extractfrom" id="third-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Sheet
                                 </button>
                                 <ul class="dropdown-menu" id="third-file_ul"></ul>
                             </div>
-                            <div class="dropdown extractfrom" id="third-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown extractfrom col" id="third-col-fileselect">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Column
                                 </button>
                                 <ul class="dropdown-menu" id="third-col_ul"></ul>
                             </div>
-                            
-                            <div class="adjustheadertable extractfrom" id="colselecttablediv3">
-                                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data3_table_reset">Reset</button>
-                                <table class="headertable">
-                                    <tbody id="data3_tableid"></tbody>
-                                </table>
-                                <button type="button" class="btn btn-secondary btn-lg" id="data3_next_colheader">Next</button>
-                            </div>
                         </div>
                         <!-- Fourth file - specify where to extract from -->
                         <div id="fourth-extractfrom" class="extract-from-file">
-                            <h2 id="fourth-file-name" class="header-extractfrom">secondfilename</h2>
                             <div class="dropdown extractfrom" id="fourth-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Sheet
                                 </button>
                                 <ul class="dropdown-menu" id="fourth-file_ul"></ul>
                             </div>
-                            <div class="dropdown extractfrom" id="fourth-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="dropdown extractfrom col" id="fourth-col-fileselect">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Column
                                 </button>
                                 <ul class="dropdown-menu" id="fourth-col_ul"></ul>
                             </div>
-                            
-                            <div class="adjustheadertable extractfrom" id="colselecttablediv4">
-                                <button type="button" class="btn btn-warning" style="display:none; margin-left:90%; margin-top:1%;" id="data4_table_reset">Reset</button>
-                                <table class="headertable">
-                                    <tbody id="data4_tableid"></tbody>
-                                </table>
-                                <button type="button" class="btn btn-secondary btn-lg" id="data4_next_colheader">Next</button>
-                            </div>
                         </div>
-                        <div class="submit-algo-buttons">
-                            <button type="button" class="btn btn-secondary btn-lg" id="submit-algo-back">Back</button>
+                        <div class="addcondition">
+                            <a class="myButton conditionbtn" id="extractfrom-addfile">Add File</a>
+                        </div>                        
+                        <div class="submit-algo-buttons" id="submit-extract-wrap">
                             <button id="submit-extract" class="glowbutton">Build Algorithm</button>
-                        </div>
+                        </div>                              
                     </div>
 
 

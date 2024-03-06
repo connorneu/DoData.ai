@@ -426,10 +426,16 @@ function populate_mini_table_headers(){
 }
 
 function user_tables_as_array_with_brackets(){
-    table_array = [primary_file_name + ' {' + primary_sheet_name + '}',
-                    secondary_file_name + ' {' + secondary_sheet_name + '}',
-                    third_file_name + ' {' + third_sheet_name + '}',
-                    fourth_file_name + ' {' + fourth_sheet_name + '}']
+    var table_array = [primary_file_name + ' {' + primary_sheet_name + '}'];
+    if (typeof secondary_file_name !== 'undefined'){
+        table_array.push(secondary_file_name + ' {' + secondary_sheet_name + '}')
+    }
+    else if (typeof third_file_name !== 'undefined'){
+        table_array.push(third_file_name + ' {' + third_sheet_name + '}')
+    }
+    else if (typeof fourth_file_name !== 'undefined'){
+        table_array.push(fourth_file_name + ' {' + fourth_sheet_name + '}')
+    }
     return table_array
 }
 
@@ -1880,22 +1886,18 @@ function get_col_headers_for_filename(filename){
     var col_headers = null;
     if (filename === primary_file_name + ' {' + primary_sheet_name + '}'){
         col_headers = createTable_values1[0];
-        console.log('match 1: ')
         console.log(col_headers)
     }
     else if(filename === secondary_file_name + ' {' + secondary_sheet_name + '}'){
         col_headers = createTable_values2[0];
-        console.log('match 2: ')
         console.log(col_headers)
     }
     else if(filename === third_file_name + ' {' + third_sheet_name + '}'){
         col_headers = createTable_values3[0];
-        console.log('match 3: ')
         console.log(col_headers)
     }
     else if(filename === fourth_file_name + ' {' + fourth_sheet_name + '}'){
         col_headers = createTable_values4[0];
-        console.log('match 4: ')
         console.log(col_headers)
     }
     return col_headers 
