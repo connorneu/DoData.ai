@@ -25,6 +25,7 @@
         <script src="/static/combine_path.js"></script>
         <script src="/static/update_path.js"></script>
         <script src="/static/reconcile_path.js"></script>
+        <script src="/static/calculate_pth.js"></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>   
         <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
         <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
@@ -1145,6 +1146,72 @@
                         </div>
                     </div>             
 
+
+
+                    <!-- CALCULATE -->
+                    <div class="describe-data-wrap" id="calculate-wrap">
+                        <div class="calculate-what-wrap">
+                            <div class="calc-actions">
+                                <div class="dropdown show action flexy">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Choose what to calculate
+                                    </button>
+                                    <ul class="dropdown-menu" id="calc-what">
+                                        <li><a class="dropdown-item">Total</a></li>
+                                        <li><a class="dropdown-item">Count</a></li>
+                                        <li><a class="dropdown-item">Minimum</a></li>
+                                        <li><a class="dropdown-item">Maximum</a></li>
+                                        <li><a class="dropdown-item">Average</a></li>
+                                        <li><a class="dropdown-item">Top %</a></li>
+                                        <li><a class="dropdown-item">Bottom %</a></li>
+                                    </ul>
+                                </div>
+                                <a id='calc-addaction' class="myButton conditionbtn smol">Add Calculation</a>
+                            </div>
+                        </div>          
+                        <div class="calc-select-files" id="calculate-select-file">
+                            <div class="dropdown show flex">
+                                <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Use Uploaded File:
+                                </button>
+                                <ul class="dropdown-menu" id="calc-first-file"></ul>
+                            </div>     
+                            <div class="calc-col-group-select-wrap" id="calc-group-select"> 
+                                <div class="calc-groupby-wrap">
+                                    <div class="calc-groupby">
+                                        <h2>Group By</h2>
+                                        <div class="dropdown col flex">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            No Group
+                                            </button>
+                                            <ul class="dropdown-menu" id="calc-groupby-first-ul"></ul>
+                                        </div>
+                                        <a id='calc-add-groupby' class="myButton conditionbtn smol">Add Group</a>
+                                    </div>
+                                    <div class="calc-groupby hide">
+                                        <div class="dropdown col flex">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            No Group
+                                            </button>
+                                            <ul class="dropdown-menu" id="calc-groupby-second-ul"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="calc-col-select-wrap">
+                                    <div class="calc-col-select">
+                                        <h2></h2>
+                                        <div class="dropdown col flex">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                        
+                                            </button>
+                                            <ul class="dropdown-menu" id="calc-col-select-ul1"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>  
+
+                    <!-- END CALCULATE -->
 
 
 

@@ -73,7 +73,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -87,7 +87,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Extract', desc);
+    start_algo_path('START', 'Calculate', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -415,6 +415,8 @@ async function edit_data(){
 
 function populate_mini_table_headers(){
     var table_names = user_tables_as_array_with_brackets();
+    console.log('names')
+    console.log(table_names)
     var all_tables = document.getElementsByClassName('mini-table-wrap');
     for (var i=0; i<all_tables.length; i++){
         var table = all_tables[i];
@@ -430,10 +432,10 @@ function user_tables_as_array_with_brackets(){
     if (typeof secondary_file_name !== 'undefined'){
         table_array.push(secondary_file_name + ' {' + secondary_sheet_name + '}')
     }
-    else if (typeof third_file_name !== 'undefined'){
+    if (typeof third_file_name !== 'undefined'){
         table_array.push(third_file_name + ' {' + third_sheet_name + '}')
     }
-    else if (typeof fourth_file_name !== 'undefined'){
+    if (typeof fourth_file_name !== 'undefined'){
         table_array.push(fourth_file_name + ' {' + fourth_sheet_name + '}')
     }
     return table_array
@@ -462,6 +464,9 @@ async function decide_algo_path(algorithm_type)
     }
     else if (algorithm_type === 'Reconcile'){
         start_reconcile();
+    }
+    else if (algorithm_type === 'Calculate'){
+        start_calculate_path();
     }
 }
 
@@ -1536,6 +1541,10 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if (parent_node_name === 'Reconcile'){
             console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
+        }
+        else if (parent_node_name === 'Calculate'){
+            console.log('algo selected - calculate')
+            algorithm_type = 'Calculate';
         }
         begin_file_upload(algo_desc);
     }

@@ -1530,3 +1530,65 @@ display: inline-block;
 .extractfrom.col{
     display:none;
 }
+.hide{
+    display:none;
+}
+.dropdown.show.action.flexy{
+    display:flex;
+    flex: 0 0 0%;
+    margin: 0px 1%;
+}
+.calc-actions{
+    display:flex;
+    justify-content: center;    
+}
+.myButton.conditionbtn.smol{
+    display:none;
+    margin-top:0%;
+    background: linear-gradient(to bottom, #2c1a54 50%, #1b0035 100%);
+}
+.myButton.conditionbtn.smol:hover{
+    margin-top:0%;
+    background: linear-gradient(to top, #2c1a54 50%, #1b0035 100%);
+}
+.filedropdown-flex{
+    display:flex;
+}
+.calc-select-files{
+    display:none;
+    justify-content: center;   
+    margin-top:5%; 
+    white-space: nowrap;
+    vertical-align:middle;
+}
+.dropdown.col.flex{
+    display: flex;
+    flex: 0 0 0%;
+    margin: 0px 1%;
+}
+.dropdown.show.flex{
+    display: flex;
+    flex: 0 0 0%;
+    margin: 0px 1%;
+}
+.calc-groupby{
+    display:flex;
+    justify-content: center;
+    margin-top:2%;
+}
+.calc-groupby.hide{
+    display:none;
+}
+.calc-groupby-wrap{
+    display:flex;
+    justify-content: center;
+}
+.calc-col-group-select-wrap{
+    display:none;
+}
+.calc-col-select-wrap{
+    display:flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
