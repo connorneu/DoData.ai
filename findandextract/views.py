@@ -232,6 +232,28 @@ def findandextract(request):
                 for dbframe in df_list:
                     obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
                 return HttpResponse(status=200)
+            elif request.POST.get('ajax_name') == 'calculate':
+                print('START OF AJAX POST calculate')
+                print(request.POST)
+                parameters = request.POST.get('parameters')
+                parameters = ast.literal_eval(parameters)
+                print(parameters)
+                print(type(parameters))
+                filename = parameters['filename']
+                groups = parameters['groups']
+                actions = parameters['actions']
+                print('filename', filename)
+                print('groups', groups, groups[0])
+                print('acions', actions, actions[0])
+                df_result = calculate_metrics(filename, groups, actions)
+                print('-----------------RESULT------------')
+                print(df_result)
+                df_list = melt_df(df_result)
+                print("saving result to db...")
+                for dbframe in df_list:
+                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                return HttpResponse(status=200)
+
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
                 user_desc = request.POST.get('user_algo_desc')
@@ -735,3 +757,63 @@ def Unique_Column_Pairs(col_list):
         if item not in unique:
             unique.append(item)
     return unique
+
+def parse_file_name_from_bracket_display(filename):
+    file = filename.split('{')[0].strip()
+    sheet = filename.split('{')[1].replace('}','').strip()
+    print('file:', file, 'sheet:', sheet)
+    return file, sheet
+
+
+def translate_action_name(action):
+    if action == 'Total':
+        return 'sum'
+    elif action == 'Count':
+        return 'size'
+    elif action == 'Minimum':
+        return 'min'
+    elif action == 'Maximum':
+        return 'max'
+    elif action == 'Average':
+        return 'mean'
+
+
+def combine_actions_for_each_column_into_array(actions):
+    action_dict = {}
+    for action_pair in actions:
+        action = translate_action_name(action_pair[0])
+        action_col = action_pair[1]
+        if action not in action_dict:
+            print('mw dic')
+            action_dict[action_col] = [action]
+            print(action_dict)
+        else:
+            print('olddic')
+            action_dict[action_col].append(action)
+            print(action_dict)
+    return action_dict
+
+
+def change_col_dtype(df, actions):
+    for action_pair in actions:
+        action = action_pair[0]
+        action_col = action_pair[1]
+        if action in ['Total', 'Minimum', 'Maximum', 'Average']:
+            df[action_col] = pd.to_numeric(df[action_col])
+    return df 
+
+
+def calculate_metrics(filename, groups, actions):
+    file, sheet = parse_file_name_from_bracket_display(filename)
+    df = unmelt(file, sheet)
+    df.reset_index(drop=True, inplace=True)
+    print('unmelted')
+    print(df)
+    df = change_col_dtype(df, actions)
+    action_dict = combine_actions_for_each_column_into_array(actions)
+    print('groups:', groups)
+    print('action dict:', action_dict)
+    df_result = df.groupby(groups).agg(action_dict).reset_index()
+    print('views result')
+    print(df_result)
+    return df_result

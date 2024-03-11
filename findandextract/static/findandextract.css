@@ -733,7 +733,7 @@ margin-top:1%;
     margin-left: auto;
     margin-right: auto;
     width:80%;
-    height:450px;
+    /* height:450px; */
     flex-shrink: 0;
     margin-top:1%;
 
@@ -747,8 +747,6 @@ margin-top:1%;
     text-align: center;
     position:relative; 
     justify-content: center;
-    
-
 }
 .mini-table-wrap a{
     position:absolute; 
@@ -997,9 +995,9 @@ margin-top:1%;
 
 .bottom-btns{
     display:block;
-    align-items: center;
+    /*align-items: center;
     justify-items: center;
-    text-align:center;
+    text-align:center;*/
 }
 .sidebar.open .logo img {
     width: 225px;
@@ -1540,7 +1538,9 @@ display: inline-block;
 }
 .calc-actions{
     display:flex;
-    justify-content: center;    
+    justify-content: center; 
+    margin-top:2%; 
+    align-items : center;  
 }
 .myButton.conditionbtn.smol{
     display:none;
@@ -1557,14 +1557,14 @@ display: inline-block;
 .calc-select-files{
     display:none;
     justify-content: center;   
-    margin-top:5%; 
+    margin-top:3%; 
     white-space: nowrap;
     vertical-align:middle;
 }
 .dropdown.col.flex{
     display: flex;
     flex: 0 0 0%;
-    margin: 0px 1%;
+    margin: 0px 5%;
 }
 .dropdown.show.flex{
     display: flex;
@@ -1575,6 +1575,7 @@ display: inline-block;
     display:flex;
     justify-content: center;
     margin-top:2%;
+    margin-right:10px;
 }
 .calc-groupby.hide{
     display:none;
@@ -1587,8 +1588,23 @@ display: inline-block;
     display:none;
 }
 .calc-col-select-wrap{
-    display:flex;
+    display:block;
     justify-content: center;
     margin-top: 2%;
+}
+.calc-col-select{
+    justify-content: center;
+    margin-top:1%;
+}
+.h-sentence-wrap{
+    display: table;
+    margin: 0px 2%;
+}
+.h-sentence-wrap h2{
+    font-size: 16px;
+    color: rgb(255, 255, 255);
+    vertical-align: middle;
+    text-align: center;
+    display: table-cell;
 }
 

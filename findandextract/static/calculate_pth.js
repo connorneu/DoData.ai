@@ -6,15 +6,43 @@ async function start_calculate_path(){
 }
 
 // when action is selected
-$(document.body).on('click', '#calc-what li a' ,async function(){
+$(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async function(){
+    console.log("aciton")
     var table_array = user_tables_as_array_with_brackets();
     populate_drop_down('#calc-first-file', table_array, true);
     document.getElementById('calculate-select-file').style.display = 'block';
+
     // show add button
     var num_actions = $('.dropdown.show.action').length;
     if(num_actions < 7){
         $('#calc-addaction').css("display", "block");
     }
+
+    // relate action to action sentence 
+    var action_index_rev = $(this).closest('.dropdown.show.action.flexy').index();
+    var action_index = num_actions - action_index_rev;
+    var calc_sents = $('.calc-col-select');
+    // if index of action is greater than current senteces then create new sentence else change sentece
+    console.log('action index: ' + action_index +  ' csents: '+ calc_sents.length)
+    if (action_index > calc_sents.length){
+        console.log('new action')
+        calc_sents.eq(0).clone().appendTo('.calc-col-select-wrap');
+        var action_val = $(this).text();
+        $('.calc-col-select').last().find('.btn').text('Select Column');
+        $('.calc-col-select').last().find('h2').empty();
+        $('.calc-col-select').last().find('h2').append('Calculate <b><u>' + action_val + '</b></u> for column:');
+    }
+    else{
+        console.log('oldaction')
+        var action_val = $(this).text();
+        $('.calc-col-select').eq(action_index-1).find('h2').empty();
+        $('.calc-col-select').eq(action_index-1).find('h2').append('Calculate <b><u>' + action_val + '</b></u> for column:');
+    }
+});
+
+// when column is selected display submit button
+$(document.body).on('click', '.calc-col-select li a' ,async function(){
+    $('#submit-calc-wrap').css('display', 'block');
 });
 
 // when file is selected show columns
@@ -35,16 +63,11 @@ function add_col_select_for_calc(colheaders){
     for (var i=0;i<actions.length;i++){
         var value = $(actions[i]).find('.btn').text();
         console.log('value: ' + value)
-        if (i === 0){
-            console.log('i: ' + i)    
-            $('.calc-col-select').find('h2').append('Calculate <b><u>' + value + '</b></u> for column');            
+        if (i === 0){            
             populate_drop_down('#calc-col-select-ul1', colheaders, true);
             $('.calc-col-select').css("display", "flex");
             $('#calc-col-select-ul1').closest('.dropdown').find('.btn').text('Select Column');
         }
-        //else{
-
-        //}
     }
 }
 
@@ -65,6 +88,53 @@ $(document.body).on('click', '#calc-groupby-first-ul li a' ,async function(){
 
 // when add group by is clciked show second group
 $(document.body).on('click', '#calc-add-groupby' ,async function(){
-    $('#calc-groupby-second-ul').closest('.calc-groupby').css('display', 'block');
+    $('#calc-groupby-second-ul').closest('.calc-groupby').css('display', 'flex');
     $('#calc-add-groupby').css("display", "none");
 });
+
+// when add action is clicked add another calc sentence (calc-col-select)
+$(document.body).on('click', '#nothin' ,async function(){
+    $('.calc-col-select-wrap').find('.calc-col-select').eq(0).clone().appendTo('.calc-col-select-wrap');
+    var last_calc_sent = $('.calc-col-select').last();
+    last_calc_sent.find('h2').text('')
+});
+
+function collect_calc_params(){
+    var file = $('.dropdown.show.flex').find('.btn').text();
+    var groups = $('.calc-groupby');
+    var group = [];
+    for(var i=0;i<groups.length;i++){
+        if ($(groups[i]).css('display') == 'flex'){
+            group.push($(groups[i]).find('.btn').text())
+        }
+    }
+    var sentences = $('.calc-col-select');
+    var actions = [];
+    for (var i=0;i<sentences.length;i++){
+        var sent = $(sentences[i]).find('h2').text();
+        var action = sent.split(' ')[1];
+        var action_col = $(sentences[i]).find('.btn').text();
+        actions.push([action, action_col]);
+    }    
+    var calc_params = {
+        filename: file,
+        groups: group,
+        actions: actions
+    }
+    return calc_params;
+}
+
+// when submit button is pressed
+$(document.body).on('click', '#submit-calculate' ,async function(){
+    calc_params = collect_calc_params();
+    console.log(calc_params)
+    submit_calc_algo_parameters(calc_params);
+});
+
+async function display_calculate_result_table(data){
+    hide_containers(1)
+    document.getElementById('calculate-wrap').style.display = 'none';
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+}

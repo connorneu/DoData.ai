@@ -1156,14 +1156,12 @@
                                     <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Choose what to calculate
                                     </button>
-                                    <ul class="dropdown-menu" id="calc-what">
+                                    <ul class="dropdown-menu">
                                         <li><a class="dropdown-item">Total</a></li>
                                         <li><a class="dropdown-item">Count</a></li>
                                         <li><a class="dropdown-item">Minimum</a></li>
                                         <li><a class="dropdown-item">Maximum</a></li>
                                         <li><a class="dropdown-item">Average</a></li>
-                                        <li><a class="dropdown-item">Top %</a></li>
-                                        <li><a class="dropdown-item">Bottom %</a></li>
                                     </ul>
                                 </div>
                                 <a id='calc-addaction' class="myButton conditionbtn smol">Add Calculation</a>
@@ -1171,7 +1169,7 @@
                         </div>          
                         <div class="calc-select-files" id="calculate-select-file">
                             <div class="dropdown show flex">
-                                <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Use Uploaded File:
                                 </button>
                                 <ul class="dropdown-menu" id="calc-first-file"></ul>
@@ -1179,7 +1177,9 @@
                             <div class="calc-col-group-select-wrap" id="calc-group-select"> 
                                 <div class="calc-groupby-wrap">
                                     <div class="calc-groupby">
-                                        <h2>Group By</h2>
+                                        <div class="h-sentence-wrap">
+                                            <h2>Group By:</h2>
+                                        </div>
                                         <div class="dropdown col flex">
                                             <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             No Group
@@ -1199,7 +1199,9 @@
                                 </div>
                                 <div class="calc-col-select-wrap">
                                     <div class="calc-col-select">
-                                        <h2></h2>
+                                        <div class="h-sentence-wrap">
+                                            <h2></h2>
+                                        </div>
                                         <div class="dropdown col flex">
                                             <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                        
                                             </button>
@@ -1209,6 +1211,9 @@
                                 </div>
                             </div> 
                         </div>
+                        <div class="submit-algo-buttons" id="submit-calc-wrap">
+                            <button id="submit-calculate" class="glowbutton">Build Algorithm</button>
+                        </div> 
                     </div>  
 
                     <!-- END CALCULATE -->
@@ -1224,7 +1229,7 @@
                         </div>
                         <div class="addcondition" id="executeorrun" style="margin-top:4%;">
                             <a class="myButton conditionbtn" id="addmatchdataset">Edit</a>
-                            <a class="myButton" id="runcode">EXTRACT </a>
+                            <a class="myButton" id="runcode">Export </a>
                         </div>
                     </div>
 
