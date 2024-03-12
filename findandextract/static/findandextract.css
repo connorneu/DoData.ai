@@ -207,6 +207,8 @@ ul li ul:hover{
 @keyframes unblur { to { -webkit-filter: blur(0px); } }
 @keyframes blur { to { -webkit-filter: blur(1px); } }
 
+
+
 .carouselcontainer{
     /*display:none;*/
     text-align:left;
@@ -256,7 +258,9 @@ pre.caret-underscore > span {
     display:inline;
     font-size:14px;
 }
-
+.select_sheet{
+    display: none;
+}
 .dropdown{
     display:none;
     margin-left:auto;
@@ -1607,4 +1611,11 @@ display: inline-block;
     text-align: center;
     display: table-cell;
 }
-
+.sheet-select-drop{
+    font-size: 14px;
+    height: 24px;
+    background: rgb(221, 195, 161);
+    width:fit-content;
+    border-color: rgb(208, 208, 215);
+    color: black; 
+}

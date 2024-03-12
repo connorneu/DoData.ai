@@ -44,19 +44,22 @@ $(document).ready(function () {
 
 $(document).ready(async function () {
    $(document.body).on('click', '#next_loadedfiles' ,function(){
-    //catch the form's submit event
-   //$('#next_loadedfiles').submit(function () {
+    //catch the form's submit event 
        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
        var formData = new FormData();
-       formData.append('file_1', $('input[type=file]')[0].files[0]); 
+       formData.append('file_1', $('input[type=file]')[0].files[0]);
+       formData.append('file_1_sheet', $('#fileone_col_ul').closest('.dropdown').find('.btn').text())
        if (typeof $('input[type=file]')[1].files[0] !== "undefined"){
            formData.append('file_2', $('input[type=file]')[1].files[0]);
+           formData.append('file_2_sheet', $('#filetwo_col_ul').closest('.dropdown').find('.btn').text())
        }
        if (typeof $('input[type=file]')[2].files[0] !== "undefined"){
            formData.append('file_3', $('input[type=file]')[2].files[0]);
+           formData.append('file_3_sheet', $('#filethree_col_ul').closest('.dropdown').find('.btn').text())
        }
        if (typeof $('input[type=file]')[3].files[0] !== "undefined"){
            formData.append('file_4', $('input[type=file]')[3].files[0]);
+           formData.append('file_4_sheet', $('#filefour_col_ul').closest('.dropdown').find('.btn').text())
        }
        console.log(FormData)
        // create an AJAX call
@@ -149,6 +152,46 @@ async function ajax_get_db(){
     }
    //});   
 //});
+
+
+// I couldn't just return sheets from success so i had to create me_sheets and return it twice
+async function ajax_check_file_names(file){
+    var me_sheets = null;
+    console.log('ajax check file name')
+    var formData = new FormData();
+    console.log(formData)
+    formData.append('file', file); 
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+
+    await $.ajax({
+        data: formData, // get the form data        $(this).serialize()
+        type: 'POST', // GET or POST
+        contentType: false,
+        processData: false,
+        cache: false,
+        enctype: 'multipart/form-data',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        // on success
+        success: function (sheets) {
+            console.log("combine algorithm parameters submitted");
+            console.log(sheets)
+            me_sheets = JSON.stringify(sheets);
+            // update_choose_file_btn(sheets);
+            return me_sheets;
+        },
+        // on error
+        error: function (request, status, error) {
+            // alert the error if any error occured
+            //alert(response.responseJSON.errors);
+            //console.log(response.responseJSON.errors)
+            alert(request.responseText);
+        }
+    });
+    return me_sheets;
+ }
 
 function submit_combine_algo_parameters(combine_type, merge_params_map){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;

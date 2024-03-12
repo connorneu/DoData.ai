@@ -123,7 +123,7 @@
                         </div>
                         <div class="algoloader" id="submitloadersvg">
                             <div class="timerload">
-                                <h2>Calculating algorithm type</h2>
+                                <h2>Calculating algorithm type...</h2>
                                 <!--
                                 <h4 id="calctimer">estimated time <span id="time">0:30</span> seconds</h4>
                                 <h4 id="hiddenstillcalculating">Still calculating...</h4>    
@@ -196,21 +196,45 @@
                                 <span class="fake-btn">Choose files</span>
                                 <span class="file-msg">drag and drop files here</span>
                                 <input id="firstfileinput" class="file-input" type="file" name="fileinput1">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle sheet-select-drop" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="dropdown-menu" id="fileone_col_ul"></ul>
+                                </div>
                             </div>
                             <div class="file-drop-area" id="filetwo" style="display:none;">
                                 <span class="fake-btn">Choose files</span>
                                 <span class="file-msg">drag and drop files here</span>
                                 <input id="secondfileinput" class="file-input" type="file" name="fileinput2">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle sheet-select-drop" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="dropdown-menu" id="filetwo_col_ul"></ul>
+                                </div>
                             </div>
                             <div class="file-drop-area" id="file3" style="display:none;">
                                 <span class="fake-btn">Choose files</span>
                                 <span class="file-msg">drag and drop files here</span>
                                 <input id="3fileinput" class="file-input" type="file" name="fileinput3">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle sheet-select-drop" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="dropdown-menu" id="filethree_col_ul"></ul>
+                                </div>
                             </div>
                             <div class="file-drop-area" id="file4" style="display:none;">
                                 <span class="fake-btn">Choose files</span>
                                 <span class="file-msg">drag and drop files here</span>
                                 <input id="4fileinput" class="file-input" type="file" name="fileinput4">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle sheet-select-drop" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Sheet
+                                    </button>
+                                    <ul class="dropdown-menu" id="filefour_col_ul"></ul>
+                                </div>
                             </div>
                             <div class="addfile" id="addfiles" style="display:none">
                                 <a class="myButton conditionbtn" id="addsecondfile">Add Additional File</a>

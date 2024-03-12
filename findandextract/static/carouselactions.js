@@ -1,5 +1,6 @@
 data_json = null;
 unique_file_names = null;
+unique_sheet_names = null;
 carouselText = [];
 carousel_num = 1;
 primary_file_name = null;
@@ -73,7 +74,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -348,6 +349,29 @@ function uniq_fast(obj, att) {
     return out;
 }
 
+function uniq_fast_files(obj, att1, att2) {
+    var seen = {};
+    var out = [];
+    var out_clean = [];
+    var len = obj.length;
+    var j = 0;
+    for(var i = 0; i < len; i++) {
+         var item = obj[i][att1] + '|' + obj[i][att2];
+         if(seen[item] !== 1) {
+               seen[item] = 1;
+               out[j++] = item;
+         }
+    }
+    console.log('out')
+    console.log(out)
+    for(var i=0;i<out.length;i++){
+        out_clean.push(out[i].split('|')[0]);
+    }
+    console.log('outclea')
+    console.log(out_clean)
+    return out_clean;
+}
+
 async function display_multiple_file_drops(){
     document.getElementById('filedrops').style.display = 'block';
     document.getElementById('data_post_form').style.display='block';
@@ -363,7 +387,8 @@ async function start_data_filter(db_data){
     hide_containers(2);
     data_json = db_data['fande_data_dump'];
     //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
-    unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names 
+    unique_file_names = uniq_fast_files(data_json, 'file_name', 'sheet_name');  // calcualte file names 
+    unique_sheet_names = uniq_fast_files(data_json, 'sheet_name', 'file_name'); 
     for (var i = 0; i<unique_file_names.length; i++){
         if(i === 0){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], input_color, [null], true, false);
@@ -385,6 +410,8 @@ async function start_data_filter(db_data){
 async function edit_data(){
     populate_file_names();
     populate_dataset_names();
+    console.log('oreimearysheetname')
+    console.log(secondary_sheet_name)
     populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
     var table_div = document.getElementById('mini_table1').closest('.mini-table-wrap');
     table_div.style.display = 'block';
@@ -1507,28 +1534,49 @@ function force_first_node_as_active(class_name, root_node_name){
     }
 }
 
+
+function calc_max_files(){
+    if (algorithm_type === 'Extract'){
+        return "Up to 4 files";
+    }
+    else if (algorithm_type === 'Combine'){
+        return "Minimum 2 files, maximum 4 files";
+    }
+    else if (algorithm_type === 'Update'){
+        return "Up to 4 files";
+    }
+    else if (algorithm_type === 'Reconcile'){
+        return "minimum 2 files, maximum 2 files";
+    }
+    else if (algorithm_type === 'Calculate'){
+        return "Maximum 1 file";
+    }
+}
+
+
 async function begin_file_upload(algo_desc){
-    //document.getElementById('algo-desc-graph').style.display = 'none';
-    //document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
-    //hide_containers(3);
+    var num_files = calc_max_files();
+    document.getElementById('textbox-algo-desc-wrap').style.display = 'block';
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
     await add_to_carousel('File Selection:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Select files to include in algorithm.', fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
+    await add_to_carousel('Select files to include in algorithm: ' + num_files, fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
 }
+
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
     console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
     if (node_name === 'START'){
         if (document.getElementById('algo-desc-graph').style.display == 'block'){
-            hide_containers(1);
+            hide_containers(2);
             document.getElementById('algo-desc-graph').style.display='none';
             document.getElementById('data_post_form').style.display='none';
         }
         if (parent_node_name === 'Extract'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
+            algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
         }
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
@@ -1666,7 +1714,7 @@ async function convert_text_to_decision(algo_type){
 
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
-    await add_to_carousel(['Confirm algorithm type:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u>:</b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
@@ -2005,10 +2053,14 @@ $(document.body).on('input', '.search-input' , function(){
 });
 
 function populate_file_names(){
-    primary_file_name = unique_file_names[0]
+    primary_file_name = unique_file_names[0];
+    primary_sheet_name = unique_sheet_names[0];
     secondary_file_name = unique_file_names[1];
+    secondary_sheet_name = unique_sheet_names[1];
     third_file_name = unique_file_names[2];
+    third_sheet_nam = unique_sheet_names[2];
     fourth_file_name = unique_file_names[3];
+    fourth_sheet_name = unique_sheet_names[3];
     //console.log('pop')
     //console.log(primary_file_name + ' | ' + secondary_file_name + ' | ' + third_file_name + ' | ' + fourth_file_name)
 }

@@ -39,7 +39,16 @@ $(document).ready(function () {
                         name: "START"
                     }
                 ]
-            }                          
+            },
+            {
+                name: "Calculate",
+                image: "",
+                children: [
+                    {
+                        name: "START"
+                    }
+                ]
+            }                             
         ]
     };
 

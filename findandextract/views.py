@@ -262,13 +262,22 @@ def findandextract(request):
                 print('algo desc', algo_desc)
                 return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
                 #return JsonResponse({'algo_type': 'failure'})
-            else:
-                print('DATA UPLOAD POS')
-                print(request.POST)
-                upload_data_files(request)
-                #return HttpResponse(status=200)
-                fande_db_data = list(KeyValueDataFrame.objects.values())
-                return JsonResponse({'fande_data_dump' : fande_db_data})
+            elif request.method == 'POST': 
+                try:
+                    file = request.FILES['file']
+                    print('AJAX file pos')
+                    print(request.POST)
+                    myfile = request.FILES['file']  
+                    print(myfile)
+                    sheets = get_sheet_names(myfile)
+                    return JsonResponse({'sheets' : sheets})
+                except:
+                    print('DATA UPLOAD POS')
+                    print(request.POST)
+                    upload_data_files(request)
+                    #return HttpResponse(status=200)
+                    fande_db_data = list(KeyValueDataFrame.objects.values())
+                    return JsonResponse({'fande_data_dump' : fande_db_data})
 
         else:
             #if 'fileinput1' in request.POST or 'fileinput2' in request.POST:
@@ -300,13 +309,15 @@ def findandextract(request):
 def upload_data_files(request):
     print("UPLOADING FILES")
     print(request.FILES)
+    print(request)
     if request.method == 'POST' and request.FILES['file_1']:
         print("Importing file 1...")
         print(request.FILES)
         myfile = request.FILES['file_1']  
-        #file_names.append(myfile)
+        sheetname = request.POST['file_1_sheet']
         print('melting df')
-        df_columns, df_list = build_df_melt(myfile)
+        print('mefile', myfile)
+        df_columns, df_list = build_df_melt(myfile, sheetname)
         print("saving to db...")
         db_obj_list = []
         for dbframe in df_list:
@@ -320,9 +331,10 @@ def upload_data_files(request):
         if request.method == 'POST' and request.FILES['file_2']:    
             print('Importing file 2...')
             myfile2 = request.FILES['file_2']     
+            sheetname = request.POST['file_2_sheet']
             #file_names.append(myfile2)
             print('melting df')
-            df2_columns, df2_list = build_df_melt(myfile2)
+            df2_columns, df2_list = build_df_melt(myfile2, sheetname)
             print('saving to db...')
             db_obj_list = []
             for dbframe in df2_list:
@@ -334,10 +346,11 @@ def upload_data_files(request):
     if 'file_3' in request.FILES:
         if request.method == 'POST' and request.FILES['file_3']:    
             print('Importing file 3...')
-            myfile3 = request.FILES['file_3']     
+            myfile3 = request.FILES['file_3']  
+            sheetname = request.POST['file_3_sheet']   
             #file_names.append(myfile2)
             print('melting df')
-            df3_columns, df3_list = build_df_melt(myfile3)
+            df3_columns, df3_list = build_df_melt(myfile3, sheetname)
             print('saving to db...')
             db_obj_list = []
             for dbframe in df3_list:
@@ -349,10 +362,11 @@ def upload_data_files(request):
     if 'file_4' in request.FILES:
         if request.method == 'POST' and request.FILES['file_4']:    
             print('Importing file 4...')
-            myfile4 = request.FILES['file_4']     
+            myfile4 = request.FILES['file_4']  
+            sheetname = request.POST['file_4_sheet']  
             #file_names.append(myfile2)
             print('melting df')
-            df4_columns, df4_list = build_df_melt(myfile4)
+            df4_columns, df4_list = build_df_melt(myfile4, sheetname)
             print('saving to db...')
             db_obj_list = []
             for dbframe in df4_list:
@@ -406,18 +420,29 @@ def melt_filtered_df(df, filename, sheetname):
     return df_list
 
 
+def get_sheet_names(myfile):
+    file_ext = str(myfile).split('.')[-1]
+    if file_ext[0] == 'x':
+        xl = pd.ExcelFile(myfile)
+        print('sheetnames', xl.sheet_names)
+        return xl.sheet_names
+    else:
+        return 'Sheet1'
+
+
 # for raw input
-def build_df_melt(myfile):
+def build_df_melt(myfile, sheetname):
     df_sheets = []
     file_ext = str(myfile).split('.')[-1]
     if file_ext[0] == 'x':
-        df = pd.read_excel(myfile, sheet_name=None, engine='openpyxl')
-        for name, sheet in df.items():
-            sheet['sheet'] = name
-            sheet = sheet.rename(columns=lambda x: x.split('\n')[-1])
-            df_sheets.append(sheet)
-        df = pd.concat(df_sheets)
-        df.reset_index(inplace=True, drop=True)
+        df = pd.read_excel(myfile, sheet_name=sheetname, engine='openpyxl')
+        #for name, sheet in df.items():
+        #    sheet['sheet'] = name
+        #    sheet = sheet.rename(columns=lambda x: x.split('\n')[-1])
+        #    df_sheets.append(sheet)
+        #df = pd.concat(df_sheets)
+        #df.reset_index(inplace=True, drop=True)
+        df['sheet'] = sheetname
     else:
         df = pd.read_csv(myfile)
         df['sheet'] = 'Sheet1'

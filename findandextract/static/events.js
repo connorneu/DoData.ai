@@ -562,22 +562,35 @@ $(document.body).on('dragenter focus click', '.file-input' ,function(e){
 
 // change text of file drop
 //unhide add additional file and next buttons
-$(document.body).on('change', '.file-input' ,function(){
+$(document.body).on('change', '.file-input' ,async function(){
     var filesCount = $(this)[0].files.length;
     var $textContainer = $(this).prev().prev();
     var $textbanner = $(this).prev();
-    if (filesCount === 1) {
-    // if single file is selected, show file name
+    var file_input_index = $(this).closest('.file-drop-area').index();
+    console.log('file input index ' + file_input_index)
+    console.log('filename')
+    console.log($('input[type=file]')[file_input_index-1].files[0])
+    var me_sheets = await ajax_check_file_names($('input[type=file]')[file_input_index-1].files[0]);
+    me_sheets = JSON.parse(me_sheets);
+    me_sheets = me_sheets['sheets'];
     var fileName = $(this).val().split('\\').pop();  
     $textContainer.text(fileName);
     $($textContainer).css({marginTop: '+=6px'});;
     $textbanner.text('');
-    } else {
-    // otherwise show number of files
-    $textContainer.text(filesCount + ' files selected');
-    }
+    if (me_sheets.length > 1){
+        console.log('man sheet')
+        var myelm = $(this).closest('.file-drop-area').find('ul');
+        console.log(myelm)
+        var id = '#' + myelm.attr('id');
+        console.log('e ' + id)
+        populate_drop_down(id, me_sheets, true);
+        //populate_drop_down("#fileone_col_ul", me_sheets, true);
+
+        var a = $(id).closest('.dropdown').css('display', 'block');
+    }    
     document.getElementById('addfiles').style.display = 'block';
 });
+
 
 // unhide additional file drop box
 $(document.body).on('click', '#addsecondfile' ,function(){    
@@ -746,8 +759,9 @@ $(document.body).on('click', '#descriptionhelp' , async function(){
     window.focus(); 
     window.scrollTo(0,800);
     elem = document.getElementById('algo-desc-graph')
-    await add_to_carousel('Select algorithm type from menu.', action_color, [null], true, false);
-    await add_to_carousel('Hover over each algorithm type to view details.', action_color, [null], true, false);
+    await add_to_carousel('START', action_color, [null], true, false);
+    await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     elem.fadeIn = function(timing) {
         var newValue = 0;
 
