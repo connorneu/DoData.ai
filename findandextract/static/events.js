@@ -750,9 +750,15 @@ $(document.body).on('click', '#changealgorithm' , async function(){
 });
 
 
-$(document.body).on('click', '#descriptionhelp' , async function(){   
+$(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async function(){   
     console.log('fading in')
-   
+    try{
+        hide_containers(2);
+    }
+    catch(error){
+
+    }
+    document.getElementById('confirm-algo-select').style.display='none';
     document.getElementById('describe-algo-banner').style.display='none';
     var element = document.getElementsByTagName('body')[0];
     element.scroll(-1000,1000);

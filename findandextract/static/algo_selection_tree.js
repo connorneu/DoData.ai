@@ -8,7 +8,7 @@ $(document).ready(function () {
     children: [                           
             {
                 name: "Extract",
-                image: "/static/images/Extract v2.png",
+                image: "/static/images/Extract v3.png",
                 children: [{
                         name: "START"                        
                     }
@@ -16,7 +16,7 @@ $(document).ready(function () {
             },            
             {
                 name:"Combine",
-                image: "/static/images/Combine.png",
+                image: "/static/images/Combine v3.png",
                 children: [{
                         name: "START"                        
                     }
@@ -48,7 +48,7 @@ $(document).ready(function () {
                         name: "START"
                     }
                 ]
-            }                             
+            }                            
         ]
     };
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
             })
             .attr("x", 210)  //116
             .attr("y", -25)     //-25
-            .attr("width", 650)       //50
+            .attr("width", 500)       //50
             .attr("height", 500);
 
          nodeEnter

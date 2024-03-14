@@ -74,7 +74,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -1537,16 +1537,16 @@ function force_first_node_as_active(class_name, root_node_name){
 
 function calc_max_files(){
     if (algorithm_type === 'Extract'){
-        return "Up to 4 files";
+        return "Up to 4 files (Extract algorithm)";
     }
     else if (algorithm_type === 'Combine'){
-        return "Minimum 2 files, maximum 4 files";
+        return "Minimum 2 files, maximum 4 files (Combine algorithm)";
     }
     else if (algorithm_type === 'Update'){
-        return "Up to 4 files";
+        return "Up to 4 files (Update algorithm)";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "minimum 2 files, maximum 2 files";
+        return "minimum 2 files, maximum 2 files (Reconcile algorithm)";
     }
     else if (algorithm_type === 'Calculate'){
         return "Maximum 1 file";
@@ -1714,11 +1714,19 @@ async function convert_text_to_decision(algo_type){
 
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
-    await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u>:</b>' 
+    await add_to_carousel('Confirm algorithm type:' + algo, action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('If the description below deoesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
+    console.log('algo type: ' + algo_type)
+    if (algo === 'Extract'){
+        document.getElementById('confirm-algo-img-extract').style.display = 'block';
+    }
+    else if (algo === 'Combine'){
+        document.getElementById('confirm-algo-img-combine').style.display = 'block';
+    }
 
     // click continue after confirm algorithm text
     $(document.body).on('click', '#confirm-algo-yes' , async function(){ 
