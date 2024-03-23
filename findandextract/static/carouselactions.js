@@ -1716,7 +1716,7 @@ async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel('Confirm algorithm type:' + algo, action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('If the description below deoesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
+    //document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
@@ -1726,6 +1726,15 @@ async function confirm_algorithm_type(algo_type){
     }
     else if (algo === 'Combine'){
         document.getElementById('confirm-algo-img-combine').style.display = 'block';
+    }
+    else if (algo === 'Update'){
+        document.getElementById('confirm-algo-img-update').style.display = 'block';
+    }
+    else if (algo === 'Reconcile'){
+        document.getElementById('confirm-algo-img-reconcile').style.display = 'block';
+    }
+    else if (algo === 'Calculate'){
+        document.getElementById('confirm-algo-img-calculate').style.display = 'block';
     }
 
     // click continue after confirm algorithm text

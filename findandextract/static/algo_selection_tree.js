@@ -24,7 +24,7 @@ $(document).ready(function () {
             },
             {
                 name:"Update",
-                image: "/static/images/Update.png",
+                image: "/static/images/Update v3.png",
                 children: [
                     {
                         name: "START" 
@@ -33,7 +33,7 @@ $(document).ready(function () {
             },
             {
                 name: "Reconcile",
-                image: "/static/images/Reconcile.png",
+                image: "/static/images/Reconcile v3.png",
                 children: [
                     {
                         name: "START"
@@ -42,7 +42,7 @@ $(document).ready(function () {
             },
             {
                 name: "Calculate",
-                image: "",
+                image: "/static/images/Calculate v3.png",
                 children: [
                     {
                         name: "START"
@@ -311,14 +311,17 @@ function adjust_svg_img_y_pos(class_name){
     var parent_nodes = document.getElementsByClassName(class_name);
     for (var i = 0; i<parent_nodes.length; i++){ 
         var node_name = parent_nodes[i].getElementsByTagName('tspan')[0].innerHTML;
-        if (node_name === 'Update'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-250);    
-        } 
         if (node_name === 'Combine'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-150);    
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-120);    
         }
+        if (node_name === 'Update'){
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220);    
+        } 
         if (node_name === 'Reconcile'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-375);    
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-320);    
+        }
+        if (node_name === 'Calculate'){
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420);    
         }
     }
 }
