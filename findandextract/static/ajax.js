@@ -339,6 +339,7 @@ async function ajax_get_result_db(algo_type){
        success: function (data) {
            //print_the_filtered_data(data);
            if(algo_type==='extract'){
+            console.log('extract get result success')
             display_extract_result_table(data);
            }
            else if(algo_type==='combine'){

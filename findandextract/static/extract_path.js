@@ -351,6 +351,7 @@ function collect_extract_parameters(){
 async function display_extract_result_table(data){
     hide_containers(2);
     document.getElementById('findwherewrap').style.display = 'none';
+    console.log('begin populate table element')
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';

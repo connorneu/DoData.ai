@@ -1141,11 +1141,16 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 0){
+        console.log('tablenumber 0')
         var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
-        var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=1000000);
+        console.log('repivot complete')
+        var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=30);
+        console.log('create Table complete')
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
+        console.log('begin parse table')
         var table_html_obj_arr0 = parse_table_column_values(createTable_html);
+        console.log('end parse table')
 
     }
     return col_headers;

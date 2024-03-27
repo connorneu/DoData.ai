@@ -65,21 +65,26 @@ def findandextract(request):
                 extract_col_name = params['extractcolname']
                 describe_values = ast.literal_eval(params['describevalues'])
                 search_where = params['search_where']
-
-                print("INPUTOSEIS")
-                print(input_or_description)
-                print(extract_file_name)
-                print(extract_col_name)
-                print(describe_values)
-                print(search_where)
-
                 df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where)
                 print('------------- RESULT --------------')
                 print(df_result)
                 df_list = melt_df(df_result)
                 print("saving result to db...")
+                db_obj_list = []
                 for dbframe in df_list:
-                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                print('saved results')
+
+                #print("saving to db...")
+                #db_obj_list = []
+                #for dbframe in df_list:
+                #    #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+                #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+                #KeyValueDataFrame.objects.bulk_create(db_obj_list)
+                #print('saved')
+                #db_data = list(KeyValueDataFrame.objects.values())
+
 
                 return HttpResponse(status=200)
 
