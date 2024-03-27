@@ -50,17 +50,22 @@ def Load_NLI_Model():
     return classifier
 
 def classify_zeroshot(classifier, user_text):
-    candidate_labels = ["join combine",
-                        "select extract",
-                        "reconcile compare",
-                        "modify update",
-                        "calculate group"]
+    candidate_labels = ["combine",
+                        "select",
+                        "compare",
+                        "change",
+                        "calculate"]
+    #["join combine",
+    # "select extract",
+    # "reconcile compare",
+    # "modify update",
+    # "calculate group"]
     output = classifier(user_text, candidate_labels, multi_label=False)
     print('classifier output:', output)
     scores = output['scores']
     result_index = scores.index(max(scores))
     result_raw = output['labels'][result_index]
-    result_word = {'join combine': 'combine', 'select extract': 'extract', 'reconcile compare': 'reconcile', 'modify update': 'update', 'calculate group': 'calculate'}
+    result_word = {'combine': 'combine', 'select': 'extract', 'compare': 'reconcile', 'change': 'update', 'calculate': 'calculate'}
     result_desc = {'combine': 'Join two datasets on either rows or column headers to combine the values into one file.',
                    'extract': 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.',
                    'reconcile': 'Reconcile values of two datasets by matching rows and comparing similarities and differences.',

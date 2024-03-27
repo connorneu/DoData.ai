@@ -125,7 +125,7 @@ async function ajax_get_db(){
        $.ajax({
            data: {   //JSON.stringify(condition_arr2)
                'ajax_name':'submit_extract_parameters',
-                'parameters': extract_params,
+                'parameters': JSON.stringify(extract_params),
 
 
 

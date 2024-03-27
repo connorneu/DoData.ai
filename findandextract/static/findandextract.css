@@ -455,8 +455,7 @@ pre.caret-underscore > span {
 table, th, td {
 	border: 1px solid;
 	table-layout: fixed;
-	font-family: 'IBM Plex Mono', monospace;
-    width: 500px;
+    width: 1000px;
     color:white;
     z-index: 1;
     overflow:hidden;
@@ -803,7 +802,7 @@ margin-top:1%;
 } 
 .mini-tables td, th{
     font-size:12px;
-    white-space: nowrap;
+    
     width: 100%;
 }
 
@@ -1174,6 +1173,7 @@ textarea {
   height: 135px;
   overflow:hidden;
   margin-top:2%;
+  padding-left: 10px;
   /*text-align-last: center;
   align-content:center*/
 }
@@ -1205,6 +1205,16 @@ display: inline-block;
 
 .describe-data-wrap{
     display:none;
+
+}
+.flexy-side-drops{
+    display:flex;
+    justify-content: center;
+}
+.flexy-side-drops > .dropdown{
+    flex: 0 0 20%;
+    margin-left:0;
+    margin-right:0;
 }
 .describe-textarea{
     color:#f7eaea; 
@@ -1241,15 +1251,19 @@ display: inline-block;
 }
 .help-banner-wrap{
     margin-top:5%;
-    margin-left: 50%;
+    margin-left: 0%;
     cursor: pointer;
+}
+.help-banner-wrap h4{
+    text-align: center;
+    color: rgba(196, 145, 255, 0.62);
 }
 .help-banner-wrap h3{
     font-size: 20px;
 }
 
 .help-banner-wrap h4:hover{
-    color: rgba(196, 145, 255, 0.62);
+    color: rgba(236, 219, 255, 0.62);
 }
 
 
@@ -1371,14 +1385,18 @@ display: inline-block;
 }
 .extract-from-file{
     display:none;
-    flex: 0 0 1;
+    /*flex: 0 0 1;*/
+    justify-content: center;
 }
 .header-extractfrom{
     display:flex;
 }
 .dropdown.extractfrom{
     display:flex;
-    flex: 1 0 0%;
+    flex: 0 0 20%;
+    margin-left:0;
+    margin-right:0;
+    margin-top:2%;
 }
 .adjustheadertable.extractfrom{
     display:none;

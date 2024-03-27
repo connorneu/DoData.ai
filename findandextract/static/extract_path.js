@@ -255,7 +255,7 @@ $(document.body).on('click', '#extractfrom-addfile' ,async function(){
 // where in other files to find values to extract
 async function where_to_search(file_or_input, search_file){
     var table_array = user_tables_as_array_with_brackets();
-    await add_to_carousel('Match values to extract row:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Where to search for values from ' + search_file + ':', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('findwherewrap').style.display = 'block';
     document.getElementById('first-extractfrom').style.display = 'flex'; 
     populate_drop_down('#first-file_ul', table_array, true);
@@ -297,14 +297,67 @@ function collect_describe_values(){
         var value = describe_value_elems[i].value;
         describe_values.push(value);
     }
-    console.log('describe values')
     return describe_values;
+}
+
+function collect_search_where(){
+    var findwhere = [];
+    var first_file = $('#first-extractfrom').find('.dropdown').eq(0).find('.btn').text();
+    var first_col = $('#first-extractfrom').find('.dropdown').eq(1).find('.btn').text();
+    findwhere.push([first_file, first_col]);
+    if ($('#second-extractfrom').css("display") !== 'none'){
+        var second_file = $('#second-extractfrom').find('.dropdown').eq(0).find('.btn').text();
+        var second_col = $('#second-extractfrom').find('.dropdown').eq(1).find('.btn').text();
+        findwhere.push([second_file, second_col]);
+    }
+    if ($('#third-extractfrom').css("display") !== 'none'){
+        var third_file = $('#third-extractfrom').find('.dropdown').eq(0).find('.btn').text();
+        var third_col = $('#third-extractfrom').find('.dropdown').eq(1).find('.btn').text();
+        findwhere.push([third_file, third_col]);
+    }
+    if ($('#third-extractfrom').css("display") !== 'none'){
+        var fourth_file = $('#fourth-extractfrom').find('.dropdown').eq(0).find('.btn').text();
+        var fourth_col = $('#fourth-extractfrom').find('.dropdown').eq(1).find('.btn').text();
+        findwhere.push([fourth_file, fourth_col]);
+    }
+    return findwhere;
 }
 
 // collect algorithm parameters
 function collect_extract_parameters(){
+    var describevalues = JSON.stringify(collect_describe_values());
+    var extractfilename = $('#extractinputfile_ul').parents(".dropdown").find('.btn').text();
+    var extractcolname = $('#extractinputcol_ul').parents(".dropdown").find('.btn').text();
+    if(extractfilename === 'Use Uploaded File:'){
+        var input_or_description = 'describe';
+    }
+    else{
+        var input_or_description = 'input';
+    }
     var inputordescription = input_or_description; 
-    var primaryfilename = $('#primaryfile_ul').parents(".dropdown").find('.btn').text();
+    var search_where = collect_search_where();
+    var extract_params_map = {
+                                describevalues: describevalues,
+                                extractfilename: extractfilename,
+                                extractcolname: extractcolname,
+                                input_or_description: input_or_description,
+                                search_where:search_where
+                            };
+    console.log(extract_params_map)
+    return extract_params_map;
+}
+
+
+async function display_extract_result_table(data){
+    hide_containers(2);
+    document.getElementById('findwherewrap').style.display = 'none';
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+    
+}
+
+/*var primaryfilename = primary_file_name //$('#primaryfile_ul').parents(".dropdown").find('.btn').text();
     var primaryheaderrow = primary_header_row;
     var primarysheetname = primary_sheet_name;
     var inputfilecol = extract_col;
@@ -347,19 +400,4 @@ function collect_extract_parameters(){
         fourthheaderrow : fourthheaderrow,
         secondaryheaderrow : secondaryheaderrow,
         thirdheaderrow : thirdheaderrow,
-        fourthheaderrow : fourthheaderrow 
-    };
-
-    console.log(extract_params_map)
-    return extract_params_map;
-}
-
-
-async function display_extract_result_table(data){
-    hide_containers(2);
-    document.getElementById('findwherewrap').style.display = 'none';
-    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
-    document.getElementById('resultbox_div').style.display = 'block';
-    
-}
+        fourthheaderrow : fourthheaderrow };*/

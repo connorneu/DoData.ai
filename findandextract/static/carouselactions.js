@@ -74,7 +74,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -88,7 +88,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Calculate', desc);
+    start_algo_path('START', 'Extract', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1537,16 +1537,16 @@ function force_first_node_as_active(class_name, root_node_name){
 
 function calc_max_files(){
     if (algorithm_type === 'Extract'){
-        return "Up to 4 files (Extract algorithm)";
+        return "Up to 4 files (for this algorithm type)";
     }
     else if (algorithm_type === 'Combine'){
-        return "Minimum 2 files, maximum 4 files (Combine algorithm)";
+        return "Minimum 2 files, maximum 4 files (for this algorithm type)";
     }
     else if (algorithm_type === 'Update'){
-        return "Up to 4 files (Update algorithm)";
+        return "Up to 4 files (for this algorithm type)";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "minimum 2 files, maximum 2 files (Reconcile algorithm)";
+        return "minimum 2 files, maximum 2 files (for this algorithm type)";
     }
     else if (algorithm_type === 'Calculate'){
         return "Maximum 1 file";
@@ -1714,7 +1714,7 @@ async function convert_text_to_decision(algo_type){
 
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
-    await add_to_carousel('Confirm algorithm type:' + algo, action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('If the description below deoesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];

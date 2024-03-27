@@ -577,7 +577,11 @@ $(document.body).on('change', '.file-input' ,async function(){
     $textContainer.text(fileName);
     $($textContainer).css({marginTop: '+=6px'});;
     $textbanner.text('');
-    if (me_sheets.length > 1){
+    console.log("mesheets")
+    console.log(me_sheets)
+    console.log(me_sheets.length)
+    //if (me_sheets.length > 1){
+    if (Array.isArray(me_sheets)){ 
         console.log('man sheet')
         var myelm = $(this).closest('.file-drop-area').find('ul');
         console.log(myelm)
