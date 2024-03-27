@@ -556,7 +556,6 @@ $(document.body).on('click', '#matchaddcondition' ,function(){
 
 $(document.body).on('dragenter focus click', '.file-input' ,function(e){
     var node = $(e.target).parent()
-    console.log(node.attr('class'))
     node.addClass('is-active');
 });
 
@@ -567,9 +566,6 @@ $(document.body).on('change', '.file-input' ,async function(){
     var $textContainer = $(this).prev().prev();
     var $textbanner = $(this).prev();
     var file_input_index = $(this).closest('.file-drop-area').index();
-    console.log('file input index ' + file_input_index)
-    console.log('filename')
-    console.log($('input[type=file]')[file_input_index-1].files[0])
     var me_sheets = await ajax_check_file_names($('input[type=file]')[file_input_index-1].files[0]);
     me_sheets = JSON.parse(me_sheets);
     me_sheets = me_sheets['sheets'];

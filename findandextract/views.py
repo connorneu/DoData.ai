@@ -225,6 +225,7 @@ def findandextract(request):
                     myfile = request.FILES['file']  
                     print(myfile)
                     sheets = get_sheet_names(myfile)
+                    print('sheets:', sheets)
                     return JsonResponse({'sheets' : sheets})
                 except:
                     print('DATA UPLOAD POS')
@@ -561,26 +562,34 @@ def Extract(input_or_description, extract_file_name, extract_col_name, describe_
         df = unmelt(file, sheet)
         dfs[dataset_name] = df
 
-    all_df_col_headers = Collect_All_Col_Headers(dfs, search_where)
-    cols_in_multiple_dfs = [item for item, count in collections.Counter(all_df_col_headers).items() if count > 1]
+    #all_df_col_headers = Collect_All_Col_Headers(dfs, search_where)
+    #cols_in_multiple_dfs = [item for item, count in collections.Counter(all_df_col_headers).items() if count > 1]
+    common_col_name = search_where[0][1]
     for dataset_name, col in search_where:
         #wb_ws = df_col[0] + ' ' + df_col[1]
         #col_to_find = df_col[2]
         df_single_result = Search_Column_Values(dfs[dataset_name], col, df_extract_values)
         #change matched column name so all matched columns have same name and can be stacked
-        matched_col_header = col + ' [Matched Column]'
-        df_single_result = df_single_result.rename(columns={col: matched_col_header})
-        all_df_col_headers.remove(col)
-        df_single_result = Add_Filename_ColHeader(df_single_result, dataset_name, matched_col_header, cols_in_multiple_dfs)
+        #matched_col_header = common_col_name
+        df_single_result = df_single_result.rename(columns={col: common_col_name})
+        #df_single_result.remove(col)
+        #df_single_result = Add_Filename_ColHeader(df_single_result, dataset_name, matched_col_header, cols_in_multiple_dfs)
         if not df_single_result.empty:
             df_single_result.columns=df_single_result.columns.astype('str')
             df_single_result['Dataset'] = dataset_name
+            print()
+            print('df single result')
+            print(df_single_result)
+            print()
             if not isinstance(df_result, pd.DataFrame):
                 df_result = df_single_result
             else:
                 df_result = pd.concat([df_result, df_single_result], ignore_index=True)
-                df_result = df_result.reset_index(drop=True)
-    df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
+            print("?!")
+            print(df_result)
+                #df_result = df_result.reset_index(drop=True)
+                
+    #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
     return df_result
 
 def Collect_All_Col_Headers(dfs, search_where):

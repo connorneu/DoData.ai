@@ -100,6 +100,7 @@ async function ajax_get_db(){
            "X-CSRFToken": getCookie("csrftoken")},
        success: function (data) {
            console.log("data retreived ");
+           console.log(data)
            start_data_filter(data);
            console.log("ajax_get_db result")
            console.log(data['fande_data_dump'])
@@ -176,8 +177,8 @@ async function ajax_check_file_names(file){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function (sheets) {
-            console.log("combine algorithm parameters submitted");
-            console.log(sheets)
+            console.log("ajax check file names");
+            console.log('sheets: ' + sheets)
             me_sheets = JSON.stringify(sheets);
             // update_choose_file_btn(sheets);
             return me_sheets;
@@ -340,6 +341,7 @@ async function ajax_get_result_db(algo_type){
            //print_the_filtered_data(data);
            if(algo_type==='extract'){
             console.log('extract get result success')
+            console.log(data)
             display_extract_result_table(data);
            }
            else if(algo_type==='combine'){

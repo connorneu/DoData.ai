@@ -362,13 +362,9 @@ function uniq_fast_files(obj, att1, att2) {
                out[j++] = item;
          }
     }
-    console.log('out')
-    console.log(out)
     for(var i=0;i<out.length;i++){
         out_clean.push(out[i].split('|')[0]);
     }
-    console.log('outclea')
-    console.log(out_clean)
     return out_clean;
 }
 
@@ -410,8 +406,6 @@ async function start_data_filter(db_data){
 async function edit_data(){
     populate_file_names();
     populate_dataset_names();
-    console.log('oreimearysheetname')
-    console.log(secondary_sheet_name)
     populate_table_element(primary_sheet_name, 1, 'mini_table1', null, 5);
     var table_div = document.getElementById('mini_table1').closest('.mini-table-wrap');
     table_div.style.display = 'block';
@@ -421,6 +415,8 @@ async function edit_data(){
         table_div.style.display = 'block';
     }
     if (third_file_name != null){
+        console.log("third file name: " + third_file_name)
+        console.log("Third sheet name: " + third_sheet_name)
         populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
         var table_div = document.getElementById('mini_table3').closest('.mini-table-wrap');
         table_div.style.display = 'block';
@@ -1124,6 +1120,8 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         createTable_values2 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
+        console.log('datadys headers2')
+        console.log(createTable_html)
         table_html_obj_arr2 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 3){
@@ -1131,26 +1129,26 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         createTable_values3 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values3[0];
         var createTable_html = createTable_values3[1];
+        console.log('datadys headers3')
+        console.log(createTable_html)
         table_html_obj_arr3 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 4){
         var repivoted_data = repivot_keyval(data_json, fourth_file_name, selected_sheet);
         createTable_values4 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values4[0];
+        console.log('datadys headers4')
+        console.log(col_headers)
         var createTable_html = createTable_values4[1];
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 0){
-        console.log('tablenumber 0')
+        console.log('zeeeer')
         var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
-        console.log('repivot complete')
         var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=30);
-        console.log('create Table complete')
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
-        console.log('begin parse table')
         var table_html_obj_arr0 = parse_table_column_values(createTable_html);
-        console.log('end parse table')
 
     }
     return col_headers;
@@ -1258,7 +1256,8 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5, 
                     }
                     else
                     {
-                        if (actual_col < 3){
+                        // YOU JUST Z CHANGED THIS FROM < 5 TO < actual_max_col
+                        if (actual_col < actual_max_col){
                             var th = '<th>' + objs[i].col_header + '</th>';
                             col_headers.push(objs[i].col_header);
                         }
@@ -1364,6 +1363,7 @@ function parse_table_column_values(table_html){
     for (var i = 0; i<headers_dirty.length; i++){
         var header_arr = headers_dirty[i].split('<th>');
         var header = header_arr[header_arr.length - 1];
+        console.log('header: ' + header)
         headers.push(header);
     }
     // for each column header
@@ -2080,11 +2080,9 @@ function populate_file_names(){
     secondary_file_name = unique_file_names[1];
     secondary_sheet_name = unique_sheet_names[1];
     third_file_name = unique_file_names[2];
-    third_sheet_nam = unique_sheet_names[2];
+    third_sheet_name = unique_sheet_names[2];
     fourth_file_name = unique_file_names[3];
     fourth_sheet_name = unique_sheet_names[3];
-    //console.log('pop')
-    //console.log(primary_file_name + ' | ' + secondary_file_name + ' | ' + third_file_name + ' | ' + fourth_file_name)
 }
 
 // populate table elements to return column headers
