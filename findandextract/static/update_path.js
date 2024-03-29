@@ -1,10 +1,71 @@
 clean_first_update_file = null;
 
 async function start_update_file(){
-    await add_to_carousel(['Choose how to update your files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    document.getElementById('update_file_or_input').style.display = 'block';
+    hide_containers(2);
+    document.getElementById('edit-data-tables').style.display = 'none';
 
+    populate_drop_down('#updateinputfile_ul', dataset_names, true);
+    await add_to_carousel('Define values to find and update:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    document.getElementById('update_file_wrap').style.display = 'block';
+    document.getElementById('describe-data-upload').style.display = 'block';
+   
 }
+
+// when file selected show column dropdown
+$(document.body).on('click', '#describe-data-upload li a' ,function(){
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    populate_drop_down("#updateinputcol_ul", colheaders, true);
+    document.getElementById('update-from-file-column-drop').style.display = 'block';
+});
+
+// blur textboxes when file selected
+$(document.body).on('click', '#updateinputfile_ul li a' ,async function(){   
+    var selected_val = $(this).text();
+    if (selected_val != 'Use Input File:'){
+        var text_boxes = document.getElementsByClassName('describe-textarea');
+        for (var i=0;i<text_boxes.length;i++){
+            text_boxes[i].value = '';
+            text_boxes[i].classList.add('gently-blur');
+        }
+    }
+});
+
+// when textarea has text then grey dropdown when empty un-grey dropdown
+$(document.body).on('input propertychange', '.describe-textarea', async function(){  
+    $('#updateinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
+    $('#updateinputfile_ul').parents(".dropdown").find('.btn').addClass('disabled');
+    if ($(this).val() === ''){
+        $('#updateinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
+    }
+});
+$(document.body).on('click', '#update-descriptions, #update-descriptions > textarea', async function(){   
+    $('#updateinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
+    var text_boxes = document.getElementsByClassName('describe-textarea');
+    for (var i=0;i<text_boxes.length;i++){
+        text_boxes[i].classList.remove('gently-blur');
+    }
+    document.getElementById('update-from-file-column-drop').style.display = 'none';
+
+});
+
+
+// when add condition is clicked
+$(document.body).on('click', '#add-describe-update-text' ,function(){
+    var desc_div_wrap = document.getElementById("update-descriptions");
+    var new_text1 = document.createElement("textarea");
+    var new_text2 = document.createElement("textarea");
+    new_text1.maxLength = "50";
+    new_text1.className = "describe-textarea";
+    new_text2.maxLength = "50";
+    new_text2.className = "describe-textarea";
+    var wrapper = document.createElement('div');
+    wrapper.append(new_text1);
+    wrapper.append(new_text2);
+    desc_div_wrap.appendChild(wrapper);
+});
+
+
 
  // select merge
  $(document.body).on('click', '#update_file' ,async function(){ 

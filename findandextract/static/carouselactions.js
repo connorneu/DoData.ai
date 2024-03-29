@@ -88,7 +88,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Extract', desc);
+    start_algo_path('START', 'Update', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1562,13 +1562,18 @@ function calc_max_files(){
 async function begin_file_upload(algo_desc){
     var num_files = calc_max_files();
     document.getElementById('textbox-algo-desc-wrap').style.display = 'block';
+    clean_algo_desc = clean_algorithm_description(algo_desc);
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
-    await add_to_carousel('Algorithm Description: ' + algo_desc, standard_color, [], true, false);
+    await add_to_carousel('Algorithm Description: ' + clean_algo_desc, standard_color, [], true, false);
     await add_to_carousel('File Selection:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('Select files to include in algorithm: ' + num_files, fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
 }
 
+function clean_algorithm_description(algo_desc){
+    clean_algo_desc = algo_desc.replace(/<\/?[^>]+(>|$)/g, "");
+    return clean_algo_desc;
+}
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
     console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
@@ -1720,7 +1725,7 @@ async function convert_text_to_decision(algo_type){
 async function confirm_algorithm_type(algo_type){
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('If the description below deoesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    await add_to_carousel('If the description below doesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
     document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
     document.getElementById('confirm-algo-select').style.display = 'block';
@@ -1728,12 +1733,14 @@ async function confirm_algorithm_type(algo_type){
     console.log('algo type: ' + algo_type)
     if (algo === 'Extract'){
         document.getElementById('confirm-algo-img-extract').style.display = 'block';
+        document.getElementById('algo-example-extract').style.display = 'block';
     }
     else if (algo === 'Combine'){
         document.getElementById('confirm-algo-img-combine').style.display = 'block';
     }
     else if (algo === 'Update'){
         document.getElementById('confirm-algo-img-update').style.display = 'block';
+        document.getElementById('algo-example-update').style.display = 'block';
     }
     else if (algo === 'Reconcile'){
         document.getElementById('confirm-algo-img-reconcile').style.display = 'block';
@@ -1779,7 +1786,7 @@ function find_described_node(algo_type){
 
 
 
-
+// LOADER ALGO SUGGESTION
 
 var checkmarkIdPrefix = "loadingCheckSVG-";
 var checkmarkCircleIdPrefix = "loadingCheckCircleSVG-";
@@ -1863,11 +1870,12 @@ function edit_phrases(phrases){
     return clean_phrases;
 }
 
+//https://codepen.io/steve-todorov/details/LNmjZY
 //$(document).ready(function() {
 function load_summary_carousel(){
     var phrases = ["START"];
     phrases = update_loading_carousel_items();
-    //phrases = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange','Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange'];
+    phrases = ['Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange','Loaded file', 'Sheet downlaoded', 'fear no evil', 'run not from the sun', 'hide from the sun', 'this is conflicting adivce', 'are you sick?', 'or simpley strange'];
     phrases = edit_phrases(phrases);
     addPhrasesToDocument(phrases);
     var start_time = new Date().getTime();
@@ -2122,3 +2130,95 @@ function startTimer(duration, display) {
 //};
 
 
+// suggestion loader
+//https://codepen.io/soulwire/pen/mEMPrK
+
+// ——————————————————————————————————————————————————
+// TextScramble
+// ——————————————————————————————————————————————————
+$(document).ready(function () {
+class TextScramble {
+    constructor(el) {
+      this.el = el
+      this.chars = 'abcdefghijklmnopqrstuvwxyz!<>-_\\/[]{}—=+*^?#________'
+      this.update = this.update.bind(this)
+    }
+    setText(newText) {
+      const oldText = this.el.innerText
+      const length = Math.max(oldText.length, newText.length)
+      const promise = new Promise((resolve) => this.resolve = resolve)
+      this.queue = []
+      for (let i = 0; i < length; i++) {
+        const from = oldText[i] || ''
+        const to = newText[i] || ''
+        const start = Math.floor(Math.random() * 40)
+        const end = start + Math.floor(Math.random() * 40)
+        this.queue.push({ from, to, start, end })
+      }
+      cancelAnimationFrame(this.frameRequest)
+      this.frame = 0
+      this.update()
+      return promise
+    }
+    update() {
+      let output = ''
+      let complete = 0
+      for (let i = 0, n = this.queue.length; i < n; i++) {
+        let { from, to, start, end, char } = this.queue[i]
+        if (this.frame >= end) {
+          complete++
+          output += to
+        } else if (this.frame >= start) {
+          if (!char || Math.random() < 0.28) {
+            char = this.randomChar()
+            this.queue[i].char = char
+          }
+          output += `<span class="dud">${char}</span>`
+        } else {
+          output += from
+        }
+      }
+      this.el.innerHTML = output
+      if (complete === this.queue.length) {
+        this.resolve()
+      } else {
+        this.frameRequest = requestAnimationFrame(this.update)
+        this.frame++
+      }
+    }
+    randomChar() {
+      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    }
+  }
+  
+  // ——————————————————————————————————————————————————
+  // Example
+  // ——————————————————————————————————————————————————
+  
+  const phrases = [
+    'Search through files for all rows that contain names from a list',
+    'Combine two datasets by matching on values in a common column',
+    'Update one file with values from another',
+    'Compare two datasets to find what matches and what doesn\'t',
+    'Group together similar values to calculate metrics',
+    'Filter data based on specified conditions',
+    'Search for certain values in multiple files',
+    'Append multiple datasetes by matching column headers',
+    'Find all rows that contain specific values',
+    'Change the values based on an input file',
+    'Reconcile two files'
+  ]
+  
+  const el = document.querySelector('.text')
+  const fx = new TextScramble(el)
+  
+  let counter = 0
+  const next = () => {
+    fx.setText(phrases[counter]).then(() => {
+      setTimeout(next, 3200)
+    })
+    counter = (counter + 1) % phrases.length
+  }
+  
+  next()
+});

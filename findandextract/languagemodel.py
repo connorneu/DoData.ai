@@ -50,26 +50,21 @@ def Load_NLI_Model():
     return classifier
 
 def classify_zeroshot(classifier, user_text):
-    candidate_labels = ["combine",
-                        "select",
-                        "compare",
-                        "change",
-                        "calculate"]
-    #["join combine",
-    # "select extract",
-    # "reconcile compare",
-    # "modify update",
-    # "calculate group"]
+    candidate_labels = ["combine files",
+                        "select values",
+                        "compare files",
+                        "change values",
+                        "calculate metrics"]
     output = classifier(user_text, candidate_labels, multi_label=False)
     print('classifier output:', output)
     scores = output['scores']
     result_index = scores.index(max(scores))
     result_raw = output['labels'][result_index]
-    result_word = {'combine': 'combine', 'select': 'extract', 'compare': 'reconcile', 'change': 'update', 'calculate': 'calculate'}
+    result_word = {'combine files': 'combine', 'select values': 'extract', 'compare files': 'reconcile', 'change values': 'update', 'calculate metrics': 'calculate'}#
     result_desc = {'combine': 'Join two datasets on either rows or column headers to combine the values into one file.',
                    'extract': 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.',
                    'reconcile': 'Reconcile values of two datasets by matching rows and comparing similarities and differences.',
-                   'update': 'Change values in one or more dataset based on values or conditions.',
+                   'update': '<u>Change values in one or more files:</u> <br><br> Describe what you want to find. <br><br> Search through your files for these values. <br><br> Change the values on the same row.',
                    'calculate': 'Calculate metrics for your data by grouping rows together based on column values.'}
     result = result_word[result_raw]
     result_desc = result_desc[result]

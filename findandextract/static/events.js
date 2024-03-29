@@ -753,7 +753,7 @@ $(document.body).on('click', '#changealgorithm' , async function(){
 $(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async function(){   
     console.log('fading in')
     try{
-        hide_containers(2);
+        hide_containers();
     }
     catch(error){
 
@@ -763,7 +763,7 @@ $(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async functi
     var element = document.getElementsByTagName('body')[0];
     element.scroll(-1000,1000);
     window.focus(); 
-    window.scrollTo(0,800);
+    window.scrollTo(0,800); 
     elem = document.getElementById('algo-desc-graph')
     await add_to_carousel('START', action_color, [null], true, false);
     await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);

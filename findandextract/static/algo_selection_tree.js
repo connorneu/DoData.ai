@@ -291,6 +291,7 @@ $(document).ready(function () {
     }
 });
 
+
 // EXPANDING TREE
 function force_text_background(class_name){
     var parent_nodes = document.getElementsByClassName(class_name);

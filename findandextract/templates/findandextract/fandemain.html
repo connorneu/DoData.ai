@@ -104,8 +104,9 @@
                 <div class="interaction-container">
                     <div class="header-banner-wrap" id="describe-algo-banner">
 
+
                         <div id="describeheader-text">
-                            <h2>Describe briefly what you want your algorithm to do</h2>
+                            <h2>Briefly describe what you want your algorithm to do:</h2>
                             </br>
                             <h3>An algorithm type will be suggested based on your requirements</h3>   
                         </div>
@@ -114,8 +115,20 @@
                             <span id="submiticonwrap">
                                 <iconify-icon id="submittexticon" class="submiticon" icon="formkit:submit"></iconify-icon>
                             </span>
-                            <textarea id="textbox-algo-desc" name="algodesctext" placeholder="eg. &#13;&#10;eg. &#13;&#10;eg. &#13;&#10;eg. " rows="4" cols="85" maxlength="185"></textarea>
+                            <textarea id="textbox-algo-desc" name="algodesctext" placeholder="" rows="1" cols="90" maxlength="89"></textarea>
                         </div>
+
+
+
+
+                        <div class="container">
+                            <div class="text"></div>
+                        </div>
+
+
+
+
+
                         <div class="help-banner-wrap" id="descriptionhelp">
                             <h4>How does this work?</h4>
                         </div>
@@ -141,8 +154,8 @@
                     </div>
 
                     <div id="confirm-algo-select" class="display-text-prompt">
-                        <div class="side-by-side-tags">
-                            <h2 id="confirm-algo-header-type"></h2>
+                        <div class="stacked-tags">
+                            <!-- <h2 id="confirm-algo-header-type"></h2> -->
                             <h2 id="confirm-algo-header-desc"></h2>
                         </div>
                         <div class="confirm-algo-img-wrap">
@@ -151,6 +164,10 @@
                             <img id="confirm-algo-img-update" class="confirm-algo-img" src="/static/images/Update v3 hor.png">
                             <img id="confirm-algo-img-reconcile" class="confirm-algo-img" src="/static/images/Reconcile v3 hor.png">
                             <img id="confirm-algo-img-calculate" class="confirm-algo-img" src="/static/images/Calculate v3 hor.png">
+                        </div>
+                        <div>
+                            <h2 class="hide center" id="algo-example-extract"><b>Example:</b> Search through multiple files and combine all rows containing certain clients into one file.</h2>
+                            <h2 class="hide center" id="algo-example-update"><b>Example:</b> Update shipping status of orders based on shipper report.</h2>
                         </div>
                         <div class="button-banner button-banner-extra-space" id="confirmalgo-btns">   
                             <a class="myButton weaker-btn" id="confirm-algo-no">Change</a>
@@ -400,14 +417,6 @@
                         </button>
                         <ul class="dropdown-menu" id="primarysheet_ul"></ul>
                     </div>
-                    <!--
-                        <div class="image-reference" id="extractinputfile">
-                            <img src="/static/images/Extract Input File.png" alt="Extract Input"> 
-                        </div>
-                    -->
-
-
-
 
                     <div class="dropdown" id="secondaryfiledrop">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -685,6 +694,39 @@
 
                     <!-- Update File -->
                     <div class="update-from-file" id="update_file_wrap">
+
+
+                        <div class="describe-data-wrap" id="describe-data-upload">
+                            <div class="flexy-side-drops">
+                                <div class="dropdown show" id="update-from-file-drop">
+                                    <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Use Uploaded File:
+                                    </button>
+                                    <ul class="dropdown-menu" id="updateinputfile_ul"></ul>
+                                </div>
+                                <div class="dropdown" id="update-from-file-column-drop">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="dropdown-menu" id="updateinputcol_ul"></ul>
+                                </div>
+                            </div>
+                            <!-- <a class="myButton special-selection" id="inputis_file">Use Input File</a> -->
+                            <div>
+                                <h2 class="regular-header">Or</h2>
+                            </div>
+                            <div id="update-descriptions">
+                                <h2 class="regular-header">Enter values:</h2>
+                                <!-- <h2 class="hidden-prompt">Enter custom values <br>&emsp;(click)</br></h2>  -->
+                                <div class="describe-textarea-div-wrap">
+                                    <textarea class="describe-textarea" maxlength="50"></textarea>
+                                    <textarea class="describe-textarea" maxlength="50"></textarea>
+                                </div>
+                            </div>
+                        </div> 
+
+
+                    <!--
                         <div class="update-parent-wrap">
                             <div class="flex-items-wrap">
                                 <div class="update-from-column">
@@ -736,8 +778,12 @@
                                 </div>
                             </div>
                         </div>
+                    -->
+
+
+                        
                         <div class="addcondition" id="next_update_from_file">
-                            <a class="myButton conditionbtn" id="back_update_from_file">Back</a>
+                            <a id="add-describe-update-text" class="myButton conditionbtn">Add value</a>
                             <a class="myButton" id="nextafter_define_update_file">Next</a>
                         </div>
                     </div>

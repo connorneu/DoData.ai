@@ -19,7 +19,6 @@ $(document.body).on('click', '#extractinputfile_ul li a' ,async function(){
             text_boxes[i].classList.add('gently-blur');
         }
     }
-    //$('#extract-descriptions').find('.regular-header:first').css('visibility', 'hidden');
 });
 
 
@@ -274,7 +273,6 @@ async function where_to_search(file_or_input, search_file){
     }); 
 
     $(document.body).on('click', '#first-col_ul li a' ,async function(){
-        console.log('fre')
         document.getElementById('submit-extract-wrap').style.display = 'block';
     }); 
 }
@@ -328,13 +326,13 @@ function collect_extract_parameters(){
     var describevalues = JSON.stringify(collect_describe_values());
     var extractfilename = $('#extractinputfile_ul').parents(".dropdown").find('.btn').text();
     var extractcolname = $('#extractinputcol_ul').parents(".dropdown").find('.btn').text();
-    if(extractfilename === 'Use Uploaded File:'){
-        var input_or_description = 'describe';
+    var input_or_description = '';
+    if(extractfilename === 'Use Input File:'){
+        input_or_description = 'describe';
     }
     else{
-        var input_or_description = 'input';
+        input_or_description = 'input';
     }
-    var inputordescription = input_or_description; 
     var search_where = collect_search_where();
     var extract_params_map = {
                                 describevalues: describevalues,
@@ -343,7 +341,6 @@ function collect_extract_parameters(){
                                 input_or_description: input_or_description,
                                 search_where:search_where
                             };
-    console.log(extract_params_map)
     return extract_params_map;
 }
 
@@ -351,54 +348,8 @@ function collect_extract_parameters(){
 async function display_extract_result_table(data){
     hide_containers(2);
     document.getElementById('findwherewrap').style.display = 'none';
-    console.log('begin populate table element')
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
     
 }
-
-/*var primaryfilename = primary_file_name //$('#primaryfile_ul').parents(".dropdown").find('.btn').text();
-    var primaryheaderrow = primary_header_row;
-    var primarysheetname = primary_sheet_name;
-    var inputfilecol = extract_col;
-    var inputfileconditions = JSON.stringify(condition_arr);
-    var describevalues = JSON.stringify(collect_describe_values());
-    var secondaryfilename = secondary_file_name;
-    var secondarysheetname = $('#second-file_ul').parents(".dropdown").find('.btn').text();
-    var secondextractcol = $('#second-col_ul').parents(".dropdown").find('.btn').text();
-    var secondheaderrow = secondary_header_row;
-    var thirdfilename = third_file_name;
-    var thirdsheetname = $('#third-file_ul').parents(".dropdown").find('.btn').text();
-    var thirdextractcol = $('#third-col_ul').parents(".dropdown").find('.btn').text();
-    var thirdheaderrow = third_header_row;
-    var fourthfilename = fourth_file_name;
-    var fourthsheetname =  $('#fourth-file_ul').parents(".dropdown").find('.btn').text();
-    var fourthextractcol = $('#fourth-col_ul').parents(".dropdown").find('.btn').text();
-    var secondaryheaderrow = secondary_header_row;
-    var thirdheaderrow = third_header_row;
-    var fourthheaderrow = fourth_header_row;
-
-    var extract_params_map = {
-        inputordescription: inputordescription,
-        primaryfilename : primaryfilename,
-        primaryheaderrow : primaryheaderrow,
-        primarysheetname : primarysheetname,
-        inputfilecol : inputfilecol,
-        inputfileconditions : inputfileconditions,
-        describevalues : describevalues,
-        secondaryfilename : secondaryfilename,
-        secondarysheetname : secondarysheetname,
-        secondextractcol : secondextractcol,
-        secondheaderrow : secondheaderrow,
-        thirdfilename : thirdfilename,
-        thirdsheetname : thirdsheetname,
-        thirdextractcol : thirdextractcol,
-        thirdheaderrow : thirdheaderrow,
-        fourthfilename : fourthfilename,
-        fourthsheetname : fourthsheetname,
-        fourthextractcol : fourthextractcol,
-        fourthheaderrow : fourthheaderrow,
-        secondaryheaderrow : secondaryheaderrow,
-        thirdheaderrow : thirdheaderrow,
-        fourthheaderrow : fourthheaderrow };*/

@@ -951,7 +951,7 @@ width: 90%;
     /*overflow:visible;*/
 }
 .button-banner-extra-space{
-    margin-top: 10%;
+    margin-top: 2%;
 }
 .algo-select{
     display:block;
@@ -1179,7 +1179,7 @@ textarea {
     font-size:16px;
   letter-spacing: 1px;
   padding: 2px;
-  width: 400px;
+  width: 850px;
   line-height: 1.5;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -1189,7 +1189,7 @@ textarea {
   color: white;
   opacity:95%;
   line-height: 2;
-  height: 135px;
+  height: 40px;
   overflow:hidden;
   margin-top:2%;
   padding-left: 10px;
@@ -1202,8 +1202,8 @@ textarea {
     font-size: 36px;
     height:1.5em;
     color: grey;
-    margin-left:560px;
-    margin-top:110px;
+    margin-left:808px;
+    margin-top:37px;
     position: absolute;
     z-index:10;
     width:100%;
@@ -1249,7 +1249,7 @@ display: inline-block;
 }
 #textbox-algo-desc{
     font-size:16px;
-    width:600px;
+    width:850px;
 }
 .header-banner-wrap h2{
     font-size:18px;
@@ -1293,7 +1293,7 @@ display: inline-block;
 .display-text-prompt{
     display:none;
     text-align: center;
-    width:50%;
+    width:100%;
     margin: 0 auto;
     margin-top:1%;
 }
@@ -1303,22 +1303,31 @@ display: inline-block;
     margin-bottom:10%;
 
 }
+.stacked-tags{
+    display:block;
+    margin-bottom:2%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .confirm-algo-img-wrap{
     width:650px;
     height:250px;
     clear: both;
+    margin-left: auto;
+    margin-right: auto;
 }
 .confirm-algo-img{
     display:none;
     max-width: 100%; 
     height: auto;
     margin-top: 10%;
-    margin-left: 8%;
-}
-.side-by-side-tags :first-child{
-    margin-right: 20px;
+    margin-left: 0%;
 }
 
+.side-by-side-tags h2{
+    font-size:18px;
+    text-align: center;
+}
 /*loader*/
 @keyframes spinq{
     0%,100%{transform:translate(0)}
@@ -1339,10 +1348,10 @@ display: inline-block;
   width:20px;
   height:20px;
 }
-.load hr{opacity: 0.6;border:0;margin: 0 auto;width:100%;height:100%;position:absolute;border-radius:50%;animation:spinq 1s ease infinite} /*change spinq to 2s to get 4 circles*/
+.load hr{opacity: 0.6;border:0;margin: 0 auto;width:100%;height:100%;position:absolute;border-radius:50%;animation:spinq 2s ease infinite} /*change spinq to 2s to get 4 circles*/
 .load :first-child{background:#aa7ff8;animation-delay:-1.5s}
 .load :nth-child(2){background:#a13af6;animation-delay:-1s}
-.load :nth-child(3){background:#a343fd;animation-delay:-0.5s}
+.load :nth-child(3){background:#7812bd;animation-delay:-0.5s}
 .load :last-child{background:#8848ff}
 
 .model-failure{
@@ -1452,6 +1461,7 @@ display: inline-block;
 .selectcolumn{
     display:block;
 }
+
 
 .flex-items-wrap{
     display:flex;
@@ -1625,6 +1635,10 @@ display: inline-block;
 .hide{
     display:none;
 }
+.hide.center{
+    display:none;
+    text-align: center;
+}
 .dropdown.show.action.flexy{
     display:flex;
     flex: 0 0 0%;
@@ -1708,4 +1722,36 @@ display: inline-block;
     width:fit-content;
     border-color: rgb(208, 208, 215);
     color: black; 
+}
+
+
+
+
+
+/* suggestion loader */
+.container{
+    height:100%;
+    width: 100%;
+    justify-content:center;
+    align-items:center;
+    display:flex;
+}
+.text{  
+  font-weight:100;
+  font-size:18px;
+  color:#FAFAFA;
+}
+.dud{
+    color:#757575;
+}
+
+.describe-textarea-div-wrap-flexy{
+    display:flex;
+    justify-content: left;
+    flex: 0 0 0%;
+}
+
+.describe-textarea.flexy{
+    display:flex;
+    flex: 0 0 0%;
 }
