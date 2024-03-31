@@ -371,32 +371,105 @@
 
 
 
-
+                    <!-- START EXTRACT -->
                     
                     <div class="describe-data-wrap" id="describe-data-extract">
                         <div class="flexy-side-drops">
-                            <div class="dropdown show" id="extract-from-file-drop">
-                                <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Use Uploaded File:
-                                </button>
-                                <ul class="dropdown-menu" id="extractinputfile_ul"></ul>
-                            </div>
-                            <div class="dropdown" id="extract-from-file-column-drop">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu" id="extractinputcol_ul"></ul>
+                            <div>
+                                <div>
+                                    <h2 class="regular-header">Use a file containing values to find:</h2>
+                                </div>
+                                <div class="clear"></div>
+                                <div class="dropdown show inline" id="extract-from-file-drop">
+                                    <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Use Uploaded File
+                                    </button>
+                                    <ul class="dropdown-menu" id="extractinputfile_ul"></ul>
+                                </div>
+                                <div class="dropdown" id="extract-from-file-column-drop">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="dropdown-menu" id="extractinputcol_ul"></ul>
+                                </div>
                             </div>
                         </div>
                         <!-- <a class="myButton special-selection" id="inputis_file">Use Input File</a> -->
-                        <div>
+                        <div class="or-separator">
                             <h2 class="regular-header">Or</h2>
                         </div>
                         <div id="extract-descriptions">
-                            <h2 class="regular-header">Enter values:</h2>
+                            <h2 class="regular-header">Describe values to find:</h2>
                             <!-- <h2 class="hidden-prompt">Enter custom values <br>&emsp;(click)</br></h2>  -->
                             <div class="describe-textarea-div-wrap">
-                                <textarea class="describe-textarea" maxlength="60"></textarea>
+                                <div class="dropdown hide">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        And
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">And</a></li>
+                                        <li><a class="dropdown-item">Or</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown show inline">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Dataset
+                                    </button>
+                                    <ul class="dropdown-menu datasel"></ul>
+                                </div>
+                                <div class="dropdown show inline">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="dropdown-menu colsel"></ul>
+                                </div>
+                                <div class="dropdown show inline">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Equals
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                        <li><a class="dropdown-item">Starts With</a></li>
+                                        <li><a class="dropdown-item">Ends With</a></li>
+                                    </ul>
+                                </div>
+                                <div class="inline btmmargin">
+                                    <textarea class="describe-textarea" maxlength="37"></textarea>
+                                </div>
+
+                                <!--
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Dataset
+                                </button>
+                                <ul class="dropdown-menu datasel"></ul>
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Column
+                                </button>
+                                <ul class="dropdown-menu colsel"></ul>
+                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">Equals</a></li>
+                                    <li><a class="dropdown-item">Contains</a></li>
+                                    <li><a class="dropdown-item">Between</a></li>
+                                    <li><a class="dropdown-item">Greater Than</a></li>
+                                    <li><a class="dropdown-item">Less Than</a></li>
+                                    <li><a class="dropdown-item">Not Equal To</a></li>
+                                    <li><a class="dropdown-item">Does Not Contain</a></li>
+                                    <li><a class="dropdown-item">Starts With</a></li>
+                                    <li><a class="dropdown-item">Ends With</a></li>
+                                </ul>
+                                -->
+
+
+
+
+                                
                             </div>
                         </div>
                         <div class="addcondition">
@@ -698,17 +771,31 @@
 
                         <div class="describe-data-wrap" id="describe-data-upload">
                             <div class="flexy-side-drops">
-                                <div class="dropdown show" id="update-from-file-drop">
+                                <div class="dropdown show alignbottom" id="update-from-file-drop">
                                     <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Use Uploaded File:
                                     </button>
                                     <ul class="dropdown-menu" id="updateinputfile_ul"></ul>
                                 </div>
-                                <div class="dropdown" id="update-from-file-column-drop">
+                                <div class="dropdown alignbottom" id="update-from-file-column-drop">
+                                    <div>
+                                        <h2>Find the values from this column</h2>
+                                    </div>
+                                    <div class="clear"></div>
                                     <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select Column
                                     </button>
                                     <ul class="dropdown-menu" id="updateinputcol_ul"></ul>
+                                </div>
+                                <div class="dropdown alignbottom" id="update-from-file-column-drop-replace">
+                                    <div>
+                                        <h2>Replace with values from this column</h2>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                    </button>
+                                    <ul class="dropdown-menu" id="updateinputcolreplace_ul"></ul>
                                 </div>
                             </div>
                             <!-- <a class="myButton special-selection" id="inputis_file">Use Input File</a> -->
@@ -716,11 +803,27 @@
                                 <h2 class="regular-header">Or</h2>
                             </div>
                             <div id="update-descriptions">
-                                <h2 class="regular-header">Enter values:</h2>
+                                <h2 class="regular-header">Enter values to update:</h2>
                                 <!-- <h2 class="hidden-prompt">Enter custom values <br>&emsp;(click)</br></h2>  -->
-                                <div class="describe-textarea-div-wrap">
-                                    <textarea class="describe-textarea" maxlength="50"></textarea>
-                                    <textarea class="describe-textarea" maxlength="50"></textarea>
+                                <div class="describe-textarea-div-wrap-flexy">
+                                    <div>
+                                        <div>
+                                            <h2>Find these values</h2>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div>
+                                            <textarea class="describe-textarea" maxlength="50"></textarea>
+                                        </div> 
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <h2>Replace existing values with these</h2>
+                                        </div>
+                                        <div class="clear"></div>
+                                        <div>
+                                            <textarea class="describe-textarea" maxlength="50"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div> 

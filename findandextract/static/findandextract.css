@@ -40,7 +40,7 @@ body {
     /*max-height:20%;
     min-height:20%;*/
     overflow: scroll;
-    margin-bottom:1%;
+    margin-bottom:4%;
 }
 .interaction-container{
     height:80%;
@@ -295,6 +295,10 @@ pre.caret-underscore > span {
 .submit-algo-buttons.show{
     display:block;
 }
+.dropdown.show.inline{
+    display:inline-block;
+    vertical-align: bottom;
+}
 /*fadein*/
 .faded{
     margin-top: 25px;
@@ -356,7 +360,7 @@ pre.caret-underscore > span {
 	padding:8px 14px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #000000;
-    margin-top:2%;
+    margin-top:1%;
 }
 .myButton:hover {
 	background:linear-gradient(to top, #1a2c54 5%, #0a0014 100%);
@@ -787,7 +791,7 @@ width: 90%;
     height:150px;
     display:none;
     float:left;
-    margin-bottom:100px;
+    margin-bottom:50px;
     text-align: center;
     position:relative; 
     justify-content: center;
@@ -1238,11 +1242,18 @@ display: inline-block;
 .describe-textarea{
     color:#f7eaea; 
     height: 35px;
-    width: 400px;
+    width: 350px;
     text-align-last: center;
-    align-content:center
+    align-content:center;
+    margin-top: 0%;
+    vertical-align: middle;
 }
-
+.dropdown.alignbottom{
+    margin-top:auto;
+}
+.clear{
+    clear:both;
+}
 .header-banner-wrap{
     margin-top:4%;
     color:white;
@@ -1486,6 +1497,12 @@ display: inline-block;
     display:block;
 }
 
+.centerflex{
+    display:flex;
+    flex: 0 0 20%;
+    margin-left:0;
+    margin-right:0;
+}
 
 /*Load algorithm button*/
 .glowbutton {
@@ -1639,6 +1656,7 @@ display: inline-block;
     display:none;
     text-align: center;
 }
+
 .dropdown.show.action.flexy{
     display:flex;
     flex: 0 0 0%;
@@ -1754,4 +1772,23 @@ display: inline-block;
 .describe-textarea.flexy{
     display:flex;
     flex: 0 0 0%;
+}
+.describe-textarea-div-wrap > textarea{
+    vertical-align: bottom;
+}
+.or-separator{
+    margin-bottom:2%;
+    margin-top:2%;
+}
+.describe-textarea-div-wrap > .btn{
+    margin-top:0%;
+}
+.describe-textarea-div-wrap{
+    margin-top:0.5rem;
+}
+.inline{
+    display:inline-block;
+}
+.btmmargin{
+    margin-bottom:2%;
 }

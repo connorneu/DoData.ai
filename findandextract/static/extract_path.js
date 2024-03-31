@@ -1,10 +1,11 @@
 async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
-    await add_to_carousel('Define values to find and extract:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Any row containing these values will be extracted', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    await add_to_carousel('Define values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Any row containing these values will selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     //document.getElementById('inputis_file_or_input').style.display = 'block';
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
+    populate_drop_down('.dropdown-menu.datasel:eq(0)', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';
 }
 
@@ -18,6 +19,7 @@ $(document.body).on('click', '#extractinputfile_ul li a' ,async function(){
             text_boxes[i].value = '';
             text_boxes[i].classList.add('gently-blur');
         }
+        $('#extract-descriptions').find('.btn').addClass('disabled');
     }
 });
 
@@ -39,8 +41,8 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     for (var i=0;i<text_boxes.length;i++){
         text_boxes[i].classList.remove('gently-blur');
     }
+    $('#extract-descriptions').find('.btn').removeClass('disabled');
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
-
 });
 
 
@@ -193,23 +195,43 @@ async function describe_data_extract(){
 
 
 // when file selected show column dropdown
-$(document.body).on('click', '#describe-data-extract li a' ,function(){
+// FIX THIS id is too broad - effects every dropdown
+$(document.body).on('click', '#extractinputfile_ul li a' ,function(){
+    console.log('fagdrag')
     var selectedfile = $(this).text();
     var colheaders = get_col_headers_for_filename(selectedfile);
     populate_drop_down("#extractinputcol_ul", colheaders, true);
-    document.getElementById('extract-from-file-column-drop').style.display = 'block';
+    document.getElementById('extract-from-file-column-drop').style.display = 'inline-block';
+});
+
+
+$(document.body).on('click', '.dropdown-menu.datasel li a' ,function(){
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    var closest_col = $(this).closest('.describe-textarea-div-wrap').find('.dropdown-menu.colsel');
+    console.log(closest_col)
+    console.log(colheaders)
+    populate_drop_down(closest_col, colheaders, true);
 });
 
 
 // when add condition is clicked
 $(document.body).on('click', '#add-describe-text' ,function(){
-    var desc_div_wrap = document.getElementById("extract-descriptions");
-    var new_text = document.createElement("textarea");
-    new_text.maxLength = "60";
-    new_text.className = "describe-textarea";
-    var wrapper = document.createElement('div');
-    wrapper.append(new_text);
-    desc_div_wrap.appendChild(wrapper);
+    //var desc_div_wrap = document.getElementById("extract-descriptions");
+    //var new_text = document.createElement("textarea");
+    //new_text.maxLength = "37";
+    //new_text.className = "describe-textarea";
+    //var wrapper = document.createElement('div');
+    //wrapper.append(new_text);
+    //desc_div_wrap.appendChild(wrapper);
+    $('.describe-textarea-div-wrap').eq(0).clone().appendTo('#extract-descriptions')
+    var newparent = $('.describe-textarea-div-wrap:last');
+    newparent.find('div').first().removeClass('hide'); // remove hide from and/or
+    newparent.find('div').first().addClass('inline');
+    newparent.find('.btn').first().text('And'); //set and or to and
+    newparent.find('.btn').eq(1).text('Select Dataset');
+    newparent.find('.btn').eq(2).text('Select Column');
+
 });
 
 $(document.body).on('click', '#next-describe-extract' ,async function(){
@@ -327,7 +349,7 @@ function collect_extract_parameters(){
     var extractfilename = $('#extractinputfile_ul').parents(".dropdown").find('.btn').text();
     var extractcolname = $('#extractinputcol_ul').parents(".dropdown").find('.btn').text();
     var input_or_description = '';
-    if(extractfilename === 'Use Input File:'){
+    if(extractfilename === 'Use Input File'){
         input_or_description = 'describe';
     }
     else{

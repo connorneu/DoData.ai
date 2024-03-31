@@ -5,18 +5,20 @@ async function start_update_file(){
     document.getElementById('edit-data-tables').style.display = 'none';
 
     populate_drop_down('#updateinputfile_ul', dataset_names, true);
-    await add_to_carousel('Define values to find and update:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    await add_to_carousel('Define values to update:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
     document.getElementById('update_file_wrap').style.display = 'block';
     document.getElementById('describe-data-upload').style.display = 'block';
    
 }
 
 // when file selected show column dropdown
-$(document.body).on('click', '#describe-data-upload li a' ,function(){
+$(document.body).on('click', '#update-from-file-drop li a' ,function(){
     var selectedfile = $(this).text();
     var colheaders = get_col_headers_for_filename(selectedfile);
     populate_drop_down("#updateinputcol_ul", colheaders, true);
+    populate_drop_down("#updateinputcolreplace_ul", colheaders, true);
     document.getElementById('update-from-file-column-drop').style.display = 'block';
+    document.getElementById('update-from-file-column-drop-replace').style.display = 'block';
 });
 
 // blur textboxes when file selected
@@ -46,7 +48,7 @@ $(document.body).on('click', '#update-descriptions, #update-descriptions > texta
         text_boxes[i].classList.remove('gently-blur');
     }
     document.getElementById('update-from-file-column-drop').style.display = 'none';
-
+    document.getElementById('update-from-file-column-drop-replace').style.display = 'none';
 });
 
 
