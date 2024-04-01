@@ -11,7 +11,7 @@ async function start_extract_file(){
 
 
 // when input dropdown has file selected make textboxes disabled
-$(document.body).on('click', '#extractinputfile_ul li a' ,async function(){   
+$(document.body).on('click', '#extractusefile, #extractinputfile_ul li a' ,async function(){   
     var selected_val = $(this).text();
     if (selected_val != 'Use Input File:'){
         var text_boxes = document.getElementsByClassName('describe-textarea');
@@ -20,6 +20,7 @@ $(document.body).on('click', '#extractinputfile_ul li a' ,async function(){
             text_boxes[i].classList.add('gently-blur');
         }
         $('#extract-descriptions').find('.btn').addClass('disabled');
+        $('#extractinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
     }
 });
 
@@ -45,22 +46,6 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
 });
 
-
-// user selects use input file
-$(document.body).on('click', '#inputis_file' ,async function(){   
-    input_or_description = 'input';
-    hide_containers(2);
-    document.getElementById('user_select_input_file_or_custom').style.display = 'none';
-    await add_to_carousel('Extract values using: Input File', standard_color, ['primary_file_selection_extract()'], true, false);
-});
-
-// user selects use description
-$(document.body).on('click', '#inputis_describe' ,async function(){   
-    input_or_description = 'describe';
-    hide_containers(2);
-    document.getElementById('user_select_input_file_or_custom').style.display = 'none';
-    await add_to_carousel('Extract values using: Custom Description', 'white', ['describe_data_extract()'], true, false);
-});
 
 // display_primaryfileselect_drop in in carouselaction.js as it can be used by other algorithm paths
 async function primary_file_selection_extract(){
@@ -217,13 +202,6 @@ $(document.body).on('click', '.dropdown-menu.datasel li a' ,function(){
 
 // when add condition is clicked
 $(document.body).on('click', '#add-describe-text' ,function(){
-    //var desc_div_wrap = document.getElementById("extract-descriptions");
-    //var new_text = document.createElement("textarea");
-    //new_text.maxLength = "37";
-    //new_text.className = "describe-textarea";
-    //var wrapper = document.createElement('div');
-    //wrapper.append(new_text);
-    //desc_div_wrap.appendChild(wrapper);
     $('.describe-textarea-div-wrap').eq(0).clone().appendTo('#extract-descriptions')
     var newparent = $('.describe-textarea-div-wrap:last');
     newparent.find('div').first().removeClass('hide'); // remove hide from and/or
@@ -231,7 +209,8 @@ $(document.body).on('click', '#add-describe-text' ,function(){
     newparent.find('.btn').first().text('And'); //set and or to and
     newparent.find('.btn').eq(1).text('Select Dataset');
     newparent.find('.btn').eq(2).text('Select Column');
-
+    newparent.find('.btn').eq(3).text('Equals');
+    newparent.find('textarea').val('');
 });
 
 $(document.body).on('click', '#next-describe-extract' ,async function(){

@@ -375,7 +375,7 @@
                     
                     <div class="describe-data-wrap" id="describe-data-extract">
                         <div class="flexy-side-drops">
-                            <div>
+                            <div id="extractusefile">
                                 <div>
                                     <h2 class="regular-header">Use a file containing values to find:</h2>
                                 </div>
@@ -394,87 +394,60 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <a class="myButton special-selection" id="inputis_file">Use Input File</a> -->
+                        
                         <div class="or-separator">
                             <h2 class="regular-header">Or</h2>
                         </div>
-                        <div id="extract-descriptions">
+                        <div>
                             <h2 class="regular-header">Describe values to find:</h2>
-                            <!-- <h2 class="hidden-prompt">Enter custom values <br>&emsp;(click)</br></h2>  -->
-                            <div class="describe-textarea-div-wrap">
-                                <div class="dropdown hide">
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        And
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item">And</a></li>
-                                        <li><a class="dropdown-item">Or</a></li>
-                                    </ul>
+                            <div id="extract-descriptions">
+                                <div class="describe-textarea-div-wrap">
+                                    <div class="dropdown hide">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            And
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item">And</a></li>
+                                            <li><a class="dropdown-item">Or</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="dropdown show inline">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Dataset
+                                        </button>
+                                        <ul class="dropdown-menu datasel"></ul>
+                                    </div>
+                                    <div class="dropdown show inline">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="dropdown-menu colsel"></ul>
+                                    </div>
+                                    <div class="dropdown show inline">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Equals
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item">Equals</a></li>
+                                            <li><a class="dropdown-item">Contains</a></li>
+                                            <li><a class="dropdown-item">Between</a></li>
+                                            <li><a class="dropdown-item">Greater Than</a></li>
+                                            <li><a class="dropdown-item">Less Than</a></li>
+                                            <li><a class="dropdown-item">Not Equal To</a></li>
+                                            <li><a class="dropdown-item">Does Not Contain</a></li>
+                                            <li><a class="dropdown-item">Starts With</a></li>
+                                            <li><a class="dropdown-item">Ends With</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="inline btmmargin">
+                                        <textarea class="describe-textarea" maxlength="37"></textarea>
+                                    </div>
                                 </div>
-                                <div class="dropdown show inline">
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Dataset
-                                    </button>
-                                    <ul class="dropdown-menu datasel"></ul>
-                                </div>
-                                <div class="dropdown show inline">
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Column
-                                    </button>
-                                    <ul class="dropdown-menu colsel"></ul>
-                                </div>
-                                <div class="dropdown show inline">
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Equals
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item">Equals</a></li>
-                                        <li><a class="dropdown-item">Contains</a></li>
-                                        <li><a class="dropdown-item">Between</a></li>
-                                        <li><a class="dropdown-item">Greater Than</a></li>
-                                        <li><a class="dropdown-item">Less Than</a></li>
-                                        <li><a class="dropdown-item">Not Equal To</a></li>
-                                        <li><a class="dropdown-item">Does Not Contain</a></li>
-                                        <li><a class="dropdown-item">Starts With</a></li>
-                                        <li><a class="dropdown-item">Ends With</a></li>
-                                    </ul>
-                                </div>
-                                <div class="inline btmmargin">
-                                    <textarea class="describe-textarea" maxlength="37"></textarea>
-                                </div>
-
-                                <!--
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Dataset
-                                </button>
-                                <ul class="dropdown-menu datasel"></ul>
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu colsel"></ul>
-                                <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item">Equals</a></li>
-                                    <li><a class="dropdown-item">Contains</a></li>
-                                    <li><a class="dropdown-item">Between</a></li>
-                                    <li><a class="dropdown-item">Greater Than</a></li>
-                                    <li><a class="dropdown-item">Less Than</a></li>
-                                    <li><a class="dropdown-item">Not Equal To</a></li>
-                                    <li><a class="dropdown-item">Does Not Contain</a></li>
-                                    <li><a class="dropdown-item">Starts With</a></li>
-                                    <li><a class="dropdown-item">Ends With</a></li>
-                                </ul>
-                                -->
-
-
-
-
-                                
                             </div>
                         </div>
                         <div class="addcondition">
                             <a id="add-describe-text" class="myButton conditionbtn">Add value</a>
-                            <a id ="next-describe-extract" class="myButton">Next</a>
+                            <!-- <a id ="next-describe-extract" class="myButton">Next</a> -->
                         </div>
                     </div>  
 
@@ -610,7 +583,7 @@
                         </div>
                     </div>
 
-                    <!-- Extract from -->
+                    
                     <div id="findwherewrap" class="extractfromwrap">
                         <!-- First file - specify where to extract from -->
                         <div id="first-extractfrom" class="extract-from-file">
@@ -679,7 +652,7 @@
                             <button id="submit-extract" class="glowbutton">Build Algorithm</button>
                         </div>                              
                     </div>
-
+                    
 
 
 
