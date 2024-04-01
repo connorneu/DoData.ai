@@ -377,7 +377,7 @@
                         <div class="flexy-side-drops">
                             <div id="extractusefile">
                                 <div>
-                                    <h2 class="regular-header">Use a file containing values to find:</h2>
+                                    <h2 class="regular-header">Search for values from a file:</h2>
                                 </div>
                                 <div class="clear"></div>
                                 <div class="dropdown show inline" id="extract-from-file-drop">
@@ -392,13 +392,91 @@
                                     </button>
                                     <ul class="dropdown-menu" id="extractinputcol_ul"></ul>
                                 </div>
+
+                                <!-- EXTRACT FROM -->
+                                <div id="findwherewrap" class="extractfromwrap">
+                                    <div>
+                                        <h2 id="fromwhereheader" class="regular-header">Find these values in:</h2>
+                                    </div>
+                                    <!-- First file - specify where to extract from -->
+                                    <div id="first-extractfrom" class="extract-from-file">
+                                        <div class="dropdown extractfrom dataset" id="first-file-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="dropdown-menu" id="first-file_ul"></ul>
+                                        </div>
+                                        <div class="dropdown extractfrom col" id="first-col-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu" id="first-col_ul"></ul>
+                                        </div>   
+                                    </div>
+                                    <!-- Second file - specify where to extract from -->
+                                    <div id="second-extractfrom" class="extract-from-file">
+                                        <div class="dropdown extractfrom dataset" id="second-file-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="dropdown-menu" id="second-file_ul"></ul>
+                                        </div>
+                                        <div class="dropdown extractfrom col" id="second-col-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu" id="second-col_ul"></ul>
+                                        </div>   
+                                    </div>
+                                    <!-- Third file - specify where to extract from -->
+                                    <div id="third-extractfrom" class="extract-from-file">
+                                        <div class="dropdown extractfrom dataset" id="third-file-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="dropdown-menu" id="third-file_ul"></ul>
+                                        </div>
+                                        <div class="dropdown extractfrom col" id="third-col-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu" id="third-col_ul"></ul>
+                                        </div>
+                                    </div>
+                                    <!-- Fourth file - specify where to extract from -->
+                                    <div id="fourth-extractfrom" class="extract-from-file">
+                                        <div class="dropdown extractfrom dataset" id="fourth-file-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="dropdown-menu" id="fourth-file_ul"></ul>
+                                        </div>
+                                        <div class="dropdown extractfrom col" id="fourth-col-fileselect">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="dropdown-menu" id="fourth-col_ul"></ul>
+                                        </div>
+                                    </div>
+                                    <div class="addcondition">
+                                        <a class="myButton conditionbtn" id="extractfrom-addfile">Add File</a>
+                                    </div>                                                   
+                                </div>
+
+
+
+
+
+
+
+
                             </div>
                         </div>
                         
                         <div class="or-separator">
                             <h2 class="regular-header">Or</h2>
                         </div>
-                        <div>
+                        <div id="extractfromdescribe">
                             <h2 class="regular-header">Describe values to find:</h2>
                             <div id="extract-descriptions">
                                 <div class="describe-textarea-div-wrap">
@@ -449,6 +527,9 @@
                             <a id="add-describe-text" class="myButton conditionbtn">Add value</a>
                             <!-- <a id ="next-describe-extract" class="myButton">Next</a> -->
                         </div>
+                        <div class="submit-algo-buttons" id="submit-extract-wrap">
+                            <button id="submit-extract" class="glowbutton">Build Algorithm</button>
+                        </div>   
                     </div>  
 
                     <div class="dropdown" id="primaryfiledrop">
@@ -584,74 +665,8 @@
                     </div>
 
                     
-                    <div id="findwherewrap" class="extractfromwrap">
-                        <!-- First file - specify where to extract from -->
-                        <div id="first-extractfrom" class="extract-from-file">
-                            <div class="dropdown extractfrom" id="first-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select File
-                                </button>
-                                <ul class="dropdown-menu" id="first-file_ul"></ul>
-                            </div>
-                            <div class="dropdown extractfrom col" id="first-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu" id="first-col_ul"></ul>
-                            </div>   
-                        </div>
-                        <!-- Second file - specify where to extract from -->
-                        <div id="second-extractfrom" class="extract-from-file">
-                            <div class="dropdown extractfrom" id="second-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="dropdown-menu" id="second-file_ul"></ul>
-                            </div>
-                            <div class="dropdown extractfrom col" id="second-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu" id="second-col_ul"></ul>
-                            </div>   
-                        </div>
-                        <!-- Third file - specify where to extract from -->
-                        <div id="third-extractfrom" class="extract-from-file">
-                            <div class="dropdown extractfrom" id="third-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="dropdown-menu" id="third-file_ul"></ul>
-                            </div>
-                            <div class="dropdown extractfrom col" id="third-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu" id="third-col_ul"></ul>
-                            </div>
-                        </div>
-                        <!-- Fourth file - specify where to extract from -->
-                        <div id="fourth-extractfrom" class="extract-from-file">
-                            <div class="dropdown extractfrom" id="fourth-file-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Sheet
-                                </button>
-                                <ul class="dropdown-menu" id="fourth-file_ul"></ul>
-                            </div>
-                            <div class="dropdown extractfrom col" id="fourth-col-fileselect">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Select Column
-                                </button>
-                                <ul class="dropdown-menu" id="fourth-col_ul"></ul>
-                            </div>
-                        </div>
-                        <div class="addcondition">
-                            <a class="myButton conditionbtn" id="extractfrom-addfile">Add File</a>
-                        </div>                        
-                        <div class="submit-algo-buttons" id="submit-extract-wrap">
-                            <button id="submit-extract" class="glowbutton">Build Algorithm</button>
-                        </div>                              
-                    </div>
+                    <!-- EXTRACT FROM WAS HERE, MOVED UP-->
+                    
                     
 
 

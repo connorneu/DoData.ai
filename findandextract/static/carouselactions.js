@@ -1542,16 +1542,16 @@ function force_first_node_as_active(class_name, root_node_name){
 
 function calc_max_files(){
     if (algorithm_type === 'Extract'){
-        return "Up to 4 files (for this algorithm type)";
+        return "Up to 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Combine'){
-        return "Minimum 2 files, maximum 4 files (for this algorithm type)";
+        return "Minimum 2 files, maximum 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Update'){
-        return "Up to 4 files (for this algorithm type)";
+        return "Up to 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "minimum 2 files, maximum 2 files (for this algorithm type)";
+        return "minimum 2 files, maximum 2 files for this algorithm type";
     }
     else if (algorithm_type === 'Calculate'){
         return "Maximum 1 file";

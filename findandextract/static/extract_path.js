@@ -2,7 +2,7 @@ async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
     await add_to_carousel('Define values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Any row containing these values will selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    await add_to_carousel('Any row containing these values will be selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     //document.getElementById('inputis_file_or_input').style.display = 'block';
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
     populate_drop_down('.dropdown-menu.datasel:eq(0)', dataset_names, true);
@@ -22,6 +22,39 @@ $(document.body).on('click', '#extractusefile, #extractinputfile_ul li a' ,async
         $('#extract-descriptions').find('.btn').addClass('disabled');
         $('#extractinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
     }
+
+});
+
+
+// when input file col is selected show extract from menu
+$(document.body).on('click', '#extractinputcol_ul li a' ,async function(){  
+    
+    document.getElementById('findwherewrap').style.display = 'block';
+    var searchfile = $('#extractinputfile_ul').closest('.dropdown').find('.btn').text();
+    var searchcol = $('#extractinputcol_ul').closest('.dropdown').find('.btn').text()
+    //$('#fromwhereheader').text('Search for values from ' + searchfile + ' in column ' + searchcol + ' in which files:')
+    document.getElementById('add-describe-text').style.display = 'none';
+    document.getElementById('first-extractfrom').style.display = 'flex';
+    console.log('populating')
+    populate_drop_down('#first-file_ul', dataset_names, true);
+    populate_drop_down('#second-file_ul', dataset_names, true);
+    populate_drop_down('#third-file_ul', dataset_names, true);
+    populate_drop_down('#fourth-file_ul', dataset_names, true);
+});
+
+
+// when first fromwhere file is selected hide describe menu
+$(document.body).on('click', '#first-file-fileselect' ,async function(){  
+    document.getElementById('extractfromdescribe').style.display = 'none';
+    $('.or-separator').css("display", "none");
+});
+
+// when fromwhere file is selected populate dropdown
+$(document.body).on('click', '.dropdown.extractfrom.dataset li a' ,async function(){  
+    var selectedfile = $(this).closest('.dropdown').find('.btn').text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    var coldropdown = $(this).closest('.extract-from-file').find('.dropdown-menu');
+    populate_drop_down(coldropdown, colheaders, true);
 });
 
 
@@ -44,6 +77,8 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     }
     $('#extract-descriptions').find('.btn').removeClass('disabled');
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
+    // hide add value to describe extract
+    document.getElementById('add-describe-text').style.display = 'none';
 });
 
 
@@ -262,21 +297,21 @@ async function where_to_search(file_or_input, search_file){
     populate_drop_down('#second-file_ul', table_array, true);
     populate_drop_down('#third-file_ul', table_array, true);
     populate_drop_down('#fourth-file_ul', table_array, true);
-
-
-    $(document.body).on('click', '.dropdown.extractfrom li a' ,async function(){
-        var selectedfile = this.firstChild.data;
-        var colheaders = get_col_headers_for_filename(selectedfile);
-        var extractfrom_col_ul = $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').find('ul');
-        populate_drop_down(extractfrom_col_ul, colheaders, true);
-        // extract from make column visible after selecting file
-        $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').css("display", "flex");
-    }); 
-
-    $(document.body).on('click', '#first-col_ul li a' ,async function(){
-        document.getElementById('submit-extract-wrap').style.display = 'block';
-    }); 
 }
+
+
+$(document.body).on('click', '.dropdown.extractfrom.dataset li a' ,async function(){
+    var selectedfile = this.firstChild.data;
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    var extractfrom_col_ul = $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').find('ul');
+    populate_drop_down(extractfrom_col_ul, colheaders, true);
+    // extract from make column visible after selecting file
+    $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').css("display", "flex");
+}); 
+
+$(document.body).on('click', '#first-col_ul li a' ,async function(){
+    document.getElementById('submit-extract-wrap').style.display = 'block';
+}); 
 
 // if adjust header column button is clicken when describing where to search for values to extract
 $(document.body).on('click', '#data2_adj_col_header' ,async function(){
