@@ -64,6 +64,10 @@ $(document.body).on('input propertychange', '.describe-textarea', async function
     $('#extractinputfile_ul').parents(".dropdown").find('.btn').addClass('disabled');
     if ($(this).val() === ''){
         $('#extractinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
+        $('#submit-extract-wrap').css('display', 'none');
+    }
+    else{
+        $('#submit-extract-wrap').css('display', 'block');
     }
 });
 
@@ -78,7 +82,7 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     $('#extract-descriptions').find('.btn').removeClass('disabled');
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
     // hide add value to describe extract
-    document.getElementById('add-describe-text').style.display = 'none';
+    //document.getElementById('add-describe-text').style.display = 'none';
 });
 
 
@@ -326,11 +330,25 @@ $(document.body).on('click', '#submit-extract' ,async function(){
 
 function collect_describe_values(){
     var describe_values = [];
-    var describe_value_elems =  document.getElementsByClassName('describe-textarea')
-    for (var i=0;i<describe_value_elems.length;i++){
-        var value = describe_value_elems[i].value;
-        describe_values.push(value);
-    }
+    //var describe_value_elems = document.getElementById('extract-descriptions')
+    var describe_value_elems = $('#extract-descriptions').find('.describe-textarea-div-wrap');
+    console.log(describe_value_elems)
+    console.log(typeof describe_value_elems)
+    describe_value_elems.each(function(idx, elem) {
+    //for (var i=0;i<describe_value_elems.length;i++){
+        var andor = $(elem).find('.btn').eq(0).text();
+        var dataset = $(elem).find('.btn').eq(1).text();
+        var col = $(elem).find('.btn').eq(2).text();
+        var condition = $(elem).find('.btn').eq(3).text()
+        var textval = $(elem).find('textarea').val();
+        console.log('andor')
+        console.log(andor)
+        console.log(dataset)
+        console.log(col)
+        console.log(condition)
+        console.log(textval)
+        describe_values.push([andor, dataset, col, condition, textval]);
+    });
     return describe_values;
 }
 
@@ -362,6 +380,23 @@ function collect_extract_parameters(){
     var describevalues = JSON.stringify(collect_describe_values());
     var extractfilename = $('#extractinputfile_ul').parents(".dropdown").find('.btn').text();
     var extractcolname = $('#extractinputcol_ul').parents(".dropdown").find('.btn').text();
+    var findfile1 =  $('#first-file_ul').closest('.dropdown').find('.btn').text();
+    var findcol1 =  $('#first-col_ul').closest('.dropdown').find('.btn').text();
+    var findfile2 =  $('#second-file_ul').closest('.dropdown').find('.btn').text();
+    var findcol2 =  $('#second-col_ul').closest('.dropdown').find('.btn').text();
+    var findfile3 =  $('#third-file_ul').closest('.dropdown').find('.btn').text();
+    var findcol3 =  $('#third-col_ul').closest('.dropdown').find('.btn').text();
+    var findfile4 =  $('#fourth-file_ul').closest('.dropdown').find('.btn').text();
+    var findcol4 =  $('#fourth-col_ul').closest('.dropdown').find('.btn').text();
+    console.log('files')
+    console.log(findfile1)
+    console.log(findcol1)
+    console.log(findfile2)
+    console.log(findcol2)
+    console.log(findfile3)
+    console.log(findcol3)
+    console.log(findfile4)
+    console.log(findcol4)
     var input_or_description = '';
     if(extractfilename === 'Use Input File'){
         input_or_description = 'describe';
@@ -369,13 +404,20 @@ function collect_extract_parameters(){
     else{
         input_or_description = 'input';
     }
-    var search_where = collect_search_where();
+    //var search_where = collect_search_where();
     var extract_params_map = {
                                 describevalues: describevalues,
                                 extractfilename: extractfilename,
                                 extractcolname: extractcolname,
                                 input_or_description: input_or_description,
-                                search_where:search_where
+                                findfile1: findfile1,
+                                findcol1: findcol1,
+                                findfile2: findfile2,
+                                findcol2: findcol2,
+                                findfile3: findfile3,
+                                findcol3: findcol3,
+                                findfile4: findfile4,
+                                findcol4: findcol4
                             };
     return extract_params_map;
 }

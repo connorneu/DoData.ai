@@ -60,11 +60,35 @@ def findandextract(request):
                 print(request.POST)
                 params = json.loads(request.POST.get('parameters'))
 
-                input_or_description = params['input_or_description']
-                extract_file_name = params['extractfilename']
-                extract_col_name = params['extractcolname']
-                describe_values = ast.literal_eval(params['describevalues'])
-                search_where = params['search_where']
+                input_or_description = params['input_or_description'].rstrip().strip()
+                extract_file_name = params['extractfilename'].rstrip().strip()
+                extract_col_name = params['extractcolname'].rstrip().strip()
+                describe_values_raw = ast.literal_eval(params['describevalues'])
+                describe_values = clean_describe_values(describe_values_raw)
+                print(describe_values)
+                find_file_1 = params['findfile1'].rstrip().strip()
+                find_col_1 = params['findcol1'].rstrip().strip()
+                find_file_2 = params['findfile2'].rstrip().strip()
+                find_col_2 = params['findcol2'].rstrip().strip()
+                find_file_3 = params['findfile3'].rstrip().strip()
+                find_col_3 = params['findcol3'].rstrip().strip()
+                find_file_4 = params['findfile4'].rstrip().strip()
+                find_col_4 = params['findcol4'].rstrip().strip()
+                search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3], [find_file_4, find_col_4]]
+                print('inpui', input_or_description)
+                print('extrrafile', extract_file_name)
+                print('extracol', extract_col_name)
+                print('desc', describe_values)
+                print('esc1', describe_values[0])
+                print('esc00', describe_values[0][0])
+                print('file1', find_file_1)
+                print('file2', find_file_2)
+                print('file3', find_file_3)
+                print('file4', find_file_4)
+                print('col1', find_col_1)
+                print('col2', find_col_2)
+                print('col3', find_col_3)
+                print('col4', find_col_4)
                 df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where)
                 print('------------- RESULT --------------')
                 print(df_result)
@@ -261,6 +285,18 @@ def findandextract(request):
             threads.append(x)
             return render(request, "findandextract/fandemain.html")
         #return render(request, "findandextract/fandemain.html", {'fande_data_dump' : fande_db_data})
+
+def clean_describe_values(describe_values_raw):
+    describe_values = []
+    for row in describe_values_raw:
+        row_items = []
+        for elem in row:
+            print('elem', elem)
+            newelem = elem.rstrip().strip()
+            print('newelem', newelem)
+            row_items.append(newelem)
+        describe_values.append(row_items)
+    return describe_values
 
 def upload_data_files(request):
     print("UPLOADING FILES")
@@ -561,19 +597,10 @@ def Extract(input_or_description, extract_file_name, extract_col_name, describe_
         file, sheet = parse_file_name_from_bracket_display(dataset_name)
         df = unmelt(file, sheet)
         dfs[dataset_name] = df
-
-    #all_df_col_headers = Collect_All_Col_Headers(dfs, search_where)
-    #cols_in_multiple_dfs = [item for item, count in collections.Counter(all_df_col_headers).items() if count > 1]
-    common_col_name = search_where[0][1]
+        common_col_name = search_where[0][1]
     for dataset_name, col in search_where:
-        #wb_ws = df_col[0] + ' ' + df_col[1]
-        #col_to_find = df_col[2]
         df_single_result = Search_Column_Values(dfs[dataset_name], col, df_extract_values)
-        #change matched column name so all matched columns have same name and can be stacked
-        #matched_col_header = common_col_name
         df_single_result = df_single_result.rename(columns={col: common_col_name})
-        #df_single_result.remove(col)
-        #df_single_result = Add_Filename_ColHeader(df_single_result, dataset_name, matched_col_header, cols_in_multiple_dfs)
         if not df_single_result.empty:
             df_single_result.columns=df_single_result.columns.astype('str')
             df_single_result['Dataset'] = dataset_name
