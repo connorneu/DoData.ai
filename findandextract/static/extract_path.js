@@ -398,7 +398,7 @@ function collect_extract_parameters(){
     console.log(findfile4)
     console.log(findcol4)
     var input_or_description = '';
-    if(extractfilename === 'Use Input File'){
+    if(extractfilename === 'Use Input File:'){
         input_or_description = 'describe';
     }
     else{

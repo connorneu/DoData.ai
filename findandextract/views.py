@@ -99,25 +99,8 @@ def findandextract(request):
                     db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
                 KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
                 print('saved results')
-
-                #print("saving to db...")
-                #db_obj_list = []
-                #for dbframe in df_list:
-                #    #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-                #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
-                #KeyValueDataFrame.objects.bulk_create(db_obj_list)
-                #print('saved')
-                #db_data = list(KeyValueDataFrame.objects.values())
-
-
                 return HttpResponse(status=200)
-
-                #except Exception as e:
-                #    exc_type, exc_obj, exc_tb = sys.exc_info()
-                #    fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                #    print(exc_type, fname, exc_tb.tb_lineno)
-                #    print(e)
-                #    return HttpResponse(status=400)
+            
             elif request.POST.get('ajax_name') == 'filter_data':
                 warnings = "No warnings"
                 print(request.POST)
@@ -544,6 +527,8 @@ def apply_conditions(df, conditions):
             conditions.append(condition)
 
         for condition in conditions:
+            print('hereisthecondition')
+            print(condition)
             if condition[3].isnumeric():
                 print("NUMNERCI CONDITION", condition[3])
                 df[condition[1]] = df[condition[1]].astype(np.float64)
@@ -585,6 +570,8 @@ def apply_conditions(df, conditions):
             df_new.sort_index(inplace=True)
         else:
             df_new = df_new_and
+        print("DFNEW")
+        print(df_new)
         return df_new
     except Exception:
         print("ERROR: CONDITIONS")
@@ -592,25 +579,86 @@ def apply_conditions(df, conditions):
         return df                    
 
 def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where):
-    print('searchwhere', search_where)
-    df_result = None
     if input_or_description == 'input':
-        file, sheet = parse_file_name_from_bracket_display(extract_file_name)
-        df = unmelt(file, sheet)
-        df_extract_values = df[extract_col_name].values.tolist()
+        df_result = Extract_Input(extract_file_name, extract_col_name, search_where)
     else:
-        df_extract_values = describe_values
-    dfs = {}
+        df_result = Extract_Describe(describe_values)
+
+                
+    #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
+    return df_result
+
+
+def Extract_Describe(describe_values):
+    df_result = None
+    conds_by_file = Group_Conditions_By_File(describe_values)
+    print('conds by file')
+    print(conds_by_file)
+    for file, conds in conds_by_file.items():
+        file, sheet = parse_file_name_from_bracket_display(file)
+        print("MeFile:", file, "MeConds", conds)
+        df = unmelt(file, sheet)
+        print("WEEECONDS")
+        print(conds)
+        resorted_conds = ReSort_Extract_Conds(conds)
+        print("RESORTED")
+        print(resorted_conds)
+        df_single_result = apply_conditions(df, resorted_conds)
+        print()
+        print('df single result')
+        print(df_single_result)
+        print()
+        if not isinstance(df_result, pd.DataFrame):
+            df_result = df_single_result
+        else:
+            df_result = pd.concat([df_result, df_single_result], ignore_index=True)
+        print("?!")
+        print(df_result)
+    return df_result
+
+
+def ReSort_Extract_Conds(conds):
+    resorted_conds = []
+    for cond in conds:
+        row = [cond[0], cond[2], cond[3], cond[4]]
+        resorted_conds.append(row)
+    return resorted_conds
+
+
+
+def Group_Conditions_By_File(describe_values):
+    # get distinct list of file names
+    print('describ e values')
+    print(describe_values)
+    files = []
+    for cond in describe_values:
+        print('cond1', cond[1])
+        files.append(cond[1])
+    # create dictionary of conditions per file
+    conds = {}
+    for cond in describe_values:
+        if cond[1] in conds:
+            conds[cond[1]].append(cond)
+        else:
+            conds[cond[1]] = [cond]        
+    print('condsbyfile')
+    for key, value in conds.items():
+        print(key, value)
+    return conds
+
+
+def Extract_Input(extract_file_name, extract_col_name, search_where):
+    df_result = None
+    file, sheet = parse_file_name_from_bracket_display(extract_file_name)
+    df = unmelt(file, sheet)
+    df_extract_values = df[extract_col_name].values.tolist()
+    common_col_name = search_where[0][1]
     for dataset_name, col in search_where:
         if dataset_name != 'Select Dataset':
             print(dataset_name, '|', col)
             file, sheet = parse_file_name_from_bracket_display(dataset_name)
             df = unmelt(file, sheet)
-            dfs[dataset_name] = df
-            common_col_name = search_where[0][1]
-    for dataset_name, col in search_where:
-        if dataset_name != 'Select Dataset':
-            df_single_result = Search_Column_Values(dfs[dataset_name], col, df_extract_values)
+            df_single_result = Search_Column_Values(df, col, df_extract_values)
             df_single_result = df_single_result.rename(columns={col: common_col_name})
             if not df_single_result.empty:
                 df_single_result.columns=df_single_result.columns.astype('str')
@@ -625,8 +673,6 @@ def Extract(input_or_description, extract_file_name, extract_col_name, describe_
                     df_result = pd.concat([df_result, df_single_result], ignore_index=True)
                 print("?!")
                 print(df_result)
-                
-    #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
     return df_result
 
 def Collect_All_Col_Headers(dfs, search_where):
