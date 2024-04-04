@@ -552,7 +552,8 @@ def apply_conditions(df, conditions):
                     condition[4] = float(condition[4])   
             else:
                 condition[3] = condition[3]
-        condition_arr = []
+        condition_arr_and = []
+        condition_arr_or = []
         for i in range(0, len(conditions)):
             condition = conditions[i]
             if condition[2] == 'Equals':   
@@ -573,8 +574,17 @@ def apply_conditions(df, conditions):
                 condition_str = df[condition[1]].str.startswith(str(condition[3]))
             if condition[2] == 'Ends With':
                 condition_str = df[condition[1]].str.endswith(str(condition[3]))
-            condition_arr.append(condition_str)
-        df_new = df.loc[np.logical_and.reduce(condition_arr)]
+            if condition[0] == 'And':
+                condition_arr_and.append(condition_str)
+            else:
+                condition_arr_or.append(condition_str)
+        df_new_and = df.loc[np.logical_and.reduce(condition_arr_and)]
+        if condition_arr_or:
+            df_new_or = df.loc[np.logical_and.reduce(condition_arr_or)]
+            df_new = pd.concat([df_new_and, df_new_or], ignore_index=False)
+            df_new.sort_index(inplace=True)
+        else:
+            df_new = df_new_and
         return df_new
     except Exception:
         print("ERROR: CONDITIONS")
