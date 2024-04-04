@@ -534,7 +534,7 @@ def apply_conditions(df, conditions):
     print(df)
     print(conditions)
     #conditions are collected inversedly - so reverse them
-
+    #df = df.applymap(str)
     df_new = df.copy()
     #conditions_reversed = json.loads(conditions)
     conditions_reversed = conditions
@@ -556,9 +556,9 @@ def apply_conditions(df, conditions):
         for i in range(0, len(conditions)):
             condition = conditions[i]
             if condition[2] == 'Equals':   
-                condition_str = df[condition[1] == str(condition[3])]
+                condition_str = df[condition[1]] == str(condition[3])
             if condition[2] == 'Contains':
-                condition_str = df[condition[1]].str.contains(str(condition[3]))            
+                condition_str = df[condition[1]].str.contains(str(condition[3]))     
             if condition[2] == 'Between':
                 condition_str = (df[condition[1]] > str(condition[3])) & (df[condition[1]] < str(condition[4]))
             if condition[2] == 'Greater Than':
@@ -582,7 +582,7 @@ def apply_conditions(df, conditions):
         return df                    
 
 def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where):
-    #Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from):
+    print('searchwhere', search_where)
     df_result = None
     if input_or_description == 'input':
         file, sheet = parse_file_name_from_bracket_display(extract_file_name)
@@ -590,31 +590,31 @@ def Extract(input_or_description, extract_file_name, extract_col_name, describe_
         df_extract_values = df[extract_col_name].values.tolist()
     else:
         df_extract_values = describe_values
-    
     dfs = {}
     for dataset_name, col in search_where:
-        print(dataset_name, '|', col)
-        file, sheet = parse_file_name_from_bracket_display(dataset_name)
-        df = unmelt(file, sheet)
-        dfs[dataset_name] = df
-        common_col_name = search_where[0][1]
+        if dataset_name != 'Select Dataset':
+            print(dataset_name, '|', col)
+            file, sheet = parse_file_name_from_bracket_display(dataset_name)
+            df = unmelt(file, sheet)
+            dfs[dataset_name] = df
+            common_col_name = search_where[0][1]
     for dataset_name, col in search_where:
-        df_single_result = Search_Column_Values(dfs[dataset_name], col, df_extract_values)
-        df_single_result = df_single_result.rename(columns={col: common_col_name})
-        if not df_single_result.empty:
-            df_single_result.columns=df_single_result.columns.astype('str')
-            df_single_result['Dataset'] = dataset_name
-            print()
-            print('df single result')
-            print(df_single_result)
-            print()
-            if not isinstance(df_result, pd.DataFrame):
-                df_result = df_single_result
-            else:
-                df_result = pd.concat([df_result, df_single_result], ignore_index=True)
-            print("?!")
-            print(df_result)
-                #df_result = df_result.reset_index(drop=True)
+        if dataset_name != 'Select Dataset':
+            df_single_result = Search_Column_Values(dfs[dataset_name], col, df_extract_values)
+            df_single_result = df_single_result.rename(columns={col: common_col_name})
+            if not df_single_result.empty:
+                df_single_result.columns=df_single_result.columns.astype('str')
+                df_single_result['Dataset'] = dataset_name
+                print()
+                print('df single result')
+                print(df_single_result)
+                print()
+                if not isinstance(df_result, pd.DataFrame):
+                    df_result = df_single_result
+                else:
+                    df_result = pd.concat([df_result, df_single_result], ignore_index=True)
+                print("?!")
+                print(df_result)
                 
     #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
     return df_result
