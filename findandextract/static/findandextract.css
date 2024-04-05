@@ -475,9 +475,11 @@ table, th, td {
 .headertable tr:hover {
 	background-color:coral;
 }
+
 th {
   background-color: white;
   color: #2b2b2b;
+  width:10%;
 }
 
 .headertable {

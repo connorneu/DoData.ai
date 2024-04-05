@@ -339,24 +339,30 @@ async function ajax_get_result_db(algo_type){
        // on success
        success: function (data) {
            //print_the_filtered_data(data);
-           if(algo_type==='extract'){
-            console.log('extract get result success')
-            console.log(data)
-            display_extract_result_table(data);
-           }
-           else if(algo_type==='combine'){
-            display_combine_result_table(data);
-           }
-           else if(algo_type==='update'){
-            display_update_result_table(data);
-           }
-           else if(algo_type==='reconcile'){
-            display_reconcile_result_table(data);
-           }    
-           else if(algo_type==='calculate'){
-            console.log(data)
-            display_calculate_result_table(data);
-           }    
+           console.log(data['result_table'])
+            if (data['result_table'].length === 0){
+                alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.')
+            }
+            else{
+                if(algo_type==='extract'){
+                    console.log('extract get result success')
+                    console.log(data)
+                    display_extract_result_table(data);
+                }
+                else if(algo_type==='combine'){
+                    display_combine_result_table(data);
+                }
+                else if(algo_type==='update'){
+                    display_update_result_table(data);
+                }
+                else if(algo_type==='reconcile'){
+                    display_reconcile_result_table(data);
+                }    
+                else if(algo_type==='calculate'){
+                    console.log(data)
+                    display_calculate_result_table(data);
+                }    
+            }
        },
        // on error
        error: function (request, status, error) {
