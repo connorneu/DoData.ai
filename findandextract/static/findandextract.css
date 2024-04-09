@@ -1461,13 +1461,37 @@ display: inline-block;
 }
 .flexdropdown{
     display:flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+/*remove these two from flexdropdown if it stops working
+outside of combine*/
+.adjacent{
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 .join-two-files{
     display:flex;
-    flex: 0 0 1;
+    margin-left: auto;
+    margin-right: auto;
 }
 .joined-file{
     display:flex;
+
+    align-items: center;
+    height: 50%;
+    justify-content: center;
+    flex: 1 0 0%;
+
+}
+.joined-file > .dropdown{
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0%;
+    margin-top: 0%;
+}
+.tablerow{
+    display:table-row;
 }
 .updateflexdropdown{
     display:block;
@@ -1817,4 +1841,60 @@ display: inline-block;
 }
 .regular-header{
     white-space: nowrap;
+}
+.combsel{
+    display: flex;
+    font-size: 14px;
+    width: 65px;
+    height: 38px;
+    margin-left: 70%;
+    margin-top: 1%;
+    flex: 0 0 28%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    justify-content: center;
+}
+.combine-type-img{
+    width: 500px;
+    height: 400px;
+    cursor: pointer;
+    padding: 25px;
+    border: 1px solid #757575; 
+}
+.combine-type-img:hover{
+    background-color:#757575;   
+}
+.infoimg{
+    margin-left:auto;
+    margin-right:auto;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    margin-bottom:5px;
+}
+.join-tooltip{
+    position:relative;
+}
+.join-tooltip h2{
+    color: white;
+    font-size: 16px;
+}
+.hover-prompt{
+    display:none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    border-style: inset;
+    width: 640px;
+    height: 105px;
+    left: 50%;
+    background-color:black;
+    text-align: left;
+    border-color: rgb(98, 0, 255) #32ce66;
+    padding: 10px;
+}
+.selectfile{
+    padding: 0px 10px 0px 10px;
 }

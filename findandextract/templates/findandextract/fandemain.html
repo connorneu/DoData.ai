@@ -360,9 +360,11 @@
                             <a class="myButton" id="inputis_describe">Enter Values</a>                    
                         </div>
                     </div>
-                    <div class="button-banner" id="merge_or_append">
-                        <a class="myButton bigr" id="user_merge">Merge</a>
-                        <a class="myButton bigr" id="user_append">Append</a>                    
+                    <div class="col-match-flexy-wrap hide" id="merge_or_append">
+                        <img class="combine-type-img" src="/static/images/Combine Merge.png" alt="Merge Data" id="user_merge"/>
+                        <img class="combine-type-img" src="/static/images/Combine Append.png" alt="Append Data" id="user_append"/>
+                        <!-- <a class="myButton bigr" id="user_merge">Merge</a> -->
+                        <!-- <a class="myButton bigr" id="user_append">Append</a> -->                   
                     </div>
                     <div class="button-banner" id="update_file_or_input">
                         <a class="myButton bigr" id="update_file">File</a>
@@ -676,29 +678,33 @@
                     <!-- Combine Files -->
                     <div id="combinehowwrap" class="combinewrap">
                         <div class="combinewrap">
+                            <div class="join-tooltip">
+                                <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                <div class="hover-prompt" id="joins-prompt">
+                                    <h2><b>Inner Join:</b> Only keep rows where a match is found</h2>
+                                    <br>
+                                    <h2><b>Left Join:</b> Keep all rows from the left and matching rows from right</h2>
+                                    <br>
+                                    <h2><b>Right Join:</b> Keep all rows from the right and matching rows from left</h2>
+                                </div>
+                                </div>
                             <div class="join-two-files">
                                 <div class="joined-file">
                                     <div class="dropdown flexdropdown selectfile">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select File
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Dataset
                                         </button>
                                         <ul class="joinfile dropdown-menu"></ul>
-                                    </div>
-                                    <div class="dropdown flexdropdown selectsheet">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Sheet
-                                        </button>
-                                        <ul class="joinsheet dropdown-menu"></ul>
-                                    </div>
+                                    </div>                                  
                                     <div class="dropdown flexdropdown selectcolumn">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Select Column
                                         </button>
                                         <ul class="joincol dropdown-menu"></ul>
                                     </div>
                                 </div>
                                 <div class="dropdown condition-dropdown-col flexdropdown action">
-                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
                                     <ul class="joinaction dropdown-menu"> 
                                         <li><a class="dropdown-item">Inner Join</a></li>
                                         <li><a class="dropdown-item">Left Join</a></li>
@@ -707,19 +713,13 @@
                                 </div>
                                 <div class="joined-file">
                                     <div class="dropdown flexdropdown selectfile">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select File
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Dataset
                                         </button>
                                         <ul class="joinfile dropdown-menu"></ul>
-                                    </div>
-                                    <div class="dropdown flexdropdown selectsheet">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Sheet
-                                        </button>
-                                        <ul class="joinsheet dropdown-menu"></ul>
-                                    </div>
+                                    </div>                                    
                                     <div class="dropdown flexdropdown selectcolumn">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Select Column
                                         </button>
                                         <ul class="joincol dropdown-menu"></ul>
@@ -1262,7 +1262,7 @@
 
 
 
-                    <div class="addcondition" id="executeorrun" style= display:none;">
+                   <!----> <div class="addcondition" id="executeorrun" style= display:none;">
                         <a class="myButton conditionbtn" id="addmatchdataset">Go BacK</a>
                         <a class="myButton" id="runcode">RUN</a>
                     </div>

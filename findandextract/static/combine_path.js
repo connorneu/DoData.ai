@@ -2,20 +2,22 @@ clean_first_join = null;
 joins_data = [];
 
 async function start_combine_file(){
-    await add_to_carousel(['Choose how to combine your files:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    hide_containers(2);
+    document.getElementById('edit-data-tables').style.display = "none";
+    await add_to_carousel('Choose how to combine your files:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
     document.getElementById('merge_or_append').style.display = 'block';
 }
 
  // select merge
  $(document.body).on('click', '#user_merge' ,async function(){ 
     hide_containers(2);
-    await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
-    await add_to_carousel('Merge datasets', input_color, [null], true, false);
+    //await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
+    await add_to_carousel('Merge datasets', input_color, [null], true, true);
     document.getElementById('merge_or_append').style.display = 'none';
     how_to_join();  
 });
 
-//select append
+// select append
 $(document.body).on('click', '#user_append' ,function(){ 
     hide_containers(2);
     add_to_carousel('Append datasets', input_color, [null], true, false);
@@ -30,17 +32,26 @@ async function how_to_join(){
     //document.getElementById('combinehowwrap').style.display = 'block';
     document.querySelectorAll(".combinewrap").forEach(a=>a.style.display = "block");
     // first file first join
-    populate_drop_down('.joinfile.dropdown-menu', unique_file_names, true);
+    populate_drop_down('.joinfile.dropdown-menu', dataset_names, true);
     clean_first_join = document.getElementsByClassName('join-two-files')[0].cloneNode(true);
     
 }
 
+
+$(document).on({
+    mouseenter: function () {
+        $('#joins-prompt').css('display', 'block')
+    },
+    mouseleave: function () {
+        $('#joins-prompt').css('display', 'none')
+    }
+}, ".join-tooltip .infoimg"); 
+
 // pop sheets
+/*
 $(document.body).on('click', '.joinfile.dropdown-menu' ,function(){
     var num_joins = $('.join-two-files').length;
     var first_selected_file = $(this).parents(".dropdown").find('.btn').text();
-    var sheet_names = get_file_sheets(first_selected_file);
-    var sheet_dropdown = $(this).closest('.joined-file').find('.joinsheet.dropdown-menu');
     populate_drop_down(sheet_dropdown, sheet_names, true);
     $(this).closest('.joined-file').find('.joinsheet.dropdown-menu').parents(".dropdown").find('.btn').text(sheet_names[0]); // first sheet as default
     var filename_index = get_file_name_index(first_selected_file + ' {' + sheet_names[0] + '}') // return num 1-4 representing file number (primary, secondary, etc.)
@@ -52,7 +63,8 @@ $(document.body).on('click', '.joinfile.dropdown-menu' ,function(){
     $(this).closest('.joined-file').find('.joincol.dropdown-menu').parents(".dropdown").find('.btn').text('Select Column'); // select column default
 });
 
-$(document.body).on('click', '.joinsheet.dropdown-menu' ,function(){
+
+$(document.body).on('click', '.joinfile.dropdown-menu' ,function(){
     var filename_index = get_file_name_index(first_selected_file + ' {' + sheet_names[0] + '}') // return num 1-4 representing file number (primary, secondary, etc.)
     populate_table_element(sheet_names[0], filename_index, 'data' + String(filename_index) + '_tableid'); // populate table to populate CreateTable values which has column headers
     var col_dropdown = $(this).closest('.joined-file').find('.joincol.dropdown-menu');
@@ -61,6 +73,15 @@ $(document.body).on('click', '.joinsheet.dropdown-menu' ,function(){
     populate_drop_down(col_dropdown, col_headers, true);
     $(this).closest('.joined-file').find('.joincol.dropdown-menu').parents(".dropdown").find('.btn').text('Select Column'); // select column default
 });
+*/
+
+$(document.body).on('click', '.joinfile.dropdown-menu li a' ,function(){
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    var closest_col_drop = $(this).closest('.joined-file').find('.joincol.dropdown-menu')
+    populate_drop_down(closest_col_drop, colheaders, true);
+});
+
 
 $(document.body).on('click', '#addjoin' ,function(){
     var num_joins = $('.join-two-files').length;

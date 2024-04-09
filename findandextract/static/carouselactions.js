@@ -88,7 +88,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Extract', desc);
+    start_algo_path('START', 'Combine', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1545,16 +1545,16 @@ function calc_max_files(){
         return "Up to 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Combine'){
-        return "Minimum 2 files, maximum 4 files for this algorithm type";
+        return "Maximum 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Update'){
         return "Up to 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "minimum 2 files, maximum 2 files for this algorithm type";
+        return "Maximum 2 files for this algorithm type";
     }
     else if (algorithm_type === 'Calculate'){
-        return "Maximum 1 file";
+        return "Maximum 1 file for this algorithm type";
     }
 }
 
@@ -2196,9 +2196,9 @@ class TextScramble {
   // ——————————————————————————————————————————————————
   
   const phrases = [
-    'Search through files for all rows that contain names from a list',
     'Combine two datasets by matching on values in a common column',
     'Update one file with values from another',
+    'Search through files for all rows that contain names from a list',
     'Compare two datasets to find what matches and what doesn\'t',
     'Group together similar values to calculate metrics',
     'Filter data based on specified conditions',
