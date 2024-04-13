@@ -4,11 +4,18 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Data Manipulator</title>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="https://d3js.org/d3.v6.min.js"></script>   
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+        <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="/static/findandextract.css">
         <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="/static/tribute-master/tribute.css" />
 
     </head>
     <body>
@@ -26,10 +33,12 @@
         <script src="/static/update_path.js"></script>
         <script src="/static/reconcile_path.js"></script>
         <script src="/static/calculate_pth.js"></script>
-        <script src="https://d3js.org/d3.v6.min.js"></script>   
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-        <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-        
+        <script type="module" src="/static/columns_path.js"></script>
+
+        <script type="module" src="/static/tribute-master/src/Tribute.js"></script>
+
+
+
         <div class="master-div-wrap">
             <div class="sidebar">
                 <div class="toggle">
@@ -373,6 +382,25 @@
 
 
 
+                    <!-- START COLUMNS-->
+                    <div>
+                        
+                        <textarea id="caaanDo">I'm Mr. Meeseeks, look at me!</div>
+
+
+                    </div>
+                    
+
+
+
+
+                    <!-- END COLUMNS-->
+
+
+
+
+
+
                     <!-- START EXTRACT -->
                     
                     <div class="describe-data-wrap" id="describe-data-extract">
@@ -677,55 +705,57 @@
 
                     <!-- Combine Files -->
                     <div id="combinehowwrap" class="combinewrap">
-                        <div class="combinewrap">
-                            <div class="join-tooltip">
-                                <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
-                                <div class="hover-prompt" id="joins-prompt">
-                                    <h2><b>Inner Join:</b> Only keep rows where a match is found</h2>
-                                    <br>
-                                    <h2><b>Left Join:</b> Keep all rows from the left and matching rows from right</h2>
-                                    <br>
-                                    <h2><b>Right Join:</b> Keep all rows from the right and matching rows from left</h2>
-                                </div>
-                                </div>
-                            <div class="join-two-files">
-                                <div class="joined-file">
-                                    <div class="dropdown flexdropdown selectfile">
-                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Dataset
-                                        </button>
-                                        <ul class="joinfile dropdown-menu"></ul>
-                                    </div>                                  
-                                    <div class="dropdown flexdropdown selectcolumn">
-                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Column
-                                        </button>
-                                        <ul class="joincol dropdown-menu"></ul>
+                        <div id="combines">
+                            <div class="combinewrap">
+                                <div class="join-tooltip">
+                                    <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                    <div class="hover-prompt" id="joins-prompt">
+                                        <h2><b>Inner Join:</b> Only keep rows where a match is found</h2>
+                                        <br>
+                                        <h2><b>Left Join:</b> Keep all rows from the left and matching rows from right</h2>
+                                        <br>
+                                        <h2><b>Right Join:</b> Keep all rows from the right and matching rows from left</h2>
                                     </div>
-                                </div>
-                                <div class="dropdown condition-dropdown-col flexdropdown action">
-                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
-                                    <ul class="joinaction dropdown-menu"> 
-                                        <li><a class="dropdown-item">Inner Join</a></li>
-                                        <li><a class="dropdown-item">Left Join</a></li>
-                                        <li><a class="dropdown-item">Right Join</a></li>                    
-                                    </ul>
-                                </div>
-                                <div class="joined-file">
-                                    <div class="dropdown flexdropdown selectfile">
-                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Dataset
-                                        </button>
-                                        <ul class="joinfile dropdown-menu"></ul>
-                                    </div>                                    
-                                    <div class="dropdown flexdropdown selectcolumn">
-                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Column
-                                        </button>
-                                        <ul class="joincol dropdown-menu"></ul>
                                     </div>
-                                </div>
-                            </div>            
+                                <div class="join-two-files">
+                                    <div class="joined-file">
+                                        <div class="dropdown flexdropdown selectfile">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="joinfile dropdown-menu"></ul>
+                                        </div>                                  
+                                        <div class="dropdown flexdropdown selectcolumn">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="joincol dropdown-menu"></ul>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown condition-dropdown-col flexdropdown action">
+                                        <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn actionbtn special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">Inner Join</button>
+                                        <ul class="joinaction dropdown-menu"> 
+                                            <li><a class="dropdown-item">Inner Join</a></li>
+                                            <li><a class="dropdown-item">Left Join</a></li>
+                                            <li><a class="dropdown-item">Right Join</a></li>                    
+                                        </ul>
+                                    </div>
+                                    <div class="joined-file">
+                                        <div class="dropdown flexdropdown selectfile">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Dataset
+                                            </button>
+                                            <ul class="joinfile dropdown-menu"></ul>
+                                        </div>                                    
+                                        <div class="dropdown flexdropdown selectcolumn">
+                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Select Column
+                                            </button>
+                                            <ul class="joincol dropdown-menu"></ul>
+                                        </div>
+                                    </div>
+                                </div>            
+                            </div>
                         </div>
                         <div class="addcondition" id="joinbtnswrap">
                             <a class="myButton conditionbtn" id="addjoin">Add Join</a>

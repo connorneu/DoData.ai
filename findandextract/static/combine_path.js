@@ -85,11 +85,13 @@ $(document.body).on('click', '.joinfile.dropdown-menu li a' ,function(){
 
 $(document.body).on('click', '#addjoin' ,function(){
     var num_joins = $('.join-two-files').length;
-    if (num_joins <= 3){
-        var parent_div = document.getElementsByClassName('combinewrap')[1];
-        parent_div.appendChild(clean_first_join);
-    }
-    else{
+    $('.join-two-files').eq(0).clone().appendTo('#combines');
+    var new_elem = $('.join-two-files').eq(num_joins);
+    console.log(new_elem)
+    $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(num_joins).find('.btn').text('Select DataseQ')
+    $(new_elem).find('.dropdown.flexdropdown.selectcolumn').eq(num_joins).find('.btn').text('Select ColumnQ');
+    $(new_elem).find('dropdown.condition-dropdown-col.flexdropdown.action').eq(num_joins).find('.btn').text('Inner JoinQ');
+    if (num_joins > 2){
         document.getElementById('addjoin').style.display = 'none';
     }
 });

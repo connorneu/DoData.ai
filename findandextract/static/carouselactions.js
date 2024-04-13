@@ -1604,6 +1604,10 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             console.log('algo selected - calculate')
             algorithm_type = 'Calculate';
         }
+        else if (parent_node_name === 'Columns'){
+            console.log('algo selected - columns')
+            algorithm_type = 'Columns'
+        }
         begin_file_upload(algo_desc);
     }
     //describe_search_file_single(); // the zoom feature that brings to more detailed description

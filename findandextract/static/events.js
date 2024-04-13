@@ -25,7 +25,7 @@ $(document.body).on('click', '.dropdown-menu li a' ,function(){
 // on change dropdown-menu
 // if Between selected unhide second input box
 $(document.body).on('click', '.dropdown-menu li a' ,function(){      
-
+    var selected_dropdown_value = $(this).text();
     if ($(this).closest('div').hasClass('condition-dropdown-col')){
         if (selected_dropdown_value == "Between"){
             console.log("EE")
