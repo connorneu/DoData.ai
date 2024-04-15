@@ -1,3 +1,9 @@
+//import("./utils.js");
+//import("./TributeEvents.js");
+//import("./TributeMenuEvents.js");
+//import("./TributeRange.js");
+//import("./TributeSearch.js");
+
 import "./utils.js";
 import TributeEvents from "./TributeEvents.js";
 import TributeMenuEvents from "./TributeMenuEvents.js";
@@ -169,10 +175,67 @@ class Tribute {
       throw new Error("[Tribute] No collection specified.");
     }
 
+    /*
+    import('./TributeRange')
+    .then((TributeRange) => {
+        new TributeRange(this);
+       console.log('a');
+    });
+
+    import("./TributeRange.js")
+    .then(obj => {
+      console.log("fucku");
+      new TributeRange(this);
+    })
+    .catch(error => console.log('sadface'));
+
+
+    (async () => {
+      const {default: TributeRange} = await import("./TributeRange.js");
+      console.log('rang')
+      new TributeRange(this);
+      
+    })()
+    .catch(error => {
+        // Handle/report error
+        console.error(error);
+    });
+
+    (async () => {
+      const {default: TributeEvents} = await import("./TributeEvents.js");
+      new TributeEvents(this);
+      console.log('evens')
+    })()
+    .catch(error => {
+        // Handle/report error
+        console.error(error);
+    });
+
+    (async () => {
+      const {default: TributeMenuEvents} = await import("./TributeMenuEvents.js");
+      new TributeMenuEvents(this);
+      console.log('men')
+    })()
+    .catch(error => {
+        // Handle/report error
+        console.error(error);
+    });
+
+    (async () => {
+      const {default: TributeSearch} = await import("./TributeSearch.js");
+      new TributeSearch(this);
+      console.log('sear')
+    })()
+    .catch(error => {
+        // Handle/report error
+        console.error(error);
+    });
+    */
     new TributeRange(this);
     new TributeEvents(this);
     new TributeMenuEvents(this);
     new TributeSearch(this);
+    
   }
 
   get isActive() {
@@ -225,7 +288,9 @@ class Tribute {
     if (!el) {
       throw new Error("[Tribute] Must pass in a DOM node or NodeList.");
     }
-
+    console.log('eeel')
+    console.log(el)
+    console.log(el.constructor)
     // Check if it is a jQuery collection
     if (typeof jQuery !== "undefined" && el instanceof jQuery) {
       el = el.get();
@@ -250,7 +315,8 @@ class Tribute {
     if (el.hasAttribute("data-tribute")) {
       console.warn("Tribute was already bound to " + el.nodeName);
     }
-
+    console.log('this')
+    console.log(this)
     this.ensureEditable(el);
     this.events.bind(el);
     el.setAttribute("data-tribute", true);

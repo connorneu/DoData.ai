@@ -588,17 +588,23 @@ $(document.body).on('change', '.file-input' ,async function(){
 
         var a = $(id).closest('.dropdown').css('display', 'block');
     }    
+    
     document.getElementById('addfiles').style.display = 'block';
+    if (max_file_upload <= 1){
+        document.getElementById('addsecondfile').style.display = 'none';
+    }
 });
 
 
 // unhide additional file drop box
 $(document.body).on('click', '#addsecondfile' ,function(){    
     if(document.getElementById('filetwo').style.display == 'none'){
-        document.getElementById('filetwo').style.display = 'inline-block';       
+        document.getElementById('filetwo').style.display = 'inline-block';
+        if (max_file_upload <= 2){document.getElementById('addsecondfile').style.display = 'none';}       
     }
     else if(document.getElementById('file3').style.display == 'none'){
         document.getElementById('file3').style.display = 'inline-block';
+        if (max_file_upload <= 3){document.getElementById('addsecondfile').style.display = 'none';}  
     }
     else if(document.getElementById('file4').style.display == 'none'){
         document.getElementById('file4').style.display = 'inline-block';

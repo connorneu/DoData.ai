@@ -33,9 +33,9 @@
         <script src="/static/update_path.js"></script>
         <script src="/static/reconcile_path.js"></script>
         <script src="/static/calculate_pth.js"></script>
-        <script type="module" src="/static/columns_path.js"></script>
+        <script src="/static/columns_path.js"></script> <!--type="module" -->
 
-        <script type="module" src="/static/tribute-master/src/Tribute.js"></script>
+        <!-- <script src="/static/tribute-master/src/Tribute.js"></script> -->
 
 
 
@@ -383,8 +383,13 @@
 
 
                     <!-- START COLUMNS-->
-                    <div>
-                        
+                    <div class="hide" id="columns-main-wrap">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle sheet-select-drop disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="calc_column_dataset_ul"></ul>
+                        </div>
                         <textarea id="caaanDo" placeholder="Sum column Sales Price when column Department equals Marketing and column Sale Date is today"></textarea>
                         
                         <div class="button-banner show">

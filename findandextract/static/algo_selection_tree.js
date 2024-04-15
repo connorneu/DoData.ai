@@ -350,3 +350,13 @@ function wrap(text, width) {
         }
     });
 }
+
+function force_first_node_as_active(class_name, root_node_name){
+    var parent_nodes = document.getElementsByClassName(class_name);
+    for (var i = 0; i<parent_nodes.length; i++){
+        var x_tempt = parent_nodes[i].getElementsByTagName("text")[0]
+        if(x_tempt.__data__.data.name === root_node_name){
+            parent_nodes[i].setAttribute("class", "node parent-node active");
+        }
+    }
+}

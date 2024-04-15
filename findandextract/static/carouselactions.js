@@ -1,3 +1,5 @@
+
+
 data_json = null;
 unique_file_names = null;
 unique_sheet_names = null;
@@ -36,7 +38,7 @@ algorithm_type = null;
 newline_scroll = 50;
 start_scrolling_after = 10;
 input_or_description = '';
-
+max_file_upload = 4;
 // maybe delete these
 dataset_names = [];
 dataset_index = [];
@@ -88,7 +90,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Combine', desc);
+    start_algo_path('START', 'Columns', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -490,6 +492,9 @@ async function decide_algo_path(algorithm_type)
     }
     else if (algorithm_type === 'Calculate'){
         start_calculate_path();
+    }
+    else if (algorithm_type ==='Columns'){
+        start_columns_path();
     }
 }
 
@@ -1068,13 +1073,13 @@ async function fourth_sheet_selection(){
     }   
 }
 
-function adjust_col_header(){
+/*function adjust_col_header(){
     add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
         fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById("colselecttablediv1").style.display = "block";
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
-}
+}*/
 
 function adjust_col_header2(){
     add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
@@ -1529,15 +1534,7 @@ function dumpCSSText(element){
   return s;
 }
 
-function force_first_node_as_active(class_name, root_node_name){
-    var parent_nodes = document.getElementsByClassName(class_name);
-    for (var i = 0; i<parent_nodes.length; i++){
-        var x_tempt = parent_nodes[i].getElementsByTagName("text")[0]
-        if(x_tempt.__data__.data.name === root_node_name){
-            parent_nodes[i].setAttribute("class", "node parent-node active");
-        }
-    }
-}
+
 
 
 function calc_max_files(){
@@ -1587,26 +1584,32 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
             algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
+            max_file_upload = 4;
         }
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
-            algorithm_type = 'Combine';         
+            algorithm_type = 'Combine';       
+            max_file_upload = 4;  
         }
         else if(parent_node_name === 'Update'){
             console.log('algo selected - update')
             algorithm_type = 'Update';
+            max_file_upload = 4;
         }
         else if (parent_node_name === 'Reconcile'){
             console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
+            max_file_upload = 2;
         }
         else if (parent_node_name === 'Calculate'){
             console.log('algo selected - calculate')
             algorithm_type = 'Calculate';
+            max_file_upload = 1;
         }
         else if (parent_node_name === 'Columns'){
             console.log('algo selected - columns')
             algorithm_type = 'Columns'
+            max_file_upload = 1;
         }
         begin_file_upload(algo_desc);
     }
