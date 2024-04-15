@@ -324,6 +324,39 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
     return false;
  }
 
+ 
+ function submit_user_formula(user_text){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {   //JSON.stringify(condition_arr2)
+            'ajax_name':'submit_user_formula',
+            'parameters': user_text
+
+
+
+        }, // get the form data        $(this).serialize()
+        type: 'POST', //$(this).attr('method'), // GET or POST
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        // on success
+        success: function () {
+
+            console.log("update file algorithm parameters submitted");
+            ajax_get_result_db('calculate');
+
+        },
+        // on error
+        error: function (request, status, error) {
+
+            alert(request.responseText);
+
+        }
+    });
+    return false;
+ }
+
 
 // get data after function applied
 async function ajax_get_result_db(algo_type){

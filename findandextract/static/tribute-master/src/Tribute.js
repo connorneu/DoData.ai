@@ -12,10 +12,14 @@ class Tribute {
     selectClass = "highlight",
     containerClass = "tribute-container",
     itemClass = "",
-    trigger = "@",
+    trigger = "column",
     autocompleteMode = false,
     autocompleteSeparator = null,
-    selectTemplate = null,
+
+    selectTemplate = function (item) {
+        return 'column "' + item.original.value + '"';
+        },
+
     menuItemTemplate = null,
     lookup = "key",
     fillAttr = "value",

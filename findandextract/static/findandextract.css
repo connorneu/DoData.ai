@@ -959,6 +959,9 @@ width: 90%;
 .button-banner-extra-space{
     margin-top: 2%;
 }
+.button-banner.show{
+    display:block;
+}
 .algo-select{
     display:block;
     height:610px;

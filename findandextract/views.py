@@ -224,6 +224,18 @@ def findandextract(request):
                 print('algo desc', algo_desc)
                 return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
                 #return JsonResponse({'algo_type': 'failure'})
+            elif request.POST.get('ajax_name') == 'submit_user_formula':
+                params = request.POST.get('parameters')
+                user_text = params['user_text']
+                dataset = params['dataset']
+                sheet = params['sheet']
+                name_col_name = params['new_col_name']
+                print('user text:', usr_text)
+                print('dataset:', dataset)
+                print('sheet:', sheet)
+                df = unmelt(dataset, sheet)
+                Parse_User_Formula(df, user_text, new_col_name)
+
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
@@ -268,6 +280,7 @@ def findandextract(request):
             threads.append(x)
             return render(request, "findandextract/fandemain.html")
         #return render(request, "findandextract/fandemain.html", {'fande_data_dump' : fande_db_data})
+
 
 def clean_describe_values(describe_values_raw):
     describe_values = []
