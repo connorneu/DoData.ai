@@ -225,16 +225,29 @@ def findandextract(request):
                 return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
                 #return JsonResponse({'algo_type': 'failure'})
             elif request.POST.get('ajax_name') == 'submit_user_formula':
-                params = request.POST.get('parameters')
+                print(request.POST)
+                parameters = request.POST.get('parameters')
+                print(parameters)
+                params = ast.literal_eval(parameters)
                 user_text = params['user_text']
                 dataset = params['dataset']
-                sheet = params['sheet']
-                name_col_name = params['new_col_name']
-                print('user text:', usr_text)
+                new_col_name = params['new_col_name']
+                file, sheet = parse_file_name_from_bracket_display(dataset)
+                print('user text:', user_text)
                 print('dataset:', dataset)
+                print('file:', file)
                 print('sheet:', sheet)
-                df = unmelt(dataset, sheet)
-                Parse_User_Formula(df, user_text, new_col_name)
+                df = unmelt(file, sheet)
+                df_result = Parse_User_Formula(df, user_text, new_col_name)
+                print(df_result)
+                df_list = melt_df(df_result)
+                print("saving result to db...")
+                db_obj_list = []
+                for dbframe in df_list:
+                    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                print('saved results')
+                return HttpResponse(status=200)
 
             elif request.method == 'POST': 
                 try:

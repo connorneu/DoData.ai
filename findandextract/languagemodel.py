@@ -13,6 +13,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from transformers import pipeline
 from openai import OpenAI
+import pandas as pd
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -26,19 +27,22 @@ GOOGLE_NEG_300 = MODELS_DIR + 'GoogleNews-vectors-negative300.bin'
 GOOGLE_NEG_300_Q = MODELS_DIR + 'google_news_neg300_q'
 TOPIC_DESC_DIR = MODELS_DIR + '/Topic Descriptions/'
 SPACY_EN_LG = "/home/kman/VS_Code/datamanipulator/dodata-venv/lib/python3.10/site-packages/en_core_web_lg/en_core_web_lg-3.7.0"
-
+TEMPORARY_EXCEL_DIR = '/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx'
 
 def Parse_User_Formula(df, user_text, new_col_name):
     response = gpt(user_text)
     formula, col_map_list = parse_response(response)
     revised_col_map_list = find_real_file_col_mapping(df, col_map_list)
     new_formula = update_formula_columns(formula, revised_col_map_list)
-    add_formula(df, new_formula, new_col_name)
+    result_df = add_formula(df, new_formula, new_col_name)
+    return result_df
 
 
 def add_formula(df, new_formula, new_col):
     df[new_col] = new_formula
-
+    df.to_excel(TEMPORARY_EXCEL_DIR, engine='openpyxl', index=False)
+    df = pd.read_excel(TEMPORARY_EXCEL_DIR, engine='openpyxl')
+    return df
 
 def update_formula_columns(formula, revised_col_map_list):
     for map in revised_col_map_list:

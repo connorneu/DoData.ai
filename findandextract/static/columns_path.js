@@ -4,26 +4,25 @@
 
 
 async function start_columns_path(){
+  hide_containers(2);
   document.getElementById('edit-data-tables').style.display = "none";
-    document.getElementById('columns-main-wrap').style.display = 'block';
-    await add_to_carousel('Describe the function to create in the new column:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Column names will autopopulate after writing the word "column" in your description', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
-    $('#calc_column_dataset_ul').closest('.dropdown').find('.btn').text(dataset_names[0]);
-    populate_tribute_dic(dataset_names[0]);
+  await add_to_carousel('Describe the function to create in the new column:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+  await add_to_carousel('Column names will autopopulate after writing the word column in your description', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+  document.getElementById('columns-main-wrap').style.display = 'block';
+  $('#calc_column_dataset_ul').closest('.dropdown').find('.btn').text(dataset_names[0]);
+  populate_tribute_dic(dataset_names[0]);
+  $('#calc_column_dataset_ul').closest('.dropdown').css("display", "block");
 }
 
-async function aspe(){
+
+async function build_tribute_object(col_dic){
     const {default: Tribute} = await import("./tribute-master/src/Tribute.js");
-      //var tribute = new Tribute({values: col_dic});
       var tribute = new Tribute({
-      values: [
-        { key: "Phil Heartman", value: "pheartman" },
-        { key: "Gordon Ramsey", value: "gramsey" }
-      ]
+      values: col_dic
     });
-    console.log('done---')
     return tribute
 }
+
 
 async function populate_tribute_dic(dataset_name) {
     var colheaders = get_col_headers_for_filename(dataset_name);
@@ -34,29 +33,33 @@ async function populate_tribute_dic(dataset_name) {
         value: colheaders[i]
       })
     }
-    var tribute = await aspe();
-    
-    console.log('runn')
-    console.log(tribute)
+    var tribute = await build_tribute_object(col_dic);
     tribute.attach(document.getElementById("caaanDo"));
-
-    //var tribute = new Tribute({values: col_dic});
-
-    //var tribute = new Tribute({
-    //    values: [
-    //      { key: "Phil Heartman", value: "pheartman" },
-    //      { key: "Gordon Ramsey", value: "gramsey" }
-    //    ]
-    //  });
-
-    //tribute.attach(document.getElementById("caaanDo"));
-    //console.log(tribute) 
 };
 
+function collect_col_params(){
+  var dataset = $('#calc_column_dataset_ul').closest('.dropdown').find('.btn').text();
+  var newcolname = $('#newcolname').val();
+  var usertext = $('#caaanDo').val();
+  var column_params = {
+            dataset: dataset,
+            new_col_name: newcolname,
+            user_text: usertext
+  }
+  return column_params;
+}
 
 $(document.body).on('click', '#send_input_formula' ,async function(){  
-
-    var usr_formula = $('#send_input_formula').val();
-    submit_user_formula(usr_formula);
-
+    var column_params = collect_col_params(); 
+    console.log(column_params)
+    submit_user_formula(column_params);
 });
+
+async function display_column_result_table(data){
+  hide_containers(2);
+  document.getElementById('columns-main-wrap').style.display = 'none';
+  populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+  await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+  document.getElementById('resultbox_div').style.display = 'block';
+  
+}

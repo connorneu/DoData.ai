@@ -325,13 +325,13 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
  }
 
  
- function submit_user_formula(user_text){
+ function submit_user_formula(column_params){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
         data: {   //JSON.stringify(condition_arr2)
             'ajax_name':'submit_user_formula',
-            'parameters': user_text
+            'parameters': JSON.stringify(column_params) 
 
 
 
@@ -344,7 +344,7 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         success: function () {
 
             console.log("update file algorithm parameters submitted");
-            ajax_get_result_db('calculate');
+            ajax_get_result_db('column');
 
         },
         // on error
@@ -395,6 +395,10 @@ async function ajax_get_result_db(algo_type){
                     console.log(data)
                     display_calculate_result_table(data);
                 }    
+                else if(algo_type==='column'){
+                    console.log(data)
+                    display_column_result_table(data);
+                }
             }
        },
        // on error

@@ -1198,14 +1198,23 @@ textarea {
   color: white;
   opacity:95%;
   line-height: 2;
-  height: 40px;
+    height:37px;
   overflow:hidden;
   margin-top:2%;
   padding-left: 10px;
   /*text-align-last: center;
   align-content:center*/
 }
-
+.text-short{
+    width: 300px;
+    text-align: center;
+    margin-top: 0;
+}
+.side-header{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1%;
+}
 /*send icon*/
 .submiticon{
     font-size: 36px;
@@ -1239,6 +1248,13 @@ display: inline-block;
     display:flex;
     justify-content: center;
 }
+.flexy-side-drops-centered{
+    align-items: center;
+}
+.flexy-side-drops-centered > h2{
+    margin-bottom: 0;
+    margin-right: 10px;
+} 
 .flexy-side-drops > .dropdown{
     flex: 0 0 20%;
     margin-left:0;
