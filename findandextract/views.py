@@ -458,7 +458,14 @@ def build_df_melt(myfile, sheetname):
 # for dataframe input
 def melt_df(df):
     df_k_v = df.melt()
-    df_list = list(df_k_v[['key', 'value']].values)  #list(df_k_v[['key', 'value']].values)
+    print("K AND V")
+    print(df_k_v)
+    try:
+        print('melt: key value')
+        df_list = list(df_k_v[['key', 'value']].values)  #list(df_k_v[['key', 'value']].values)
+    except:
+        print('melt: variable value')
+        df_list = list(df_k_v[['variable', 'value']].values)
     return df_list
 
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly

@@ -14,6 +14,7 @@ import torch
 from transformers import pipeline
 from openai import OpenAI
 import pandas as pd
+import xlsxwriter   
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -30,19 +31,87 @@ SPACY_EN_LG = "/home/kman/VS_Code/datamanipulator/dodata-venv/lib/python3.10/sit
 TEMPORARY_EXCEL_DIR = '/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx'
 
 def Parse_User_Formula(df, user_text, new_col_name):
+    df = infer_col_dtypes(df)
     response = gpt(user_text)
     formula, col_map_list = parse_response(response)
     revised_col_map_list = find_real_file_col_mapping(df, col_map_list)
     new_formula = update_formula_columns(formula, revised_col_map_list)
-    result_df = add_formula(df, new_formula, new_col_name)
+    result_df = add_formula_openpyxl(df, new_formula, new_col_name)
     return result_df
+
+def infer_col_dtypes(df):
+    print("INFERING DTYPES")
+    print(df.info())
+    cols = df.columns
+    for c in cols:
+        print(c)
+        converted = False
+        try:
+            df[c] = pd.to_numeric(df[c])
+            converted = True
+            print('numeri')
+        except:
+            pass
+        if not converted:
+            try:                       
+                df[c] = pd.to_datetime(df[c])
+                converted = True
+                print('datye')
+            except:
+                pass
+        if not converted:
+            print('startstring')
+            try:
+                df[c] = df[c].astype('string')
+                print(df[c].dtype)
+            except:
+                pass
+            #df[c] = df[c].astype('str')
+            #print(df[c].dtype)
+            #df[c] = df[c].astype('|S')
+            #print(df[c].dtype)
+    print(df.info())
+    return df
 
 
 def add_formula(df, new_formula, new_col):
+    print("add formula")
+    print(df.info())
     df[new_col] = new_formula
-    df.to_excel(TEMPORARY_EXCEL_DIR, engine='openpyxl', index=False)
-    df = pd.read_excel(TEMPORARY_EXCEL_DIR, engine='openpyxl')
+    print('new col added')
+    print(df.info())
+    writer = pd.ExcelWriter(TEMPORARY_EXCEL_DIR, engine='xlsxwriter')
+    book = writer.book
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+    worksheet = writer.sheets['Sheet1']
+    writer.close()
+    df = pd.read_excel(TEMPORARY_EXCEL_DIR)
+    print('reread')
+    print(df.info())
+    print('REINFER')
+    df = infer_col_dtypes(df)
     return df
+
+
+def add_formula_writer(df, new_formula, new_col):
+    writer = pd.ExcelWriter(r'/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx', engine='xlsxwriter')
+    workbook = writer.book
+    worksheet = workbook.add_worksheet('Sheet1')
+    df.to_excel(writer, sheet_name='Sheet1', index=False)
+    worksheet.write_formula('C1', new_formula)
+    writer.close()
+    df_a = pd.read_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx')
+    
+
+def add_formula_openpyxl(df, new_formula, new_col):
+    df[new_col] = new_formula
+    print(df)
+    #df.to_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results wide.xlsx', engine='openpyxl', index=False)
+    #df_result = pd.read_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results wide.xlsx')
+    #print(df_result)
+    #print(df_result.info())
+    return df
+
 
 def update_formula_columns(formula, revised_col_map_list):
     for map in revised_col_map_list:
