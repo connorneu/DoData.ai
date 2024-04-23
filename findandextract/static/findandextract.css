@@ -841,10 +841,11 @@ width: 90%;
     }
 .node circle {
     /*fill: fill: hsl(248, 53%, 58%); */
-    stroke-width: 4px;
+    stroke-width: 1px;
     /*filter:blur(1px);                                              */
     /*filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128)); */
-    
+    filter: blur(1px) drop-shadow(0px 0px 1px rgb(68, 7, 128));
+    fill: url("#grad");
 
 }  
 
@@ -857,7 +858,7 @@ width: 90%;
 
 .node:hover circle {
     fill: black;
-    stroke: black;
+    stroke: rgb(255, 255, 255);
     stroke-width: 1px;
     filter: blur(1px) drop-shadow(1px 1px 1px rgb(52, 67, 235));
 }
@@ -888,12 +889,15 @@ width: 90%;
     
 }
 .node.selected circle{
-    fill: red !important;
+    fill: rgb(118, 208, 211) !important;
+    
+
 }
 .link {
     fill: none;
-    stroke: #ccc;
-    stroke-width: 3px;
+    stroke: #48008f;
+    stroke-width: 1px;
+    filter: drop-shadow( 3px 3px 2px rgba(70, 7, 170, 0.9));
 }
 .selection-svg{
     width:4000px;
