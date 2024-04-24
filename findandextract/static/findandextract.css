@@ -40,7 +40,8 @@ body {
     /*max-height:20%;
     min-height:20%;*/
     overflow: scroll;
-    margin-bottom:4%;
+    margin-bottom:2%; /*4%*/
+    width:100%;
 }
 .interaction-container{
     height:80%;
@@ -163,10 +164,10 @@ ul li ul:hover{
     position: absolute;
     top: 0px;
     width: 98%;
-    left:1%;
+    left:0%;
 }
 .glass-pane{
-    width: 100%;
+    width: 98%;
     
     height: 125px;
 
@@ -925,7 +926,7 @@ width: 90%;
 }
 .scroll-collapse-tree
 {
-    margin-left:-150px;
+    margin-left:0px; /*-150px*/
    overflow-x: hidden;
    overflow-y: scroll;
    scroll-behavior: smooth;
@@ -1280,7 +1281,7 @@ display: inline-block;
     clear:both;
 }
 .header-banner-wrap{
-    margin-top:4%;
+    margin-top:0%; /*4*/
     color:white;
 }
 #textbox-algo-desc{

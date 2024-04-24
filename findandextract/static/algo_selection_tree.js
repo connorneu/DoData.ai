@@ -7,7 +7,7 @@ $(document).ready(function () {
     name: root_node_name,
     children: [                           
             {
-                name: "Extract",
+                name: "Search",
                 image: "/static/images/Extract v3.png",
                 children: [{
                         name: "START"                        
@@ -34,6 +34,15 @@ $(document).ready(function () {
             {
                 name: "Reconcile",
                 image: "/static/images/Reconcile v3.png",
+                children: [
+                    {
+                        name: "START"
+                    }
+                ]
+            },
+            {
+                name: "Group",
+                image: "/static/images/Calculate v3.png",
                 children: [
                     {
                         name: "START"

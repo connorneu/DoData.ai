@@ -691,6 +691,7 @@ function description_submitted(){
     document.getElementById("descriptionhelp").style.display = "none";
     document.getElementById("describeheader-text").style.display = "none";
     document.getElementById("submitloadersvg").style.display = "block"; 
+    document.getElementById('algo-desc-graph').style.display = 'none';
     ajax_submit_user_input_text();
 }
 

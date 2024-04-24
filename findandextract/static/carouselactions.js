@@ -76,6 +76,12 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     myanime.play();
     var path = window.location.pathname;
     var page = path.split("/").pop();
+    console.log('we started')
+    await add_to_carousel('Select an algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Breifly describe what you want to do or click on an algorithm type to begin', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+
     //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
@@ -1558,7 +1564,7 @@ function calc_max_files(){
 
 async function begin_file_upload(algo_desc){
     var num_files = calc_max_files();
-    document.getElementById('textbox-algo-desc-wrap').style.display = 'block';
+    document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     clean_algo_desc = clean_algorithm_description(algo_desc);
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
@@ -1574,13 +1580,15 @@ function clean_algorithm_description(algo_desc){
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
     console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
+    hide_containers(2);
+    document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     if (node_name === 'START'){
         if (document.getElementById('algo-desc-graph').style.display == 'block'){
-            hide_containers(2);
+            
             document.getElementById('algo-desc-graph').style.display='none';
             document.getElementById('data_post_form').style.display='none';
         }
-        if (parent_node_name === 'Extract'){
+        if (parent_node_name === 'Search'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
             algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
@@ -1601,7 +1609,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             algorithm_type = 'Reconcile';
             max_file_upload = 2;
         }
-        else if (parent_node_name === 'Calculate'){
+        else if (parent_node_name === 'Group'){
             console.log('algo selected - calculate')
             algorithm_type = 'Calculate';
             max_file_upload = 1;
@@ -1717,6 +1725,8 @@ async function convert_text_to_decision(algo_type){
     setTimeout(function() {
         document.getElementById("submitloadersvg").style.display = "none";
         document.getElementById("describe-algo-banner").style.display = "none";
+        document.getElementById('algo-desc-graph').style.display = 'none';
+
         //find_described_node(algo_type);
         console.log('algotype')
         console.log(algo_type['algo_type'])
@@ -1730,6 +1740,8 @@ async function convert_text_to_decision(algo_type){
 }
 
 async function confirm_algorithm_type(algo_type){
+    hide_containers(2);
+    document.getElementById('algo-desc-graph').style.display = 'none';
     var algo = capitalizeFirstLetter(algo_type['algo_type'])
     await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('If the description below doesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);

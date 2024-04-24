@@ -104,7 +104,7 @@
                             </div>     
                         </div>  
                     </div>
-                    <div id="glass-pane-wrap-i" class="glass-pane-wrap">
+                    <div id="glass-pane-wrap-i" class="glass-pane-wrap" style="display: none;">
                         <div class="glass-pane new-glass"></div>
                     </div>
                     
@@ -114,31 +114,35 @@
                     <div class="header-banner-wrap" id="describe-algo-banner">
 
 
-                        <div id="describeheader-text">
+                        <div id="describeheader-text" style="display: none;">
                             <h2>Briefly describe what you want your algorithm to do:</h2>
                             </br>
                             <h3>An algorithm type will be suggested based on your requirements</h3>   
                         </div>
                     
+                        
+                        <!--<div class="container">
+                            <div class="text"></div>
+                        </div>-->
                         <div class="describetextboxwrap" id="textbox-algo-desc-wrap">
                             <span id="submiticonwrap">
+
                                 <iconify-icon id="submittexticon" class="submiticon" icon="formkit:submit"></iconify-icon>
                             </span>
+                            <div class="text"></div>
                             <textarea id="textbox-algo-desc" name="algodesctext" placeholder="" rows="1" cols="90" maxlength="89"></textarea>
                         </div>
 
 
 
 
-                        <div class="container">
-                            <div class="text"></div>
-                        </div>
 
 
 
 
 
-                        <div class="help-banner-wrap" id="descriptionhelp">
+
+                        <div class="help-banner-wrap" id="descriptionhelp" style="display: none;">
                             <h4>How does this work?</h4>
                         </div>
                         <div class="algoloader" id="submitloadersvg">
@@ -184,13 +188,13 @@
                         </div>
                     </div>
 
-                    <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:none;"> 
+                    <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:block;"> 
                         <svg id="maine" class="selection-svg">
                             <defs>
                                 <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
 
-                                    <stop offset="10%" style="stop-color:rgba(63,10,121,1);stop-opacity:1" />
-                                    <stop offset="20%" style="stop-color:rgba(74,9,121,1);stop-opacity:1" />
+                                    <stop offset="10%" style="stop-color:rgb(80, 0, 167);stop-opacity:1" />
+                                    <stop offset="20%" style="stop-color:rgb(110, 5, 185);stop-opacity:1" />
                                     <stop offset="30%" style="stop-color:rgba(130,0,255,1);stop-opacity:1" />
 
                                     <!--orig 
@@ -206,7 +210,7 @@
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <div class="what-you-need-banner-wrap" id="descriptiondontseewhatyouneed">
+                        <div class="what-you-need-banner-wrap" id="descriptiondontseewhatyouneed" style="display:none">
                             <h4>Don't see what you need?</h4>
                         </div>
                         <!--
