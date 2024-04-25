@@ -1287,6 +1287,7 @@ display: inline-block;
 #textbox-algo-desc{
     font-size:16px;
     width:850px;
+    margin-top:0%;
 }
 .header-banner-wrap h2{
     font-size:18px;

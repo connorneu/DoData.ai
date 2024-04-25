@@ -77,12 +77,12 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     console.log('we started')
-    await add_to_carousel('Select an algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Breifly describe what you want to do or click on an algorithm type to begin', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Select an algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //await add_to_carousel('Breifly describe what you want to do or click on an algorithm type to begin', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Columns', desc);
+    start_algo_path('START', 'Combine', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -116,7 +116,8 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
     })   
 }
 // 20
-async function typeSentence(sentence, eleRef, color, delay = 10) {
+//type speed 10 is a good nunmber
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -1580,7 +1581,7 @@ function clean_algorithm_description(algo_desc){
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
     console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
-    hide_containers(2);
+    //hide_containers(2);
     document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     if (node_name === 'START'){
         if (document.getElementById('algo-desc-graph').style.display == 'block'){
@@ -1596,27 +1597,32 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         }
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
-            algorithm_type = 'Combine';       
+            algorithm_type = 'Combine';      
+            algo_desc = 'Join two datasets on either rows or column headers to combine the values into one file.' 
             max_file_upload = 4;  
         }
         else if(parent_node_name === 'Update'){
             console.log('algo selected - update')
             algorithm_type = 'Update';
+            algo_desc = 'Change values in one or more files by describing where to find the values and how to update them.'
             max_file_upload = 4;
         }
         else if (parent_node_name === 'Reconcile'){
             console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
+            algo_desc = 'Reconcile values of two datasets by matching rows and comparing similarities and differences.'
             max_file_upload = 2;
         }
         else if (parent_node_name === 'Group'){
             console.log('algo selected - calculate')
             algorithm_type = 'Calculate';
+            algo_desc = 'Group together rows of data which have common values to calculate metrics per group.'
             max_file_upload = 1;
         }
         else if (parent_node_name === 'Columns'){
             console.log('algo selected - columns')
             algorithm_type = 'Columns'
+            algo_desc = 'Create a new column by describing what you want and having an excel formula generated.'
             max_file_upload = 1;
         }
         begin_file_upload(algo_desc);

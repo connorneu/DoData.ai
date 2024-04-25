@@ -687,6 +687,7 @@ $(document).ready(function() {
 
 // description submitted - hide box and display loading icon
 function description_submitted(){
+    hide_containers(2);
     document.getElementById("textbox-algo-desc-wrap").style.display = "none";
     document.getElementById("descriptionhelp").style.display = "none";
     document.getElementById("describeheader-text").style.display = "none";

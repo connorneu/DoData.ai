@@ -149,10 +149,9 @@ def findandextract(request):
             elif request.POST.get('ajax_name') == 'combine_merge':
                 print("START OF AJAX POST combine_merge")
                 print(request.POST)
-                myjoins = request.POST.get('parameters')
-                myjoins = json.loads(myjoins)
-                join1 = myjoins[0]
-                df_result = Combine_Merge(join1)
+                joins = request.POST.get('parameters')
+                joins = json.loads(joins)
+                df_result = Combine_Merge(joins)
                 print('------------- RESULT --------------')
                 print(df_result)
                 df_list = melt_df(df_result)
@@ -749,8 +748,15 @@ def Search_Column_Values(df, col, df_extract_values):
     return df_result
     
 def Combine_Merge(join_params):
+    print('join params')
+    print(join_params)
+    print(join_params[1])
     df1 = unmelt(join_params[1], join_params[2])
     df2 = unmelt(join_params[4], join_params[5])
+    print('df1')
+    print(df1)
+    print('df2')
+    print(df2)
     df_result = pd.merge(df1, df2, left_on=join_params[3], right_on=join_params[6], how='inner')
     return df_result
 

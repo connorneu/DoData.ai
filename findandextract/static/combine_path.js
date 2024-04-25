@@ -28,6 +28,8 @@ $(document.body).on('click', '#user_append' ,function(){
 
 // sheets and columns to join each dataset (same function alsmost as Extract: where_to_search())
 async function how_to_join(){
+    await add_to_carousel('Select columns containing values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    await add_to_carousel('The rows from both datasets will be combined into one file where the values match', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     populate_file_names();
     //document.getElementById('combinehowwrap').style.display = 'block';
     document.querySelectorAll(".combinewrap").forEach(a=>a.style.display = "block");
@@ -85,25 +87,24 @@ $(document.body).on('click', '.joinfile.dropdown-menu li a' ,function(){
 
 $(document.body).on('click', '#addjoin' ,function(){
     var num_joins = $('.join-two-files').length;
+    console.log('num joins ' + num_joins)
     $('.join-two-files').eq(0).clone().appendTo('#combines');
     var new_elem = $('.join-two-files').eq(num_joins);
-    console.log(new_elem)
-    $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(num_joins).find('.btn').text('Select DataseQ')
-    $(new_elem).find('.dropdown.flexdropdown.selectcolumn').eq(num_joins).find('.btn').text('Select ColumnQ');
-    $(new_elem).find('dropdown.condition-dropdown-col.flexdropdown.action').eq(num_joins).find('.btn').text('Inner JoinQ');
+    $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(0).find('.btn').addClass('disabled');
+    $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(1).find('.btn').text('Select Dataset');
+    $(new_elem).find('.dropdown.flexdropdown.selectcolumn').find('.btn').text('Select Column');
+    $(new_elem).find('dropdown.condition-dropdown-col.flexdropdown.action').find('.btn').text('Inner Join');
     if (num_joins > 2){
         document.getElementById('addjoin').style.display = 'none';
     }
 });
 
-$(document.body).on('click', '#nextafterjoin' ,function(){
-    //hide_containers(2);
-    document.getElementsByClassName('combinewrap')[1].style.display = 'none';
-    document.getElementById('joinbtnswrap').style.display = 'none';
-    write_strings = collect_joins();
-    var parentwrap = document.getElementById('combinehowwrap');
-    parentwrap.querySelector('.submit-algo-buttons').style.display = 'block';
-    write_joins(write_strings);
+$(document.body).on('click', '.joined-file > .dropdown.flexdropdown.selectcolumn li a' ,function(){
+    var col_dropdown_index = $(this).closest('.joined-file').index();
+    if (col_dropdown_index > 0){
+        var parentwrap = document.getElementById('combinehowwrap');
+        parentwrap.querySelector('.submit-algo-buttons').style.display = 'block';
+    } 
 });
 
 function collect_joins(){
@@ -112,14 +113,12 @@ function collect_joins(){
     for (var i = 0; i<joins.length;i++){
         var jointype = $(joins[i]).find('.joinaction.dropdown-menu').parents(".dropdown").find('.btn').text();
         var first_file = $(joins[i]).find('.joinfile.dropdown-menu:first').parents(".dropdown").find('.btn').text();
-        var first_sheet = $(joins[i]).find('.joinsheet.dropdown-menu:first').parents(".dropdown").find('.btn').text();
         var first_col = $(joins[i]).find('.joincol.dropdown-menu:first').parents(".dropdown").find('.btn').text();
         var second_file = $(joins[i]).find('.joinfile.dropdown-menu:eq(1)').parents(".dropdown").find('.btn').text();
-        var second_sheet = $(joins[i]).find('.joinsheet.dropdown-menu:eq(1)').parents(".dropdown").find('.btn').text();
         var second_col = $(joins[i]).find('.joincol.dropdown-menu:eq(1)').parents(".dropdown").find('.btn').text()   ;
-        write_strings.push(jointype + ': ' + first_file + ' {' + first_sheet + '} & ' + second_file + ' {' + second_sheet + '}');
+        write_strings.push(jointype + ': ' + first_file + ' & ' + second_file);
         write_strings.push('\xa0\xa0\xa0$ ' + 'Column: ' + first_col + ', ' + second_col);
-        joins_data.push([jointype, first_file, first_sheet, first_col, second_file, second_sheet, second_col]);    
+        joins_data.push([jointype, first_file, first_col, second_file, second_col]);    
     }
     console.log(write_strings)
     return write_strings;
@@ -131,7 +130,11 @@ async function write_joins(write_strings){
     }
 }
 
-$(document.body).on('click', '#submit-merge' ,function(){
+$(document.body).on('click', '#submit-merge' ,async function(){
+    document.getElementsByClassName('combinewrap')[1].style.display = 'none';
+    document.getElementById('joinbtnswrap').style.display = 'none';
+    write_strings = collect_joins();
+    await write_joins(write_strings);
     submit_combine_algo_parameters('combine_merge', joins_data);
 });
 
