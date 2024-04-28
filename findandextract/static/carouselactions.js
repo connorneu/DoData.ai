@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Combine', desc);
+    start_algo_path('START', 'Extract', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1589,7 +1589,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             document.getElementById('algo-desc-graph').style.display='none';
             document.getElementById('data_post_form').style.display='none';
         }
-        if (parent_node_name === 'Search'){
+        if (parent_node_name === 'Extract'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
             algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
