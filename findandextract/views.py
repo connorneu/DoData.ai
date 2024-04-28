@@ -31,6 +31,13 @@ goog_w2v_model = None
 nlp = None
 threads = []
 nli = None
+
+# REMOVE THIS AFTER DEBUG
+# ALL IS LOST IF THIS IS NOT REMOVED
+# THESE LINES NEED TO BE REMOVED AFTER DEBUG
+from django import db
+db.reset_queries()
+
 # Create your views here.
 
 def Load_Language_Model():
@@ -158,9 +165,28 @@ def findandextract(request):
                 print(df_result)
                 df_list = melt_df(df_result)
                 print("saving result to db...")
+                db_obj_list = []
+                bulk_counter = 0
                 for dbframe in df_list:
-                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                    bulk_counter += 1
+                    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                    if bulk_counter % 1000000 == 0:
+                        print(bulk_counter)
+                    #if bulk_counter == 1000000:
+                    #    print('counterreset')
+                    #    bulk_counter = 0
+                    #    print('started save')
+                    #    KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                    #    print('ended save')
+                    #    db_obj_list = []
+                print('saved results')
                 return HttpResponse(status=200)
+
+
+                #print("saving result to db...")
+                #for dbframe in df_list:
+                #    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                #return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'update_file':
                 print("START OF AJAX POST update file")
                 print(request.POST)

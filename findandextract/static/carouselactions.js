@@ -2247,3 +2247,22 @@ class TextScramble {
   
   next()
 });
+
+function write_color(i){
+    if (i === 0){
+        console.log('a'+i)
+        return input_color
+    }
+    else if (1 % i === 0){
+        console.log('b'+i)
+        return second_color
+    }
+    else if (i % 2 === 1){
+        console.log('c'+i)
+        return third_color
+    }
+    else{
+        console.log('d'+i)
+        return fourth_color
+    }
+}

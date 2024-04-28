@@ -116,8 +116,9 @@ function collect_joins(){
         var first_col = $(joins[i]).find('.joincol.dropdown-menu:first').parents(".dropdown").find('.btn').text();
         var second_file = $(joins[i]).find('.joinfile.dropdown-menu:eq(1)').parents(".dropdown").find('.btn').text();
         var second_col = $(joins[i]).find('.joincol.dropdown-menu:eq(1)').parents(".dropdown").find('.btn').text()   ;
-        write_strings.push(jointype + ': ' + first_file + ' & ' + second_file);
-        write_strings.push('\xa0\xa0\xa0$ ' + 'Column: ' + first_col + ', ' + second_col);
+        write_strings.push(jointype + ': ' + first_file);
+        write_strings.push(jointype + ': ' + second_file);
+        write_strings.push('\xa0\xa0\xa0$ ' + first_col + ', ' + second_col);
         joins_data.push([jointype, first_file, first_col, second_file, second_col]);    
     }
     console.log(write_strings)
@@ -126,11 +127,13 @@ function collect_joins(){
 
 async function write_joins(write_strings){
     for(var i = 0; i<write_strings.length; i++){
-        await add_to_carousel(write_strings[i], input_color, [null], true, false);
+        var writecolor = write_color(i)
+        await add_to_carousel(write_strings[i], writecolor, [null], true, false);
     }
 }
 
 $(document.body).on('click', '#submit-merge' ,async function(){
+    hide_containers(2);
     document.getElementsByClassName('combinewrap')[1].style.display = 'none';
     document.getElementById('joinbtnswrap').style.display = 'none';
     write_strings = collect_joins();

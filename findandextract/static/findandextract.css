@@ -493,6 +493,10 @@ overflow-x:scroll;
 overflow-y: scroll;
 width: 90%;
 
+table-layout: fixed;
+
+display: table;
+
 -webkit-touch-callout: none; /* iOS Safari */
 -webkit-user-select: none; /* Safari */
  -khtml-user-select: none; /* Konqueror HTML */
