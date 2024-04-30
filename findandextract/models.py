@@ -8,6 +8,7 @@ class KeyValueDataFrame(models.Model):
     sheet_name = models.CharField(max_length=100, default="Sheet1")
     key = models.CharField(max_length=200, default="No_Column_Header")
     val = models.TextField()
+    uid = models.CharField(max_length=200, default="NOUID")
 
     def __str__(self):
         return self.file_name
@@ -15,6 +16,9 @@ class KeyValueDataFrame(models.Model):
 class KeyValueDataFrame_Result(models.Model):
     key = models.CharField(max_length=200, default="No_Column_Header")
     val = models.TextField()
+    uid = models.CharField(max_length=200, default="NOUID")
+    id = models.AutoField(primary_key=True)
+
 
 
 class DataFilters(models.Model):

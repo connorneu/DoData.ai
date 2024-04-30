@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 import pandas as pd
 from django.core.files.storage import FileSystemStorage
+from django.http import StreamingHttpResponse
 from .models import KeyValueDataFrame
 from .models import KeyValueDataFrame_Result
 import os
@@ -26,6 +27,8 @@ import ast
 import collections
 from functools import reduce
 import traceback
+from django.db import connection
+import csv
 
 goog_w2v_model = None
 nlp = None
@@ -39,6 +42,25 @@ from django import db
 db.reset_queries()
 
 # Create your views here.
+
+class Echo:
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+def stream_to_csv(request, rows):
+    #rows = (["Row {}".format(idx), str(idx)] for idx in range(65536))
+    pseudo_buffer = Echo()
+    writer = csv.writer(pseudo_buffer)
+    return StreamingHttpResponse(
+        (writer.writerow(row) for row in rows),
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="somefilename.csv"'},
+    )
 
 def Load_Language_Model():
     global goog_w2v_model
@@ -158,27 +180,99 @@ def findandextract(request):
                 print(request.POST)
                 joins = request.POST.get('parameters')
                 joins = json.loads(joins)
-                print('joins')
-                print(joins)
+                print('srtar kjpom')
+                s = time.time()
                 df_result = Combine_Merge(joins)
+                print('end comb', time.time() - s)
                 print('------------- RESULT --------------')
                 print(df_result)
+                s = time.time()
                 df_list = melt_df(df_result)
+                print('dflistype', type(df_list))
+                print('melt', time.time() - s)
                 print("saving result to db...")
-                db_obj_list = []
-                bulk_counter = 0
-                for dbframe in df_list:
-                    bulk_counter += 1
-                    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
-                    if bulk_counter % 1000000 == 0:
-                        print(bulk_counter)
-                    #if bulk_counter == 1000000:
-                    #    print('counterreset')
-                    #    bulk_counter = 0
-                    #    print('started save')
-                    #    KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
-                    #    print('ended save')
-                    #    db_obj_list = []
+                print('comebine')
+                #db_obj_list = []
+                #print(df_list)
+                #print('unziping')
+                #s = time.time()
+                #df_list = df_list[:10000]
+                df_list = df_list[:10000000]
+                print('dflist2', type(df_list))               
+                print('number of records', len(df_list))
+                print(df_list[0])
+                print(df_list[:10])
+                print('appending')
+                shitlist = []
+                counter = 1
+                print('buildingshitlist')
+                s = time.time()
+                for elem in df_list:
+                    shitlist.append([elem[0], elem[1], counter,  str(request.user)])
+                    counter+=1
+                print('shitlist', time.time() - s)
+                print(shitlist[:10])
+
+
+                #response = HttpResponse(
+                #    content_type="text/csv",
+                #    headers={"Content-Disposition": 'attachment; filename="somefilename.csv"'},
+                #)
+                #writer = csv.writer(response)
+
+                s = time.time()
+                print('writing csv')
+                with open('out.csv', 'w', newline='') as f:
+                    writer = csv.writer(f)
+                    writer.writerows(shitlist)
+                print('wrote', time.time()-s)
+                print('copy')
+                s = time.time()
+                with open('out.csv') as infile:
+                    with connection.cursor() as stmt:
+                        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',')
+                print('wirtten', time.time() - s)
+                #csvpath = response.request['PATH_INFO']
+                #print('path:', csvpath)
+                #with connection.cursor() as cursor:
+                #    cursor.execute("COPY findandextract_keyvaluedataframe_result FROM %s", ('out.csv',))
+
+
+                
+                #csv_stream_response = stream_to_csv(request, df_list)
+                #print('csvresponse::', csv_stream_response)
+                #csv_url = csv_stream_response.path
+                #print("csvurl::", csv_url)
+                #print('wronttocsv', time.time() - s)
+
+
+                #unzip_df_list = list(zip(*df_list))
+                #print('end comb', time.time() - s)
+                #keys = unzip_df_list[0]
+                #values = unzip_df_list[1]
+
+
+                #with connection.cursor() as cursor:
+                #    for i in range(len(keys)):
+                #        cursor.execute("INSERT into findandextract_keyvaluedataframe_result VALUES (%s, %s)", [keys[i], values[i]])
+                #print('timetoinsert', time.time()-s)
+                #print('inserting')
+                #for i in range(len(keys)):
+                #    KeyValueDataFrame_Result.objects.raw("INSERT into findandextract_keyvaluedataframe_result VALUES (1, 2)")
+
+                #bulk_counter = 0
+                #for dbframe in df_list:
+                #    bulk_counter += 1
+                #    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                #    if bulk_counter % 1000000 == 0:
+                #        print(bulk_counter)
+                #    if bulk_counter == 1000000:
+                #        print('counterreset')
+                #        bulk_counter = 0
+                #        print('started save')
+                #        KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                #        print('ended save')
+                #        db_obj_list = []
                 print('saved results')
                 return HttpResponse(status=200)
 
@@ -289,6 +383,7 @@ def findandextract(request):
                 except:
                     print('DATA UPLOAD POS')
                     print(request.POST)
+                    print('user::', request.user)
                     upload_data_files(request)
                     #return HttpResponse(status=200)
                     fande_db_data = list(KeyValueDataFrame.objects.values())
@@ -350,7 +445,7 @@ def upload_data_files(request):
         db_obj_list = []
         for dbframe in df_list:
             #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-            db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+            db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
         KeyValueDataFrame.objects.bulk_create(db_obj_list)
         print('saved')
         db_data = list(KeyValueDataFrame.objects.values())
@@ -797,6 +892,8 @@ def Combine_Merge(join_params):
             df_result = pd.merge(df_single_result, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower())
             print('result')
             print(df_result)
+    if df_result is not None:
+        df_result = df_result.drop_duplicates()
     return df_result
 
 def Update_From_File(update_file_params, files_to_update_params):

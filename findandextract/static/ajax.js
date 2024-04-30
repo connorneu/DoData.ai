@@ -396,6 +396,7 @@ async function ajax_get_result_db(algo_type){
                     display_calculate_result_table(data);
                 }    
                 else if(algo_type==='column'){
+                    console.log('retreive column data')
                     console.log(data)
                     display_column_result_table(data);
                 }

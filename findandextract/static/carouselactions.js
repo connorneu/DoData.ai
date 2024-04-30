@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Extract', desc);
+    start_algo_path('START', 'Combine', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
