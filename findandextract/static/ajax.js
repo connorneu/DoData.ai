@@ -372,6 +372,7 @@ async function ajax_get_result_db(algo_type){
        // on success
        success: function (data) {
            //print_the_filtered_data(data);
+           console.log('get result ajax')
            console.log(data['result_table'])
             if (data['result_table'].length === 0){
                 alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.')
@@ -404,6 +405,7 @@ async function ajax_get_result_db(algo_type){
        },
        // on error
        error: function (request, status, error) {
+            console.log('failure')
            // alert the error if any error occured
            //alert(response.responseJSON.errors);
            //console.log(response.responseJSON.errors)

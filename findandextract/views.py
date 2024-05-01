@@ -196,8 +196,8 @@ def findandextract(request):
                 #print(df_list)
                 #print('unziping')
                 #s = time.time()
-                #df_list = df_list[:10000]
-                df_list = df_list[:10000000]
+                df_list = df_list[:10000]
+                #df_list = df_list[:1000000]
                 print('dflist2', type(df_list))               
                 print('number of records', len(df_list))
                 print(df_list[0])
@@ -208,30 +208,27 @@ def findandextract(request):
                 print('buildingshitlist')
                 s = time.time()
                 for elem in df_list:
-                    shitlist.append([elem[0], elem[1], counter,  str(request.user)])
+                    shitlist.append([elem[0], elem[1], str(request.user)])
                     counter+=1
                 print('shitlist', time.time() - s)
                 print(shitlist[:10])
 
-
-                #response = HttpResponse(
-                #    content_type="text/csv",
-                #    headers={"Content-Disposition": 'attachment; filename="somefilename.csv"'},
-                #)
-                #writer = csv.writer(response)
-
                 s = time.time()
                 print('writing csv')
-                with open('out.csv', 'w', newline='') as f:
+                csv_filename = str(request.user) + ' result.csv'
+                with open(csv_filename, 'w', newline='') as f:
                     writer = csv.writer(f)
                     writer.writerows(shitlist)
                 print('wrote', time.time()-s)
                 print('copy')
                 s = time.time()
-                with open('out.csv') as infile:
+                
+                with open(csv_filename) as infile:
                     with connection.cursor() as stmt:
-                        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',')
+                        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',', columns=['key', 'val', 'uid'])
                 print('wirtten', time.time() - s)
+                print('deleting csv')
+                os.remove(csv_filename)
                 #csvpath = response.request['PATH_INFO']
                 #print('path:', csvpath)
                 #with connection.cursor() as cursor:
@@ -250,37 +247,9 @@ def findandextract(request):
                 #print('end comb', time.time() - s)
                 #keys = unzip_df_list[0]
                 #values = unzip_df_list[1]
-
-
-                #with connection.cursor() as cursor:
-                #    for i in range(len(keys)):
-                #        cursor.execute("INSERT into findandextract_keyvaluedataframe_result VALUES (%s, %s)", [keys[i], values[i]])
-                #print('timetoinsert', time.time()-s)
-                #print('inserting')
-                #for i in range(len(keys)):
-                #    KeyValueDataFrame_Result.objects.raw("INSERT into findandextract_keyvaluedataframe_result VALUES (1, 2)")
-
-                #bulk_counter = 0
-                #for dbframe in df_list:
-                #    bulk_counter += 1
-                #    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
-                #    if bulk_counter % 1000000 == 0:
-                #        print(bulk_counter)
-                #    if bulk_counter == 1000000:
-                #        print('counterreset')
-                #        bulk_counter = 0
-                #        print('started save')
-                #        KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
-                #        print('ended save')
-                #        db_obj_list = []
                 print('saved results')
                 return HttpResponse(status=200)
 
-
-                #print("saving result to db...")
-                #for dbframe in df_list:
-                #    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
-                #return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'update_file':
                 print("START OF AJAX POST update file")
                 print(request.POST)
@@ -403,7 +372,7 @@ def findandextract(request):
         print("GET REQUEST")
         if is_ajax(request):
             if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
-                result_table_db = list(KeyValueDataFrame_Result.objects.values())
+                result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
                 return JsonResponse({'result_table' : result_table_db})
             else:
                 print("AJAX GET REQUEST")
