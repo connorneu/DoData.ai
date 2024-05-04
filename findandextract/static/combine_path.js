@@ -1,17 +1,20 @@
 clean_first_join = null;
 joins_data = [];
 
+// skipping append for now - only merge
+
 async function start_combine_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
-    await add_to_carousel('Choose how to combine your files:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
-    document.getElementById('merge_or_append').style.display = 'block';
+    //await add_to_carousel('Choose how to combine your files:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    //document.getElementById('merge_or_append').style.display = 'block';
+    await add_to_carousel('Combine datasets', input_color, [null], true, true);
+    how_to_join(); 
 }
 
  // select merge
  $(document.body).on('click', '#user_merge' ,async function(){ 
     hide_containers(2);
-    //await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     await add_to_carousel('Merge datasets', input_color, [null], true, true);
     document.getElementById('merge_or_append').style.display = 'none';
     how_to_join();  
@@ -32,13 +35,19 @@ async function how_to_join(){
     await add_to_carousel('The rows from both datasets will be combined into one file where the values match', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     populate_file_names();
     //document.getElementById('combinehowwrap').style.display = 'block';
+    document.getElementById('merge-description').style.display = 'block';   
     document.querySelectorAll(".combinewrap").forEach(a=>a.style.display = "block");
     // first file first join
     populate_drop_down('.joinfile.dropdown-menu', dataset_names, true);
     clean_first_join = document.getElementsByClassName('join-two-files')[0].cloneNode(true);
-    
 }
 
+async function how_to_append(){
+    await add_to_carousel(':', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    await add_to_carousel('', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    populate_file_names();
+    document.getElementById('append-description').style.display = 'block';
+}
 
 $(document).on({
     mouseenter: function () {
@@ -144,6 +153,6 @@ $(document.body).on('click', '#submit-merge' ,async function(){
 async function display_combine_result_table(data){
     document.getElementById('combinehowwrap').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }

@@ -180,74 +180,11 @@ def findandextract(request):
                 print(request.POST)
                 joins = request.POST.get('parameters')
                 joins = json.loads(joins)
-                print('srtar kjpom')
-                s = time.time()
                 df_result = Combine_Merge(joins)
-                print('end comb', time.time() - s)
+
                 print('------------- RESULT --------------')
                 print(df_result)
-                s = time.time()
-                df_list = melt_df(df_result)
-                print('dflistype', type(df_list))
-                print('melt', time.time() - s)
-                print("saving result to db...")
-                print('comebine')
-                #db_obj_list = []
-                #print(df_list)
-                #print('unziping')
-                #s = time.time()
-                df_list = df_list[:10000]
-                #df_list = df_list[:1000000]
-                print('dflist2', type(df_list))               
-                print('number of records', len(df_list))
-                print(df_list[0])
-                print(df_list[:10])
-                print('appending')
-                shitlist = []
-                counter = 1
-                print('buildingshitlist')
-                s = time.time()
-                for elem in df_list:
-                    shitlist.append([elem[0], elem[1], str(request.user)])
-                    counter+=1
-                print('shitlist', time.time() - s)
-                print(shitlist[:10])
-
-                s = time.time()
-                print('writing csv')
-                csv_filename = str(request.user) + ' result.csv'
-                with open(csv_filename, 'w', newline='') as f:
-                    writer = csv.writer(f)
-                    writer.writerows(shitlist)
-                print('wrote', time.time()-s)
-                print('copy')
-                s = time.time()
-                
-                with open(csv_filename) as infile:
-                    with connection.cursor() as stmt:
-                        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',', columns=['key', 'val', 'uid'])
-                print('wirtten', time.time() - s)
-                print('deleting csv')
-                os.remove(csv_filename)
-                #csvpath = response.request['PATH_INFO']
-                #print('path:', csvpath)
-                #with connection.cursor() as cursor:
-                #    cursor.execute("COPY findandextract_keyvaluedataframe_result FROM %s", ('out.csv',))
-
-
-                
-                #csv_stream_response = stream_to_csv(request, df_list)
-                #print('csvresponse::', csv_stream_response)
-                #csv_url = csv_stream_response.path
-                #print("csvurl::", csv_url)
-                #print('wronttocsv', time.time() - s)
-
-
-                #unzip_df_list = list(zip(*df_list))
-                #print('end comb', time.time() - s)
-                #keys = unzip_df_list[0]
-                #values = unzip_df_list[1]
-                print('saved results')
+                write_result_raw(df_result, request)
                 return HttpResponse(status=200)
 
             elif request.POST.get('ajax_name') == 'update_file':
@@ -313,7 +250,6 @@ def findandextract(request):
                 print('algo_type', algo_type)
                 print('algo desc', algo_desc)
                 return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
-                #return JsonResponse({'algo_type': 'failure'})
             elif request.POST.get('ajax_name') == 'submit_user_formula':
                 print(request.POST)
                 parameters = request.POST.get('parameters')
@@ -323,10 +259,6 @@ def findandextract(request):
                 dataset = params['dataset']
                 new_col_name = params['new_col_name']
                 file, sheet = parse_file_name_from_bracket_display(dataset)
-                print('user text:', user_text)
-                print('dataset:', dataset)
-                print('file:', file)
-                print('sheet:', sheet)
                 df = unmelt(file, sheet)
                 df_result = Parse_User_Formula(df, user_text, new_col_name)
                 print(df_result)
@@ -359,13 +291,6 @@ def findandextract(request):
                     return JsonResponse({'fande_data_dump' : fande_db_data})
 
         else:
-            #if 'fileinput1' in request.POST or 'fileinput2' in request.POST:
-            #if request.FILES['fileinput1'] or request.FILES['fileinput2']:
-            #    print('redirecting to upload.')
-            #    upload_data_files(request)
-            #    print("shit")
-            #    fande_db_data = list(KeyValueDataFrame.objects.values())
-            #    return HttpResponse(status=200)
             print("AJAXFAILURE")
             return HttpResponse(status=400)    
     else:
@@ -383,7 +308,21 @@ def findandextract(request):
             x.start()
             threads.append(x)
             return render(request, "findandextract/fandemain.html")
-        #return render(request, "findandextract/fandemain.html", {'fande_data_dump' : fande_db_data})
+
+
+def write_result_raw(df_result, request):
+    df_list = melt_df(df_result)
+    shitlist = []
+    for elem in df_list:
+        shitlist.append([elem[0], elem[1], str(request.user)])
+    csv_filename = str(request.user) + ' result.csv'
+    with open(csv_filename, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(shitlist)       
+    with open(csv_filename) as infile:
+        with connection.cursor() as stmt:
+            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',', columns=['key', 'val', 'uid'])
+    os.remove(csv_filename)
 
 
 def clean_describe_values(describe_values_raw):

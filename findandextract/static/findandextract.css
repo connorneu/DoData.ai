@@ -1486,7 +1486,13 @@ display: inline-block;
 }
 
 .combinewrap{
-    display:none
+    display:none;
+}
+#merge-description{
+    display:none;
+}
+#append-description{
+    display:none;
 }
 .flexdropdown{
     display:flex;
@@ -1926,4 +1932,13 @@ outside of combine*/
 }
 .selectfile{
     padding: 0px 10px 0px 10px;
+}
+.resulttable_cont{
+    overflow-x: scroll;
+}
+#result_table_tbody td {
+    min-width: 200px;
+}
+#result_table_tbody th {
+    width: 200px;
 }
