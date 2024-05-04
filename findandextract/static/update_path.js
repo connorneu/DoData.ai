@@ -3,9 +3,10 @@ clean_first_update_file = null;
 async function start_update_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = 'none';
-
     populate_drop_down('#updateinputfile_ul', dataset_names, true);
-    await add_to_carousel('Define values to update:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    populate_drop_down('#updatedatasetreplace_ul', dataset_names, true);
+    await add_to_carousel('Describe how to update file:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
+    //await add_to_carousel('Use a file containing new values to update a file or enter in values to find and update', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('update_file_wrap').style.display = 'block';
     document.getElementById('describe-data-upload').style.display = 'block';
    
@@ -17,8 +18,50 @@ $(document.body).on('click', '#update-from-file-drop li a' ,function(){
     var colheaders = get_col_headers_for_filename(selectedfile);
     populate_drop_down("#updateinputcol_ul", colheaders, true);
     populate_drop_down("#updateinputcolreplace_ul", colheaders, true);
+    // when column from how to match - hidden but update
+    populate_drop_down("#updatewhencolumn_ul", colheaders, true);
     document.getElementById('update-from-file-column-drop').style.display = 'block';
-    document.getElementById('update-from-file-column-drop-replace').style.display = 'block';
+    $('#update_when_datasetname').text('{' + selectedfile + '}');
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    populate_drop_down("#updatewhencolumn_ul", colheaders, true);
+});
+
+
+// replace with values from dataset -> when dataset selected update column
+$(document.body).on('click', '#updatedatasetreplace_ul li a' ,function(){
+    var selectedfile = $(this).text();
+    var colheaders = get_col_headers_for_filename(selectedfile);
+    populate_drop_down("#updatecolreplace_ul", colheaders, true);
+    // how to match -> when column equals
+    populate_drop_down("#update_equals_this_column_ul", colheaders, true);
+    $('#update_equals_datasetname').text('{' + selectedfile + '}');
+});
+
+
+// replace with values from dataset -> when dataset selected update column
+$(document.body).on('click', '#add-update-when-cond' ,function(){
+
+    $('.update-cond').eq(0).clone().appendTo($('#update-when'));
+
+});
+
+// when column selected for update from dataset -> display how to match
+$(document.body).on('click', '#updatecolreplace_ul li a' ,function(){
+    document.getElementById('update_if_from_input').style.display = 'none';
+    $('#update-from-what').find('.header-bottomspace').hide();
+    $('#update-from-what-text').hide();
+    document.getElementById('update-how').style.display = 'block';  
+    $('#disabled_update_col_ul').parents(".dropdown").find('.btn').text($('#updateinputcol_ul').parents(".dropdown").find('.btn').text());
+    
+
+
+
+});
+// when column to update selected -> show where to update from
+$(document.body).on('click', '#updateinputcol_ul li a' ,function(){
+    document.getElementById('update-from-what').style.display = 'block';
+    document.getElementById('update-from-file-column-drop-replace').style.display = 'flex';
 });
 
 // blur textboxes when file selected
@@ -72,7 +115,7 @@ $(document.body).on('click', '#add-describe-update-text' ,function(){
  // select merge
  $(document.body).on('click', '#update_file' ,async function(){ 
     hide_containers(3);
-    await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
+    //await add_to_carousel('', 'white', ['add_linebreak_to_carousel()'], true, false);
     await add_to_carousel('Update: Input File', input_color, [null], true, false);
     document.getElementById('update_file_or_input').style.display = 'none';
     await add_to_carousel(['Select file with updated values:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -84,6 +127,7 @@ $(document.body).on('click', '#add-describe-update-text' ,function(){
     clean_first_update_file = wraper.getElementsByClassName('flex-items-wrap')[0].cloneNode(true);
 });
 
+/*
 $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){ 
     var selected_file = $(this).parents(".dropdown").find('.btn').text();
     var sheet_names = get_file_sheets(selected_file);
@@ -104,7 +148,7 @@ $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){
     var col_headers = createTable_values[0];
     populate_drop_down(col_find, col_headers, true);
     populate_drop_down(col_update, col_headers, true);
-}); 
+}); */
 
 
 $(document.body).on('click', '#nextafter_define_update_file' ,async function(){ 

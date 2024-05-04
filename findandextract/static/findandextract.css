@@ -544,7 +544,9 @@ display: table;
 .addcondition{
     margin-top:2%;
 }
-
+.header-bottomspace{
+    margin-bottom:1%;
+}
 #executeorrun{
     margin-top:0;
 }
@@ -1269,6 +1271,17 @@ display: inline-block;
     margin-left:0;
     margin-right:0;
 }
+.flexy-row{
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.flexy-row .dropdown{
+    margin-bottom:0%;
+    margin-top:0%;
+}
+
 .describe-textarea{
     color:#f7eaea; 
     height: 35px;
@@ -1838,6 +1851,10 @@ outside of combine*/
     flex: 0 0 0%;
 }
 
+#update-descriptions .describe-textarea-div-wrap-flexy{
+    justify-content: center;
+}
+
 .describe-textarea.flexy{
     display:flex;
     flex: 0 0 0%;
@@ -1876,6 +1893,12 @@ outside of combine*/
 }
 .regular-header{
     white-space: nowrap;
+}
+.bottom-space-header-div{
+    margin-bottom:2%;
+}
+.bottom-space-header-small-div{
+    margin-bottom: 1%;
 }
 .combsel{
     display: flex;
@@ -1941,4 +1964,33 @@ outside of combine*/
 }
 #result_table_tbody th {
     width: 200px;
+}
+.header-nowrap{
+    white-space: nowrap;
+}
+#update-from-what{
+    margin-top: 2%;
+}
+.left-right-auto{
+    margin-left:auto;
+    margin-right:auto;
+    flex: 0 0 20%;
+    
+}
+#update-from-file-column-drop-replace{
+    margin-bottom:1%;
+}
+#update-how{
+    margin-top:2%;
+}
+.update-cond{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.small-spacy-flexy-row > .dropdown{
+    flex: 0 0 10%;
+    margin-top: 0%;
 }
