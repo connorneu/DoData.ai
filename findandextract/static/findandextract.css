@@ -1291,6 +1291,12 @@ display: inline-block;
     margin-top: 0%;
     vertical-align: middle;
 }
+.textarea-short{
+    width:250px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left:2%;
+}
 .dropdown.alignbottom{
     margin-top:auto;
 }
@@ -1986,11 +1992,60 @@ outside of combine*/
 .update-cond{
     display:flex;
     flex-wrap: wrap;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 .small-spacy-flexy-row > .dropdown{
     flex: 0 0 10%;
     margin-top: 0%;
+}
+.grey-banner{
+    color:grey;
+    font-size: 14px;
+}
+.centered-flex-row{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right:1%;
+}
+.space-left{
+    margin-left:20px;
+}
+#add_update_when{
+    justify-content: center;
+    display: flex;
+    padding-right: 60px;
+    width: 45%;
+}
+.flexwrap{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom:2%;
+}
+
+.flexy-side-drops.flexy-row.small-spacy-flexy-row{
+    width:100%;
+}
+.update-cond{
+    width:100%;
+}
+#update-when{
+    width:100%;
+}
+#update-when > .centered-flex-row{
+    width:100%;
+}
+#first-centered-flex-update{
+    width:100%;
+}
+.hor-center-flex{
+    margin-top:auto;
+    margin-bottom:auto;
+}
+.small-right-space{
+    margin-right: 1%;
 }

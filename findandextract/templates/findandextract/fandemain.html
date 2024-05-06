@@ -820,7 +820,7 @@
                             <div class="flexy-side-drops">
                                 <div class="dropdown show alignbottom" id="update-from-file-drop">
                                     <h2 class="regular-header">Choose which file to update</h2>
-                                    <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Select Dataset
                                     </button>
                                     <ul class="dropdown-menu" id="updateinputfile_ul"></ul>
@@ -843,7 +843,7 @@
                                 <div class="flexy-side-drops">
                                     <div class="left-right-auto alignbottom" id="update-from-file-column-drop-replace">
                                         <div class="clear"></div>
-                                        <div class="dropdown alignbottom show">
+                                        <div class="dropdown alignbottom show small-right-space">
                                             <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             Select Dataset
                                             </button>
@@ -866,55 +866,61 @@
                                     </div>
                                     <div class="clear"></div>
                                     <div>
-                                        <textarea class="describe-textarea" maxlength="50"></textarea>
+                                        <textarea  class="describe-textarea specify-value" maxlength="50"></textarea>
                                     </div> 
                                 </div>
                             </div>
                             <div class="describe-data-wrap hide" id="update-how">
                                 <div class="flexy-side-drops flexy-row small-spacy-flexy-row">
-                                    <div>
-                                        <h2>Update</h2>
-                                    </div>
-                                    <div class="dropdown show alignbottom">
-                                        <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Column
-                                        </button>
-                                        <ul class="dropdown-menu" id="disabled_update_col_ul"></ul>
-                                    </div>
-                                    <div>
-                                        <h2>when</h2>
-                                    </div>
-                                    <div id="update-when">
-                                        <div class="update-cond">
-                                            <div class="dropdown show alignbottom">
-                                                <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Select Column
-                                                </button>
-                                                <ul class="dropdown-menu" id="updatewhencolumn_ul"></ul>
+                                    <div id="update-when" class="update-cond">
+                                        <div class="centered-flex-row">
+                                            <div class="centered-flex-row">
                                                 <div>
-                                                    <h2 id="update_when_datasetname"></h2>
+                                                    <h2>Update</h2>
+                                                </div>
+                                                <div class="dropdown show alignbottom space-left">
+                                                    <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Select Column
+                                                    </button>
+                                                    <ul class="dropdown-menu" id="disabled_update_col_ul"></ul>
+                                                </div>
+                                                <div class="space-left">
+                                                    <h2>when</h2>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <h2>equals</h2>
-                                            </div>
-                                            <div class="dropdown show alignbottom" id="update_if_from_file">
-                                                <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Select Column
-                                                </button>
-                                                <ul class="dropdown-menu" id="update_equals_this_column_ul"></ul>
-                                                <div>
-                                                    <h2 id="update_equals_datasetname"></h2>
+                                            <div id="update-where-clauses">
+                                                <div class="flexwrap">
+                                                    <div class="dropdown show alignbottom">
+                                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Select Column
+                                                        </button>
+                                                        <ul class="dropdown-menu" id="updatewhencolumn_ul"></ul>
+                                                        <div class="header-update-wrap">
+                                                            <h2 class="grey-banner" id="update_when_datasetname"></h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hor-center-flex">
+                                                        <h2>equals</h2>
+                                                    </div>
+                                                    <div class="dropdown show alignbottom">
+                                                        <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Select Column
+                                                        </button>
+                                                        <ul class="dropdown-menu" id="update_equals_this_column_ul"></ul>
+                                                        <div class="header-update-wrap">
+                                                            <h2 class="grey-banner" id="update_equals_datasetname"></h2>
+                                                        </div>
+                                                    </div>                     
+                                                    <div class="update_if_from_input">
+                                                        <textarea class="describe-textarea textarea-short" maxlength="30"></textarea>
+                                                    </div>     
                                                 </div>
-                                            </div>                                    
-                                            <div id="update_if_from_input">
-                                                <textarea class="describe-textarea" maxlength="50"></textarea>
-                                            </div>        
-                                        </div>                                     
-                                    </div>                                        
-                                    <div class="addcondition hide" id="add_update_when">
-                                        <a id="add-update-when-cond" class="myButton conditionbtn">Add condition</a>
-                                    </div>                            
+                                            </div>      
+                                        </div>
+                                        <div class="addcondition show" id="add_update_when">
+                                            <a id="add-update-when-cond" class="myButton conditionbtn">Add condition</a>
+                                        </div>   
+                                    </div>                                                                                                          
                                 </div>
                             </div>
                         </div> 
