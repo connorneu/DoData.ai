@@ -2049,3 +2049,11 @@ outside of combine*/
 .small-right-space{
     margin-right: 1%;
 }
+#update-where-clauses{
+    margin-top:1%;
+}
+.update_if_from_input{
+    align-content: center;
+    display: flex;
+    margin-bottom: 1%;
+}

@@ -1571,6 +1571,7 @@ async function begin_file_upload(algo_desc){
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + clean_algo_desc, standard_color, [], true, false);
     await add_to_carousel('File Selection:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel(algo_desc, fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true); 
     await add_to_carousel('Select files to include in algorithm: ' + num_files, fyi_color, ['display_multiple_file_drops()', "document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);    
 }
 
@@ -1604,7 +1605,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if(parent_node_name === 'Update'){
             console.log('algo selected - update')
             algorithm_type = 'Update';
-            algo_desc = 'Change values in one or more files by describing where to find the values and how to update them.'
+            algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
             max_file_upload = 4;
         }
         else if (parent_node_name === 'Reconcile'){

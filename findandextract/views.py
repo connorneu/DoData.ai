@@ -191,6 +191,8 @@ def findandextract(request):
                 print("START OF AJAX POST update file")
                 print(request.POST)
                 update_params = json.loads(request.POST.get('parameters'))
+                print('update aprams')
+                print(update_params)
                 update_file_params = update_params['update_file_params']
                 files_to_update_params = update_params['files_to_update']
                 df_results = Update_From_File(update_file_params, files_to_update_params)

@@ -45,9 +45,17 @@ $(document.body).on('click', '#updatedatasetreplace_ul li a' ,function(){
 $(document.body).on('click', '#add-update-when-cond' ,function(){
     var when_clone = $('#update-where-clauses').find('.flexwrap').eq(0).clone().appendTo($('#update-where-clauses'));
     var when_conds = $('#update-where-clauses').find('.flexwrap');
-    for (var i = 0;i<when_conds.length-1;i++){
-        $(when_conds[i]).find('.header-update-wrap').remove();
+    for (var i = 0;i<when_conds.length;i++){
+        if (i < when_conds.length-1){
+            $(when_conds[i]).find('.header-update-wrap').css("visibility", "hidden");
+        }
+        //if ($('#update-from-what-text').find('textarea').is(":visible")){
+        //}
     }
+    $('#update-where-clauses').find('.flexwrap:last').find('.btn').text('Select Column');
+    $('#update-where-clauses').find('.flexwrap:last').find('textarea').val('');
+
+
     if (when_conds.length == 4){
         $('#add_update_when').hide();
     }
@@ -86,6 +94,7 @@ $(document.body).on('click', '#CCCCupdateinputfile_ul li a' ,async function(){
 // when textarea has text then grey dropdown when empty un-grey dropdown
 $(document.body).on('focus', '.describe-textarea.specify-value', async function(){  
     console.log('dasehedd')
+    $(this).removeClass('gently-blur');
     $('#updatedatasetreplace_ul').closest(".dropdown").find('.btn').html('Select Dataset');
     $('#updatecolreplace_ul').closest(".dropdown").find('.btn').html('Select Column');
     $('#updatedatasetreplace_ul').closest(".dropdown").find('.btn').addClass('disabled');
@@ -107,16 +116,17 @@ $(document.body).on('input propertychange', '.describe-textarea.specify-value', 
         //document.getElementsByClassName('update_if_from_input')[0].style.display = 'none';
         $('#update-from-what').find('.header-bottomspace').hide();
         //$('#update-from-what-text').hide();
-        ('#update_equals_this_column_ul').closest('.dropdown').find('.btn').hide();
+        $('#update_equals_this_column_ul').closest('.dropdown').find('.btn').hide();
         document.getElementById('update-how').style.display = 'block';  
         $('#disabled_update_col_ul').parents(".dropdown").find('.btn').text($('#updateinputcol_ul').parents(".dropdown").find('.btn').text());
-
+        $('update_if_from_input').find('h2').text('Replace with this value');
     }
     if ($(this).val().length === 0){
         $('#update-from-what div').eq(0).show();
         $('#update-from-what div').eq(1).show();
         $('#update-from-what div').eq(2).show();
         $('#update-when').hide();
+        $('.header-update-wrap:eq(1)').hide();
     }
 });
 
@@ -155,7 +165,7 @@ $(document.body).on('click', '#add-describe-update-text' ,function(){
 });
 */
 
-
+/*
  // select merge
  $(document.body).on('click', '#update_file' ,async function(){ 
     hide_containers(3);
@@ -170,6 +180,7 @@ $(document.body).on('click', '#add-describe-update-text' ,function(){
     var wraper = document.getElementById('update_this_file_wrap');
     clean_first_update_file = wraper.getElementsByClassName('flex-items-wrap')[0].cloneNode(true);
 });
+*/
 
 /*
 $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){ 
@@ -192,8 +203,7 @@ $(document.body).on('click', '.updatefile.dropdown-menu' ,async function(){
     var col_headers = createTable_values[0];
     populate_drop_down(col_find, col_headers, true);
     populate_drop_down(col_update, col_headers, true);
-}); */
-
+}); 
 
 $(document.body).on('click', '#nextafter_define_update_file' ,async function(){ 
     hide_containers(1);
@@ -228,6 +238,7 @@ function add_matching_labels_to_update_files(){
     }
 }
 
+
 $(document.body).on('click', '#add_file_update' ,async function(){ 
     var wraper = document.getElementById('update_this_file_wrap');
     var parent_div = wraper.getElementsByClassName('update-parent-wrap')[0];
@@ -244,7 +255,8 @@ $(document.body).on('click', '#add_file_update' ,async function(){
         document.getElementById('add_file_update').style.display = 'none';
     }
 });
-
+*/
+/*
 function collect_update_file_parameters(){
     var update_from_file_param_arr = collect_parameters_from_update_file();
     console.log('from file')
@@ -299,7 +311,7 @@ function collect_parameters_from_files_to_update(){
 $(document.body).on('click', '#submit-update-file' ,function(){
     update_from_file_map = collect_update_file_parameters();
     submit_update_file_algo_parameters('update_file', update_from_file_map);
-});
+});*/
 
 // when btn to add column to match clicked
 $(document.body).on('click', '.updatefile-add-match-col' ,function(){
@@ -321,6 +333,13 @@ $(document.body).on('click', '.updatefile-add-update-col' ,function(){
     }
 });
 
+
+// if update from file column clicked -> remove disabled class
+$(document.body).on('click', '#update-from-file-column-drop-replace' ,function(){
+    var dropdowns = $(this).find('.btn').removeClass('disabled');
+});
+
+
 async function display_update_result_table(data){
     hide_containers(1)
     document.getElementById('update_this_file_wrap').style.display = 'none';
@@ -328,4 +347,66 @@ async function display_update_result_table(data){
     await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }
+
+// when update when column selected then show build algorithm 
+$(document.body).on('click', '#update-where-clauses .dropdown.show.alignbottom:eq(1) li a' ,function(){
+    $('#submit_update_this_file').show();
+});
+$(document.body).on('click', '#update-where-clauses textarea' ,function(){
+    if($(this).val().length > 0){
+        $('#submit_update_this_file').show();
+    }
+});
+
+
+function collect_update_params(){
+    var file_to_update = $('#updateinputfile_ul').closest('.dropdown').find('.btn').text();
+    var col_to_update = $('#updateinputcol_ul').closest('.dropdown').find('.btn').text();
+    if($('#update-from-file-column-drop-replace').is(":visible")){
+        var update_from_text = false;
+        var replace_file = $('#updatedatasetreplace_ul').closest('.dropdown').find('.btn').text();
+        var replace_col = $('#updatecolreplace_ul').closest('.dropdown').find('.btn').text();
+        var text_to_update = null;
+    }
+    else{
+        var update_from_text = true;
+        var text_to_update = $('update-from-what-text').find('textarea').val();
+        var replace_file = null;
+        var replace_col = null;
+
+    }
+    var update_when = [];
+    var whens = $('#update-where-clauses').find('.flexwrap');
+    for (var i = 0; i < whens.length; i++){
+        var when = $(whens[i]).find('.dropdown.show.alignbottom').eq(0).find('.btn').text();
+        if(!update_from_text){
+            console.log('fromhere')
+            var equals = $(whens[i]).find('.dropdown.show.alignbottom').eq(1).find('.btn').text();
+        }
+        else{
+            console.log('getsu')
+            var equals = $(whens[i]).find('textarea').val();
+        }
+        update_when.push([when, equals])
+    }
+    var update_params = {
+        file_to_update: file_to_update,
+        col_to_update: col_to_update,
+        update_from_text: update_from_text,
+        replace_file: replace_file,
+        replace_col: replace_col,
+        text_to_update: text_to_update,
+        update_when: update_when
+    }
+    return update_params
+}
+
+
+// when submit update file
+$(document.body).on('click', '#submit-update-file' ,function(){
+    var update_params = collect_update_params();
+    submit_update_file_algo_parameters(update_params);
+
+});
+
 
