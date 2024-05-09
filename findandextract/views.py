@@ -193,7 +193,7 @@ def findandextract(request):
                 params = json.loads(request.POST.get('parameters'))
                 print('update aprams')
                 print(params)
-                df_result = Update_From_File(params)
+                df_result = Update(params)
                 print('----------------RESULT---------------')
                 print(df_result)
                 write_result_raw(df_result, request)
@@ -803,7 +803,7 @@ def Combine_Merge(join_params):
     return df_result
 
 
-def Update_From_File(params):
+def Update(params):
     file_to_update = params['file_to_update']
     col_to_update = params['col_to_update']
     update_from_text = params['update_from_text']
@@ -813,48 +813,63 @@ def Update_From_File(params):
     update_when = params['update_when']
     file, sheet = parse_file_name_from_bracket_display(file_to_update)
     df_to_update = unmelt(file, sheet)
-    if not update_from_text:
-        file, sheet = parse_file_name_from_bracket_display(replace_file)
-        df_replace = unmelt(file, sheet)
-        temp_suffix = '__To_Replace__'
-        replace_col_suffix = replace_col + temp_suffix
-        df_replace = df_replace.add_suffix(temp_suffix)
-        whens = []
-        equals = []
-        for cols in update_when:
-            whens.append(cols[0])
-            suffixed = cols[1] + temp_suffix
-            equals.append(suffixed)
+    if update_from_text:        
+        df_result = Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update)
+    else:
+        df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update)
+    return df_result
 
-        print('updatewhen')
-        print(whens)
-        print(equals)
-        df_result = pd.merge(df_to_update, df_replace, left_on=whens, right_on=equals, how='left')
-        print('SheRes')
-        print(df_result)
-        num_conditions = len(equals)
-        if num_conditions == 1:
-            print('onedcondition')
-            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]), df_result[col_to_update], df_result[replace_col_suffix])
-        elif num_conditions == 2:
-            print('twodcondition')
-            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]), df_result[col_to_update], df_result[replace_col_suffix])
-        elif num_conditions == 3:
-            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]), df_result[col_to_update], df_result[replace_col_suffix])
-        elif num_conditions == 4:
-            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]) & pd.isnull(df_result[equals[3]]), df_result[col_to_update], df_result[replace_col_suffix])
-        else:
-            return "Error"
 
-        for col in df_result:
-            if temp_suffix in col:
-                try:
-                    df_result.drop(col, inplace=True, axis=1)
-                    print('droped>', col)
-                except:
-                    print('failed to drop', col)
-    print('inmethod')
-    print(type(df_result))
+def Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update):
+    whens = []
+    equals = []
+    for cols in update_when:
+        whens.append(cols[0])
+        equals.append(cols[1])
+    num_conditions = len(equals)   
+    if num_conditions == 1:
+        df_to_update[col_to_update] = np.where(df_to_update[whens[0]] == equals[0], text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 2:
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]), text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 3:
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]) & (df_to_update[whens[2]] == equals[2]), text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 4:
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]) & (df_to_update[whens[2]] == equals[2]) & (df_to_update[whens[3]] == equals[3]), text_to_update, df_to_update[col_to_update])
+    else:
+        return "Error"
+    return df_to_update
+
+
+def Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update):
+    file, sheet = parse_file_name_from_bracket_display(replace_file)
+    df_replace = unmelt(file, sheet)
+    temp_suffix = '__To_Replace__'
+    replace_col_suffix = replace_col + temp_suffix
+    df_replace = df_replace.add_suffix(temp_suffix)
+    whens = []
+    equals = []
+    for cols in update_when:
+        whens.append(cols[0])
+        suffixed = cols[1] + temp_suffix
+        equals.append(suffixed)
+    df_result = pd.merge(df_to_update, df_replace, left_on=whens, right_on=equals, how='left')
+    num_conditions = len(equals)
+    if num_conditions == 1:
+        df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]), df_result[col_to_update], df_result[replace_col_suffix])
+    elif num_conditions == 2:
+        df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]), df_result[col_to_update], df_result[replace_col_suffix])
+    elif num_conditions == 3:
+        df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]), df_result[col_to_update], df_result[replace_col_suffix])
+    elif num_conditions == 4:
+        df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]) & pd.isnull(df_result[equals[3]]), df_result[col_to_update], df_result[replace_col_suffix])
+    else:
+        return "Error"
+    for col in df_result:
+        if temp_suffix in col:
+            try:
+                df_result.drop(col, inplace=True, axis=1)
+            except:
+                print('failed to drop', col)
     return df_result
             
 

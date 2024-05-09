@@ -352,11 +352,26 @@ async function display_update_result_table(data){
 $(document.body).on('click', '#update-where-clauses .dropdown.show.alignbottom:eq(1) li a' ,function(){
     $('#submit_update_this_file').show();
 });
-$(document.body).on('click', '#update-where-clauses textarea' ,function(){
+
+
+$(document.body).on('input propertychange', '#update-where-clauses textarea' ,function(){
+    console.log("heeb")
     if($(this).val().length > 0){
+        console.log('sheeb')
         $('#submit_update_this_file').show();
     }
 });
+
+
+/* when equals textarea populated show textarea
+$(document.body).on('input propertychange', '.update_if_from_input textarea' ,function(){
+
+
+    if($(this).val().length > 0){
+        $('#submit_update_this_file').show();
+    }
+});*/
+
 
 
 function collect_update_params(){
@@ -370,7 +385,7 @@ function collect_update_params(){
     }
     else{
         var update_from_text = true;
-        var text_to_update = $('update-from-what-text').find('textarea').val();
+        var text_to_update = $('#update-from-what-text').find('textarea').val();
         var replace_file = null;
         var replace_col = null;
 
@@ -398,6 +413,8 @@ function collect_update_params(){
         text_to_update: text_to_update,
         update_when: update_when
     }
+    console.log("SHEEETESA")
+    console.log(update_params)
     return update_params
 }
 
