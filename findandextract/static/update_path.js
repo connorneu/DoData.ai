@@ -342,9 +342,9 @@ $(document.body).on('click', '#update-from-file-column-drop-replace' ,function()
 
 async function display_update_result_table(data){
     hide_containers(1)
-    document.getElementById('update_this_file_wrap').style.display = 'none';
+    document.getElementById('update_file_wrap').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }
 

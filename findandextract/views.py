@@ -190,20 +190,16 @@ def findandextract(request):
             elif request.POST.get('ajax_name') == 'update_file':
                 print("START OF AJAX POST update file")
                 print(request.POST)
-                update_params = json.loads(request.POST.get('parameters'))
+                params = json.loads(request.POST.get('parameters'))
                 print('update aprams')
-                print(update_params)
-                update_file_params = update_params['update_file_params']
-                files_to_update_params = update_params['files_to_update']
-                df_results = Update_From_File(update_file_params, files_to_update_params)
+                print(params)
+                df_result = Update_From_File(params)
                 print('----------------RESULT---------------')
-                print(df_results)
-                for df_result in df_results:
-                    df_list = melt_df(df_result)
-                    print("saving result to db...")
-                    for dbframe in df_list:
-                        obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                print(df_result)
+                write_result_raw(df_result, request)
                 return HttpResponse(status=200)
+            
+
             elif request.POST.get('ajax_name') == 'reconcile':
                 print("START OF AJAX POST reconcile")
                 print(request.POST)
@@ -806,7 +802,64 @@ def Combine_Merge(join_params):
         df_result = df_result.drop_duplicates()
     return df_result
 
-def Update_From_File(update_file_params, files_to_update_params):
+
+def Update_From_File(params):
+    file_to_update = params['file_to_update']
+    col_to_update = params['col_to_update']
+    update_from_text = params['update_from_text']
+    replace_file = params['replace_file']
+    replace_col = params['replace_col']
+    text_to_update = params['text_to_update']
+    update_when = params['update_when']
+    file, sheet = parse_file_name_from_bracket_display(file_to_update)
+    df_to_update = unmelt(file, sheet)
+    if not update_from_text:
+        file, sheet = parse_file_name_from_bracket_display(replace_file)
+        df_replace = unmelt(file, sheet)
+        temp_suffix = '__To_Replace__'
+        replace_col_suffix = replace_col + temp_suffix
+        df_replace = df_replace.add_suffix(temp_suffix)
+        whens = []
+        equals = []
+        for cols in update_when:
+            whens.append(cols[0])
+            suffixed = cols[1] + temp_suffix
+            equals.append(suffixed)
+
+        print('updatewhen')
+        print(whens)
+        print(equals)
+        df_result = pd.merge(df_to_update, df_replace, left_on=whens, right_on=equals, how='left')
+        print('SheRes')
+        print(df_result)
+        num_conditions = len(equals)
+        if num_conditions == 1:
+            print('onedcondition')
+            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]), df_result[col_to_update], df_result[replace_col_suffix])
+        elif num_conditions == 2:
+            print('twodcondition')
+            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]), df_result[col_to_update], df_result[replace_col_suffix])
+        elif num_conditions == 3:
+            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]), df_result[col_to_update], df_result[replace_col_suffix])
+        elif num_conditions == 4:
+            df_result[col_to_update] = np.where(pd.isnull(df_result[equals[0]]) & pd.isnull(df_result[equals[1]]) & pd.isnull(df_result[equals[2]]) & pd.isnull(df_result[equals[3]]), df_result[col_to_update], df_result[replace_col_suffix])
+        else:
+            return "Error"
+
+        for col in df_result:
+            if temp_suffix in col:
+                try:
+                    df_result.drop(col, inplace=True, axis=1)
+                    print('droped>', col)
+                except:
+                    print('failed to drop', col)
+    print('inmethod')
+    print(type(df_result))
+    return df_result
+            
+
+
+def Update_From_File_DEPERECRATE(update_file_params, files_to_update_params):
     df_update_file = unmelt(update_file_params[0], update_file_params[1])
     dfs_to_update = Unmelt_Files_To_Update(files_to_update_params)  
     for idx in range(len(dfs_to_update)):

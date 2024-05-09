@@ -244,7 +244,6 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function () {
-
             console.log("update file algorithm parameters submitted");
             ajax_get_result_db('update');
 

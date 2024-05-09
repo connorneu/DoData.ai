@@ -1267,7 +1267,7 @@ display: inline-block;
     margin-right: 10px;
 } 
 .flexy-side-drops > .dropdown{
-    flex: 0 0 20%;
+    flex: 0 0 30%;
     margin-left:0;
     margin-right:0;
 }

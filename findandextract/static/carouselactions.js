@@ -389,7 +389,7 @@ async function display_algo_graph(){
 
 async function start_data_filter(db_data){  
     document.getElementById('filedrops').style.display = 'none';
-    hide_containers(2);
+    hide_containers(3);
     data_json = db_data['fande_data_dump'];
     //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
     unique_file_names = uniq_fast_files(data_json, 'file_name', 'sheet_name');  // calcualte file names 
