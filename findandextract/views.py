@@ -244,10 +244,12 @@ def findandextract(request):
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
                 user_desc = request.POST.get('user_algo_desc')
-                algo_type, algo_desc = classify_zeroshot(nli, user_desc)
+                #algo_type, algo_desc = classify_zeroshot(nli, user_desc)
+                algo_type = gpt_algo_desc(user_desc)
                 print('algo_type', algo_type)
-                print('algo desc', algo_desc)
-                return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
+                #print('algo desc', algo_desc)
+                return JsonResponse({'algo_type': algo_type})
+                #return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
             elif request.POST.get('ajax_name') == 'submit_user_formula':
                 print(request.POST)
                 parameters = request.POST.get('parameters')

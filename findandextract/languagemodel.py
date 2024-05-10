@@ -253,6 +253,40 @@ def gpt(user_text):
     print(response)
     return response
 
+
+def gpt_algo_desc(user_text):
+    SECRET = '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'
+    # Authorization: SECRET
+    client = OpenAI(api_key=SECRET)
+    question = f"""
+                This is the user description: {user_text}
+                Classify the user description into only one of the below classes.
+                The result should only be the class label which is the word before the colon of each class.
+                No other output should be printed.
+                The classes are
+                Extract: Search through one or multiple files and select all the rows that match the search criteria. The search criteria can be described values, an separate file containing other values, or filters to be applied to the data. Any row that matches the search criteria will be added to a result file and returned to the user.
+                Combine: Combine two or more files by matching row values on common values. Wherever the defined row values in the columns containing common values match, the columns from both files will be combined into one. A single result file containing columns from both files, where the row values matched, will be returned to the user. 
+                Update: Update the values in a single file by describing which values to update or by uploading an additional file that contains the matching criteria and the update values. For a value to be updated, the user must describe a value in another column on the same row, what column contains the value to update, and what the updated value is. The single file is returned to the user after the updates are applied.
+                Reconcile: Compare two files and determine which values in the common columns match and do not match. The user must describe which columns in both files must have the same row values to compare. The user then supplies which columns contain the row values to compare. The user is returned a single file containing the first file as well as additional columns which describe the other values that exist in the second file when the matching criteria is met.
+                Columns: Generate an Excel formula based on the user decription of what they are trying to build. The user inputs a description of what they want the newly created calculated column to calculate. The user must also upload the file which they want the newly created formula applied to. The result is the original dataset with a newly created column containing the newwly created formula.
+                Group: Group data together in a single file using one or several columns as the grouping criteria where equal values on multiple rows are collapsed into one row and metrics are calculated for the columns which are not being collapsed. The user is returned a file where the rows  in the columns specified as the columns to group together are collapsed into one row, and the columns which had been indicated as those to calculate metrics for have their metrics calcualted.              
+                """
+
+    stream = client.chat.completions.create(
+        model="gpt-4-turbo-2024-04-09",
+        messages=[{"role": "user", "content": question}],
+        stream=True
+    )
+    response = ''
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            #print(chunk.choices[0].delta.content, end="")
+            response += chunk.choices[0].delta.content
+    print('response:')
+    print(response)
+    return response
+
+
 def Build_Quick_Gensim_Model():
     #goog_w2v_model = models.Word2Vec.load_word2vec_format(GOOGLE_NEG_300, binary=True)
     goog_w2v_model = models.KeyedVectors.load_word2vec_format(datapath(GOOGLE_NEG_300), binary=True)
