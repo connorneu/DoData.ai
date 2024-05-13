@@ -129,8 +129,9 @@
 
                                 <iconify-icon id="submittexticon" class="submiticon" icon="formkit:submit"></iconify-icon>
                             </span>
+                            
+                            <textarea id="textbox-algo-desc" name="algodesctext" placeholder="" rows="1" cols="90" maxlength="200"></textarea>
                             <div class="text"></div>
-                            <textarea id="textbox-algo-desc" name="algodesctext" placeholder="" rows="1" cols="90" maxlength="89"></textarea>
                         </div>
 
 
@@ -142,8 +143,9 @@
 
 
 
-                        <div class="help-banner-wrap" id="descriptionhelp" style="display: none;">
-                            <h4>How does this work?</h4>
+                        <div class="help-banner-wrap" id="descriptionhelp">
+                            <h2>Or</h2>
+                            <h4>Choose an algorithm</h4>
                         </div>
                         <div class="algoloader" id="submitloadersvg">
                             <div class="timerload">
@@ -188,7 +190,7 @@
                         </div>
                     </div>
 
-                    <div class="scroll-collapse-tree" id="algo-desc-graph" style="display:block;"> 
+                    <div class="scroll-collapse-tree" id="algo-desc-graph"> 
                         <svg id="maine" class="selection-svg">
                             <defs>
                                 <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
@@ -724,11 +726,6 @@
                     </div>
 
                     
-                    <!-- EXTRACT FROM WAS HERE, MOVED UP-->
-                    
-                    
-
-
 
 
 
@@ -1003,45 +1000,21 @@
                                         <div>
                                             <div class="select-reconcile-file" id="reco-first-file">
                                                 <div class="dropdown nohide file-drop">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select File
+                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                
                                                     </button>
-                                                    <ul class="dropdown-menu reco-file">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>
-                                                </div>
-                                                <div class="dropdown nohide">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Sheet
-                                                    </button>
-                                                    <ul class="dropdown-menu reco-sheet">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>
-                                                </div>        
+                                                </div>      
                                             </div>   
                                         </div>
                                     </div>
-                                    <div class="reco-file-select-wrap">
+                                    <div class="reco-file-select-wrap" id="reco-second-file-wrap">
                                         <div>
                                             <h2>Second File</h2>
                                         </div>
                                         <div>
                                             <div class="select-reconcile-file" id="reco-second-file">
                                                 <div class="dropdown nohide file-drop">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select File
+                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     </button>
-                                                    <ul class="dropdown-menu reco-file">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>
-                                                </div>
-                                                <div class="dropdown nohide">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Sheet
-                                                    </button>
-                                                    <ul class="dropdown-menu reco-sheet">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>
                                                 </div>        
                                             </div>   
                                         </div>
@@ -1053,37 +1026,42 @@
                             <div>
                                 <h2>Match These Rows</h2>
                             </div>
-                            <div id="reco-all-cols-to-match">
+                            <div id="reco-all-cols-to-match" class="flexy-col">
                                 <div class="reco-col-match">
-                                    <div class="col-match-flexy-wrap" id="reco-match-columns">
-                                        <div class="stretch-banner">
-                                            <div class="reconcile-column-flexy">
-                                                <div class="dropdown nohide matchcol-left">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Column
-                                                    </button>
-                                                    <ul class="dropdown-menu col-select">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>                                
-                                                </div>
+                                    <div class="narrow-flex">
+                                        <div class="middle-flex-align-wrapper">
+                                            <div class="dropdown nohide matchcol-left left-flex-align">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>     
+                                                <ul class="dropdown-menu" id="reco-match-col1"></ul>                         
                                             </div>
-                                            <div class="reconcile-column-flexy">
-                                                <div class="dropdown nohide matchcol-right">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Column
-                                                    </button>
-                                                    <ul class="dropdown-menu col-select">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>                                
-                                                </div>
+                                            <div class="middle-flex-align">
+                                                <h2>and</h2>
                                             </div>
+                                            <div class="dropdown nohide matchcol-right right-flex-align">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>      
+                                                <ul class="dropdown-menu" id="reco-match-col2"></ul>                      
+                                            </div>
+                                            <!-- is this necessary for search dropdown
+                                            <div class="dropdown nohide matchcol-right">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select">
+                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
+                                                </ul>                                
+                                            </div>
+                                            -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="addcondition nohide">                    
-                            <a class="myButton" id="reco-add-match">Add Matching Columns</a>
+                        <div class="addcondition nohide no-top-margin">                    
+                            <a class="myButton" id="reco-add-match">Add Columns to Compare</a>
                         </div>
                         <div class="col-match-block">
                             <div>
@@ -1091,34 +1069,29 @@
                             </div>
                             <div id="reco-all-cols-to-compare">
                                 <div class="reco-col-match">
-                                    <div class="col-match-flexy-wrap" id="reco-match-columns">
-                                        <div class="stretch-banner">
-                                            <div class="reconcile-column-flexy">
-                                                <div class="dropdown nohide matchcol-left">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Column
-                                                    </button>
-                                                    <ul class="dropdown-menu col-select">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>                                
-                                                </div>
+                                    <div class="narrow-flex">
+                                        <div class="middle-flex-align-wrapper">
+                                            <div class="dropdown nohide matchcol-left left-flex-align">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select"></ul>                       
                                             </div>
-                                            <div class="reconcile-column-flexy">
-                                                <div class="dropdown nohide matchcol-right">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    Select Column
-                                                    </button>
-                                                    <ul class="dropdown-menu col-select">
-                                                        <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                    </ul>                                
-                                                </div>
+                                            <div class="middle-flex-align">
+                                                <h2>and</h2>
+                                            </div>
+                                            <div class="dropdown nohide matchcol-right right-flex-align">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu col-select"></ul>                              
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="addcondition nohide">                    
+                        <div class="addcondition nohide no-top-margin">                    
                             <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
                         </div>
                         <div class="addcondition nohide">                    

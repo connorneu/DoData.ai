@@ -77,12 +77,12 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     console.log('we started')
-    await add_to_carousel('Select an algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Breifly describe what you want to do or click on an algorithm type to begin', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Update', desc);
+    start_algo_path('START', 'Reconcile', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -117,7 +117,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
 }
 // 20
 //type speed 10 is a good nunmber
-async function typeSentence(sentence, eleRef, color, delay = 10) {
+async function typeSentence(sentence, eleRef, color, delay = 00) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -2222,17 +2222,17 @@ class TextScramble {
   // ——————————————————————————————————————————————————
   
   const phrases = [
-    'Combine two datasets by matching on values in a common column',
-    'Update one file with values from another',
-    'Search through files for all rows that contain names from a list',
-    'Compare two datasets to find what matches and what doesn\'t',
-    'Group together similar values to calculate metrics',
-    'Filter data based on specified conditions',
-    'Search for certain values in multiple files',
-    'Append multiple datasetes by matching column headers',
-    'Find all rows that contain specific values',
-    'Change the values based on an input file',
-    'Reconcile two files'
+    'e.g Combine two datasets by matching on values in a common column',
+    'e.g Update one file with values from another',
+    'e.g Search through files for all rows that contain names from a list',
+    'e.g Compare two datasets to find what matches and what doesn\'t',
+    'e.g Group together similar values to calculate metrics',
+    'e.g Filter data based on specified conditions',
+    'e.g Search for certain values in multiple files',
+    'e.g Create Excel function',
+    'e.g Find all rows that contain specific values',
+    'e.g Change the values based on an input file',
+    'e.g Reconcile two files'
   ]
   
   const el = document.querySelector('.text')

@@ -937,7 +937,7 @@ display: table;
    overflow-y: scroll;
    scroll-behavior: smooth;
    height:1500px;
-   display:block;
+   display:none;
 }
 .selection-svg{
     height:600px;
@@ -1209,7 +1209,7 @@ textarea {
   color: white;
   opacity:95%;
   line-height: 2;
-    height:37px;
+    height:75px;
   overflow:hidden;
   margin-top:2%;
   padding-left: 10px;
@@ -1336,14 +1336,15 @@ display: inline-block;
 }
 .help-banner-wrap h4{
     text-align: center;
-    color: rgba(196, 145, 255, 0.62);
+    color: rgb(196, 145, 255);
+    margin-top: 2%;
 }
 .help-banner-wrap h3{
     font-size: 20px;
 }
 
 .help-banner-wrap h4:hover{
-    color: rgba(236, 219, 255, 0.62);
+    color: rgb(119, 0, 255);
 }
 
 
@@ -1996,6 +1997,22 @@ outside of combine*/
     align-items: center;
     justify-content: center;
 }
+.flexy-col{
+    display:flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.reco-col-match{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1%;
+}
 .small-spacy-flexy-row > .dropdown{
     flex: 0 0 10%;
     margin-top: 0%;
@@ -2011,6 +2028,13 @@ outside of combine*/
     align-items: center;
     justify-content: center;
     margin-right:1%;
+}
+.centered-flex-row-nooffset{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 .space-left{
     margin-left:20px;
@@ -2056,4 +2080,36 @@ outside of combine*/
     align-content: center;
     display: flex;
     margin-bottom: 1%;
+}
+.middle-flex-align-wrapper{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+.left-flex-align{
+    display: flex;
+  align-items: center;
+  height: 50%;
+  justify-content: center;
+  flex: 1 0 0%;
+}
+.middle-flex-align{
+    display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.right-flex-align{
+    display: flex;
+  align-items: center;
+  height: 50%;
+  justify-content: center;
+  flex: 1 0 0%;
+}
+.narrow-flex{
+    width: 35%;
+    overflow: visible;
+    display:block;
+}
+.no-top-margin{
+    margin-top:0%;
 }

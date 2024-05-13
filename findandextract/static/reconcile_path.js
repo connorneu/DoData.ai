@@ -1,9 +1,23 @@
 async function start_reconcile(){
+    hide_containers(2);
+    document.getElementById('edit-data-tables').style.display = 'none';
     populate_file_names();
-    await add_to_carousel(['Select files to reconcile:'], action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+    await add_to_carousel('Describe how to reconcile both files :', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('reconcilefiles').style.display = 'block';
-    center_match_columns();
-    populate_drop_down('.dropdown-menu.reco-file', unique_file_names, true);
+    //center_match_columns();
+    $('#reco-first-file-wrap').find('.btn').text(dataset_names[0]);
+    $('#reco-second-file-wrap').find('.btn').text(dataset_names[1]);
+    var colheaders = get_col_headers_for_filename(dataset_names[0]);
+    populate_drop_down('#reco-match-col1', colheaders, true);
+    var colheaders = get_col_headers_for_filename(dataset_names[1]);
+    populate_drop_down('#reco-match-col2', colheaders, true);
+
+    var left_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(0).find('ul');
+    var colheaders = get_col_headers_for_filename(dataset_names[0]);
+    populate_drop_down(left_compare_columns, colheaders, true);
+    var right_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(1).find('ul');
+    var colheaders = get_col_headers_for_filename(dataset_names[1]);
+    populate_drop_down(right_compare_columns, colheaders, true);
 }
 
 function center_match_columns(){
@@ -21,6 +35,7 @@ function center_match_columns(){
     }
 }
 
+/*
 $(document.body).on('click', '.dropdown-menu.reco-file' ,async function(){ 
     var selected_file = $(this).parents(".dropdown").find('.btn').text();
     var sheet_names = get_file_sheets(selected_file);
@@ -42,18 +57,36 @@ $(document.body).on('click', '.dropdown-menu.reco-file' ,async function(){
     var col_headers = createTable_values[0];
     populate_drop_down(col_selection, col_headers, true);
 }); 
+*/
 
-$(document.body).on('click', '#reco-add-compare' ,async function(){ 
-    var colmatch_parent = document.getElementById("reco-all-cols-to-compare");
-    var clone_match = colmatch_parent.getElementsByClassName('reco-col-match')[0].cloneNode(true);
-    colmatch_parent.appendChild(clone_match);
-}); 
 
 $(document.body).on('click', '#reco-add-match' ,async function(){ 
     var colmatch_parent = document.getElementById("reco-all-cols-to-match");
     var clone_match = colmatch_parent.getElementsByClassName('reco-col-match')[0].cloneNode(true);
     colmatch_parent.appendChild(clone_match);
+    $('#reco-all-cols-to-match').find('.reco-col-match:last').find('.btn').text('Select Column')
+    var matches = $('#reco-all-cols-to-match').find('.reco-col-match');
+    if (matches.length > 3){
+        $('#reco-add-match').hide();
+    }
 }); 
+
+
+$(document.body).on('click', '#reco-add-compare' ,async function(){ 
+    var colcompareparent = document.getElementById("reco-all-cols-to-compare");
+    var clone_comapre = colcompareparent.getElementsByClassName('reco-col-match')[0].cloneNode(true);
+    colcompareparent.appendChild(clone_comapre);
+    $('#reco-all-cols-to-compare').find('.reco-col-match:last').find('.btn').text('Select Column')
+    var matches = $('#reco-all-cols-to-compare').find('.reco-col-match');
+    if (matches.length > 3){
+        $('#reco-add-compare').hide();
+    }
+}); 
+
+
+
+
+
 
 function collect_reco_params(){
     var file_selections = document.getElementsByClassName('reco-file-select-wrap');
