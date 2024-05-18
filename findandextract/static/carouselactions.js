@@ -2267,3 +2267,15 @@ function write_color(i){
         return fourth_color
     }
 }
+
+// on hover info
+$(document).on({mouseenter: function () {
+        console.log('this')
+        console.log(this)
+        $(this).closest('.join-tooltip').find('.hover-prompt').css('display', 'block')
+    },
+    mouseleave: function () {
+        $(this).closest('.join-tooltip').find('.hover-prompt').css('display', 'none')
+    }
+}, ".join-tooltip .infoimg"); 
+

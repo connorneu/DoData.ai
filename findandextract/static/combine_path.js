@@ -49,14 +49,8 @@ async function how_to_append(){
     document.getElementById('append-description').style.display = 'block';
 }
 
-$(document).on({
-    mouseenter: function () {
-        $('#joins-prompt').css('display', 'block')
-    },
-    mouseleave: function () {
-        $('#joins-prompt').css('display', 'none')
-    }
-}, ".join-tooltip .infoimg"); 
+
+
 
 // pop sheets
 /*

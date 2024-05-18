@@ -1271,6 +1271,11 @@ display: inline-block;
     margin-left:0;
     margin-right:0;
 }
+.flexy-side-drops-narrow > .dropdown{
+    flex: 0 0 2 0%;
+    margin-left:0;
+    margin-right:0;
+}
 .flexy-row{
     flex-wrap: wrap;
     flex-direction: row;
@@ -1957,7 +1962,7 @@ outside of combine*/
     left: 50%;
     background-color:black;
     text-align: left;
-    border-color: rgb(98, 0, 255) #32ce66;
+    border-color: rgb(0, 0, 0) #000000;
     padding: 10px;
 }
 .selectfile{

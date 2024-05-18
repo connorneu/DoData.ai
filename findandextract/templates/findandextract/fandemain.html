@@ -743,7 +743,7 @@
                                             <br>
                                             <h2><b>Right Join:</b> Keep all rows from the right and matching rows from left</h2>
                                         </div>
-                                        </div>
+                                    </div>
                                     <div class="join-two-files">
                                         <div class="joined-file">
                                             <div class="dropdown flexdropdown selectfile">
@@ -812,7 +812,7 @@
                     <!-- Update File -->
                     <div class="update-from-file" id="update_file_wrap">
                         <div class="describe-data-wrap" id="describe-data-upload">
-                            <div class="flexy-side-drops">
+                            <div class="flexy-side-drops-narrow">
                                 <div class="dropdown show alignbottom" id="update-from-file-drop">
                                     <h2 class="regular-header">Choose which file to update</h2>
                                     <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -835,7 +835,7 @@
                                 <div>
                                     <h2>Replace with values from another file</h2>
                                 </div>
-                                <div class="flexy-side-drops">
+                                <div class="flexy-side-drops-narrow">
                                     <div class="left-right-auto alignbottom" id="update-from-file-column-drop-replace">
                                         <div class="clear"></div>
                                         <div class="dropdown alignbottom show small-right-space">
@@ -866,7 +866,7 @@
                                 </div>
                             </div>
                             <div class="describe-data-wrap hide" id="update-how">
-                                <div class="flexy-side-drops flexy-row small-spacy-flexy-row">
+                                <div class="flexy-side-drops-narrow flexy-row small-spacy-flexy-row">
                                     <div id="update-when" class="update-cond">
                                         <div class="centered-flex-row">
                                             <div class="centered-flex-row">
@@ -1023,8 +1023,16 @@
                             </div>
                         </div>
                         <div class="col-match-block">
-                            <div>
+                            <div>                                
                                 <h2>Match These Rows</h2>
+                                <div class="join-tooltip">
+                                    <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                    <div class="hover-prompt" id="joins-prompt">
+                                        <h2><b>Select the columns in both files with common values</b></h2>
+                                        <br>
+                                        <h2>The values in these columns will be ligned up and the values in other columns will be compared</h2>
+                                    </div>
+                                </div>
                             </div>
                             <div id="reco-all-cols-to-match" class="flexy-col">
                                 <div class="reco-col-match">
@@ -1064,8 +1072,16 @@
                             <a class="myButton" id="reco-add-match">Add Columns to Compare</a>
                         </div>
                         <div class="col-match-block">
-                            <div>
+                            <div>                                
                                 <h2>Compare These Columns</h2>
+                                <div class="join-tooltip">
+                                    <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                    <div class="hover-prompt" id="joins-prompt">
+                                        <h2><b>Select columns with values to compare in both files</b></h2>
+                                        <br>
+                                        <h2>The values in these columns will be compared against each other</h2>
+                                    </div>
+                                </div>
                             </div>
                             <div id="reco-all-cols-to-compare">
                                 <div class="reco-col-match">
@@ -1094,8 +1110,8 @@
                         <div class="addcondition nohide no-top-margin">                    
                             <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
                         </div>
-                        <div class="addcondition nohide">                    
-                            <button id="submit-reco" class="glowbutton">Build Algorithm</button>
+                        <div class="addcondition">                    
+                            <button id="submit-reco" class="glowbutton hide">Build Algorithm</button>
                         </div>
                     </div>
 

@@ -205,19 +205,17 @@ def findandextract(request):
                 print(request.POST)
                 parameters = request.POST.get('parameters')
                 parameters = json.loads(parameters)
+                print('reco parameters')
+                print(parameters)
                 first_file = parameters['first_file']
-                first_sheet = parameters['first_sheet']
                 second_file = parameters['second_file']
-                second_sheet = parameters['second_sheet']
-                cols_to_match = parameters['cols_to_match']
-                cols_to_compare = parameters['cols_to_compare']
-                df_result = Reconcile_Files(first_file, first_sheet, second_file, second_sheet, cols_to_match, cols_to_compare)
+                cols_to_match = parameters['matches']
+                cols_to_compare = parameters['compares']
+                print(cols_to_compare[0])
+                df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare)
                 print('------------- RESULT --------------')
                 print(df_result)
-                df_list = melt_df(df_result)
-                print("saving result to db...")
-                for dbframe in df_list:
-                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                write_result_raw(df_result, request)
                 return HttpResponse(status=200)
             elif request.POST.get('ajax_name') == 'calculate':
                 print('START OF AJAX POST calculate')
@@ -312,16 +310,20 @@ def findandextract(request):
 
 def write_result_raw(df_result, request):
     df_list = melt_df(df_result)
+    print('dflist')
+    print(df_list)
     shitlist = []
     for elem in df_list:
         shitlist.append([elem[0], elem[1], str(request.user)])
     csv_filename = str(request.user) + ' result.csv'
+    print('shitlist')
+    print(shitlist)
     with open(csv_filename, 'w', newline='') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, delimiter='~')
         writer.writerows(shitlist)       
     with open(csv_filename) as infile:
         with connection.cursor() as stmt:
-            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep=',', columns=['key', 'val', 'uid'])
+            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
     os.remove(csv_filename)
 
 
@@ -919,9 +921,11 @@ def Unmelt_Files_To_Update(files_to_update_params):
         dfs_to_update.append(df4)
     return dfs_to_update
 
-def Reconcile_Files(first_file, first_sheet, second_file, second_sheet, match_cols, compare_cols):
-    df1 = unmelt(first_file, first_sheet)
-    df2 = unmelt(second_file, second_sheet)
+def Reconcile_Files(first_file, second_file, match_cols, compare_cols):
+    file1, sheet1 = parse_file_name_from_bracket_display(first_file)
+    df1 = unmelt(file1, sheet1)
+    file2, sheet2 = parse_file_name_from_bracket_display(second_file)
+    df2 = unmelt(file2, sheet2)
     first_file_name = first_file.replace('.csv', '')
     second_file_name = second_file.replace('.csv', '')
     df1 = df1.add_suffix(' {' + first_file_name + '}')

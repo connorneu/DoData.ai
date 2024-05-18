@@ -84,48 +84,48 @@ $(document.body).on('click', '#reco-add-compare' ,async function(){
 }); 
 
 
-
-
-
-
 function collect_reco_params(){
-    var file_selections = document.getElementsByClassName('reco-file-select-wrap');
-    var first_file = $('.reco-file-select-wrap').eq(0).find('.select-reconcile-file').find('.dropdown-menu.reco-file').parents(".dropdown").find('.btn').text();
-    var first_sheet = $('.reco-file-select-wrap').eq(0).find('.select-reconcile-file').find('.dropdown-menu.reco-sheet').parents(".dropdown").find('.btn').text();
-    var second_file = $('.reco-file-select-wrap').eq(1).find('.select-reconcile-file').find('.dropdown-menu.reco-file').parents(".dropdown").find('.btn').text();
-    var second_sheet = $('.reco-file-select-wrap').eq(0).find('.select-reconcile-file').find('.dropdown-menu.reco-sheet').parents(".dropdown").find('.btn').text();
-    var matching_cols = $('#reco-all-cols-to-match').find('.reco-col-match');
-    var compare_cols = $('#reco-all-cols-to-compare').find('.reco-col-match');
-    var cols_to_match = [];
-    for (var i=0;i<matching_cols.length;i++){
-        var matching_values = $(matching_cols[i]).find('.dropdown-menu.col-select');
-        cols_to_match.push([$(matching_values[0]).parents(".dropdown").find('.btn').text(), $(matching_values[1]).parents(".dropdown").find('.btn').text()]);
-    } 
-    var cols_to_compare = [];
-    for (var i=0;i<compare_cols.length;i++){
-        var matching_values = $(compare_cols[i]).find('.dropdown-menu.col-select');
-        cols_to_compare.push([$(matching_values[0]).parents(".dropdown").find('.btn').text(), $(matching_values[1]).parents(".dropdown").find('.btn').text()]);
-    } 
-    var reco_params_map = {
+    var first_file = $('#reco-first-file').find('.btn').text();
+    var second_file = $('#reco-second-file').find('.btn').text();
+    var match_elems = $('#reco-all-cols-to-match').find('.reco-col-match');
+    var compare_elems = $('#reco-all-cols-to-compare').find('.reco-col-match');
+    var matches = [];
+    var compares = [];
+    for (var i=0;i<match_elems.length;i++){
+        var left_match = $(match_elems[i]).find('.dropdown.nohide.matchcol-left.left-flex-align').find('.btn').text();
+        var right_match = $(match_elems[i]).find('.dropdown.nohide.matchcol-right.right-flex-align').find('.btn').text();
+        matches.push([left_match, right_match]);
+    }
+    var compare_elems = $('#reco-all-cols-to-compare').find('.reco-col-match');
+    for (var i=0;i<compare_elems.length;i++){
+        var left_compare = $(compare_elems[i]).find('.dropdown.nohide.matchcol-left.left-flex-align').find('.btn').text();
+        var right_compare = $(compare_elems[i]).find('.dropdown.nohide.matchcol-right.right-flex-align').find('.btn').text();
+        compares.push([left_compare, right_compare]);
+    }
+    var reco_params = {
         first_file: first_file,
-        first_sheet : first_sheet,
-        second_file : second_file,
-        second_sheet : second_sheet,
-        cols_to_match : cols_to_match,
-        cols_to_compare : cols_to_compare
-    }; 
-    return reco_params_map;
+        second_file: second_file,
+        matches: matches,
+        compares: compares
+    }
+    return reco_params;
 }
 
+$(document.body).on('click', '#reco-all-cols-to-compare .dropdown.nohide.matchcol-right.right-flex-align ul' ,function(){
+    console.log('founQQd')
+    $('#submit-reco').show();
+});
+
+
 $(document.body).on('click', '#submit-reco' , function(){ 
-    var reco_params_map = collect_reco_params();
-    submit_reco_algo_parameters(reco_params_map);
+    var reco_params = collect_reco_params();
+    submit_reco_algo_parameters(reco_params);
 }); 
 
 async function display_reconcile_result_table(data){
     hide_containers(1)
     document.getElementById('reconcilefiles').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel(['Algorithm Result:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], false, true);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }
