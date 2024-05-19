@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Reconcile', desc);
+    start_algo_path('START', 'Group', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -117,7 +117,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
 }
 // 20
 //type speed 10 is a good nunmber
-async function typeSentence(sentence, eleRef, color, delay = 00) {
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;

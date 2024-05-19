@@ -1,21 +1,30 @@
 async function start_calculate_path(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
+    var table_array = user_tables_as_array_with_brackets();
+    $('#calc-first-file').closest('.dropdown').find('.btn').text(table_array[0]);
     await add_to_carousel('Define what to calculate:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('calculate-wrap').style.display = 'block';
+    
 }
 
 // when action is selected
 $(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async function(){
     console.log("aciton")
-    var table_array = user_tables_as_array_with_brackets();
-    populate_drop_down('#calc-first-file', table_array, true);
+    if ($('#calculate-select-file').css('display') === 'none'){
+        populate_group_by_options();
+    }
+    //var table_array = user_tables_as_array_with_brackets();
+    //populate_drop_down('#calc-first-file', table_array, true);
     document.getElementById('calculate-select-file').style.display = 'block';
 
     // show add button
     var num_actions = $('.dropdown.show.action').length;
-    if(num_actions < 7){
+    if(num_actions < 5){
         $('#calc-addaction').css("display", "block");
+    }
+    else{
+        $('#calc-addaction').css("display", "none");
     }
 
     // relate action to action sentence 
@@ -29,14 +38,14 @@ $(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async func
         calc_sents.eq(0).clone().appendTo('.calc-col-select-wrap');
         var action_val = $(this).text();
         $('.calc-col-select').last().find('.btn').text('Select Column');
-        $('.calc-col-select').last().find('h2').empty();
-        $('.calc-col-select').last().find('h2').append('Calculate <b><u>' + action_val + '</b></u> for column:');
+        $('.calc-col-select').last().find('h2').eq(0).empty();
+        $('.calc-col-select').last().find('h2').eq(0).append('Calculate <b><u>' + action_val + '</b></u> for column:');
     }
     else{
         console.log('oldaction')
         var action_val = $(this).text();
-        $('.calc-col-select').eq(action_index-1).find('h2').empty();
-        $('.calc-col-select').eq(action_index-1).find('h2').append('Calculate <b><u>' + action_val + '</b></u> for column:');
+        $('.calc-col-select').eq(action_index-1).find('h2').eq(0).empty();
+        $('.calc-col-select').eq(action_index-1).find('h2').eq(0).append('Calculate <b><u>' + action_val + '</b></u> for column:');
     }
 });
 
@@ -45,29 +54,27 @@ $(document.body).on('click', '.calc-col-select li a' ,async function(){
     $('#submit-calc-wrap').css('display', 'block');
 });
 
-// when file is selected show columns
-$(document.body).on('click', '#calc-first-file li a' ,async function(){
-    var selectedfile = this.firstChild.data;
-    var colheaders = get_col_headers_for_filename(selectedfile);
-    populate_drop_down('#calc-groupby-first-ul', colheaders, true);
-    populate_drop_down('#calc-groupby-second-ul', colheaders, true);
+//
+function populate_group_by_options(){
+    var table_array = user_tables_as_array_with_brackets();
+    var colheaders = get_col_headers_for_filename(table_array[0]);
+    var groupby_elem = $('#calc-group-select').find('.groupby-dropdown').find('ul');
+    populate_drop_down(groupby_elem, colheaders, true);
     $('#calc-group-select').css("display", "block");
     add_col_select_for_calc(colheaders);
-});
+};
 
 function add_col_select_for_calc(colheaders){
     var actions = $('.calc-actions > .dropdown');
     var num_actions = actions.length;
     console.log('num actions: '+ num_actions)
-    var action_values = []
     for (var i=0;i<actions.length;i++){
         var value = $(actions[i]).find('.btn').text();
-        console.log('value: ' + value)
-        if (i === 0){            
-            populate_drop_down('#calc-col-select-ul1', colheaders, true);
-            $('.calc-col-select').css("display", "flex");
-            $('#calc-col-select-ul1').closest('.dropdown').find('.btn').text('Select Column');
-        }
+        console.log('value: ' + value) 
+        var action_col_select_elems = $('#calc-col-select-wrapper').find('.dropdown.nohide.matchcol-right.right-flex-align.col.flex').find('ul');
+        populate_drop_down(action_col_select_elems, colheaders, true);
+        $('.calc-col-select').css("display", "flex");
+        $('#calc-col-select-wrapper').find('.dropdown.nohide.matchcol-right.right-flex-align.col.flex').find('.btn').text('Select Column');
     }
 }
 
@@ -88,8 +95,16 @@ $(document.body).on('click', '#calc-groupby-first-ul li a' ,async function(){
 
 // when add group by is clciked show second group
 $(document.body).on('click', '#calc-add-groupby' ,async function(){
-    $('#calc-groupby-second-ul').closest('.calc-groupby').css('display', 'flex');
-    $('#calc-add-groupby').css("display", "none");
+    var table_array = user_tables_as_array_with_brackets();
+    var colheaders = get_col_headers_for_filename(table_array[0]);
+    $('#groupbywrap').find('.dropdown').eq(0).clone().appendTo('#groupbywrap');
+    $('#groupbywrap').append($('#calc-add-groupby'))
+    $('#groupbywrap').find('.dropdown:last').find('.btn').text('Select Column')
+    var new_groupby_elem = $('#groupbywrap').find('.dropdown:last').find('ul')
+    populate_drop_down(new_groupby_elem, colheaders, true);
+    if ($('.dropdown.col.flex.groupby-dropdown').length > 3){
+        $('#calc-add-groupby').hide();
+    }
 });
 
 // when add action is clicked add another calc sentence (calc-col-select)

@@ -72,7 +72,7 @@
                         </li>
                     </ul>
                     <CENTER>
-                        <div class="nav-title"> Automate away the most boring part of your day. </div>
+                        <div class="nav-title"> Automate away the most boring part of your day</div>
                     </CENTER>
                 </nav>
             </div>
@@ -1357,7 +1357,7 @@
 
 
 
-                    <!-- CALCULATE -->
+                    <!-- GROUP -->
                     <div class="describe-data-wrap" id="calculate-wrap">
                         <div class="calculate-what-wrap">
                             <div class="calc-actions">
@@ -1373,12 +1373,12 @@
                                         <li><a class="dropdown-item">Average</a></li>
                                     </ul>
                                 </div>
-                                <a id='calc-addaction' class="myButton conditionbtn smol">Add Calculation</a>
+                                <a id='calc-addaction' class="myButton conditionbtn smol hide">Add Calculation</a>
                             </div>
                         </div>          
                         <div class="calc-select-files" id="calculate-select-file">
                             <div class="dropdown show flex">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Use Uploaded File:
                                 </button>
                                 <ul class="dropdown-menu" id="calc-first-file"></ul>
@@ -1389,25 +1389,38 @@
                                         <div class="h-sentence-wrap">
                                             <h2>Group By:</h2>
                                         </div>
-                                        <div class="dropdown col flex">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            No Group
-                                            </button>
-                                            <ul class="dropdown-menu" id="calc-groupby-first-ul"></ul>
-                                        </div>
-                                        <a id='calc-add-groupby' class="myButton conditionbtn smol">Add Group</a>
-                                    </div>
-                                    <div class="calc-groupby hide">
-                                        <div class="dropdown col flex">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            No Group
-                                            </button>
-                                            <ul class="dropdown-menu" id="calc-groupby-second-ul"></ul>
+                                        <div class="flexy-wrap-parent" id="groupbywrap">
+                                            <div class="dropdown col flex groupby-dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                No Group
+                                                </button>
+                                                <ul class="dropdown-menu"></ul>
+                                            </div>
+                                            <a id='calc-add-groupby' class="myButton conditionbtn smol">Add Group</a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="calc-col-select-wrap">
+                                <div class="calc-col-select-wrap" id="calc-col-select-wrapper">
                                     <div class="calc-col-select">
+
+                                        <div class="middle-flex-align-wrapper">
+                                            <div class="dropdown nohide matchcol-left left-flex-align">                                                
+                                                <div class="h-sentence-wrap">
+                                                    <h2></h2>
+                                                </div>                    
+                                            </div>
+                                            <div class="middle-flex-align">
+                                                <h2></h2>
+                                            </div>
+                                            <div class="dropdown nohide matchcol-right right-flex-align col flex">
+                                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Select Column
+                                                </button>
+                                                <ul class="dropdown-menu"></ul>                              
+                                            </div>
+                                        </div>
+
+                                        <!--
                                         <div class="h-sentence-wrap">
                                             <h2></h2>
                                         </div>
@@ -1416,6 +1429,8 @@
                                             </button>
                                             <ul class="dropdown-menu" id="calc-col-select-ul1"></ul>
                                         </div>
+                                        -->
+
                                     </div>
                                 </div>
                             </div> 
