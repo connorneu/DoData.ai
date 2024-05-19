@@ -115,26 +115,30 @@ $(document.body).on('click', '#nothin' ,async function(){
 });
 
 function collect_calc_params(){
-    var file = $('#calc-first-file').closest('.dropdown').find('.btn').text();
-    var groups = $('.calc-groupby');
-    var group = [];
-    for(var i=0;i<groups.length;i++){
-        if ($(groups[i]).css('display') == 'flex'){
-            group.push($(groups[i]).find('.btn').text())
-        }
+    var filename = $('#calc-first-file').closest('.dropdown').find('.btn').text();
+    var metrics_wrap = $('#calcmetrics').find('.dropdown.show.action.flexy');
+    var metrics = [];
+    for (var i=0;i<metrics_wrap.length;i++){
+        var metric = $(metrics_wrap[i]).find('.btn').text();
+        metrics.push(metric);
     }
-    var sentences = $('.calc-col-select');
-    var actions = [];
-    for (var i=0;i<sentences.length;i++){
-        var sent = $(sentences[i]).find('h2').text();
-        var action = sent.split(' ')[1];
-        var action_col = $(sentences[i]).find('.btn').text();
-        actions.push([action, action_col]);
-    }    
+    var groups_wrap = $('#groupbywrap').find('.dropdown.col.flex.groupby-dropdown');
+    groups = [];
+    for (var i=0;i<groups_wrap.length;i++){
+        var group = $(groups_wrap[i]).find('.btn').text();
+        groups.push(group);
+    }
+    var metric_cols_wrap = $('#calc-col-select-wrapper').find('.calc-col-select');
+    var metric_cols = [];
+    for (var i=0;i<metric_cols_wrap.length;i++){
+        var metric_col = $(metric_cols_wrap[i]).find('.dropdown.nohide.matchcol-right.right-flex-align.col.flex').find('.btn').text();
+        metric_cols.push(metric_col);
+    }
     var calc_params = {
-        filename: file,
-        groups: group,
-        actions: actions
+        filename: filename,
+        groups: groups,
+        metrics: metrics,
+        metric_cols: metric_cols
     }
     return calc_params;
 }

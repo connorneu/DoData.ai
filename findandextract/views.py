@@ -173,20 +173,16 @@ def findandextract(request):
                     print('dmbp')
                     #print(fande_db_data)    
                     return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
-
-
             elif request.POST.get('ajax_name') == 'combine_merge':
                 print("START OF AJAX POST combine_merge")
                 print(request.POST)
                 joins = request.POST.get('parameters')
                 joins = json.loads(joins)
                 df_result = Combine_Merge(joins)
-
                 print('------------- RESULT --------------')
                 print(df_result)
                 write_result_raw(df_result, request)
                 return HttpResponse(status=200)
-
             elif request.POST.get('ajax_name') == 'update_file':
                 print("START OF AJAX POST update file")
                 print(request.POST)
@@ -197,9 +193,7 @@ def findandextract(request):
                 print('----------------RESULT---------------')
                 print(df_result)
                 write_result_raw(df_result, request)
-                return HttpResponse(status=200)
-            
-
+                return HttpResponse(status=200)        
             elif request.POST.get('ajax_name') == 'reconcile':
                 print("START OF AJAX POST reconcile")
                 print(request.POST)
@@ -221,22 +215,12 @@ def findandextract(request):
                 print('START OF AJAX POST calculate')
                 print(request.POST)
                 parameters = request.POST.get('parameters')
-                parameters = ast.literal_eval(parameters)
+                parameters = json.loads(parameters)
                 print(parameters)
-                print(type(parameters))
-                filename = parameters['filename']
-                groups = parameters['groups']
-                actions = parameters['actions']
-                print('filename', filename)
-                print('groups', groups, groups[0])
-                print('acions', actions, actions[0])
-                df_result = calculate_metrics(filename, groups, actions)
-                print('-----------------RESULT------------')
+                df_result = Calculate_Metrics(parameters)
+                print('------------- RESULT --------------')
                 print(df_result)
-                df_list = melt_df(df_result)
-                print("saving result to db...")
-                for dbframe in df_list:
-                    obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])
+                write_result_raw(df_result, request)
                 return HttpResponse(status=200)
 
             elif request.POST.get('ajax_name') == 'classify_text':
@@ -1027,11 +1011,12 @@ def translate_action_name(action):
         return 'mean'
 
 
-def combine_actions_for_each_column_into_array(actions):
+def combine_actions_for_each_column_into_array(actions, metric_cols):
     action_dict = {}
-    for action_pair in actions:
-        action = translate_action_name(action_pair[0])
-        action_col = action_pair[1]
+    metric_cols_sort = list(reversed(metric_cols))
+    for i in range(len(actions)):
+        action = translate_action_name(actions[i])
+        action_col = metric_cols_sort[i]
         if action not in action_dict:
             print('mw dic')
             action_dict[action_col] = [action]
@@ -1043,23 +1028,23 @@ def combine_actions_for_each_column_into_array(actions):
     return action_dict
 
 
-def change_col_dtype(df, actions):
-    for action_pair in actions:
-        action = action_pair[0]
-        action_col = action_pair[1]
-        if action in ['Total', 'Minimum', 'Maximum', 'Average']:
-            df[action_col] = pd.to_numeric(df[action_col])
+def change_col_dtype(df, metric_cols):
+    for metric_col in metric_cols:
+        df[metric_col] = pd.to_numeric(df[metric_col])
     return df 
 
 
-def calculate_metrics(filename, groups, actions):
+def Calculate_Metrics(parameters):
+    filename = parameters['filename']
+    groups = parameters['groups']
+    metrics = parameters['metrics']
+    metric_cols = parameters['metric_cols']
     file, sheet = parse_file_name_from_bracket_display(filename)
     df = unmelt(file, sheet)
-    df.reset_index(drop=True, inplace=True)
     print('unmelted')
     print(df)
-    df = change_col_dtype(df, actions)
-    action_dict = combine_actions_for_each_column_into_array(actions)
+    df = change_col_dtype(df, metric_cols)
+    action_dict = combine_actions_for_each_column_into_array(metrics, metric_cols)
     print('groups:', groups)
     print('action dict:', action_dict)
     df_result = df.groupby(groups).agg(action_dict).reset_index()
