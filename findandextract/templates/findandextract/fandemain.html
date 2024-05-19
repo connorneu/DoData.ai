@@ -1359,7 +1359,22 @@
 
                     <!-- GROUP -->
                     <div class="describe-data-wrap" id="calculate-wrap">
+                        <div class="dropdown show flex header-dropdown">
+                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Use Uploaded File:
+                            </button>
+                            <ul class="dropdown-menu" id="calc-first-file"></ul>
+                        </div>   
                         <div class="calculate-what-wrap">
+                            <div class="h-sentence-wrap">
+                                <div class="join-tooltip">
+                                    <img class="infoimg" src="/static/images/info.png" alt="Metrics">
+                                    <div class="hover-prompt" id="group-metrics-prompt">
+                                        <h2>What values do you want calculated when all the rows from each group are collapsed into one row?</h2>
+                                    </div>
+                                </div>
+                                <h2>Calculate metrics:</h2>
+                            </div>
                             <div class="calc-actions">
                                 <div class="dropdown show action flexy">
                                     <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -1376,23 +1391,24 @@
                                 <a id='calc-addaction' class="myButton conditionbtn smol hide">Add Calculation</a>
                             </div>
                         </div>          
-                        <div class="calc-select-files" id="calculate-select-file">
-                            <div class="dropdown show flex">
-                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Use Uploaded File:
-                                </button>
-                                <ul class="dropdown-menu" id="calc-first-file"></ul>
-                            </div>     
+                        <div class="calc-select-files" id="calculate-select-file">  
+                            <div class="join-tooltip">
+                                <img class="infoimg" src="/static/images/info.png" alt="Metrics">
+                                <div class="hover-prompt" id="group-prompt">
+                                    <h2>Values in this column will be collapsed into one row and the above metrics calculated.</h2>
+                                </div>
+                            </div>
                             <div class="calc-col-group-select-wrap" id="calc-group-select"> 
+                                <div class="h-sentence-wrap">
+                                    <h2>Group By:</h2>
+                                </div>
                                 <div class="calc-groupby-wrap">
+
                                     <div class="calc-groupby">
-                                        <div class="h-sentence-wrap">
-                                            <h2>Group By:</h2>
-                                        </div>
                                         <div class="flexy-wrap-parent" id="groupbywrap">
                                             <div class="dropdown col flex groupby-dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                No Group
+                                                Select Column
                                                 </button>
                                                 <ul class="dropdown-menu"></ul>
                                             </div>

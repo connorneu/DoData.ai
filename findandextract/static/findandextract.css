@@ -1600,23 +1600,19 @@ outside of combine*/
 
 /*Load algorithm button*/
 .glowbutton {
-    --glow-color: rgb(217, 176, 255);
+    --glow-color: rgb(132, 0, 255);
     --glow-spread-color: rgba(191, 123, 255, 0.181);
     --enhanced-glow-color: rgb(231, 206, 255);
-    --btn-color: rgb(100, 61, 136);
+    --btn-color: rgb(220, 95, 255);
     border: .25em solid var(--glow-color);
     padding: 1em 3em;
-    color: var(--glow-color);
-    font-size: 15px;
+    color: rgb(55, 55, 55);
+    font-size: 14px;
     font-weight: bold;
     background-color: var(--btn-color);
     border-radius: 1em;
     outline: none;
-    box-shadow: 
-           0 0 1em .025em var(--glow-color), 
-           0 0 40em 1em var(--glow-spread-color), 
-           inset 0 0 .075em .025em var(--glow-color);
-
+    box-shadow: 0 0 1em .005em var(--glow-color), 0 0 0.1em 0.2em var(--glow-spread-color), inset 0 0 .75em .25em var(--glow-color);
     text-shadow: 0 0 .5em var(--glow-color);
     position: relative;
     transition: all 0.3s;
@@ -1637,10 +1633,10 @@ outside of combine*/
    }
    
    .glowbutton:hover {
-    color: var(--btn-color);
+    color: rgb(255, 176, 176);/*var(--btn-color)*/;
     background-color: var(--glow-color);
     box-shadow: 0 0 1em .25em var(--glow-color),
-           0 0 4em 2em var(--glow-spread-color),
+           0 0 40em 20em var(--glow-spread-color),
            inset 0 0 .75em .25em var(--glow-color);
    }
    
@@ -1656,7 +1652,7 @@ outside of combine*/
         bottom: 0%;
         left: 50%;
         transform: translate(-50%, -50%);*/
-        margin-top: 2%;
+        margin-top: 4%;
    }
    .submit-algo-buttons.show{
         display:block;
@@ -1759,7 +1755,7 @@ outside of combine*/
 .calc-actions{
     display:flex;
     justify-content: center; 
-    margin-top:2%; 
+    margin-top:0%; 
     align-items : center;  
 }
 .myButton.conditionbtn.smol{
@@ -1780,9 +1776,12 @@ outside of combine*/
 .calc-select-files{
     display:none;
     justify-content: center;   
-    margin-top:3%; 
+    margin-top:2%; 
     white-space: nowrap;
     vertical-align:middle;
+}
+#calculate-wrap .btn{
+    margin-top:0%;
 }
 .dropdown.col.flex{
     display: flex;
@@ -1794,6 +1793,13 @@ outside of combine*/
     flex: 0 0 0%;
     margin: 0px 2%;
 }
+#groupbywrap{
+    width: 100%;
+    justify-content: center;
+    margin-top: 0%;
+    align-items: center;
+}
+
 .dropdown.show.flex{
     display: flex;
     flex: 0 0 0%;
@@ -1802,8 +1808,7 @@ outside of combine*/
 .calc-groupby{
     display:flex;
     justify-content: center;
-    margin-top:2%;
-    margin-right:10px;
+    width:100%;
 }
 .calc-groupby.hide{
     display:none;
@@ -1818,22 +1823,19 @@ outside of combine*/
 .calc-col-select-wrap{
     display:block;
     justify-content: center;
-    margin-top: 2%;
+    margin-top: 3%;
 }
 .calc-col-select{
     justify-content: center;
     margin-top:1%;
 }
-.h-sentence-wrap{
-    display: table;
-    margin: 0px 2%;
-}
+
 .h-sentence-wrap h2{
     font-size: 16px;
     color: rgb(255, 255, 255);
-    vertical-align: middle;
+    /*vertical-align: middle;
     text-align: center;
-    display: table-cell;
+    display: table-cell;*/
 }
 .sheet-select-drop{
     font-size: 14px;
@@ -1965,13 +1967,15 @@ outside of combine*/
     left: 0;
     z-index: 10;
     border-style: inset;
-    width: 640px;
-    height: 105px;
+    /*width: 640px;
+    height: 105px;*/
+    max-width:640px;
     left: 50%;
     background-color:black;
     text-align: left;
     border-color: rgb(0, 0, 0) #000000;
     padding: 10px;
+    white-space: wrap;
 }
 .selectfile{
     padding: 0px 10px 0px 10px;
@@ -2134,4 +2138,11 @@ outside of combine*/
 }
 .leftmarginsmall{
     margin-left:2%;
+}
+.dropdown.show.flex.header-dropdown{
+    margin-bottom:2%;
+}
+#group-metrics-prompt{
+    overflow: auto;
+    height: 78px;
 }

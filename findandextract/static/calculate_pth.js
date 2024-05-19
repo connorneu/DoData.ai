@@ -3,7 +3,7 @@ async function start_calculate_path(){
     document.getElementById('edit-data-tables').style.display = "none";
     var table_array = user_tables_as_array_with_brackets();
     $('#calc-first-file').closest('.dropdown').find('.btn').text(table_array[0]);
-    await add_to_carousel('Define what to calculate:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('Describe how to group data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('calculate-wrap').style.display = 'block';
     
 }
@@ -115,7 +115,7 @@ $(document.body).on('click', '#nothin' ,async function(){
 });
 
 function collect_calc_params(){
-    var file = $('.dropdown.show.flex').find('.btn').text();
+    var file = $('#calc-first-file').closest('.dropdown').find('.btn').text();
     var groups = $('.calc-groupby');
     var group = [];
     for(var i=0;i<groups.length;i++){
