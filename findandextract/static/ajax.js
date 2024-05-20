@@ -316,7 +316,9 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         // on error
         error: function (request, status, error) {
 
-            alert(request.responseText);
+            console.log(request);
+            alert(request.responseText)
+
 
         }
     });

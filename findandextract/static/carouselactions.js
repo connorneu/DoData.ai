@@ -1122,8 +1122,6 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         //this used to be createTable(repivoted_data, data_tableid) you added the rest to be able to actual max col
         createTable_values1 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values1[0];
-        console.log('datadys headers')
-        console.log(col_headers)
         var createTable_html = createTable_values1[1];
         table_html_obj_arr = parse_table_column_values(createTable_html);
     }
@@ -1132,8 +1130,6 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         createTable_values2 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
-        console.log('datadys headers2')
-        console.log(createTable_html)
         table_html_obj_arr2 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 3){
@@ -1141,21 +1137,16 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         createTable_values3 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values3[0];
         var createTable_html = createTable_values3[1];
-        console.log('datadys headers3')
-        console.log(createTable_html)
         table_html_obj_arr3 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 4){
         var repivoted_data = repivot_keyval(data_json, fourth_file_name, selected_sheet);
         createTable_values4 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values4[0];
-        console.log('datadys headers4')
-        console.log(col_headers)
         var createTable_html = createTable_values4[1];
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 0){
-        console.log('zeeeer')
         var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
         var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=30);
         var col_headers = createTable_values0[0];
@@ -1375,7 +1366,6 @@ function parse_table_column_values(table_html){
     for (var i = 0; i<headers_dirty.length; i++){
         var header_arr = headers_dirty[i].split('<th>');
         var header = header_arr[header_arr.length - 1];
-        console.log('header: ' + header)
         headers.push(header);
     }
     // for each column header
@@ -1581,7 +1571,6 @@ function clean_algorithm_description(algo_desc){
 }
 
 async function start_algo_path(node_name, parent_node_name, algo_desc){
-    console.log('NODENAME ' + node_name + ' blach' + parent_node_name)
     //hide_containers(2);
     document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     if (node_name === 'START'){
@@ -1883,8 +1872,6 @@ function edit_phrases(phrases){
     for(var i=0;i<phrases.length;i++){
         var edit = phrases[i]
         edit = edit.replace(/\s/g,'')
-        console.log('edit')
-        console.log(edit)
         if (edit !== '...' && edit !== '' && edit.toLowerCase().indexOf("filter") === -1){
             clean_phrases.push(edit);
         } 
@@ -1999,19 +1986,15 @@ function get_col_headers_for_filename(filename){
     var col_headers = null;
     if (filename === primary_file_name + ' {' + primary_sheet_name + '}'){
         col_headers = createTable_values1[0];
-        console.log(col_headers)
     }
     else if(filename === secondary_file_name + ' {' + secondary_sheet_name + '}'){
         col_headers = createTable_values2[0];
-        console.log(col_headers)
     }
     else if(filename === third_file_name + ' {' + third_sheet_name + '}'){
         col_headers = createTable_values3[0];
-        console.log(col_headers)
     }
     else if(filename === fourth_file_name + ' {' + fourth_sheet_name + '}'){
         col_headers = createTable_values4[0];
-        console.log(col_headers)
     }
     return col_headers 
 }
@@ -2042,7 +2025,6 @@ $(document.body).on('input', '.search-input' , function(){
     }
     else{
         var dropdown_parent = $(this).closest('.dropdown-menu').find('a');
-        console.log(dropdown_parent.length)
         dropdown_parent.each(function(i){
             results.push(dropdown_parent[i].text)
         })
@@ -2251,27 +2233,21 @@ class TextScramble {
 
 function write_color(i){
     if (i === 0){
-        console.log('a'+i)
         return input_color
     }
     else if (1 % i === 0){
-        console.log('b'+i)
         return second_color
     }
     else if (i % 2 === 1){
-        console.log('c'+i)
         return third_color
     }
     else{
-        console.log('d'+i)
         return fourth_color
     }
 }
 
 // on hover info
 $(document).on({mouseenter: function () {
-        console.log('this')
-        console.log(this)
         $(this).closest('.join-tooltip').find('.hover-prompt').css('display', 'block')
     },
     mouseleave: function () {

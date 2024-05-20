@@ -10,7 +10,6 @@ async function start_calculate_path(){
 
 // when action is selected
 $(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async function(){
-    console.log("aciton")
     if ($('#calculate-select-file').css('display') === 'none'){
         populate_group_by_options();
     }
@@ -32,9 +31,7 @@ $(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async func
     var action_index = num_actions - action_index_rev;
     var calc_sents = $('.calc-col-select');
     // if index of action is greater than current senteces then create new sentence else change sentece
-    console.log('action index: ' + action_index +  ' csents: '+ calc_sents.length)
     if (action_index > calc_sents.length){
-        console.log('new action')
         calc_sents.eq(0).clone().appendTo('.calc-col-select-wrap');
         var action_val = $(this).text();
         $('.calc-col-select').last().find('.btn').text('Select Column');
@@ -67,10 +64,8 @@ function populate_group_by_options(){
 function add_col_select_for_calc(colheaders){
     var actions = $('.calc-actions > .dropdown');
     var num_actions = actions.length;
-    console.log('num actions: '+ num_actions)
     for (var i=0;i<actions.length;i++){
         var value = $(actions[i]).find('.btn').text();
-        console.log('value: ' + value) 
         var action_col_select_elems = $('#calc-col-select-wrapper').find('.dropdown.nohide.matchcol-right.right-flex-align.col.flex').find('ul');
         populate_drop_down(action_col_select_elems, colheaders, true);
         $('.calc-col-select').css("display", "flex");
@@ -143,6 +138,22 @@ function collect_calc_params(){
     return calc_params;
 }
 
+async function display_calc_params(calc_params){
+    hide_containers(1)
+    document.getElementById('calculate-wrap').style.display = 'none';
+    await add_to_carousel('Group Data:', input_color, [null], true, false);
+    for (var i=0;i<calc_params['groups'].length;i++){
+        var group = JSON.stringify(calc_params['groups'][i])
+        await add_to_carousel('\xa0\xa0\xa0$' + group, standard_color, [null], true, false);
+    }
+    await add_to_carousel('Calculate Metrics:', input_color, [null], true, false);
+    var metrics = calc_params['metrics']
+    var metric_cols = calc_params['metric_cols'].reverse();
+    for (var i=0;i<metrics.length;i++){
+        await add_to_carousel('\xa0\xa0\xa0Calculate: ' + metrics[i] + ' for ' + metric_cols[i], second_color, [null], true, false);
+    }
+}
+
 // when submit button is pressed
 $(document.body).on('click', '#submit-calculate' ,async function(){
     calc_params = collect_calc_params();
@@ -151,8 +162,7 @@ $(document.body).on('click', '#submit-calculate' ,async function(){
 });
 
 async function display_calculate_result_table(data){
-    hide_containers(1)
-    document.getElementById('calculate-wrap').style.display = 'none';
+    await display_calc_params(calc_params);
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';

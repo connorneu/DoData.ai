@@ -217,11 +217,20 @@ def findandextract(request):
                 parameters = request.POST.get('parameters')
                 parameters = json.loads(parameters)
                 print(parameters)
-                df_result = Calculate_Metrics(parameters)
-                print('------------- RESULT --------------')
-                print(df_result)
-                write_result_raw(df_result, request)
-                return HttpResponse(status=200)
+                try:
+                    df_result = Calculate_Metrics(parameters)   
+                    if isinstance(df_result, pd.DataFrame): 
+                        print('final result')
+                        print(df_result)
+                        print('------------- RESULT --------------')
+                        print(df_result)
+                        write_result_raw(df_result, request)
+                        return HttpResponse(status=200)
+                    else:
+                        return HttpResponse(df_result, status=400) 
+                except Exception:
+                    return HttpResponse('Critical Error', status=500)    
+
 
             elif request.POST.get('ajax_name') == 'classify_text':
                 print('POST: classify_text')
@@ -1017,7 +1026,7 @@ def combine_actions_for_each_column_into_array(actions, metric_cols):
     for i in range(len(actions)):
         action = translate_action_name(actions[i])
         action_col = metric_cols_sort[i]
-        if action not in action_dict:
+        if action_col not in action_dict:
             print('mw dic')
             action_dict[action_col] = [action]
             print(action_dict)
@@ -1030,27 +1039,30 @@ def combine_actions_for_each_column_into_array(actions, metric_cols):
 
 def change_col_dtype(df, metric_cols):
     for metric_col in metric_cols:
-        df[metric_col] = pd.to_numeric(df[metric_col])
+        try:
+            df[metric_col] = pd.to_numeric(df[metric_col])
+        except:
+            raise Exception('Cannot calculate metric on this column. Metrics can only be calculated on numeric columns. All values in this column must be numeric. You can filter out non-numeric values by using a different algorithm type first.')
     return df 
 
 
 def Calculate_Metrics(parameters):
-    filename = parameters['filename']
-    groups = parameters['groups']
-    metrics = parameters['metrics']
-    metric_cols = parameters['metric_cols']
-    file, sheet = parse_file_name_from_bracket_display(filename)
-    df = unmelt(file, sheet)
-    print('unmelted')
-    print(df)
-    df = change_col_dtype(df, metric_cols)
-    action_dict = combine_actions_for_each_column_into_array(metrics, metric_cols)
-    print('groups:', groups)
-    print('action dict:', action_dict)
-    df_result = df.groupby(groups).agg(action_dict).reset_index()
-    print('views result')
-    print(df_result)
-    return df_result
+    try:
+        filename = parameters['filename']
+        groups = list(set(parameters['groups']))
+        metrics = parameters['metrics']
+        metric_cols = parameters['metric_cols']
+        file, sheet = parse_file_name_from_bracket_display(filename)
+        df = unmelt(file, sheet)
+        df = change_col_dtype(df, metric_cols)
+        action_dict = combine_actions_for_each_column_into_array(metrics, metric_cols)
+        df_result = df.groupby(groups).agg(action_dict).reset_index()
+        if len(metric_cols) != len(set(metric_cols)):
+            df_result.columns = df_result.columns.map('_'.join)
+        return df_result
+    except Exception as e:
+        return e
+    
 
 
 
