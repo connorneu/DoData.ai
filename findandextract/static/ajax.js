@@ -42,8 +42,8 @@ $(document).ready(function () {
    });   
 })
 
-$(document).ready(async function () {
-   $(document.body).on('click', '#next_loadedfiles' ,function(){
+async function submit_files(){
+
     //catch the form's submit event 
        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
        var formData = new FormData();
@@ -88,8 +88,7 @@ $(document).ready(async function () {
        });
        
        return false;
-   });   
-})
+}
 
 async function ajax_get_db(){
    var db_data = null;
@@ -116,43 +115,38 @@ async function ajax_get_db(){
    return false;
 }
 
-//submit algorithm parameters
-//$(document).ready(function () {
-    //catch the form's submit event
-    //$(document.body).on('click', '#next_matchfiles' ,function(){
-    function submit_extract_algo_parameters(extract_params){
-       const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-       // create an AJAX call
-       $.ajax({
-           data: {   //JSON.stringify(condition_arr2)
-               'ajax_name':'submit_extract_parameters',
-                'parameters': JSON.stringify(extract_params),
+function submit_extract_algo_parameters(extract_params){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {   //JSON.stringify(condition_arr2)
+            'ajax_name':'extract',
+            'parameters': JSON.stringify(extract_params),
 
 
 
-           }, // get the form data        $(this).serialize()
-           type: 'POST', //$(this).attr('method'), // GET or POST
-           headers: {
-               "X-CSRFToken": getCookie("csrftoken")},
-           //url: "{% url 'findandextract' %}",
-           // on success
-           success: function () {
+        }, // get the form data        $(this).serialize()
+        type: 'POST', //$(this).attr('method'), // GET or POST
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        //url: "{% url 'findandextract' %}",
+        // on success
+        success: function () {
 
-               console.log("algorithm parameters submitted");
-               ajax_get_result_db('extract');
+            console.log("algorithm parameters submitted");
+            ajax_get_result_db('extract');
 
-           },
-           // on error
-           error: function (request, status, error) {
+        },
+        // on error
+        error: function (request, status, error) {
 
-               alert(request.responseText);
+            alert(request.responseText);
 
-           }
-       });
-       return false;
-    }
-   //});   
-//});
+        }
+    });
+    return false;
+}
+
 
 
 // I couldn't just return sheets from success so i had to create me_sheets and return it twice

@@ -77,12 +77,12 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     console.log('we started')
-    //await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    //await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -117,7 +117,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
 }
 // 20
 //type speed 10 is a good nunmber
-async function typeSentence(sentence, eleRef, color, delay = 0) {
+async function typeSentence(sentence, eleRef, color, delay = 10) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -424,8 +424,6 @@ async function edit_data(){
         table_div.style.display = 'block';
     }
     if (third_file_name != null){
-        console.log("third file name: " + third_file_name)
-        console.log("Third sheet name: " + third_sheet_name)
         populate_table_element(third_sheet_name, 3, 'mini_table3', null, 5);
         var table_div = document.getElementById('mini_table3').closest('.mini-table-wrap');
         table_div.style.display = 'block';
@@ -845,13 +843,8 @@ function populate_dataset_names(){
         dataset_names.push(third_file_name + ' {' + third_sheet_name + '}');
     }
     if (fourth_file_name != null){
-        dataset_names.push(fourth_sheet_name + '{' + fourth_sheet_name + '}');
+        dataset_names.push(fourth_file_name + ' {' + fourth_sheet_name + '}');
     }
-    //DELETE THIS its to prvent having to upload 4 files every test
-    //dataset_names = ['Address.csv' + ' {' + 'Sheet1' + '}',
-    //                'Client Data.csv' + ' {' + 'Sheet1' + '}',
-    //                'Client Values.csv' + ' {' + 'Sheet1' + '}',
-    //                'Program Info.csv' + '{' + 'Sheet1' + '}'];
 }
 
 function get_file_and_sheet(dataset_selection){
@@ -1557,6 +1550,7 @@ async function begin_file_upload(algo_desc){
     var num_files = calc_max_files();
     document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
     clean_algo_desc = clean_algorithm_description(algo_desc);
+    hide_containers(2);
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
     await add_to_carousel('Algorithm Description: ' + clean_algo_desc, standard_color, [], true, false);
@@ -1579,7 +1573,8 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             document.getElementById('algo-desc-graph').style.display='none';
             document.getElementById('data_post_form').style.display='none';
         }
-        if (parent_node_name === 'Extract'){
+        console.log(parent_node_name)
+        if (parent_node_name === 'Extract' || parent_node_name === 'Search'){
             console.log('algo selected - extract')
             algorithm_type = 'Extract'; 
             algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
@@ -1612,7 +1607,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if (parent_node_name === 'Columns'){
             console.log('algo selected - columns')
             algorithm_type = 'Columns'
-            algo_desc = 'Create a new column by describing what you want and having an excel formula generated.'
+            algo_desc = 'Create a new column by describing what you want and having an formula generated.'
             max_file_upload = 1;
         }
         begin_file_upload(algo_desc);
@@ -1715,47 +1710,72 @@ $(document).ready(function() {
     }
 });
 
-
+function assign_algo_type_description(algo_type){
+    if (algo_type === 'Extract' || algo_type === 'Search'){
+        algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
+        max_file_upload = 4;
+    }
+    else if (algo_type === 'Combine'){   
+        algo_desc = 'Join two datasets on either rows or column headers to combine the values into one file.' 
+        max_file_upload = 4;  
+    }
+    else if(algo_type === 'Update'){
+        algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
+        max_file_upload = 4;
+    }
+    else if (parent_node_name === 'Reconcile'){
+        algo_desc = 'Reconcile values of two datasets by matching rows and comparing similarities and differences.'
+        max_file_upload = 2;
+    }
+    else if (parent_node_name === 'Group'){
+        algo_desc = 'Group together rows of data which have common values to calculate metrics per group.'
+        max_file_upload = 1;
+    }
+    else if (parent_node_name === 'Columns'){
+        algo_desc = 'Create a new column by describing what you want and having an formula generated.'
+        max_file_upload = 1;
+    }
+}
 
 async function convert_text_to_decision(algo_type){
     setTimeout(function() {
         document.getElementById("submitloadersvg").style.display = "none";
         document.getElementById("describe-algo-banner").style.display = "none";
         document.getElementById('algo-desc-graph').style.display = 'none';
-
         //find_described_node(algo_type);
         console.log('algotype')
         console.log(algo_type['algo_type'])
+        assign_algo_type_description(algo_type['algo_type']);
         if(algo_type['algo_type'] == 'failure'){
             document.getElementsByClassName('model-failure')[0].style.display = 'block';
         }
         else{
-            confirm_algorithm_type(algo_type)
+            confirm_algorithm_type(algo_type['algo_type'])
         }
     }, 2800);
 }
 
-async function confirm_algorithm_type(algo_type){
+async function confirm_algorithm_type(selected_algo_type){
     hide_containers(2);
     document.getElementById('algo-desc-graph').style.display = 'none';
-    var algo = capitalizeFirstLetter(algo_type['algo_type'])
+    var algo = capitalizeFirstLetter(selected_algo_type)
     await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('If the description below doesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
-    document.getElementById('confirm-algo-header-desc').innerHTML =  algo_type['algo_desc'];
+    document.getElementById('confirm-algo-header-desc').innerHTML =  algo_desc;
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
-    console.log('algo type: ' + algo_type)
+    console.log('algo type: ' + selected_algo_type)
     if (algo === 'Extract'){
         document.getElementById('confirm-algo-img-extract').style.display = 'block';
-        document.getElementById('algo-example-extract').style.display = 'block';
+        //document.getElementById('algo-example-extract').style.display = 'block';
     }
     else if (algo === 'Combine'){
         document.getElementById('confirm-algo-img-combine').style.display = 'block';
     }
     else if (algo === 'Update'){
         document.getElementById('confirm-algo-img-update').style.display = 'block';
-        document.getElementById('algo-example-update').style.display = 'block';
+        //document.getElementById('algo-example-update').style.display = 'block';
     }
     else if (algo === 'Reconcile'){
         document.getElementById('confirm-algo-img-reconcile').style.display = 'block';
@@ -1769,7 +1789,7 @@ async function confirm_algorithm_type(algo_type){
         hide_containers(1);  
         document.getElementById('confirm-algo-select').style.display = 'none';
         document.getElementById('confirmalgo-btns').style.display = 'none';
-        start_algo_path('START', algo, algo_type['algo_desc'])
+        start_algo_path('START', selected_algo_type, algo_desc)
     });
 }
 
@@ -2091,6 +2111,9 @@ $(document.body).on('input', '.search-input' , function(){
 });
 
 function populate_file_names(){
+    console.log('populate filenames')
+    console.log(unique_file_names)
+    console.log(unique_sheet_names)
     primary_file_name = unique_file_names[0];
     primary_sheet_name = unique_sheet_names[0];
     secondary_file_name = unique_file_names[1];
@@ -2205,16 +2228,18 @@ class TextScramble {
   
   const phrases = [
     'e.g Combine two datasets by matching on values in a common column',
-    'e.g Update one file with values from another',
-    'e.g Search through files for all rows that contain names from a list',
+    'e.g Create a custom Excel formula',
+    'e.g Find all the rows that contain specific values',
     'e.g Compare two datasets to find what matches and what doesn\'t',
-    'e.g Group together similar values to calculate metrics',
-    'e.g Filter data based on specified conditions',
+    'e.g Group rows together that have the same value and calculate metrics for each group',
+    'e.g Change values based on an input file',
+    'e.g Filter data',
+    'e.g Update one file with values from another',
+    'e.g Reconcile 2 files',
     'e.g Search for certain values in multiple files',
-    'e.g Create Excel function',
-    'e.g Find all rows that contain specific values',
-    'e.g Change the values based on an input file',
-    'e.g Reconcile two files'
+    'e.g Create calculated column',
+    'e.g Join 2 datasets',
+    'e.g Search through multiple files and combine matching rows into one file'
   ]
   
   const el = document.querySelector('.text')

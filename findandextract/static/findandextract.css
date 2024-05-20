@@ -491,7 +491,7 @@ display: block;
 overflow-x:scroll;
 
 overflow-y: scroll;
-width: 90%;
+/*width: 90%;*/
 
 table-layout: fixed;
 
@@ -1474,7 +1474,7 @@ display: inline-block;
 
 .extractfromwrap{
     display: none;
-    width: 80%;
+    /*width: 80%;*/
     margin-left:auto;
     margin-right:auto;
     margin-top: 5%;
@@ -1982,6 +1982,9 @@ outside of combine*/
 }
 .resulttable_cont{
     overflow-x: scroll;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 #result_table_tbody td {
     min-width: 200px;
@@ -2145,4 +2148,10 @@ outside of combine*/
 #group-metrics-prompt{
     overflow: auto;
     height: 78px;
+}
+#result_table_tbody{
+    display:table;
+}
+.headertable.resulttable{
+    width: 100%;
 }

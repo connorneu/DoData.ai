@@ -14,6 +14,10 @@ $(document).ready(async function () {
     });
 });
 
+$(document.body).on('click', '#next_loadedfiles' ,function(){
+    submit_files();
+});
+
  // make dropdown value equal to selected value
 $(document.body).on('click', '.dropdown-menu li a' ,function(){      
     var selected_dropdown_value = $(this).text();
@@ -573,21 +577,16 @@ $(document.body).on('change', '.file-input' ,async function(){
     $textContainer.text(fileName);
     $($textContainer).css({marginTop: '+=6px'});;
     $textbanner.text('');
-    console.log("mesheets")
-    console.log(me_sheets)
-    console.log(me_sheets.length)
     //if (me_sheets.length > 1){
     if (Array.isArray(me_sheets)){ 
-        console.log('man sheet')
         var myelm = $(this).closest('.file-drop-area').find('ul');
-        console.log(myelm)
         var id = '#' + myelm.attr('id');
-        console.log('e ' + id)
         populate_drop_down(id, me_sheets, true);
-        //populate_drop_down("#fileone_col_ul", me_sheets, true);
-
         var a = $(id).closest('.dropdown').css('display', 'block');
     }    
+    else{
+        $(this).closest('.file-drop-area').find('.dropdown').css('display', 'none');
+    }
     
     document.getElementById('addfiles').style.display = 'block';
     if (max_file_upload <= 1){
@@ -761,7 +760,7 @@ $(document.body).on('click', '#changealgorithm' , async function(){
 $(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async function(){   
     console.log('fading in')
     try{
-        hide_containers();
+        hide_containers(2);
     }
     catch(error){
 

@@ -16,7 +16,7 @@ $(document).ready(function () {
             },            
             {
                 name:"Combine",
-                image: "/static/images/Combine v3.png",
+                image: "/static/images/Combine V4.png",
                 children: [{
                         name: "START"                        
                     }
@@ -51,7 +51,7 @@ $(document).ready(function () {
             },
             {
                 name: "Calculate",
-                image: "/static/images/Calculate v3.png",
+                image: "/static/images/Column.png",
                 children: [
                     {
                         name: "START"
@@ -169,7 +169,7 @@ $(document).ready(function () {
             .select("circle")
             .attr("r", 24)
             .style("fill", function(d) {
-                return d._children ? 'url(#grad)' : '#f50707';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
+                return d._children ? 'url(#grad)' : '#7196dd';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
             
             })
             .attr('stroke', "black")
@@ -325,13 +325,16 @@ function adjust_svg_img_y_pos(class_name){
             var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-120);    
         }
         if (node_name === 'Update'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220);    
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-200);    
         } 
         if (node_name === 'Reconcile'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-320);    
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-290);    
+        }
+        if (node_name === 'Group'){
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-370);    
         }
         if (node_name === 'Calculate'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420);    
+            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-450);    
         }
     }
 }

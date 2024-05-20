@@ -3,7 +3,6 @@ async function start_extract_file(){
     document.getElementById('edit-data-tables').style.display = "none";
     await add_to_carousel('Define values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('Any row containing these values will be selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
-    //document.getElementById('inputis_file_or_input').style.display = 'block';
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
     populate_drop_down('.dropdown-menu.datasel:eq(0)', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';
@@ -39,7 +38,7 @@ $(document.body).on('click', '#extractinputcol_ul li a' ,async function(){
     populate_drop_down('#first-file_ul', dataset_names, true);
     populate_drop_down('#second-file_ul', dataset_names, true);
     populate_drop_down('#third-file_ul', dataset_names, true);
-    populate_drop_down('#fourth-file_ul', dataset_names, true);
+    //populate_drop_down('#fourth-file_ul', dataset_names, true);
 });
 
 
@@ -284,9 +283,6 @@ $(document.body).on('click', '#extractfrom-addfile' ,async function(){
     }
     else if($('#third-extractfrom').css('display') === 'none'){
         document.getElementById('third-extractfrom').style.display = 'flex';
-    }
-    else if($('#fourth-extractfrom').css('display') === 'none'){
-        document.getElementById('fourth-extractfrom').style.display = 'flex';
         document.getElementById('extractfrom-addfile').style.display = 'none';
     }
 }); 
@@ -300,7 +296,7 @@ async function where_to_search(file_or_input, search_file){
     populate_drop_down('#first-file_ul', table_array, true);
     populate_drop_down('#second-file_ul', table_array, true);
     populate_drop_down('#third-file_ul', table_array, true);
-    populate_drop_down('#fourth-file_ul', table_array, true);
+    //populate_drop_down('#fourth-file_ul', table_array, true);
 }
 
 
@@ -324,29 +320,21 @@ $(document.body).on('click', '#data2_adj_col_header' ,async function(){
 });
 
 $(document.body).on('click', '#submit-extract' ,async function(){
-    var extract_params = collect_extract_parameters();
+    extract_params = collect_extract_parameters();
     submit_extract_algo_parameters(extract_params);
 });
 
 function collect_describe_values(){
     var describe_values = [];
-    //var describe_value_elems = document.getElementById('extract-descriptions')
     var describe_value_elems = $('#extract-descriptions').find('.describe-textarea-div-wrap');
     console.log(describe_value_elems)
     console.log(typeof describe_value_elems)
     describe_value_elems.each(function(idx, elem) {
-    //for (var i=0;i<describe_value_elems.length;i++){
         var andor = $(elem).find('.btn').eq(0).text();
         var dataset = $(elem).find('.btn').eq(1).text();
         var col = $(elem).find('.btn').eq(2).text();
         var condition = $(elem).find('.btn').eq(3).text()
         var textval = $(elem).find('textarea').val();
-        console.log('andor')
-        console.log(andor)
-        console.log(dataset)
-        console.log(col)
-        console.log(condition)
-        console.log(textval)
         describe_values.push([andor, dataset, col, condition, textval]);
     });
     return describe_values;
@@ -386,17 +374,8 @@ function collect_extract_parameters(){
     var findcol2 =  $('#second-col_ul').closest('.dropdown').find('.btn').text();
     var findfile3 =  $('#third-file_ul').closest('.dropdown').find('.btn').text();
     var findcol3 =  $('#third-col_ul').closest('.dropdown').find('.btn').text();
-    var findfile4 =  $('#fourth-file_ul').closest('.dropdown').find('.btn').text();
-    var findcol4 =  $('#fourth-col_ul').closest('.dropdown').find('.btn').text();
-    console.log('files')
-    console.log(findfile1)
-    console.log(findcol1)
-    console.log(findfile2)
-    console.log(findcol2)
-    console.log(findfile3)
-    console.log(findcol3)
-    console.log(findfile4)
-    console.log(findcol4)
+    //var findfile4 =  $('#fourth-file_ul').closest('.dropdown').find('.btn').text();
+    //var findcol4 =  $('#fourth-col_ul').closest('.dropdown').find('.btn').text();
     var input_or_description = '';
     if(extractfilename === 'Use Input File:'){
         input_or_description = 'describe';
@@ -416,18 +395,50 @@ function collect_extract_parameters(){
                                 findcol2: findcol2,
                                 findfile3: findfile3,
                                 findcol3: findcol3,
-                                findfile4: findfile4,
-                                findcol4: findcol4
+                                //findfile4: findfile4,
+                                //findcol4: findcol4
                             };
     return extract_params_map;
 }
 
-
-async function display_extract_result_table(data){
+async function display_extract_params(extract_params){
     hide_containers(2);
     document.getElementById('describe-data-extract').style.display = 'none';
+    console.log('extract params')
+    console.log(extract_params)
+    console.log(extract_params['input_or_description'])
+    console.log(extract_params['describevalues'])
+    if (extract_params['input_or_description'] === 'input'){
+        await add_to_carousel('Search using input file:', standard_color, [null], true, true);
+        await add_to_carousel('\xa0\xa0\xa0File: ' + JSON.stringify(extract_params['extractfilename']), input_color, [null], true, true);
+        await add_to_carousel('\xa0\xa0\xa0Column: ' + JSON.stringify(extract_params['extractcolname']), input_color, [null], true, true);
+        await add_to_carousel('Search in:', standard_color, [null], true, true);
+        await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile1']) + ' - ' + JSON.stringify(extract_params['findcol1']), second_color, [null], true, true);
+        if (!JSON.stringify(extract_params['findfile2']).includes('Select Dataset')){
+            await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile2']) + ' - ' + JSON.stringify(extract_params['findcol2']), second_color, [null], true, true);
+        }
+        if (!JSON.stringify(extract_params['findfile3']).includes('Select Dataset')){
+            await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile3']) + ' - ' + JSON.stringify(extract_params['findcol3']), fourth_color, [null], true, true);
+        }
+        //if (!findfile4.includes('Select Dataset')){
+        //    await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile4']) + ' - ' + JSON.stringify(extract_params['findcol4']), action_color, [null], true, true);
+        //}
+    }
+    else{
+        await add_to_carousel('\xa0\xa0\xa0Search for values:', input_color, [null], true, true);
+        for (var i=0;i<extract_params['describevalues'].length; i++){
+            var desc_val = extract_params['describevalues'][i]
+            console.log('descval')
+            console.log(desc_val)
+            await add_to_carousel('\xa0\xa0\xa0\xa0\xa0\xa0$' + JSON.stringify(desc_val), input_color, [null], true, true);
+        }
+    }
+}
+
+async function display_extract_result_table(data){
+    await display_extract_params(extract_params);
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
     
 }
