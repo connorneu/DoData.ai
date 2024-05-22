@@ -77,7 +77,7 @@ def findandextract(request):
                 print('table num:', table_name)
                 sheet_name = request.POST.get('sheet_name')
                 print('sheet name:', sheet_name)
-                df = unmelt(table_name, sheet_name)
+                df = unmelt(table_name, sheet_name, request.user)
                 df_og = df.copy(deep=True)
                 if header_row > 0:
                     df = change_header(df, header_row)
@@ -126,7 +126,7 @@ def findandextract(request):
                 #find_file_4 = params['findfile4'].rstrip().strip()
                 #find_col_4 = params['findcol4'].rstrip().strip()
                 search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
-                df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where)
+                df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
                 print('------------- RESULT --------------')
                 print(df_result)
                 write_result_raw(df_result, request)
@@ -136,7 +136,7 @@ def findandextract(request):
                 print(request.POST)
                 joins = request.POST.get('parameters')
                 joins = json.loads(joins)
-                df_result = Combine_Merge(joins)
+                df_result = Combine_Merge(joins, request.user)
                 print('------------- RESULT --------------')
                 print(df_result)
                 write_result_raw(df_result, request)
@@ -147,7 +147,7 @@ def findandextract(request):
                 params = json.loads(request.POST.get('parameters'))
                 print('update aprams')
                 print(params)
-                df_result = Update(params)
+                df_result = Update(params, request.user)
                 print('----------------RESULT---------------')
                 print(df_result)
                 write_result_raw(df_result, request)
@@ -209,7 +209,7 @@ def findandextract(request):
                 dataset = params['dataset']
                 new_col_name = params['new_col_name']
                 file, sheet = parse_file_name_from_bracket_display(dataset)
-                df = unmelt(file, sheet)
+                df = unmelt(file, sheet, request.user)
                 df_result = Parse_User_Formula(df, user_text, new_col_name)
                 print(df_result)
                 df_list = melt_df(df_result)
@@ -481,8 +481,9 @@ def is_ajax(request):
   return request.headers.get('x-requested-with') == 'XMLHttpRequest'
 
 # unmelt user data with file names
-def unmelt(file_name, sheet_name):
-    db_data = list(KeyValueDataFrame.objects.values())
+def unmelt(file_name, sheet_name, username):
+    #db_data = list(KeyValueDataFrame.objects.values())
+    db_data =  list(KeyValueDataFrame.objects.filter(uid=str(username)).values())
     key_val = []
     for row in db_data:
         if row['file_name'] == file_name and row['sheet_name'] == sheet_name:
@@ -607,18 +608,18 @@ def apply_conditions(df, conditions):
         traceback.print_exc()
         return df                    
 
-def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where):
+def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, username):
     if input_or_description == 'input':
-        df_result = Extract_Input(extract_file_name, extract_col_name, search_where)
+        df_result = Extract_Input(extract_file_name, extract_col_name, search_where, username)
     else:
-        df_result = Extract_Describe(describe_values)
+        df_result = Extract_Describe(describe_values, username)
 
                 
     #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
     return df_result
 
 
-def Extract_Describe(describe_values):
+def Extract_Describe(describe_values, username):
     df_result = None
     conds_by_file = Group_Conditions_By_File(describe_values)
     print('conds by file')
@@ -626,7 +627,7 @@ def Extract_Describe(describe_values):
     for file, conds in conds_by_file.items():
         file, sheet = parse_file_name_from_bracket_display(file)
         print("MeFile:", file, "MeConds", conds)
-        df = unmelt(file, sheet)
+        df = unmelt(file, sheet, username)
         print("WEEECONDS")
         print(conds)
         resorted_conds = ReSort_Extract_Conds(conds)
@@ -676,17 +677,17 @@ def Group_Conditions_By_File(describe_values):
     return conds
 
 
-def Extract_Input(extract_file_name, extract_col_name, search_where):
+def Extract_Input(extract_file_name, extract_col_name, search_where, username):
     df_result = None
     file, sheet = parse_file_name_from_bracket_display(extract_file_name)
-    df = unmelt(file, sheet)
+    df = unmelt(file, sheet, username)
     df_extract_values = df[extract_col_name].values.tolist()
     common_col_name = search_where[0][1]
     for dataset_name, col in search_where:
         if dataset_name != 'Select Dataset':
             print(dataset_name, '|', col)
             file, sheet = parse_file_name_from_bracket_display(dataset_name)
-            df = unmelt(file, sheet)
+            df = unmelt(file, sheet, username)
             df_single_result = Search_Column_Values(df, col, df_extract_values)
             df_single_result = df_single_result.rename(columns={col: common_col_name})
             if not df_single_result.empty:
@@ -744,15 +745,15 @@ def Search_Column_Values(df, col, df_extract_values):
     df_result = df[df[col].isin(df_extract_values)]
     return df_result
     
-def Combine_Merge(join_params):
+def Combine_Merge(join_params, username):
     print('join params')
     print(join_params)
     df_result = None
     for join in join_params:
         file1, sheet1 = parse_file_name_from_bracket_display(join[1])
         file2, sheet2 = parse_file_name_from_bracket_display(join[3])
-        df1 = unmelt(file1, sheet1)
-        df2 = unmelt(file2, sheet2)
+        df1 = unmelt(file1, sheet1, username)
+        df2 = unmelt(file2, sheet2, username)
         print('df1')
         print(df1)
         print('df2')
@@ -771,7 +772,7 @@ def Combine_Merge(join_params):
     return df_result
 
 
-def Update(params):
+def Update(params, username):
     file_to_update = params['file_to_update']
     col_to_update = params['col_to_update']
     update_from_text = params['update_from_text']
@@ -780,11 +781,11 @@ def Update(params):
     text_to_update = params['text_to_update']
     update_when = params['update_when']
     file, sheet = parse_file_name_from_bracket_display(file_to_update)
-    df_to_update = unmelt(file, sheet)
+    df_to_update = unmelt(file, sheet, username)
     if update_from_text:        
         df_result = Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update)
     else:
-        df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update)
+        df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update, username)
     return df_result
 
 
@@ -808,9 +809,9 @@ def Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_upd
     return df_to_update
 
 
-def Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update):
+def Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update, username):
     file, sheet = parse_file_name_from_bracket_display(replace_file)
-    df_replace = unmelt(file, sheet)
+    df_replace = unmelt(file, sheet, username)
     temp_suffix = '__To_Replace__'
     replace_col_suffix = replace_col + temp_suffix
     df_replace = df_replace.add_suffix(temp_suffix)
@@ -870,26 +871,26 @@ def Update_From_File_DEPERECRATE(update_file_params, files_to_update_params):
     return dfs_to_update    
 
 
-def Unmelt_Files_To_Update(files_to_update_params):
+def Unmelt_Files_To_Update(files_to_update_params, username):
     dfs_to_update = []
-    df1 = unmelt(files_to_update_params[0][0], files_to_update_params[0][1])
+    df1 = unmelt(files_to_update_params[0][0], files_to_update_params[0][1], username)
     dfs_to_update.append(df1)
     if len(files_to_update_params) > 1:
-        df2 = unmelt(files_to_update_params[1][0], files_to_update_params[1][1])
+        df2 = unmelt(files_to_update_params[1][0], files_to_update_params[1][1], username)
         dfs_to_update.append(df2)
     if len(files_to_update_params) > 2:
-        df3 = unmelt(files_to_update_params[2][0], files_to_update_params[2][1])
+        df3 = unmelt(files_to_update_params[2][0], files_to_update_params[2][1], username)
         dfs_to_update.append(df3)
     if len(files_to_update_params) > 3:
-        df4 = unmelt(files_to_update_params[3][0], files_to_update_params[4][0])
+        df4 = unmelt(files_to_update_params[3][0], files_to_update_params[4][0], username)
         dfs_to_update.append(df4)
     return dfs_to_update
 
-def Reconcile_Files(first_file, second_file, match_cols, compare_cols):
+def Reconcile_Files(first_file, second_file, match_cols, compare_cols, username):
     file1, sheet1 = parse_file_name_from_bracket_display(first_file)
-    df1 = unmelt(file1, sheet1)
+    df1 = unmelt(file1, sheet1, username)
     file2, sheet2 = parse_file_name_from_bracket_display(second_file)
-    df2 = unmelt(file2, sheet2)
+    df2 = unmelt(file2, sheet2, username)
     first_file_name = first_file.replace('.csv', '')
     second_file_name = second_file.replace('.csv', '')
     df1 = df1.add_suffix(' {' + first_file_name + '}')

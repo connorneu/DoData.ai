@@ -203,8 +203,6 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function () {
-
-            console.log("combine algorithm parameters submitted");
             ajax_get_result_db('combine');
 
         },
@@ -236,7 +234,6 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function () {
-            console.log("update file algorithm parameters submitted");
             ajax_get_result_db('update');
 
         },
@@ -268,7 +265,6 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         // on success
         success: function () {
 
-            console.log("update file algorithm parameters submitted");
             ajax_get_result_db('reconcile');
 
         },
@@ -300,15 +296,12 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function () {
-
-            console.log("update file algorithm parameters submitted");
             ajax_get_result_db('calculate');
 
         },
         // on error
         error: function (request, status, error) {
 
-            console.log(request);
             alert(request.responseText)
 
 
