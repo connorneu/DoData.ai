@@ -77,10 +77,10 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     console.log('we started')
-    await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
     fake_start();
     //if(path === "/findandextract/"){   
@@ -2284,33 +2284,22 @@ $(document).on({mouseenter: function () {
 // check if visible file dialogues are populated
 function check_no_incomplete_file_input(){
     var visible_filedrops = $('.file-drop-area:visible');
-    console.log('visible vile drosp')
-    console.log(visible_filedrops)
     for (var i=0;i<visible_filedrops.length;i++){
         var filedrop = visible_filedrops[i];
-        console.log('badguy')
-        console.log(filedrop)
         if (!check_sheet_selected(filedrop)){
-            console.log('so false')
             return false;
         }
         if (!check_filedrop_populated(filedrop)){
-            console.log('falseo')
             return false;
         }
     }  
-    console.log('tru')
     return true;
 }
 
 // check if select sheet dropdown is populated
 function check_sheet_selected(filedrop){
     var file_dropdown = $(filedrop).find('.dropdown');
-    console.log('vi')
-    console.log($(file_dropdown).css('display'))
     if ($(file_dropdown).is(':visible')){
-        console.log('Dropwdown vla')
-        console.log($(file_dropdown).find('.btn').text())
         if($(file_dropdown).find('.btn').text().includes('Select Sheet')){
             console.log('no shet selected')
             $('.warning-box-wrapper').show();
@@ -2325,8 +2314,6 @@ function check_sheet_selected(filedrop){
 // check if visible filedrops have files
 function check_filedrop_populated(filedrop){
     if ($(filedrop).is(':visible')){
-        console.log('first span')
-        console.log($(filedrop).find('span').eq(0).text())
         if($(filedrop).find('span').eq(0).text().includes('Choose files')){
             $('.warning-box-wrapper').show();
             $('#warningtext').text('You need to select a file.')

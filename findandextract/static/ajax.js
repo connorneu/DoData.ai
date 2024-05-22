@@ -83,7 +83,7 @@ async function submit_files(){
                // alert the error if any error occured
                //alert(response.responseJSON.errors);
                //console.log(response.responseJSON.errors)
-               alert(request.responseText);
+               alert('There was an error. Please try again later.');
            }
        });
        
@@ -152,15 +152,13 @@ function submit_extract_algo_parameters(extract_params){
 // I couldn't just return sheets from success so i had to create me_sheets and return it twice
 async function ajax_check_file_names(file){
     var me_sheets = null;
-    console.log('ajax check file name')
     var formData = new FormData();
-    console.log(formData)
     formData.append('file', file); 
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
-
+    // data: formData,
     await $.ajax({
-        data: formData, // get the form data        $(this).serialize()
+        data: formData, 
         type: 'POST', // GET or POST
         contentType: false,
         processData: false,

@@ -29,6 +29,7 @@ from functools import reduce
 import traceback
 from django.db import connection
 import csv
+import logging
 
 goog_w2v_model = None
 nlp = None
@@ -42,25 +43,8 @@ from django import db
 db.reset_queries()
 
 # Create your views here.
+log = logging.getLogger(__name__)
 
-class Echo:
-    """An object that implements just the write method of the file-like
-    interface.
-    """
-
-    def write(self, value):
-        """Write the value by returning it, instead of storing in a buffer."""
-        return value
-
-def stream_to_csv(request, rows):
-    #rows = (["Row {}".format(idx), str(idx)] for idx in range(65536))
-    pseudo_buffer = Echo()
-    writer = csv.writer(pseudo_buffer)
-    return StreamingHttpResponse(
-        (writer.writerow(row) for row in rows),
-        content_type="text/csv",
-        headers={"Content-Disposition": 'attachment; filename="somefilename.csv"'},
-    )
 
 def Load_Language_Model():
     global goog_w2v_model
@@ -80,12 +64,7 @@ def findandextract(request):
     global nli
     global threads
     if request.method == 'POST':
-        print("POST REQUEST MADE")
         if is_ajax(request): 
-            print('AJAX POST REQUEST')
-            #try:
-            
-            
             if request.POST.get('ajax_name') == 'filter_data':
                 warnings = "No warnings"
                 print(request.POST)
@@ -208,6 +187,7 @@ def findandextract(request):
                     else:
                         return HttpResponse(df_result, status=400) 
                 except Exception:
+                    log.error("An error occurred during calculate method", exc_info=True)
                     return HttpResponse('Critical Error', status=500)    
 
 
@@ -240,7 +220,6 @@ def findandextract(request):
                 KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
                 print('saved results')
                 return HttpResponse(status=200)
-
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
@@ -252,32 +231,45 @@ def findandextract(request):
                     print('sheets:', sheets)
                     return JsonResponse({'sheets' : sheets})
                 except:
-                    print('DATA UPLOAD POS')
-                    print(request.POST)
-                    print('user::', request.user)
-                    upload_data_files(request)
-                    #return HttpResponse(status=200)
-                    fande_db_data = list(KeyValueDataFrame.objects.values())
-                    return JsonResponse({'fande_data_dump' : fande_db_data})
+                    try:
+                        # why doesnt this work as a ajax request with a name
+                        print('DATA UPLOAD POS')
+                        print(request.POST)
+                        print('user::', request.user)
+                        upload_data_files(request)
+                        #return HttpResponse(status=200)
+                        fande_db_data = list(KeyValueDataFrame.objects.values())
+                        return JsonResponse({'fande_data_dump' : fande_db_data})
+                    except Exception: 
+                        print('upload data file failure')
+                        traceback.print_exc()
+                        log.error("An error occurred during upload_data_files", exc_info=True)
+                        return HttpResponse(status=500)
 
         else:
             print("AJAXFAILURE")
+            log.error("An error occurred when checking if is ajax", exc_info=True)
             return HttpResponse(status=400)    
     else:
-        print("GET REQUEST")
-        if is_ajax(request):
-            if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
-                result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
-                return JsonResponse({'result_table' : result_table_db})
+        try:
+            print("GET REQUEST")
+            if is_ajax(request):
+                if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
+                    result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
+                    return JsonResponse({'result_table' : result_table_db})
+                else:
+                    print("AJAX GET REQUEST")
+                    fande_db_data = list(KeyValueDataFrame.objects.values())
+                    return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
-                print("AJAX GET REQUEST")
-                fande_db_data = list(KeyValueDataFrame.objects.values())
-                return JsonResponse({'fande_data_dump' : fande_db_data})
-        else:
-            x = threading.Thread(target=Get_LNI_Model) # target=Load_Language_Model
-            x.start()
-            threads.append(x)
-            return render(request, "findandextract/fandemain.html")
+                # DONT DELETE THIS FUCK
+                #x = threading.Thread(target=Get_LNI_Model) # target=Load_Language_Model
+                #x.start()
+                #threads.append(x)
+                return render(request, "findandextract/fandemain.html")
+        except:
+            log.error("An error occurred when making get request", exc_info=True)
+            return HttpResponse(status=500)  
 
 
 def write_result_raw(df_result, request):
