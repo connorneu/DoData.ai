@@ -2155,3 +2155,12 @@ outside of combine*/
 .headertable.resulttable{
     width: 100%;
 }
+.warning-box-wrapper{
+    display:none;
+    margin-top:2%;
+}
+.warning-box-wrapper h4{
+    font-size:20px;
+    color:red;
+    text-align:center;
+}

@@ -14,8 +14,13 @@ $(document).ready(async function () {
     });
 });
 
+// next after adding files - submit data
 $(document.body).on('click', '#next_loadedfiles' ,function(){
-    submit_files();
+    if (check_no_incomplete_file_input()){
+        $('.warning-box-wrapper').hide();
+        $('#warningtext').text('')
+        submit_files();
+    }
 });
 
  // make dropdown value equal to selected value

@@ -82,7 +82,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     //await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -96,7 +96,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Group', desc);
+    start_algo_path('START', 'Extract', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -117,7 +117,7 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
 }
 // 20
 //type speed 10 is a good nunmber
-async function typeSentence(sentence, eleRef, color, delay = 10) {
+async function typeSentence(sentence, eleRef, color, delay = 0) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
@@ -2235,10 +2235,10 @@ class TextScramble {
     'e.g Change values based on an input file',
     'e.g Filter data',
     'e.g Update one file with values from another',
-    'e.g Reconcile 2 files',
+    'e.g Reconcile two files',
     'e.g Search for certain values in multiple files',
     'e.g Create calculated column',
-    'e.g Join 2 datasets',
+    'e.g Join two datasets',
     'e.g Search through multiple files and combine matching rows into one file'
   ]
   
@@ -2280,3 +2280,60 @@ $(document).on({mouseenter: function () {
     }
 }, ".join-tooltip .infoimg"); 
 
+
+// check if visible file dialogues are populated
+function check_no_incomplete_file_input(){
+    var visible_filedrops = $('.file-drop-area:visible');
+    console.log('visible vile drosp')
+    console.log(visible_filedrops)
+    for (var i=0;i<visible_filedrops.length;i++){
+        var filedrop = visible_filedrops[i];
+        console.log('badguy')
+        console.log(filedrop)
+        if (!check_sheet_selected(filedrop)){
+            console.log('so false')
+            return false;
+        }
+        if (!check_filedrop_populated(filedrop)){
+            console.log('falseo')
+            return false;
+        }
+    }  
+    console.log('tru')
+    return true;
+}
+
+// check if select sheet dropdown is populated
+function check_sheet_selected(filedrop){
+    var file_dropdown = $(filedrop).find('.dropdown');
+    console.log('vi')
+    console.log($(file_dropdown).css('display'))
+    if ($(file_dropdown).is(':visible')){
+        console.log('Dropwdown vla')
+        console.log($(file_dropdown).find('.btn').text())
+        if($(file_dropdown).find('.btn').text().includes('Select Sheet')){
+            console.log('no shet selected')
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a sheet for each file containing multiple sheets.')
+            return false
+        }
+    }
+    return true;
+}
+
+
+// check if visible filedrops have files
+function check_filedrop_populated(filedrop){
+    if ($(filedrop).is(':visible')){
+        console.log('first span')
+        console.log($(filedrop).find('span').eq(0).text())
+        if($(filedrop).find('span').eq(0).text().includes('Choose files')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a file.')
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+}
