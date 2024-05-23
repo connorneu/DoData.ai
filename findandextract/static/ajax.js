@@ -50,20 +50,20 @@ async function submit_files(){
        formData.append('file_1', $('input[type=file]')[0].files[0]);
        formData.append('file_1_sheet', $('#fileone_col_ul').closest('.dropdown').find('.btn').text());
        formData.append('file_1_delimiter', $('#file1-delimiter').find(":selected").val());
-       console.log('delimeter val')
-       console.log('file_1_delimiter', $('#file1-delimiter').find(":selected").val())
-       formData.append('file_1_delimiter', $('#file1-delimiter').find(":selected").val())
        if (typeof $('input[type=file]')[1].files[0] !== "undefined"){
            formData.append('file_2', $('input[type=file]')[1].files[0]);
            formData.append('file_2_sheet', $('#filetwo_col_ul').closest('.dropdown').find('.btn').text())
+           formData.append('file_2_delimiter', $('#file2-delimiter').find(":selected").val());
        }
        if (typeof $('input[type=file]')[2].files[0] !== "undefined"){
            formData.append('file_3', $('input[type=file]')[2].files[0]);
            formData.append('file_3_sheet', $('#filethree_col_ul').closest('.dropdown').find('.btn').text())
+           formData.append('file_3_delimiter', $('#file3-delimiter').find(":selected").val());
        }
        if (typeof $('input[type=file]')[3].files[0] !== "undefined"){
            formData.append('file_4', $('input[type=file]')[3].files[0]);
            formData.append('file_4_sheet', $('#filefour_col_ul').closest('.dropdown').find('.btn').text())
+           formData.append('file_4_delimiter', $('#file4-delimiter').find(":selected").val());
        }
        console.log(FormData)
        // create an AJAX call

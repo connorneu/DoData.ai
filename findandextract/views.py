@@ -347,7 +347,8 @@ def upload_data_files(request):
             print('Importing file 2...')
             myfile2 = request.FILES['file_2']     
             sheetname2 = request.POST['file_2_sheet']
-            df2_columns, df_list2 = build_df_melt(myfile2, sheetname2)
+            delimiter = request.POST['file_2_delimiter']
+            df2_columns, df_list2 = build_df_melt(myfile2, sheetname2, delimiter)
             filenum = 2
             write_upload_files_raw(df_list2, request, filenum)
     if 'file_3' in request.FILES:
@@ -356,14 +357,16 @@ def upload_data_files(request):
             filenum = 3
             myfile3 = request.FILES['file_3']  
             sheetname3 = request.POST['file_3_sheet']   
-            df3_columns, df_list3 = build_df_melt(myfile3, sheetname3)
+            delimiter = request.POST['file_3_delimiter']
+            df3_columns, df_list3 = build_df_melt(myfile3, sheetname3, delimiter)
             write_upload_files_raw(df_list3, request, filenum)
     if 'file_4' in request.FILES:
         if request.method == 'POST' and request.FILES['file_4']:    
             print('Importing file 4...')
             myfile4 = request.FILES['file_4']  
             sheetname4 = request.POST['file_4_sheet']  
-            df4_columns, df_list4 = build_df_melt(myfile4, sheetname4)
+            delimiter = request.POST['file_4_delimiter']
+            df4_columns, df_list4 = build_df_melt(myfile4, sheetname4, delimiter)
             filenum = 4
             write_upload_files_raw(df_list4, request, filenum)
 
