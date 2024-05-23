@@ -213,7 +213,7 @@ async function carousel(carousel_obj) {
                 }
             }
         }
-    }
+    }``
     updateFontColor(carousel_obj.id, carousel_obj.color)
     // evaluate functions after text has been written
     for(var j=0;j<carousel_obj.func.length;j++)

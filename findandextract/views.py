@@ -123,8 +123,6 @@ def findandextract(request):
                 find_col_2 = params['findcol2'].rstrip().strip()
                 find_file_3 = params['findfile3'].rstrip().strip()
                 find_col_3 = params['findcol3'].rstrip().strip()
-                #find_file_4 = params['findfile4'].rstrip().strip()
-                #find_col_4 = params['findcol4'].rstrip().strip()
                 search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
                 df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
                 print('------------- RESULT --------------')
@@ -174,7 +172,6 @@ def findandextract(request):
                 print(request.POST)
                 parameters = request.POST.get('parameters')
                 parameters = json.loads(parameters)
-                print(parameters)
                 try:
                     df_result = Calculate_Metrics(parameters)   
                     if isinstance(df_result, pd.DataFrame): 
@@ -223,12 +220,10 @@ def findandextract(request):
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
-                    print('AJAX file pos')
+                    print('AJAX file pos sheets')
                     print(request.POST)
                     myfile = request.FILES['file']  
-                    print(myfile)
                     sheets = get_sheet_names(myfile)
-                    print('sheets:', sheets)
                     return JsonResponse({'sheets' : sheets})
                 except:
                     try:
@@ -237,8 +232,9 @@ def findandextract(request):
                         print(request.POST)
                         print('user::', request.user)
                         upload_data_files(request)
-                        #return HttpResponse(status=200)
-                        fande_db_data = list(KeyValueDataFrame.objects.values())
+                        # i think i can do this
+                        # why would i need more than a 1000 rows
+                        fande_db_data = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     except Exception: 
                         print('upload data file failure')
@@ -254,6 +250,7 @@ def findandextract(request):
         try:
             print("GET REQUEST")
             if is_ajax(request):
+                # return the result table to display
                 if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
                     result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
                     return JsonResponse({'result_table' : result_table_db})
@@ -272,6 +269,7 @@ def findandextract(request):
             return HttpResponse(status=500)  
 
 
+# write result to result databse
 def write_result_raw(df_result, request):
     df_list = melt_df(df_result)
     print('dflist')
@@ -303,76 +301,67 @@ def clean_describe_values(describe_values_raw):
         describe_values.append(row_items)
     return describe_values
 
+
+# write uploaded files to db raw
+def write_upload_files_raw(df_list, request, filenum):
+    print('writing uploaded file', filenum)
+    list_to_write = []
+    for elem in df_list:
+        list_to_write.append([elem[0], elem[1], elem[2], elem[3], str(request.user)])
+    csv_filename = str(request.user) + ' filenum' + str(filenum) + '.csv'
+    with open(csv_filename, 'w', newline='') as f:
+        writer = csv.writer(f, delimiter='~')
+        writer.writerows(list_to_write)       
+    with open(csv_filename) as infile:
+        with connection.cursor() as stmt:
+            stmt.copy_from(infile, 'findandextract_keyvaluedataframe', sep="~", columns=['file_name', 'sheet_name', 'key', 'val', 'uid'])
+    os.remove(csv_filename)
+
+
+# call write uploaded files to db file for each individual file
 def upload_data_files(request):
     print("UPLOADING FILES")
-    print(request.FILES)
     print(request)
     if request.method == 'POST' and request.FILES['file_1']:
         print("Importing file 1...")
         print(request.FILES)
+        filenum = 1
         myfile = request.FILES['file_1']  
         sheetname = request.POST['file_1_sheet']
-        print('melting df')
-        print('mefile', myfile)
         df_columns, df_list = build_df_melt(myfile, sheetname)
-        print("saving to db...")
-        db_obj_list = []
-        for dbframe in df_list:
-            #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-            db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
-        KeyValueDataFrame.objects.bulk_create(db_obj_list)
-        print('saved')
-        db_data = list(KeyValueDataFrame.objects.values())
+        write_upload_files_raw(df_list, request, filenum)
+        #db_obj_list = []
+        #for dbframe in df_list:
+        #    #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+        #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
+        #KeyValueDataFrame.objects.bulk_create(db_obj_list)
+        #print('saved')
+        #db_data = list(KeyValueDataFrame.objects.values())
         #return redirect("findandextract")
     if 'file_2' in request.FILES:
         if request.method == 'POST' and request.FILES['file_2']:    
             print('Importing file 2...')
             myfile2 = request.FILES['file_2']     
-            sheetname = request.POST['file_2_sheet']
-            #file_names.append(myfile2)
-            print('melting df')
-            df2_columns, df2_list = build_df_melt(myfile2, sheetname)
-            print('saving to db...')
-            db_obj_list = []
-            for dbframe in df2_list:
-                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
-            KeyValueDataFrame.objects.bulk_create(db_obj_list)
-            print('saved')            
-            db_data = list(KeyValueDataFrame.objects.values())
+            sheetname2 = request.POST['file_2_sheet']
+            df2_columns, df_list2 = build_df_melt(myfile2, sheetname2)
+            filenum = 2
+            write_upload_files_raw(df_list2, request, filenum)
     if 'file_3' in request.FILES:
         if request.method == 'POST' and request.FILES['file_3']:    
             print('Importing file 3...')
+            filenum = 3
             myfile3 = request.FILES['file_3']  
-            sheetname = request.POST['file_3_sheet']   
-            #file_names.append(myfile2)
-            print('melting df')
-            df3_columns, df3_list = build_df_melt(myfile3, sheetname)
-            print('saving to db...')
-            db_obj_list = []
-            for dbframe in df3_list:
-                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
-            KeyValueDataFrame.objects.bulk_create(db_obj_list)
-            print('saved')            
-            db_data = list(KeyValueDataFrame.objects.values())
+            sheetname3 = request.POST['file_3_sheet']   
+            df3_columns, df_list3 = build_df_melt(myfile3, sheetname3)
+            write_upload_files_raw(df_list3, request, filenum)
     if 'file_4' in request.FILES:
         if request.method == 'POST' and request.FILES['file_4']:    
             print('Importing file 4...')
             myfile4 = request.FILES['file_4']  
-            sheetname = request.POST['file_4_sheet']  
-            #file_names.append(myfile2)
-            print('melting df')
-            df4_columns, df4_list = build_df_melt(myfile4, sheetname)
-            print('saving to db...')
-            db_obj_list = []
-            for dbframe in df4_list:
-                #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
-                db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
-            KeyValueDataFrame.objects.bulk_create(db_obj_list)
-            print('saved')            
-            db_data = list(KeyValueDataFrame.objects.values())
-            #return redirect("findandextract")
+            sheetname4 = request.POST['file_4_sheet']  
+            df4_columns, df_list4 = build_df_melt(myfile4, sheetname4)
+            filenum = 4
+            write_upload_files_raw(df_list4, request, filenum)
 
 #IT'S POSSIBLE YOU CAN DELETE THIS
 def findandextract_data_upload(request):
@@ -429,20 +418,19 @@ def get_sheet_names(myfile):
 
 # for raw input
 def build_df_melt(myfile, sheetname):
-    df_sheets = []
     file_ext = str(myfile).split('.')[-1]
     if file_ext[0] == 'x':
         df = pd.read_excel(myfile, sheet_name=sheetname, engine='openpyxl')
-        #for name, sheet in df.items():
-        #    sheet['sheet'] = name
-        #    sheet = sheet.rename(columns=lambda x: x.split('\n')[-1])
-        #    df_sheets.append(sheet)
-        #df = pd.concat(df_sheets)
-        #df.reset_index(inplace=True, drop=True)
         df['sheet'] = sheetname
     else:
         df = pd.read_csv(myfile)
         df['sheet'] = 'Sheet1'
+    # replace all thildes as is delimeter for db
+    print('b4')
+    print(df)
+    df = replace_thilde(df)
+    print('aft')
+    print(df)
     df_columns = list(df.columns)
     df_keyvalue = df.melt(id_vars = ['sheet'])
     print('dropping unrelated datapoints...')
@@ -450,6 +438,14 @@ def build_df_melt(myfile, sheetname):
     df_keyvalue['file_name'] = str(myfile)
     df_list = list(df_keyvalue[['file_name', 'sheet', 'variable', 'value']].values)
     return df_columns, df_list
+
+
+# replace thilde as is delimeter for db
+def replace_thilde(df):
+    df = df.replace('~', '_', regex=True)
+    df.columns = df.columns.str.replace("~", "_", regex=True)
+    return df
+
 
 # for dataframe input
 def melt_df(df):
