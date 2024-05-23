@@ -327,8 +327,12 @@ def upload_data_files(request):
         print(request.FILES)
         filenum = 1
         myfile = request.FILES['file_1']  
+        print('MYFILE')
+        print(type(myfile))
+        print(myfile)
         sheetname = request.POST['file_1_sheet']
-        df_columns, df_list = build_df_melt(myfile, sheetname)
+        delimiter = request.POST['file_1_delimiter']
+        df_columns, df_list = build_df_melt(myfile, sheetname, delimiter)
         write_upload_files_raw(df_list, request, filenum)
         #db_obj_list = []
         #for dbframe in df_list:
@@ -408,7 +412,7 @@ def melt_filtered_df(df, filename, sheetname):
 
 def get_sheet_names(myfile):
     file_ext = str(myfile).split('.')[-1]
-    if file_ext[0] == 'x':
+    if 'xl' in file_ext:
         xl = pd.ExcelFile(myfile)
         print('sheetnames', xl.sheet_names)
         return xl.sheet_names
@@ -416,21 +420,28 @@ def get_sheet_names(myfile):
         return 'Sheet1'
 
 
+def choose_delimiter(delimiter):
+    if delimiter == 'tab':
+        return '\t'
+    else:
+        return delimiter
+
+
 # for raw input
-def build_df_melt(myfile, sheetname):
+def build_df_melt(myfile, sheetname, mydelimiter):
     file_ext = str(myfile).split('.')[-1]
-    if file_ext[0] == 'x':
+    print('file ext', file_ext)
+    if 'xl' in file_ext:
         df = pd.read_excel(myfile, sheet_name=sheetname, engine='openpyxl')
         df['sheet'] = sheetname
+    if file_ext == 'txt':
+        df = pd.read_csv(myfile, delimiter=choose_delimiter(mydelimiter))
+        df['sheet'] = 'Sheet1'
     else:
         df = pd.read_csv(myfile)
         df['sheet'] = 'Sheet1'
-    # replace all thildes as is delimeter for db
-    print('b4')
-    print(df)
+    # replace all thildes as is delimiter for db
     df = replace_thilde(df)
-    print('aft')
-    print(df)
     df_columns = list(df.columns)
     df_keyvalue = df.melt(id_vars = ['sheet'])
     print('dropping unrelated datapoints...')
@@ -440,7 +451,7 @@ def build_df_melt(myfile, sheetname):
     return df_columns, df_list
 
 
-# replace thilde as is delimeter for db
+# replace thilde as is delimiter for db
 def replace_thilde(df):
     df = df.replace('~', '_', regex=True)
     df.columns = df.columns.str.replace("~", "_", regex=True)

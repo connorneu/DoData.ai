@@ -597,6 +597,9 @@ $(document.body).on('change', '.file-input' ,async function(){
     if (max_file_upload <= 1){
         document.getElementById('addsecondfile').style.display = 'none';
     }
+    if (fileName.includes('.txt')){
+        $(this).closest('.file-drop-area').find('.delimiter-wrap').show();
+    }
 });
 
 

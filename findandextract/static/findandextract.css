@@ -2164,3 +2164,16 @@ outside of combine*/
     color:red;
     text-align:center;
 }
+.delimiter-wrap{
+    margin-top: 4%;
+    width: 100%;
+    display:none;
+    label {color:wheat;};
+    
+}
+.delimiter-dropdown{
+    background: rgb(221, 195, 161);
+}
+.addfile{
+    margin-top:2%;
+}

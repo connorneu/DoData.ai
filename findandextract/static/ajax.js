@@ -48,7 +48,11 @@ async function submit_files(){
        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
        var formData = new FormData();
        formData.append('file_1', $('input[type=file]')[0].files[0]);
-       formData.append('file_1_sheet', $('#fileone_col_ul').closest('.dropdown').find('.btn').text())
+       formData.append('file_1_sheet', $('#fileone_col_ul').closest('.dropdown').find('.btn').text());
+       formData.append('file_1_delimiter', $('#file1-delimiter').find(":selected").val());
+       console.log('delimeter val')
+       console.log('file_1_delimiter', $('#file1-delimiter').find(":selected").val())
+       formData.append('file_1_delimiter', $('#file1-delimiter').find(":selected").val())
        if (typeof $('input[type=file]')[1].files[0] !== "undefined"){
            formData.append('file_2', $('input[type=file]')[1].files[0]);
            formData.append('file_2_sheet', $('#filetwo_col_ul').closest('.dropdown').find('.btn').text())
@@ -83,7 +87,7 @@ async function submit_files(){
                // alert the error if any error occured
                //alert(response.responseJSON.errors);
                //console.log(response.responseJSON.errors)
-               alert('There was an error. Please try again later.');
+               alert('There was an error reading your data. Please ensure the file is not corrupt or malformed.');
            }
        });
        
