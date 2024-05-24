@@ -547,6 +547,7 @@ display: table;
     display:flex;
     flex-direction: column;
     flex-wrap: wrap;
+    gap: 10px 20px;
 }
 .conditiondiv{
     width:100%;
@@ -559,9 +560,12 @@ display: table;
 .condition-dropdown-andor{
     display:flex;
     margin:0%;
+    visibility: hidden;
 }
 .condition-dropdown-andor > .special-interaction-dropdown{
     margin:0%;
+    min-width:0px;
+    width:69px;
 }
 .condition-dropdown{
     display:flex;
@@ -569,10 +573,16 @@ display: table;
 }
 .condition-dropdown > .special-interaction-dropdown{
     margin:0%;
+    min-width: 150px;
 }
 .condition-inputs{
     display:flex;
     align-items: center;
+    text-align: center; 
+    gap: 10px;
+}
+.condition-input{
+    text-align: center;
 }
 .condition-dropdown-action{
     display:flex;
@@ -580,9 +590,11 @@ display: table;
 }
 .condition-dropdown-action > .special-interaction-dropdown{
     margin:0px;
+    min-width: 150px;
 }
 .condition-input-wrap{
     display:flex;
+    align-items: end;
 }
 .condition-input{
     width:200px;
@@ -591,6 +603,11 @@ display: table;
     display:flex;
 }
 
+.condition-and-input-wrap{
+    visibility:hidden;
+    display: flex;
+    gap: 10px;
+}
 
 
 
@@ -671,6 +688,7 @@ display: table;
     background: rgb(208, 208, 215);
     border-color: rgb(208, 208, 215);
     color: black; 
+    min-width: 150px;
 }
 .special-interaction-dropdown:hover{
     width:fit-content;

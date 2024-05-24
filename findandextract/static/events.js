@@ -173,6 +173,8 @@ $(document.body).on('click', '#fourthsheet_ul' ,function(){
     add_to_carousel('Data File sheet: ', fourth_color, ['update_item_text_params(fourth_sheet_name)', 'adjust_col_header4()'], true, false);
 });
 
+
+
 // when col header for table 1 is adjusted
 $(document.body).on('click', '#data1_tableid' ,function(e){  
     const cell = e.target.closest('td');
@@ -273,6 +275,38 @@ $(document.body).on('click', '#data4_next_colheader' ,function(){
     add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);  
     document.getElementById('fourthcondition-container').style.display = 'block';
 })
+
+
+$(document.body).on('click', '#addconditionbtn' ,async function(){
+    $('#conditioncontainerwrap').find('.conditiondiv').eq(0).clone().appendTo('.conditiondivcontainer');
+    var new_elem = $('#conditioncontainerwrap').find('.conditiondiv:last');
+    $(new_elem).find('.condition-dropdown-andor').css('visibility', 'visible');
+    $(new_elem).find('.condition-inputs').find('.condition-and-input-wrap').css('visibility', 'hidden');
+    $(new_elem).find('.condition-dropdown').find('.btn').text('Select Column');
+    $(new_elem).find('.condition-inputs').find('.condition-dropdown-action').find('.btn').text('Equals');
+    $(new_elem).find('.condition-inputs').find('.condition-input-wrap').find('input').val('');
+    $(new_elem).find('.condition-inputs').find('.condition-and-input-wrap').find('input').val('');
+});
+
+
+// when between is selected unhide other input 
+$(document.body).on('click', '.condition-dropdown-action li a' ,async function(){
+    console.log('triggered')
+    var btn_text = $(this).text();
+    console.log(btn_text)
+    if (btn_text.includes('Between')){
+        console.log("bi ")
+        $(this).closest('.condition-inputs').find('.condition-and-input-wrap').css('visibility', 'visible');
+    }
+});
+
+
+
+$(document.body).on('click', '#conditionnext' ,async function(){
+
+});
+
+
 
 // Start Algo Path
 $(document.body).on('click', '#next-edit-mini' ,function(){
@@ -433,11 +467,6 @@ $(document.body).on('click', '#addconditionfourth' ,function(){
 */
 
 
-$(document.body).on('click', '#conditionnext' ,async function(){
-
-
-
-});
 
 
 /*
