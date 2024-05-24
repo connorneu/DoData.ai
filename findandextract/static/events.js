@@ -245,32 +245,13 @@ $(document.body).on('click', '#data4_tableid' ,function(e){
 
 // next after adjusting col headers primary data
 $(document.body).on('click', '#data1_next_colheader' ,async function(){
-    hide_containers(2);
-    //if (primary_header_row !== 0){
-    //    add_to_carousel('Header change $' + primary_file_name + ': ', input_color, [null], true, false);
-    //    add_to_carousel('\xa0\xa0\xa0' + primary_header_row, input_color, [null], true, false);
-    //}
-    //else{
-    //    add_to_carousel('Header change $' + primary_file_name + ': ', input_color, [null], true, false);
-    //    add_to_carousel('\xa0\xa0\xa0' + 'No change', input_color, [null], true, false);
-    //}
-    document.getElementById("colselecttablediv1").style.display = "none";
-    add_to_carousel('Filter: ' + primary_file_name + ' {' + primary_sheet_name + '}', input_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
-    document.getElementById("primarycondition-container").style.display = 'block';
-    //select_find_column();
+    create_filter_conditions(1);
 });
 
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data2_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv2").style.display = "none";
-    add_to_carousel('Filter: ' + secondary_file_name + ' {' + secondary_sheet_name + '}:', second_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);   
-    document.getElementById('secondarycondition-container').style.display = 'block';
+    create_filter_conditions(2);
 });
 
 // next after adjusting col headers secondary data
@@ -293,6 +274,12 @@ $(document.body).on('click', '#data4_next_colheader' ,function(){
     document.getElementById('fourthcondition-container').style.display = 'block';
 })
 
+// Start Algo Path
+$(document.body).on('click', '#next-edit-mini' ,function(){
+    decide_algo_path(algorithm_type);
+});
+
+/*
 // when add condition is clicked
 $(document.body).on('click', '#addconditionprimary' ,function(){
     var current_selection = $('#cond1_col_drop').find('.btn').text();
@@ -443,14 +430,17 @@ $(document.body).on('click', '#addconditionfourth' ,function(){
         $condition_klon.appendTo('#fourthconditionsq');          
     }
 });
+*/
 
 
-// Start Algo Path
-$(document.body).on('click', '#next-edit-mini' ,function(){
-    decide_algo_path(algorithm_type);
+$(document.body).on('click', '#conditionnext' ,async function(){
+
+
+
 });
 
 
+/*
 $(document.body).on('click', '#conditionnextprimary' ,async function(){
     //await write_extract_column_to_console();
     hide_containers(3);
@@ -536,9 +526,10 @@ $(document.body).on('click', '#conditionnextfourth' , async function(){
     document.getElementById('fourthcondition-container').style.display = 'none';
     await display_conditions(condition_arr4, fourth_header_row, fourth_file_name, fourth_sheet_name);
     ajax_submit_filters(condition_arr4, fourth_header_row, fourth_file_name, fourth_sheet_name);
-});
+});*/
 
 
+/*
 // add conditions to match
 $(document.body).on('click', '#matchaddcondition' ,function(){
     var $last_condition = $('#matchcondition-container div[id^="matchcondition1"]:last');
@@ -561,7 +552,7 @@ $(document.body).on('click', '#matchaddcondition' ,function(){
         $klon.appendTo('#matchconditioncontainer'); 
 
     }
-});
+});*/
 
 $(document.body).on('dragenter focus click', '.file-input' ,function(e){
     var node = $(e.target).parent()

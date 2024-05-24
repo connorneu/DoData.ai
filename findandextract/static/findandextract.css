@@ -525,25 +525,6 @@ display: table;
     color: black;
 } 
 
-.conditiondivcontainer{
-    width:80%;
-    height:500;
-    margin:0 auto;
-}
-
-
-.conditiondiv{
-    width:100%;
-    height:60px;
-    white-space: nowrap;
-    text-align:left;
-    vertical-align: bottom;
-     
-}
-
-.addcondition{
-    margin-top:2%;
-}
 .header-bottomspace{
     margin-bottom:1%;
 }
@@ -551,90 +532,69 @@ display: table;
     margin-top:0;
 }
 
-.condition-dropdown{
-    height:50px;
-    width:200px;
-        /*float:left;*/
-    display:inline-block;
-    /*margin-right:50px;  */
-    margin-top:1%; 
-    /*margin-right:auto;*/
-}
 
+
+
+
+
+
+
+.condition-container-wrap{
+    display:none;
+}
+.conditiondivcontainer{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.conditiondiv{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 20px;
+}
 .condition-dropdown-andor{
-    height:50px;
-    width:120px;
-        /*float:left;*/
-    display:inline-block;
-    /*margin-right:50px;  */
-    margin-top:1%; 
-
-   
+    display:flex;
+    margin:0%;
+}
+.condition-dropdown-andor > .special-interaction-dropdown{
+    margin:0%;
+}
+.condition-dropdown{
+    display:flex;
+    margin:0%;
+}
+.condition-dropdown > .special-interaction-dropdown{
+    margin:0%;
+}
+.condition-inputs{
+    display:flex;
+    align-items: center;
+}
+.condition-dropdown-action{
+    display:flex;
+    margin:0%;
+}
+.condition-dropdown-action > .special-interaction-dropdown{
+    margin:0px;
+}
+.condition-input-wrap{
+    display:flex;
+}
+.condition-input{
+    width:200px;
+    margin:0%;
+    height:35px;
+    display:flex;
 }
 
- 
+
+
+
 /*
-.condition-dropdown-btn, .dropdown-toggle{
-    display:inline-block;
-    width:150px;
-    height:35px;
-    overflow:hidden;
-    background: #484848;
-    border-color: white;
-    color: white; 
-    vertical-align: middle;
-
-}
-.condition-dropdown-btn:hover{
-    display:inline-block;
-    width:150px;
-    height:35px;
-    overflow:hidden;
-    background: white;
-    border-color: black;
-    color: black; 
-    vertical-align: middle;
-
-}
-*/
-
-
-.condition-dropdown-btn, .dropdown-toggle{
-    font-size:16px;
-    width:fit-content;
-    height:35px;
-    background: rgb(208, 208, 215);
-    border-color: rgb(208, 208, 215);
-    color: black; 
-}
-.condition-dropdown-btn:hover{
-    display:inline-block;
-    width:150px;
-    height:35px;
-    overflow:hidden;
-    background: white;
-    border-color: black;
-    color: black; 
-    vertical-align: middle;
-}
-
-
-
-.special-interaction-dropdown{
-    font-size:16px;
-    width:fit-content;
-    height:35px;
-    background: rgb(208, 208, 215);
-    border-color: rgb(208, 208, 215);
-    color: black; 
-}
-.special-interaction-dropdown:hover{
-    width:fit-content;
-    height:35px;
-    background: #484848;
-    border-color: rgb(208, 208, 215);
-    color: rgb(208, 208, 215);
-}
 .condition-dropdown-btn-andor{
     background: white;
     border-color: black;
@@ -656,18 +616,19 @@ display: table;
 
 }
 
+
 .condition-input{
     width:300;
     height:35px;
     text-align:center;
-        /*float:left;*/
+
     display:inline-block;
     margin-left:0px;
     vertical-align: middle;
 
 }
 .condition-input-group-text{
-        /*float:left;*/
+
     display:inline-block;
     height:50px;
     width:250px;
@@ -678,7 +639,7 @@ display: table;
 .condition-input-and{
     display:inline-block;
     width:150px;
-    /*float:left;*/
+
     height:35px;
     border-color: white; 
     text-align:center;
@@ -690,6 +651,35 @@ display: table;
     vertical-align: middle;
     margin-left:105px;
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+.special-interaction-dropdown{
+    font-size:16px;
+    width:fit-content;
+    height:35px;
+    background: rgb(208, 208, 215);
+    border-color: rgb(208, 208, 215);
+    color: black; 
+}
+.special-interaction-dropdown:hover{
+    width:fit-content;
+    height:35px;
+    background: #484848;
+    border-color: rgb(208, 208, 215);
+    color: rgb(208, 208, 215);
+}
+
 
 .matchdiv{
     display:block;

@@ -865,13 +865,39 @@ function match_dataset_to_colheaders(file_and_sheet){
     }
 }
 
-// ! moved to extract_path.js
-//async function display_primaryfileselect_drop(){
-//    // select primary file
-//    populate_drop_down('#primaryfile_ul', unique_file_names, true)
-//    document.getElementById('primaryfiledrop').style.display = 'block';
-//    document.getElementById('extractinputfile').style.display = 'block';
-//}
+function hide_header_table(file_num){
+    if (file_num === 1){
+        document.getElementById("colselecttablediv1").style.display = "none";
+        return [dataset_names[0], input_color]
+    }
+    else if (file_num === 2){
+        document.getElementById("colselecttablediv2").style.display = "none";
+        return [dataset_names[1], second_color]
+    }
+    else if (file_num === 3){
+        document.getElementById("colselecttablediv3").style.display = "none";
+        return [dataset_names[2], third_color]
+    }
+    else if (file_num === 4){
+        document.getElementById("colselecttablediv4").style.display = "none";
+        return [dataset_names[3], fourth_color]
+    }
+}
+
+async function create_filter_conditions(file_num){
+    hide_containers(2);
+    var which_file = hide_header_table(file_num);
+    add_to_carousel('Filter: ' + which_file[0], which_file[1], ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById("conditioncontainerwrap").style.display = 'block';
+    var col_headers = createTable_values1[0];
+    console.log('col headers')
+    console.log(col_headers)
+    var col_dropdown_elem = $('#conditioncontainerwrap').find('.dropdown').eq(1).find('ul'); 
+    populate_drop_down(col_dropdown_elem, col_headers, true);
+}
+
 
 // select primary sheet
 function display_primaryfilesheets_drop() {

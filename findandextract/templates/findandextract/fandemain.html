@@ -120,10 +120,6 @@
                             <h3>An algorithm type will be suggested based on your requirements</h3>   
                         </div>
                     
-                        
-                        <!--<div class="container">
-                            <div class="text"></div>
-                        </div>-->
                         <div class="describetextboxwrap" id="textbox-algo-desc-wrap">
                             <span id="submiticonwrap">
 
@@ -216,33 +212,10 @@
                         <div class="what-you-need-banner-wrap" id="descriptiondontseewhatyouneed" style="display:none">
                             <h4>Don't see what you need?</h4>
                         </div>
-                        <!--
-                        <div class="algo-select">
-                            <div class="algo-details" id="search-file-one">
-                                <div class="description-box" id="graph-desc">
-                                    <h3> This aglorithm will search for all of the values selected from one file in another.</h3>
-                                    <h3> Upload a file that contains values you want to search for. If the file has more than one column, you will specify which column contains the values to search for.</h3>
-                                    <h3> You can filter the input file to remove any values you don't want to search for.</h3>
-                                    <h3> The algorithm will search for these values in the other uploaded file.</h3>
-                                </div>
-                                <div class="description-img">
-                                    <img src="/static/images/search file from input description.png" alt="search file one"/>
-                                </div>
-                            </div>    
-                            <div class="button-banner" id="searchfileone-btns">
-                                <a class="myButton bigr" id="back-algoselect">Back</a>
-                                <a class="myButton bigr" id="start_algoselect">Start</a>                    
-                            </div>
-                        </div>
-                        -->
                     </div>
 
                     <div class="filedrop" id="filedrops" style="display:none;">
-                        <!--
-                        <div class="changealgorithmwrap">
-                            <button type="button" class="btn btn-warning chngalgo" id="changealgorithm">Change Algorithm</button>
-                        </div>
-                        -->
+
                         <form id="data_post_form" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                             <div class="file-drop-area" id="fileone">
@@ -384,11 +357,6 @@
                     <!-- ADJUST COLUMN HEADER -->
                     <div class="adjustheadertable" id="colselecttablediv1">
                         <button type="button" class="btn btn-warning bigr btn-hide" id="data1_table_reset">Reset</button>
-                        
-                        <!--<table class="headertable">
-                            <tbody id="data1_tableid"></tbody>
-                        </table>
-                        -->
                         <div class="resulttable_cont">
                             <table class="headertable resulttable">
                                 <tbody id="data1_tableid"></tbody>
@@ -432,7 +400,56 @@
                             <a class="myButton" id="data4_next_colheader">Next</a>                    
                         </div>
                     </div>
+                <!-- END ADJUST HEADER -->
 
+                <!-- START FILTER -->
+                <div class="condition-container-wrap" id="conditioncontainerwrap">
+                    <div class="conditiondivcontainer">
+                        <div class="conditiondiv">
+                            <div class="dropdown condition-dropdown-andor">
+                                <button class="btn btn-outline-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item">And</a></li>
+                                    <li><a class="dropdown-item">Or</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown condition-dropdown">
+                                <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Select Column
+                                </button>            
+                                <ul class="dropdown-menu"></ul>
+                            </div>
+                            <div class="condition-inputs">
+                                <div class="dropdown condition-dropdown-action">
+                                    <button class="btn btn-outline-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Equals
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">Equals</a></li>
+                                        <li><a class="dropdown-item">Contains</a></li>
+                                        <li><a class="dropdown-item">Between</a></li>
+                                        <li><a class="dropdown-item">Greater Than</a></li>
+                                        <li><a class="dropdown-item">Less Than</a></li>
+                                        <li><a class="dropdown-item">Not Equal To</a></li>
+                                        <li><a class="dropdown-item">Does Not Contain</a></li>
+                                        <li><a class="dropdown-item">Starts With</a></li>
+                                        <li><a class="dropdown-item">Ends With</a></li>
+                                    </ul>
+                                    <div class="condition-input-wrap">
+                                        <input type="text" class="form-control condition-input">
+                                    </div>
+                                </div>
+                                <div class="condition-and-input-wrap">
+                                    <input type="text" class="form-control condition-input">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="addcondition">
+                        <a class="myButton conditionbtn" id="addconditionbtn">Add Condition</a>
+                        <a class="myButton" id="conditionnext">Next</a>
+                    </div>
+                </div>
 
 
 
@@ -478,11 +495,7 @@
                         </div>
 
                     </div>
-                    
-
-
-
-
+  
                     <!-- END COLUMNS-->
 
 
@@ -582,17 +595,10 @@
                                         <a class="myButton conditionbtn" id="extractfrom-addfile">Add File</a>
                                     </div>                                                   
                                 </div>
-
-
-
-
-
-
-
-
                             </div>
                         </div>
                         
+
                         <div class="or-separator">
                             <h2 class="regular-header">Or</h2>
                         </div>
@@ -652,6 +658,8 @@
                         </div>   
                     </div>  
 
+
+                    <!-- dead
                     <div class="dropdown" id="primaryfiledrop">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Select File
@@ -717,15 +725,10 @@
                             <tbody id="primary-colselecttable"></tbody>
                         </table>
                     </div>
-
-                    
-
-
-                    
-
+                
                     <div class="dropdown" id="firstmatchbox" style="display:none;">
                         <div id="matchboxcolumn" class="matchbox">
-                            <!-- <span>Column Name</span> -->
+
                             <div class="dropdown matchdiv" id="matchprimarycolumn">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Select Column
@@ -738,6 +741,7 @@
                         </table>
                         <h2 id="selected-match-col-primary">&nbsp;</h2>
                     </div>
+                -->
 
 
 
@@ -937,68 +941,7 @@
                     </div>
 
                     
-                    <!-- Update which files 
-                    <div class="update-this-file" id="update_this_file_wrap">
-                        <div class="update-parent-wrap">
-                            <div class="flex-items-wrap">
-                                <div class="update-from-column">
-                                    <h2>File</h2>
-                                    <div class="dropdown flexdropdown updateflexdropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select File
-                                        </button>
-                                        <ul class="updatefile dropdown-menu">
-                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="update-from-column">
-                                    <h2>Sheet</h2>
-                                    <div class="dropdown flexdropdown selectsheet">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Select Sheet
-                                        </button>
-                                        <ul class="updatesheet dropdown-menu">
-                                            <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                        </ul>
-                                    </div>             
-                                </div>
-                                <div class="update-from-column">
-                                    <h2>Match These Column Values (in other files)</h2>
-                                    <div class="flexy-dropdown-wrap">
-                                        <h2 class="updatedcol-match-label"></h2>
-                                        <div class="dropdown flexdropdown selectcolumn">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="updatecol dropdown-menu findcol">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
-                                        </div>          
-                                    </div>
-                                </div>
-                                <div class="update-from-column">
-                                    <h2>Column with values to update</h2>
-                                    <div class="flexy-dropdown-wrap">
-                                        <h2 class="updatedcol-match-label"></h2>
-                                        <div class="dropdown flexdropdown selectcolumn">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="updatecol dropdown-menu updatedcol">
-                                                <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                            </ul>                                
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="addcondition" id="next_update_this_file">
-                            <a class="myButton conditionbtn" id="add_file_update">Add File to Update</a>
-                            <button id="submit-update-file" class="glowbutton">Build Algorithm</button>
-                        </div>
-                    </div>
-                    --> 
+                    
 
                     <!-- Reconcile -->
                     <div class="algo-path-wraper" id="reconcilefiles">
@@ -1127,8 +1070,11 @@
                         </div>
                     </div>
 
+                    <!-- END RECO -->
 
 
+                    <!-- START FILTER -->
+                    <!-- OLD FILTER
                     <div class="condition-container" id="primarycondition-container" style="display:none;">
                         <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
                             <div class="conditiondiv" id="primarycondition1" style="display:none;">
@@ -1137,7 +1083,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item">And</a></li>
                                         <li><a class="dropdown-item">Or</a></li>
-                                        <!-- <li><a class="dropdown-item">And + (Or)</a></li> -->
+                                        <li><a class="dropdown-item">And + (Or)</a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown condition-dropdown" id="cond1_col_drop">
@@ -1355,7 +1301,7 @@
 
 
 
-                   <!----> <div class="addcondition" id="executeorrun" style= display:none;">
+                  <div class="addcondition" id="executeorrun" style= "display:none;">
                         <a class="myButton conditionbtn" id="addmatchdataset">Go BacK</a>
                         <a class="myButton" id="runcode">RUN</a>
                     </div>
@@ -1409,7 +1355,7 @@
                             <a class="myButton" id="conditionnextmatch">Next</a>
                         </div>
                     </div>             
-
+                    -->
 
 
                     <!-- GROUP -->
@@ -1511,7 +1457,7 @@
                         </div> 
                     </div>  
 
-                    <!-- END CALCULATE -->
+                    <!-- END group -->
 
 
 
@@ -1533,18 +1479,6 @@
                     </div>
 
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
             </div>
         </div>
