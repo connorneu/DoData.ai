@@ -90,13 +90,13 @@ def findandextract(request):
                         df = df_og
                 if header_row > 0 or conds[0][1] != 'Select Column':
                     print('deleting old records')
-                    objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name)
+                    objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
                     objs_del.delete()
                     df_list = melt_filtered_df(df, table_name, sheet_name)
                     print('saving to db...')
                     db_obj_list = []
                     for dbframe in df_list:                    
-                        db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]))
+                        db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
                     KeyValueDataFrame.objects.bulk_create(db_obj_list)
                     print('saved')            
                     fande_db_data = list(KeyValueDataFrame.objects.values())
@@ -437,7 +437,7 @@ def build_df_melt(myfile, sheetname, mydelimiter):
     if 'xl' in file_ext:
         df = pd.read_excel(myfile, sheet_name=sheetname, engine='openpyxl')
         df['sheet'] = sheetname
-    if file_ext == 'txt':
+    elif file_ext == 'txt':
         df = pd.read_csv(myfile, delimiter=choose_delimiter(mydelimiter))
         df['sheet'] = 'Sheet1'
     else:
@@ -532,6 +532,7 @@ def change_header(df, header_row):
     print(list(df.columns.values))
     print(df.index.name)
     print(df)
+    print('header:', header_row)
     df.columns = df.iloc[header_row-1]    
     df = df.iloc[pd.RangeIndex(len(df)).drop(header_row-1)]
     print('?df', isinstance(df,pd.DataFrame))

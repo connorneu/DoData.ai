@@ -581,19 +581,19 @@ async function display_conditions(condition_arr, header_row, file_name, sheet_na
         filenum = 2;
     }
     else if (file_name === third_file_name){
-        color = third_file_name;
+        color = third_color;
         mini_table_name = 'mini_table3';
         sheet = third_sheet_name;
         filenum = 3;
     }
     else if (file_name === fourth_file_name){
-        color = fourth_file_name;
+        color = fourth_color;
         mini_table_name = 'mini_table4';
         sheet = fourth_sheet_name;
         filenum = 4;
     }
     if (header_row > 0){
-        await add_to_carousel('Header row updated: ' + header_row + 1, color, [null], true, false);
+        await add_to_carousel('Header row updated: ' + (parseInt(header_row,10) + 1), color, [null], true, false);
     }
     var cond_count = 1;
     var condition_string = null;
@@ -831,6 +831,8 @@ async function summarize_choices(){
 }
 
 function populate_dataset_names(){
+    dataset_index = [];
+    dataset_names = [];
     dataset_index.push([primary_file_name, primary_sheet_name, createTable_values1[0]]);
     dataset_index.push([secondary_file_name, secondary_sheet_name, createTable_values2[0]]);
     dataset_index.push([third_file_name, third_sheet_name, createTable_values3[0]]);

@@ -97,7 +97,7 @@ $(document.body).on('click', '#data3_table_reset' ,function(e){
 
 // reset table 4
 $(document.body).on('click', '#data4_table_reset' ,function(e){
-    var col_headers = populate_table_element(third_sheet_name, 3, 'data4_tableid') // populate table with selected values
+    var col_headers = populate_table_element(fourth_sheet_name, 4, 'data4_tableid') // populate table with selected values
     document.getElementById("data4_table_reset").style.display = "none";
     fourth_header_row = 0;
 });

@@ -3,6 +3,8 @@ async function start_extract_file(){
     document.getElementById('edit-data-tables').style.display = "none";
     await add_to_carousel('Define values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('Any row containing these values will be selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    console.log("dasetsefds")
+    console.log(dataset_names)
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
     populate_drop_down('.dropdown-menu.datasel:eq(0)', dataset_names, true);
     document.getElementById('describe-data-extract').style.display = 'block';

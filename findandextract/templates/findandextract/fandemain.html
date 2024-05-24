@@ -384,27 +384,38 @@
                     <!-- ADJUST COLUMN HEADER -->
                     <div class="adjustheadertable" id="colselecttablediv1">
                         <button type="button" class="btn btn-warning bigr btn-hide" id="data1_table_reset">Reset</button>
-                        <table class="headertable">
+                        
+                        <!--<table class="headertable">
                             <tbody id="data1_tableid"></tbody>
                         </table>
+                        -->
+                        <div class="resulttable_cont">
+                            <table class="headertable resulttable">
+                                <tbody id="data1_tableid"></tbody>
+                            </table>
+                        </div>
                         <div class="bottom-btns">
                             <a class="myButton" id="data1_next_colheader">Next</a>                    
                         </div>
                     </div>
                     <div class="adjustheadertable" id="colselecttablediv2">
                         <button type="button" class="btn btn-warning bigr btn-hide" id="data2_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data2_tableid"></tbody>
-                        </table>
+                        <div class="resulttable_cont">
+                            <table class="headertable resulttable">
+                                <tbody id="data2_tableid"></tbody>
+                            </table>
+                        </div>
                         <div class="bottom-btns">
                             <a class="myButton" id="data2_next_colheader">Next</a>                    
                         </div>
                     </div>
                     <div class="adjustheadertable" id="colselecttablediv3">
                         <button type="button" class="btn btn-warning bigr btn-hide" id="data3_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data3_tableid"></tbody>
-                        </table>
+                        <div class="resulttable_cont">
+                            <table class="headertable resulttable">
+                                <tbody id="data3_tableid"></tbody>
+                            </table>
+                        </div>
                         <div class="bottom-btns">
                             <a class="myButton" id="data3_next_colheader">Next</a>                    
                         </div>
@@ -412,9 +423,11 @@
 
                     <div class="adjustheadertable" id="colselecttablediv4">
                         <button type="button" class="btn btn-warning bigr btn-hide" id="data4_table_reset">Reset</button>
-                        <table class="headertable">
-                            <tbody id="data4_tableid"></tbody>
-                        </table>
+                        <div class="resulttable_cont">
+                            <table class="headertable resulttable">
+                                <tbody id="data4_tableid"></tbody>
+                            </table>
+                        </div>
                         <div class="bottom-btns">
                             <a class="myButton" id="data4_next_colheader">Next</a>                    
                         </div>
@@ -725,53 +738,6 @@
                         </table>
                         <h2 id="selected-match-col-primary">&nbsp;</h2>
                     </div>
-
-                    <div class="condition-container" id="primarycondition-container" style="display:none;">
-                        <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
-                            <div class="conditiondiv" id="primarycondition1" style="display:none;">
-                                <div class="dropdown condition-dropdown-andor" id="andor1" style="visibility:hidden;">
-                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item">And</a></li>
-                                        <li><a class="dropdown-item">Or</a></li>
-                                        <!-- <li><a class="dropdown-item">And + (Or)</a></li> -->
-                                    </ul>
-                                </div>
-                                <div class="dropdown condition-dropdown" id="cond1_col_drop">
-                                    <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect1">Select Column</button>            
-                                    <ul class="dropdown-menu" id="conditiondropdowncols1"></ul>
-                                </div>
-                                <div class="input-group mb-3 condition-dropdown">
-                                    <div class="dropdown condition-dropdown-col" id="cond1_action1">
-                                        <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item">Equals</a></li>
-                                            <li><a class="dropdown-item">Contains</a></li>
-                                            <li><a class="dropdown-item">Between</a></li>
-                                            <li><a class="dropdown-item">Greater Than</a></li>
-                                            <li><a class="dropdown-item">Less Than</a></li>
-                                            <li><a class="dropdown-item">Not Equal To</a></li>
-                                            <li><a class="dropdown-item">Does Not Contain</a></li>
-                                            <li><a class="dropdown-item">Starts With</a></li>
-                                            <li><a class="dropdown-item">Ends With</a></li>
-                                        </ul>
-                                        <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
-                                    </div>
-                                </div>
-
-
-                                <div class="condition-input-div" style="display:none; vertical-align: middle;" id="condition1and">
-                                    <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="addcondition" id="parimaryaddcondition">
-                            <a class="myButton conditionbtn" id="addconditionprimary">Add Condition</a>
-                            <a class="myButton" id="conditionnextprimary">Next</a>
-                        </div>
-                    </div>
-
-                    
 
 
 
@@ -1163,7 +1129,50 @@
 
 
 
+                    <div class="condition-container" id="primarycondition-container" style="display:none;">
+                        <div class="conditiondivcontainer" id = "primaryconditions" style="display:none;">
+                            <div class="conditiondiv" id="primarycondition1" style="display:none;">
+                                <div class="dropdown condition-dropdown-andor" id="andor1" style="visibility:hidden;">
+                                    <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn-andor" type="button" data-bs-toggle="dropdown" aria-expanded="false">And</button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item">And</a></li>
+                                        <li><a class="dropdown-item">Or</a></li>
+                                        <!-- <li><a class="dropdown-item">And + (Or)</a></li> -->
+                                    </ul>
+                                </div>
+                                <div class="dropdown condition-dropdown" id="cond1_col_drop">
+                                    <button class="btn btn-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="conditioncolselect1">Select Column</button>            
+                                    <ul class="dropdown-menu" id="conditiondropdowncols1"></ul>
+                                </div>
+                                <div class="input-group mb-3 condition-dropdown">
+                                    <div class="dropdown condition-dropdown-col" id="cond1_action1">
+                                        <button class="btn btn-outline-secondary dropdown-toggle condition-dropdown-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">Equals</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item">Equals</a></li>
+                                            <li><a class="dropdown-item">Contains</a></li>
+                                            <li><a class="dropdown-item">Between</a></li>
+                                            <li><a class="dropdown-item">Greater Than</a></li>
+                                            <li><a class="dropdown-item">Less Than</a></li>
+                                            <li><a class="dropdown-item">Not Equal To</a></li>
+                                            <li><a class="dropdown-item">Does Not Contain</a></li>
+                                            <li><a class="dropdown-item">Starts With</a></li>
+                                            <li><a class="dropdown-item">Ends With</a></li>
+                                        </ul>
+                                        <input type="text" class="form-control condition-input" aria-label="Text input with dropdown button">
+                                    </div>
+                                </div>
 
+
+                                <div class="condition-input-div" style="display:none; vertical-align: middle;" id="condition1and">
+                                    <input type="text" class="form-control condition-input-and" aria-label="Text input with dropdown button">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="addcondition" id="parimaryaddcondition">
+                            <a class="myButton conditionbtn" id="addconditionprimary">Add Condition</a>
+                            <a class="myButton" id="conditionnextprimary">Next</a>
+                        </div>
+                    </div>
 
                     
 
