@@ -286,6 +286,9 @@ $(document.body).on('click', '#addconditionbtn' ,async function(){
     $(new_elem).find('.condition-inputs').find('.condition-dropdown-action').find('.btn').text('Equals');
     $(new_elem).find('.condition-inputs').find('.condition-input-wrap').find('input').val('');
     $(new_elem).find('.condition-inputs').find('.condition-and-input-wrap').find('input').val('');
+    if ($('#conditioncontainerwrap').find('.conditiondiv').length > 9){
+        $('#addconditionbtn').hide();
+    }
 });
 
 
@@ -301,9 +304,24 @@ $(document.body).on('click', '.condition-dropdown-action li a' ,async function()
 });
 
 
-
+// submit conditions
 $(document.body).on('click', '#conditionnext' ,async function(){
-
+    var condition_arr = [];
+    var conditions = $('#conditioncontainerwrap').find('.conditiondiv');
+    for (var i=0;i<conditions.length;i++){
+        var andor = $(conditions[i]).find('.dropdown.condition-dropdown-andor').find('.btn').text();
+        var column_name = $(conditions[i]).find('.dropdown.condition-dropdown').find('.btn').text();
+        var action = $(conditions[i]).find('.condition-inputs').find('.dropdown.condition-dropdown-action').find('.btn').text().trim();
+        var action_value = $(conditions[i]).find('.condition-inputs').find('.dropdown.condition-dropdown-action').find('.condition-input-wrap').find('input').val();
+        var action_value_and = $(conditions[i]).find('.condition-inputs').find('.condition-and-input-wrap').find('input').val();
+        condition_arr.push([andor, column_name, action, action_value, action_value_and])
+    }
+    var dataset_selection = convert_file_num_to_dataset(current_conditions_file);
+    var file_sheet = get_file_and_sheet(dataset_selection)
+    var cur_header_row = get_header_row_from_filenum(current_conditions_file);
+    document.getElementById('conditioncontainerwrap').style.display = 'none';
+    await display_conditions(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
+    ajax_submit_filters(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
 });
 
 

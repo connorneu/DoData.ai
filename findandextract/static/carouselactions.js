@@ -48,6 +48,7 @@ extract_from = [];
 all_my_sentences = [];
 
 extract_col = null;
+current_conditions_file = 0;
 
 var input_color = '#d93095';
 var second_color = '#92fcff';
@@ -563,7 +564,7 @@ function describe_dataset_headers(){
 }
 
 async function display_conditions(condition_arr, header_row, file_name, sheet_name){
-    hide_containers(2);
+    hide_containers(3);
     var color = null;
     var mini_table_name = '';
     var sheet = sheet_name;
@@ -614,9 +615,8 @@ async function display_conditions(condition_arr, header_row, file_name, sheet_na
             cond_count++;
         }    
     }
-    //where_to_search();
     document.getElementById('edit-data-tables').style.display = "block";
-    populate_table_element(sheet, filenum, mini_table_name, null, 5);
+    //populate_table_element(sheet, filenum, mini_table_name, null, 5);
 }
 
 
@@ -857,6 +857,39 @@ function get_file_and_sheet(dataset_selection){
     return [filename, sheetname];
 }
 
+
+function convert_file_num_to_dataset(file_num){
+    if (file_num === 1){
+        return dataset_names[0];
+    }
+    else if (file_num === 2){
+        return dataset_names[1];
+    }
+    else if (file_num === 3){
+        return dataset_names[2];
+    }
+    else if (file_num === 4){
+        return dataset_names[3];
+    }
+}
+
+
+function get_header_row_from_filenum(file_num){
+    if (file_num === 1){
+        return primary_header_row;
+    }
+    else if (file_num === 2){
+        return secondary_header_row;
+    }
+    else if (file_num === 3){
+        return third_header_row;
+    }
+    else if (file_num === 4){
+        return fourth_header_row;
+    }
+}
+
+
 function match_dataset_to_colheaders(file_and_sheet){
     for(var i = 0; i<dataset_index.length; i++){
         if (file_and_sheet[0] === dataset_index[i][0] && file_and_sheet[1] === dataset_index[i][1]){
@@ -885,6 +918,7 @@ function hide_header_table(file_num){
 }
 
 async function create_filter_conditions(file_num){
+    current_conditions_file = file_num;
     hide_containers(2);
     var which_file = hide_header_table(file_num);
     add_to_carousel('Filter: ' + which_file[0], which_file[1], ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);

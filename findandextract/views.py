@@ -583,6 +583,7 @@ def apply_conditions(df, conditions):
         for i in range(0, len(conditions)):
             condition = conditions[i]
             if condition[2] == 'Equals':   
+                print('equals conditions', condition[2])
                 condition_str = df[condition[1]] == str(condition[3])
             if condition[2] == 'Contains':
                 condition_str = df[condition[1]].str.contains(str(condition[3]))     
