@@ -620,6 +620,7 @@ async function display_conditions(condition_arr, header_row, file_name, sheet_na
 }
 
 
+/*
 // THIS CAN PROBABLY BE DELETED
 async function display_conditions2(){
     hide_containers(3);
@@ -785,6 +786,7 @@ async function select_extract_column4(){
         summarize_choices()        
     });
 }
+*/
 
 async function algo_menu(){
     algorithm_type='Extract';

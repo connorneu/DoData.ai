@@ -66,107 +66,122 @@ def findandextract(request):
     if request.method == 'POST':
         if is_ajax(request): 
             if request.POST.get('ajax_name') == 'filter_data':
-                warnings = "No warnings"
-                print(request.POST)
-                conds = json.loads(request.POST.get('conds'))
-                print('conds')
-                print(conds)
-                header_row = int(request.POST.get('header_row'))
-                print('header row:', header_row)
-                table_name = request.POST.get('table_name')
-                print('table num:', table_name)
-                sheet_name = request.POST.get('sheet_name')
-                print('sheet name:', sheet_name)
-                df = unmelt(table_name, sheet_name, request.user)
-                df_og = df.copy(deep=True)
-                if header_row > 0:
-                    df = change_header(df, header_row)
-                if conds[0][1] != 'Select Column':
-                    df = apply_conditions(df, conds) 
-                    print('apply conditions')
-                    if df.equals(df_og) or df.empty:                
-                        warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
-                        print('WARNING:', warnings) 
-                        df = df_og
-                if header_row > 0 or conds[0][1] != 'Select Column':
-                    print('deleting old records')
-                    objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
-                    objs_del.delete()
-                    df_list = melt_filtered_df(df, table_name, sheet_name)
-                    write_upload_files_raw(df_list, request, table_name+'_'+sheet_name)
-                    #print('saving to db...')
-                    #db_obj_list = []
-                    #for dbframe in df_list:                    
-                    #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
-                    #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
-                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
-                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
-                else:     
-                    print('returning 200 - headerrow > 0 and no conds')  
-                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
-                    print('warnings', warnings)
-                    print('dmbp')
-                    #print(fande_db_data)    
-                    return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
+                try:
+                    warnings = "No warnings"
+                    print(request.POST)
+                    conds = json.loads(request.POST.get('conds'))
+                    print('conds')
+                    print(conds)
+                    header_row = int(request.POST.get('header_row'))
+                    print('header row:', header_row)
+                    table_name = request.POST.get('table_name')
+                    print('table num:', table_name)
+                    sheet_name = request.POST.get('sheet_name')
+                    print('sheet name:', sheet_name)
+                    df = unmelt(table_name, sheet_name, request.user)
+                    df_og = df.copy(deep=True)
+                    if header_row > 0:
+                        df = change_header(df, header_row)
+                    if conds[0][1] != 'Select Column':
+                        df = apply_conditions(df, conds)
+                        print('apply conditions')
+                        if isinstance(df, str):
+                            warnings = df
+                            log.error("An error occurred during calculate method: " + warnings, exc_info=True)
+                            return HttpResponse(warnings, status=400) 
+                        elif df.equals(df_og) or df.empty:                
+                            warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
+                            log.error("An error occurred during calculate method. Conditions did not return any mathching rows", exc_info=True)
+                            return HttpResponse(warnings, status=400) 
+                    if header_row > 0 or conds[0][1] != 'Select Column':
+                        print('deleting old records')
+                        objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
+                        objs_del.delete()
+                        df_list = melt_filtered_df(df, table_name, sheet_name)
+                        write_upload_files_raw(df_list, request, table_name+'_'+sheet_name)
+                        #db_obj_list = []
+                        #for dbframe in df_list:                    
+                        #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
+                        #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
+                        fande_db_data = return_1k_rows(request)
+                        return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
+                    else:     
+                        fande_db_data = return_1k_rows(request) 
+                        return JsonResponse({'fande_data_dump' : fande_db_data})
+                except Exception:
+                    log.critical("A critical error occured during filter data.", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'extract':
-                print("START OF AJAX POST submit_extract_parameters")
-                print(request.POST)
-                params = json.loads(request.POST.get('parameters'))
-                input_or_description = params['input_or_description'].rstrip().strip()
-                extract_file_name = params['extractfilename'].rstrip().strip()
-                extract_col_name = params['extractcolname'].rstrip().strip()
-                describe_values_raw = ast.literal_eval(params['describevalues'])
-                describe_values = clean_describe_values(describe_values_raw)
-                find_file_1 = params['findfile1'].rstrip().strip()
-                find_col_1 = params['findcol1'].rstrip().strip()
-                find_file_2 = params['findfile2'].rstrip().strip()
-                find_col_2 = params['findcol2'].rstrip().strip()
-                find_file_3 = params['findfile3'].rstrip().strip()
-                find_col_3 = params['findcol3'].rstrip().strip()
-                search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
-                df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
-                print('------------- RESULT --------------')
-                print(df_result)
-                write_result_raw(df_result, request)
-                return HttpResponse(status=200)
+                try:
+                    print("START OF AJAX POST submit_extract_parameters")
+                    print(request.POST)
+                    params = json.loads(request.POST.get('parameters'))
+                    input_or_description = params['input_or_description'].rstrip().strip()
+                    extract_file_name = params['extractfilename'].rstrip().strip()
+                    extract_col_name = params['extractcolname'].rstrip().strip()
+                    describe_values_raw = ast.literal_eval(params['describevalues'])
+                    describe_values = clean_describe_values(describe_values_raw)
+                    find_file_1 = params['findfile1'].rstrip().strip()
+                    find_col_1 = params['findcol1'].rstrip().strip()
+                    find_file_2 = params['findfile2'].rstrip().strip()
+                    find_col_2 = params['findcol2'].rstrip().strip()
+                    find_file_3 = params['findfile3'].rstrip().strip()
+                    find_col_3 = params['findcol3'].rstrip().strip()
+                    search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
+                    df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
+                    print('------------- RESULT --------------')
+                    print(df_result)
+                    write_result_raw(df_result, request)
+                    return HttpResponse(status=200)
+                except Exception:
+                    log.critical("A critical error occured during extract algorithm.", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'combine_merge':
-                print("START OF AJAX POST combine_merge")
-                print(request.POST)
-                joins = request.POST.get('parameters')
-                joins = json.loads(joins)
-                df_result = Combine_Merge(joins, request.user)
-                print('------------- RESULT --------------')
-                print(df_result)
-                write_result_raw(df_result, request)
-                return HttpResponse(status=200)
+                try:
+                    print("START OF AJAX POST combine_merge")
+                    print(request.POST)
+                    joins = request.POST.get('parameters')
+                    joins = json.loads(joins)
+                    df_result = Combine_Merge(joins, request.user)
+                    print('------------- RESULT --------------')
+                    print(df_result)
+                    write_result_raw(df_result, request)
+                    return HttpResponse(status=200)
+                except:
+                    log.critical("A critical error occured during combine algorithm.", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'update_file':
-                print("START OF AJAX POST update file")
-                print(request.POST)
-                params = json.loads(request.POST.get('parameters'))
-                print('update aprams')
-                print(params)
-                df_result = Update(params, request.user)
-                print('----------------RESULT---------------')
-                print(df_result)
-                write_result_raw(df_result, request)
-                return HttpResponse(status=200)        
+                try:
+                    print("START OF AJAX POST update file")
+                    print(request.POST)
+                    params = json.loads(request.POST.get('parameters'))
+                    df_result = Update(params, request.user)
+                    print('----------------RESULT---------------')
+                    print(df_result)
+                    write_result_raw(df_result, request)
+                    return HttpResponse(status=200)    
+                except Exception:
+                    log.critical("A critical error occured during update method.", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'reconcile':
-                print("START OF AJAX POST reconcile")
-                print(request.POST)
-                parameters = request.POST.get('parameters')
-                parameters = json.loads(parameters)
-                print('reco parameters')
-                print(parameters)
-                first_file = parameters['first_file']
-                second_file = parameters['second_file']
-                cols_to_match = parameters['matches']
-                cols_to_compare = parameters['compares']
-                print(cols_to_compare[0])
-                df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare)
-                print('------------- RESULT --------------')
-                print(df_result)
-                write_result_raw(df_result, request)
-                return HttpResponse(status=200)
+                try:
+                    print("START OF AJAX POST reconcile")
+                    print(request.POST)
+                    parameters = request.POST.get('parameters')
+                    parameters = json.loads(parameters)
+                    first_file = parameters['first_file']
+                    second_file = parameters['second_file']
+                    cols_to_match = parameters['matches']
+                    cols_to_compare = parameters['compares']
+                    print(cols_to_compare[0])
+                    df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare)
+                    print('------------- RESULT --------------')
+                    print(df_result)
+                    write_result_raw(df_result, request)
+                    return HttpResponse(status=200)
+                except Exception:
+                    log.critical("A critical error occured during reconcile method.", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'calculate':
                 print('START OF AJAX POST calculate')
                 print(request.POST)
@@ -182,42 +197,49 @@ def findandextract(request):
                         write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
+                        log.error('Error in Calcualte method', exc_info=True)
                         return HttpResponse(df_result, status=400) 
                 except Exception:
-                    log.error("An error occurred during calculate method", exc_info=True)
-                    return HttpResponse('Critical Error', status=500)    
-
-
+                    log.critical("A critical error occurred during Calculate group method", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500)
             elif request.POST.get('ajax_name') == 'classify_text':
-                print('POST: classify_text')
-                user_desc = request.POST.get('user_algo_desc')
-                #algo_type, algo_desc = classify_zeroshot(nli, user_desc)
-                algo_type = gpt_algo_desc(user_desc)
-                print('algo_type', algo_type)
-                #print('algo desc', algo_desc)
-                return JsonResponse({'algo_type': algo_type})
-                #return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
+                try:
+                    print('POST: classify_text')
+                    user_desc = request.POST.get('user_algo_desc')
+                    #algo_type, algo_desc = classify_zeroshot(nli, user_desc)
+                    algo_type = gpt_algo_desc(user_desc)
+                    print('algo_type', algo_type)
+                    #print('algo desc', algo_desc)
+                    return JsonResponse({'algo_type': algo_type})
+                    #return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
+                except:
+                    log.critical("A critical error occurred during classify text method", exc_info=True)
+                    return HttpResponse('Critical Error', status=500)  
             elif request.POST.get('ajax_name') == 'submit_user_formula':
-                print(request.POST)
-                parameters = request.POST.get('parameters')
-                print(parameters)
-                params = ast.literal_eval(parameters)
-                user_text = params['user_text']
-                dataset = params['dataset']
-                new_col_name = params['new_col_name']
-                file, sheet = parse_file_name_from_bracket_display(dataset)
-                df = unmelt(file, sheet, request.user)
-                df_result = Parse_User_Formula(df, user_text, new_col_name)
-                print(df_result)
-                df_list = melt_df(df_result)
-                write_result_raw(df_result, request)
-                #print("saving result to db...")
-                #db_obj_list = []
-                #for dbframe in df_list:
-                #    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
-                #KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
-                #print('saved results')
-                return HttpResponse(status=200)
+                try:
+                    print(request.POST)
+                    parameters = request.POST.get('parameters')
+                    print(parameters)
+                    params = ast.literal_eval(parameters)
+                    user_text = params['user_text']
+                    dataset = params['dataset']
+                    new_col_name = params['new_col_name']
+                    file, sheet = parse_file_name_from_bracket_display(dataset)
+                    df = unmelt(file, sheet, request.user)
+                    df_result = Parse_User_Formula(df, user_text, new_col_name)
+                    print(df_result)
+                    df_list = melt_df(df_result)
+                    write_result_raw(df_result, request)
+                    #print("saving result to db...")
+                    #db_obj_list = []
+                    #for dbframe in df_list:
+                    #    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                    #KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                    #print('saved results')
+                    return HttpResponse(status=200)
+                except:
+                    log.critical("A critical error occurred during user formula method", exc_info=True)
+                    return HttpResponse('Critical Error', status=500) 
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
@@ -235,18 +257,18 @@ def findandextract(request):
                         upload_data_files(request)
                         # i think i can do this
                         # why would i need more than a 1000 rows
-                        fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
+                        fande_db_data = return_1k_rows(request)
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     except Exception: 
                         print('upload data file failure')
                         traceback.print_exc()
-                        log.error("An error occurred during upload_data_files", exc_info=True)
-                        return HttpResponse(status=500)
+                        log.critical("An error occurred during upload_data_files", exc_info=True)
+                        return HttpResponse('Critical Error', status=500)
 
-        else:
-            print("AJAXFAILURE")
-            log.error("An error occurred when checking if is ajax", exc_info=True)
-            return HttpResponse(status=400)    
+        #else:
+        #    print("AJAXFAILURE")
+        #    log.error("An error occurred when checking if is ajax", exc_info=True)
+        #    return HttpResponse(status=400)    
     else:
         try:
             print("GET REQUEST")
@@ -257,7 +279,7 @@ def findandextract(request):
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
-                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
+                    fande_db_data = return_1k_rows(request)
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
                 # DONT DELETE THIS FUCK
@@ -266,8 +288,11 @@ def findandextract(request):
                 #threads.append(x)
                 return render(request, "findandextract/fandemain.html")
         except:
-            log.error("An error occurred when making get request", exc_info=True)
+            log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse(status=500)  
+
+def return_1k_rows(request):
+    return list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
 
 
 # write result to result databse
@@ -555,6 +580,16 @@ def f7(seq):
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
 
+
+def int_or_float(s):
+    try:
+        return int(s)
+    except ValueError:
+        try:
+            return float(s)
+        except:
+            return 'Error'
+
 def apply_conditions(df, conditions):
     print(df)
     print(conditions)
@@ -565,32 +600,40 @@ def apply_conditions(df, conditions):
         for condition in reversed(conditions_reversed):
             conditions.append(condition)
 
-        for condition in conditions:
-            print('hereisthecondition')
-            print(condition)
-            if condition[3].isnumeric():
-                print("NUMNERCI CONDITION", condition[3])
-                df[condition[1]] = df[condition[1]].astype(np.float64)
-                condition[3] = float(condition[3])
-                if condition[4] != '':
-                    condition[4] = float(condition[4])   
-            else:
-                condition[3] = condition[3]
         condition_arr_and = []
         condition_arr_or = []
         for i in range(0, len(conditions)):
+        #for condition in conditions:
+            print('hereisthecondition')
+            print(condition)
             condition = conditions[i]
+            #if condition[3].isnumeric():
+            if condition[2] == 'Between' or condition[2] == 'Greater Than' or condition[2] == 'Less Than':
+                print("NUMNERCI CONDITION", condition)
+                df[condition[1]] = df[condition[1]].apply(pd.to_numeric, errors='coerce')
+                condition[3] = int_or_float(condition[3])
+                #df[condition[1]] = df[condition[1]].astype(np.float64)
+                #condition[3] = float(condition[3])
+                if condition[4] != '':
+                    condition[4] = condition[4]
+                #    condition[4] = float(condition[4])   
+            if condition[3] == 'Error' or condition[4] == 'Error':
+                return 'Can only use numeric values when filtering using Between, Greater Than, and Less than.'
+        
+            #condition_arr_and = []
+            #condition_arr_or = []
+            #for i in range(0, len(conditions)):
+            #condition = conditions[i]
             if condition[2] == 'Equals':   
-                print('equals conditions', condition[2])
                 condition_str = df[condition[1]] == str(condition[3])
             if condition[2] == 'Contains':
                 condition_str = df[condition[1]].str.contains(str(condition[3]))     
             if condition[2] == 'Between':
-                condition_str = (df[condition[1]] > str(condition[3])) & (df[condition[1]] < str(condition[4]))
+                condition_str = (df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])
             if condition[2] == 'Greater Than':
-                condition_str = df[condition[1]] > str(condition[3])
+                condition_str = df[condition[1]] > condition[3]
             if condition[2] == 'Less Than':
-                condition_str = df[condition[1]] < str(condition[3])
+                condition_str = df[condition[1]] < condition[3]
             if condition[2] == 'Not Equal To':
                 condition_str = df[condition[1]] != str(condition[3])
             if condition[2] == 'Does Not Contain':

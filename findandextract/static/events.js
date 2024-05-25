@@ -258,22 +258,18 @@ $(document.body).on('click', '#data2_next_colheader' ,function(){
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data3_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv3").style.display = "none";
-    add_to_carousel('Filter: ' + third_file_name + ' {' + third_sheet_name + '}:', third_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);  
-    document.getElementById('thirdcondition-container').style.display = 'block';
+    create_filter_conditions(3);
 });
 
 // next after adjusting col headers secondary data
 $(document.body).on('click', '#data4_next_colheader' ,function(){
-    hide_containers(2);
-    document.getElementById("colselecttablediv4").style.display = "none";
-    add_to_carousel('Filter: ' + fourth_file_name + ' {' + fourth_sheet_name + '}:', fourth_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);  
-    document.getElementById('fourthcondition-container').style.display = 'block';
+    create_filter_conditions(4);
+    //hide_containers(2);
+    //document.getElementById("colselecttablediv4").style.display = "none";
+    //add_to_carousel('Filter: ' + fourth_file_name + ' {' + fourth_sheet_name + '}:', fourth_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);  
+    //document.getElementById('fourthcondition-container').style.display = 'block';
 })
 
 
