@@ -296,9 +296,7 @@ $(document.body).on('click', '#addconditionbtn' ,async function(){
 $(document.body).on('click', '.condition-dropdown-action li a' ,async function(){
     console.log('triggered')
     var btn_text = $(this).text();
-    console.log(btn_text)
     if (btn_text.includes('Between')){
-        console.log("bi ")
         $(this).closest('.condition-inputs').find('.condition-and-input-wrap').css('visibility', 'visible');
     }
 });

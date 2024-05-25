@@ -93,17 +93,17 @@ def findandextract(request):
                     objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
                     objs_del.delete()
                     df_list = melt_filtered_df(df, table_name, sheet_name)
-                    print('saving to db...')
-                    db_obj_list = []
-                    for dbframe in df_list:                    
-                        db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
-                    KeyValueDataFrame.objects.bulk_create(db_obj_list)
-                    print('saved')            
-                    fande_db_data = list(KeyValueDataFrame.objects.values())
+                    write_upload_files_raw(df_list, request, table_name+'_'+sheet_name)
+                    #print('saving to db...')
+                    #db_obj_list = []
+                    #for dbframe in df_list:                    
+                    #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
+                    #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
+                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
                     return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
                 else:     
                     print('returning 200 - headerrow > 0 and no conds')  
-                    fande_db_data = list(KeyValueDataFrame.objects.values()) 
+                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
                     print('warnings', warnings)
                     print('dmbp')
                     #print(fande_db_data)    
@@ -210,12 +210,13 @@ def findandextract(request):
                 df_result = Parse_User_Formula(df, user_text, new_col_name)
                 print(df_result)
                 df_list = melt_df(df_result)
-                print("saving result to db...")
-                db_obj_list = []
-                for dbframe in df_list:
-                    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
-                KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
-                print('saved results')
+                write_result_raw(df_result, request)
+                #print("saving result to db...")
+                #db_obj_list = []
+                #for dbframe in df_list:
+                #    db_obj_list.append(KeyValueDataFrame_Result(key=dbframe[0], val=dbframe[1]))
+                #KeyValueDataFrame_Result.objects.bulk_create(db_obj_list)
+                #print('saved results')
                 return HttpResponse(status=200)
             elif request.method == 'POST': 
                 try:
@@ -234,7 +235,7 @@ def findandextract(request):
                         upload_data_files(request)
                         # i think i can do this
                         # why would i need more than a 1000 rows
-                        fande_db_data = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
+                        fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     except Exception: 
                         print('upload data file failure')
@@ -256,7 +257,7 @@ def findandextract(request):
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
-                    fande_db_data = list(KeyValueDataFrame.objects.values())
+                    fande_db_data = list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
                 # DONT DELETE THIS FUCK
@@ -557,10 +558,7 @@ def f7(seq):
 def apply_conditions(df, conditions):
     print(df)
     print(conditions)
-    #conditions are collected inversedly - so reverse them
-    #df = df.applymap(str)
     df_new = df.copy()
-    #conditions_reversed = json.loads(conditions)
     conditions_reversed = conditions
     conditions = []
     try:

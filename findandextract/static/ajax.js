@@ -440,14 +440,13 @@ function ajax_submit_user_input_text(){
     }
 
 function ajax_submit_filters(conds, header_row, table_name, sheet_name){
-    var user_algo_desc = collect_user_input_text();
     console.log('ajax submit filters')
     console.log(conds)
     console.log(header_row)
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
-        data: {   //JSON.stringify(condition_arr2)
+        data: {
             
             'ajax_name' : 'filter_data',
             'conds' : JSON.stringify(conds),

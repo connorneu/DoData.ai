@@ -924,12 +924,43 @@ async function create_filter_conditions(file_num){
     add_to_carousel('Filter: ' + which_file[0], which_file[1], ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     add_to_carousel('These conditions will limit the rows imported into the algorithm.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     add_to_carousel('If some of the data is not relevant then exclude it here.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    reset_conditions_page();
     document.getElementById("conditioncontainerwrap").style.display = 'block';
-    var col_headers = createTable_values1[0];
-    console.log('col headers')
-    console.log(col_headers)
+    var col_headers = get_table_headers_from_file_num(file_num);
     var col_dropdown_elem = $('#conditioncontainerwrap').find('.dropdown').eq(1).find('ul'); 
     populate_drop_down(col_dropdown_elem, col_headers, true);
+}
+
+
+function reset_conditions_page(){
+    $('#conditioncontainerwrap').find('.conditiondiv').eq(0).clone().appendTo('.conditiondivcontainer');
+    var new_elem = $('#conditioncontainerwrap').find('.conditiondiv:last');
+    $(new_elem).find('.condition-dropdown-andor').css('visibility', 'hidden');
+    $(new_elem).find('.condition-inputs').find('.condition-and-input-wrap').css('visibility', 'hidden');
+    $(new_elem).find('.condition-dropdown').find('.btn').text('Select Column');
+    $(new_elem).find('.condition-inputs').find('.condition-dropdown-action').find('.btn').text('Equals');
+    $(new_elem).find('.condition-inputs').find('.condition-input-wrap').find('input').val('');
+    $(new_elem).find('.condition-inputs').find('.condition-and-input-wrap').find('input').val('');
+    var conditions = $('#conditioncontainerwrap').find('.conditiondiv');
+    for (var i=0;i<conditions.length-1;i++){
+        $(conditions[i]).remove();
+    }
+}
+
+
+function get_table_headers_from_file_num(file_num){
+    if (file_num === 1){
+        return createTable_values1[0];
+    }
+    else if (file_num === 2){
+        return createTable_values2[0];
+    }
+    else if (file_num === 3){
+        return createTable_values3[0];
+    }
+    else if (file_num === 4){
+        return createTable_values4[0];
+    }
 }
 
 
