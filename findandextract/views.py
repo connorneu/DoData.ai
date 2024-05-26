@@ -89,10 +89,11 @@ def findandextract(request):
                             warnings = df
                             log.error("An error occurred during calculate method: " + warnings, exc_info=True)
                             return HttpResponse(warnings, status=400) 
-                        elif df.equals(df_og) or df.empty:                
+                        elif df.equals(df_og) or df.empty:                                        
                             warnings = "Conditions did not return any mathching rows. No conditions applied to dataset."
                             log.error("An error occurred during calculate method. Conditions did not return any mathching rows", exc_info=True)
                             return HttpResponse(warnings, status=400) 
+                            #return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings': warnings})#(warnings, status=400) 
                     if header_row > 0 or conds[0][1] != 'Select Column':
                         print('deleting old records')
                         objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
@@ -104,11 +105,14 @@ def findandextract(request):
                         #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
                         #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
                         fande_db_data = return_1k_rows(request)
-                        return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings' : warnings})
+                        print('dyump')
+                        return JsonResponse({'fande_data_dump' : fande_db_data})
                     else:     
+                        print("FUCK")
                         fande_db_data = return_1k_rows(request) 
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                 except Exception:
+                    print('fucj')
                     log.critical("A critical error occured during filter data.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'extract':
@@ -615,7 +619,7 @@ def apply_conditions(df, conditions):
                 #df[condition[1]] = df[condition[1]].astype(np.float64)
                 #condition[3] = float(condition[3])
                 if condition[4] != '':
-                    condition[4] = condition[4]
+                    condition[4] = int_or_float(condition[4])
                 #    condition[4] = float(condition[4])   
             if condition[3] == 'Error' or condition[4] == 'Error':
                 return 'Can only use numeric values when filtering using Between, Greater Than, and Less than.'
@@ -625,9 +629,9 @@ def apply_conditions(df, conditions):
             #for i in range(0, len(conditions)):
             #condition = conditions[i]
             if condition[2] == 'Equals':   
-                condition_str = df[condition[1]] == str(condition[3])
+                condition_str = df[condition[1]].str.lower() == str(condition[3]).lower()
             if condition[2] == 'Contains':
-                condition_str = df[condition[1]].str.contains(str(condition[3]))     
+                condition_str = df[condition[1]].str.lower().str.contains(str(condition[3]).lower())     
             if condition[2] == 'Between':
                 condition_str = (df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])
             if condition[2] == 'Greater Than':
@@ -635,13 +639,13 @@ def apply_conditions(df, conditions):
             if condition[2] == 'Less Than':
                 condition_str = df[condition[1]] < condition[3]
             if condition[2] == 'Not Equal To':
-                condition_str = df[condition[1]] != str(condition[3])
+                condition_str = df[condition[1]].str.lower() != str(condition[3]).lower()
             if condition[2] == 'Does Not Contain':
-                condition_str = ~df[condition[1]].str.contains(str(condition[3]))
+                condition_str = ~df[condition[1]].str.lower().str.contains(str(condition[3]).lower())
             if condition[2] == 'Starts With':
-                condition_str = df[condition[1]].str.startswith(str(condition[3]))
+                condition_str = df[condition[1]].str.lower().str.startswith(str(condition[3]).lower())
             if condition[2] == 'Ends With':
-                condition_str = df[condition[1]].str.endswith(str(condition[3]))
+                condition_str = df[condition[1]].str.lower().str.endswith(str(condition[3]).lower())
             if condition[0] == 'And':
                 condition_arr_and.append(condition_str)
             else:
@@ -658,8 +662,9 @@ def apply_conditions(df, conditions):
         return df_new
     except Exception:
         print("ERROR: CONDITIONS")
+        log.error('Error applying conditions', exc_info=True)
         traceback.print_exc()
-        return df                    
+        return 'Error applying conditions.'                    
 
 def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, username):
     if input_or_description == 'input':

@@ -362,6 +362,7 @@ pre.caret-underscore > span {
 	text-decoration:none;
 	text-shadow:0px 1px 0px #000000;
     margin-top:1%;
+    padding: 11px;
 }
 .myButton:hover {
 	background:linear-gradient(to top, #1a2c54 5%, #0a0014 100%);
@@ -2207,4 +2208,7 @@ outside of combine*/
 }
 .addfile{
     margin-top:2%;
+}
+#addconditionbtn{
+    display:none;
 }

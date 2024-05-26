@@ -466,15 +466,18 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
             //console.log(db_data)
             //console.log(db_data['warnings'])
             //if (db_data['warnings'] !== 'No warnings'){
-            //    console.log("JEE")
             //    alert(db_data['warnings'])
             //}
-            //edit_data();           
+            console.log("here")
+            //hide_containers(3); 
+            edit_data();           
         },
         // on error
         error: function (request, status, error) {
-            
+            console.log("sheme")
             alert(request.responseText);
+            //hide_containers(3);
+            edit_data();  
 
         }
     });

@@ -947,6 +947,8 @@ function reset_conditions_page(){
     for (var i=0;i<conditions.length-1;i++){
         $(conditions[i]).remove();
     }
+    $('#addconditionbtn').hide();
+    $('#conditionnext').text('Skip');
 }
 
 
