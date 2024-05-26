@@ -59,19 +59,25 @@ $(document.body).on('click', '.dropdown.extractfrom.dataset li a' ,async functio
 });
 
 
-// when textarea has text then grey dropdown when empty un-grey dropdown
+// when textarea has text then hide from file option
 $(document.body).on('input propertychange', '.describe-textarea', async function(){  
-    $('#extractinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
-    $('#extractinputfile_ul').parents(".dropdown").find('.btn').addClass('disabled');
     if ($(this).val() === ''){
-        $('#extractinputfile_ul').parents(".dropdown").find('.btn').removeClass('disabled');
-        $('#submit-extract-wrap').css('display', 'none');
+        if ($(this).closest('.describe-textarea-div-wrap').index() === 0){
+            $('#extractusefile').show();
+        } 
     }
     else{
-        $('#submit-extract-wrap').css('display', 'block');
+        $('#describe-data-extract').find('.or-separator').hide();
+        $('#extractusefile').hide();
     }
 });
 
+
+// when dropdowns used grey out from file option
+$(document.body).on('click', '#extractfromdescribe .dropdown li a', async function(){  
+    $('#extractinputfile_ul').parents(".dropdown").find('.btn').html('Use Input File:');
+    $('#extractinputfile_ul').parents(".dropdown").find('.btn').addClass('disabled');
+});
 
 
 $(document.body).on('click', '#extract-descriptions, #extract-descriptions > textarea', async function(){   
@@ -82,8 +88,6 @@ $(document.body).on('click', '#extract-descriptions, #extract-descriptions > tex
     }
     $('#extract-descriptions').find('.btn').removeClass('disabled');
     document.getElementById('extract-from-file-column-drop').style.display = 'none';
-    // hide add value to describe extract
-    //document.getElementById('add-describe-text').style.display = 'none';
 });
 
 
@@ -98,14 +102,12 @@ async function primary_file_selection_extract(){
 async function display_primaryfileselect_drop(){
     populate_drop_down('#primaryfile_ul', unique_file_names, true)
     document.getElementById('primaryfiledrop').style.display = 'block';
-    //document.getElementById('extractinputfile').style.display = 'block';
 }
 
  // file input: when primary file is selected hide dropdown + hide header + print selection
  $(document.body).on('click', '#primaryfile_ul li' ,async function(){ 
     hide_containers(2);
     document.getElementById('primaryfiledrop').style.display = 'none'; // file selection dropdown 
-    //document.getElementById('extractinputfile').style.display = 'none';
     var user_selection =  $(this).parents(".dropdown").find('.btn').text();
     primary_file_name = user_selection;
     primary_file_sheets = get_file_sheets(primary_file_name); 
@@ -185,8 +187,6 @@ $(document.body).on('mouseover', 'td' , function(){
         if($currentTable.find('tr').eq(1).find('td').eq(col_index).hasClass('selected')){
             isSelected=true;
         }
-
-        
         if (isSelected){
             var index = $(this).index();
             $currentTable.find('td').removeClass('selected-hover');
@@ -244,9 +244,6 @@ $(document.body).on('click', '.dropdown-menu.datasel li a' ,function(){
 $(document.body).on('click', '#add-describe-text' ,function(){
     $('.describe-textarea-div-wrap').eq(0).clone().appendTo('#extract-descriptions')
     var newparent = $('.describe-textarea-div-wrap:last');
-    //newparent.find('div').first().removeClass('hide'); // remove hide from and/or
-    //newparent.find('div').first().addClass('inline');
-    //newparent.find('.btn').first().text('And'); //set and or to and
     newparent.find('.btn').eq(1).text('Select Dataset');
     newparent.find('.btn').eq(2).text('Select Column');
     newparent.find('.btn').eq(3).text('Equals');
@@ -298,7 +295,6 @@ async function where_to_search(file_or_input, search_file){
     populate_drop_down('#first-file_ul', table_array, true);
     populate_drop_down('#second-file_ul', table_array, true);
     populate_drop_down('#third-file_ul', table_array, true);
-    //populate_drop_down('#fourth-file_ul', table_array, true);
 }
 
 
@@ -340,6 +336,19 @@ function check_dropdowns_populated(){
         }
         return true
     }
+    else{
+        console.log('warnings from file')
+        var from_file_btns = $('#extractusefile').find('.btn');
+        for (var i=0;i<from_file_btns.length;i++){
+            if($(from_file_btns[i]).text().includes('Select Dataset') || $(from_file_btns[i]).text().includes('Select Column')){
+                console.log($(from_file_btns[i]).text())
+                $('.warning-box-wrapper').show();
+                $('#warningtext').text('You need to select a dataset and column');
+                return false;
+            }
+        }
+        return true;
+    }    
 }
 
 
