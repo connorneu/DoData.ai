@@ -30,6 +30,7 @@ import traceback
 from django.db import connection
 import csv
 import logging
+from dateutil.parser import parse
 
 goog_w2v_model = None
 nlp = None
@@ -587,12 +588,17 @@ def f7(seq):
 
 def int_or_float(s):
     try:
-        return int(s)
+        return int(s), True
     except ValueError:
         try:
-            return float(s)
+            return float(s), True
         except:
-            return 'Error'
+            try:
+                d = parse(s)
+                dt = d.strftime('%Y/%m/%d')
+                return dt, False
+            except:
+                return 'Error'
 
 def apply_conditions(df, conditions):
     print(df)
@@ -607,27 +613,22 @@ def apply_conditions(df, conditions):
         condition_arr_and = []
         condition_arr_or = []
         for i in range(0, len(conditions)):
-        #for condition in conditions:
             print('hereisthecondition')
             print(condition)
             condition = conditions[i]
-            #if condition[3].isnumeric():
             if condition[2] == 'Between' or condition[2] == 'Greater Than' or condition[2] == 'Less Than':
-                print("NUMNERCI CONDITION", condition)
-                df[condition[1]] = df[condition[1]].apply(pd.to_numeric, errors='coerce')
-                condition[3] = int_or_float(condition[3])
-                #df[condition[1]] = df[condition[1]].astype(np.float64)
-                #condition[3] = float(condition[3])
+                # check if number or date
+                condition[3], isNum = int_or_float(condition[3])  
                 if condition[4] != '':
-                    condition[4] = int_or_float(condition[4])
-                #    condition[4] = float(condition[4])   
+                    condition[4], isNum = int_or_float(condition[4])              
+                if isNum:
+                    print("NUMNERCI CONDITION", condition)
+                    df[condition[1]] = df[condition[1]].apply(pd.to_numeric, errors='coerce')
+                else:
+                    print("DATE CONDITIONS", condition)
+                    df[condition[1]] = df[condition[1]].apply(pd.to_datetime, errors='coerce')
             if condition[3] == 'Error' or condition[4] == 'Error':
                 return 'Can only use numeric values when filtering using Between, Greater Than, and Less than.'
-        
-            #condition_arr_and = []
-            #condition_arr_or = []
-            #for i in range(0, len(conditions)):
-            #condition = conditions[i]
             if condition[2] == 'Equals':   
                 condition_str = df[condition[1]].str.lower() == str(condition[3]).lower()
             if condition[2] == 'Contains':

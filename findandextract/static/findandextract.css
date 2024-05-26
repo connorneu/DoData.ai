@@ -2184,8 +2184,8 @@ outside of combine*/
 #result_table_tbody{
     display:table;
 }
-.headertable.resulttable{
-    /*width: 100%;*/
+.adjustheadertable .headertable.resulttable{
+    width: 100%;
 }
 .warning-box-wrapper{
     display:none;
