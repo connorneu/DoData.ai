@@ -2,7 +2,7 @@ async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
     await add_to_carousel('Define values to search for:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('Any row containing these values will be selected', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    await add_to_carousel('Any row containing these values will be combined into one file', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     console.log("dasetsefds")
     console.log(dataset_names)
     populate_drop_down('#extractinputfile_ul', dataset_names, true);
@@ -244,9 +244,9 @@ $(document.body).on('click', '.dropdown-menu.datasel li a' ,function(){
 $(document.body).on('click', '#add-describe-text' ,function(){
     $('.describe-textarea-div-wrap').eq(0).clone().appendTo('#extract-descriptions')
     var newparent = $('.describe-textarea-div-wrap:last');
-    newparent.find('div').first().removeClass('hide'); // remove hide from and/or
-    newparent.find('div').first().addClass('inline');
-    newparent.find('.btn').first().text('And'); //set and or to and
+    //newparent.find('div').first().removeClass('hide'); // remove hide from and/or
+    //newparent.find('div').first().addClass('inline');
+    //newparent.find('.btn').first().text('And'); //set and or to and
     newparent.find('.btn').eq(1).text('Select Dataset');
     newparent.find('.btn').eq(2).text('Select Column');
     newparent.find('.btn').eq(3).text('Equals');
@@ -321,9 +321,34 @@ $(document.body).on('click', '#data2_adj_col_header' ,async function(){
     document.getElementById('colselecttablediv2').style.display = 'block';
 });
 
+
+// check all dropdowns populated
+function check_dropdowns_populated(){
+    if ($('#extractfromdescribe').is(":visible")){
+        var conditions = $('#extract-descriptions').find('.describe-textarea-div-wrap');
+        for (var i=0;i<conditions.length;i++){
+            if ($(conditions[i]).find('.dropdown.show.inline').eq(0).find('.btn').text().includes('Select Dataset')){
+                $('.warning-box-wrapper').show();
+                $('#warningtext').text('You need to select a dataset for each of your described values');
+                return false;
+            }
+            if ($(conditions[i]).find('.dropdown.show.inline').eq(1).find('.btn').text().includes('Select Dataset')){
+                $('.warning-box-wrapper').show();
+                $('#warningtext').text('You need to select a column for each of your described values');
+                return false;
+            }  
+        }
+        return true
+    }
+}
+
+
 $(document.body).on('click', '#submit-extract' ,async function(){
-    extract_params = collect_extract_parameters();
-    submit_extract_algo_parameters(extract_params);
+    if(check_dropdowns_populated()){
+        $('.warning-box-wrapper').hide();
+        extract_params = collect_extract_parameters();
+        submit_extract_algo_parameters(extract_params);
+    }
 });
 
 function collect_describe_values(){
@@ -332,12 +357,14 @@ function collect_describe_values(){
     console.log(describe_value_elems)
     console.log(typeof describe_value_elems)
     describe_value_elems.each(function(idx, elem) {
-        var andor = $(elem).find('.btn').eq(0).text();
+        //var andor = $(elem).find('.btn').eq(0).text();
+        var andor = 'And'
         var dataset = $(elem).find('.btn').eq(1).text();
         var col = $(elem).find('.btn').eq(2).text();
         var condition = $(elem).find('.btn').eq(3).text()
-        var textval = $(elem).find('textarea').val();
-        describe_values.push([andor, dataset, col, condition, textval]);
+        var textval = $(elem).find('textarea').eq(0).val();
+        var andtextval = $(elem).find('textarea').eq(1).val();
+        describe_values.push([andor, dataset, col, condition, textval, andtextval]);
     });
     return describe_values;
 }
@@ -422,20 +449,33 @@ async function display_extract_params(extract_params){
         if (!JSON.stringify(extract_params['findfile3']).includes('Select Dataset')){
             await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile3']) + ' - ' + JSON.stringify(extract_params['findcol3']), fourth_color, [null], true, true);
         }
-        //if (!findfile4.includes('Select Dataset')){
-        //    await add_to_carousel('\xa0\xa0\xa0$ ' + JSON.stringify(extract_params['findfile4']) + ' - ' + JSON.stringify(extract_params['findcol4']), action_color, [null], true, true);
-        //}
     }
     else{
         await add_to_carousel('\xa0\xa0\xa0Search for values:', input_color, [null], true, true);
-        for (var i=0;i<extract_params['describevalues'].length; i++){
-            var desc_val = extract_params['describevalues'][i]
+        var desc_arr = JSON.parse(extract_params['describevalues'])
+        console.log(typeof desc_arr)
+        console.log(desc_arr[0])
+        for (var i=0;i<desc_arr.length; i++){
+            var desc_val = desc_arr[i]
             console.log('descval')
             console.log(desc_val)
-            await add_to_carousel('\xa0\xa0\xa0\xa0\xa0\xa0$' + JSON.stringify(desc_val), input_color, [null], true, true);
+            await add_to_carousel('\xa0\xa0\xa0\xa0\xa0\xa0$' + desc_val, input_color, [null], true, true);
         }
     }
 }
+
+
+// when between selected show second textarea
+$(document.body).on('click', '#extract-descriptions .describe-textarea-div-wrap .dropdown.show.inline.describeaction li a' ,async function(){
+    if ($(this).text().includes('Between')){
+        $(this).closest('.describe-textarea-div-wrap').find('.inline.btmmargin.andtextareawrap').css('display', 'inline-block');
+    }
+    else{
+        $(this).closest('.describe-textarea-div-wrap').find('.inline.btmmargin.andtextareawrap').css('display', 'none');
+    }
+});
+
+
 
 async function display_extract_result_table(data){
     await display_extract_params(extract_params);

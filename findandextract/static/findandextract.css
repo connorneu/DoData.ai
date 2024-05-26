@@ -1926,9 +1926,9 @@ outside of combine*/
 .describe-textarea-div-wrap{
     margin-top:0.5rem;
 }
-.describe-textarea-div-wrap:first-of-type{
+/*.describe-textarea-div-wrap:first-of-type{
     margin-left:70px;
-}
+}*/
 .inline{
     display:inline-block;
 }
@@ -1936,8 +1936,8 @@ outside of combine*/
     margin-bottom:2%;
 }
 #extract-descriptions{
-    text-align: left;
-    width: 50%;
+    /*text-align: left;*/
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     white-space: nowrap;
@@ -2185,7 +2185,7 @@ outside of combine*/
     display:table;
 }
 .headertable.resulttable{
-    width: 100%;
+    /*width: 100%;*/
 }
 .warning-box-wrapper{
     display:none;
@@ -2210,5 +2210,8 @@ outside of combine*/
     margin-top:2%;
 }
 #addconditionbtn{
+    display:none;
+}
+.andtextareawrap{
     display:none;
 }

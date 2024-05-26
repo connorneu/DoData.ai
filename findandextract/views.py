@@ -709,7 +709,7 @@ def Extract_Describe(describe_values, username):
 def ReSort_Extract_Conds(conds):
     resorted_conds = []
     for cond in conds:
-        row = [cond[0].rstrip().strip(), cond[2].rstrip().strip(), cond[3].rstrip().strip(), cond[4].rstrip().strip()]
+        row = [cond[0].rstrip().strip(), cond[2].rstrip().strip(), cond[3].rstrip().strip(), cond[4].rstrip().strip(), cond[5].rstrip().strip()]
         resorted_conds.append(row)
     return resorted_conds
 
