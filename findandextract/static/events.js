@@ -301,17 +301,23 @@ $(document.body).on('click', '.condition-dropdown-action li a' ,async function()
 // check if all conditions dont have Select Column before submitting
 function check_submit_dropdowns_populated(){
     var conditions = $('#conditioncontainerwrap').find('.conditiondiv');
+    console.log('conditions len')
+    console.log(conditions.length)
     if (conditions.length === 1){
-        return true
+        return true;
     }
     else{
+        console.log('se')
         for (var i=0;i<conditions.length;i++){
+            var t = $(conditions[i]).find('.dropdown.condition-dropdown').find('.btn').text();
+            console.log(t)
             if ($(conditions[i]).find('.dropdown.condition-dropdown').find('.btn').text().includes("Select Column")){
                 $('.warning-box-wrapper').show();
                 $('#warningtext').text('You need to select a column for each condition.')
                 return false;
             }
         }
+        return true;
     }
 }
 

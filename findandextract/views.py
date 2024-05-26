@@ -654,6 +654,7 @@ def apply_conditions(df, conditions):
         if condition_arr_or:
             df_new_or = df.loc[np.logical_and.reduce(condition_arr_or)]
             df_new = pd.concat([df_new_and, df_new_or], ignore_index=False)
+            df_new = df_new.drop_duplicates()
             df_new.sort_index(inplace=True)
         else:
             df_new = df_new_and
