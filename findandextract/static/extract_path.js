@@ -334,7 +334,7 @@ function check_dropdowns_populated(){
                 return false;
             }  
         }
-        return true
+        return true;
     }
     else{
         console.log('warnings from file')

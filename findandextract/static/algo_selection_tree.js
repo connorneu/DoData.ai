@@ -3,78 +3,99 @@ $(document).ready(function () {
     var action_color = "coral";
     var standard_color = "white";
     var fyi_color = "cyan";
-    var data = {
+    var data = 
+    {
     name: root_node_name,
-    children: [                           
-            {
-                name: "Search",
-                image: "/static/images/Extract v3.png",
-                children: [{
-                        name: "START"                        
-                    }
-                ]
-            },            
-            {
-                name:"Combine",
-                image: "/static/images/Combine V4.png",
-                children: [{
-                        name: "START"                        
-                    }
-                ]
-            },
-            {
-                name:"Update",
-                image: "/static/images/Update v3.png",
-                children: [
-                    {
-                        name: "START" 
-                    }
-                ]
-            },
-            {
-                name: "Reconcile",
-                image: "/static/images/Reconcile v3.png",
-                children: [
-                    {
-                        name: "START"
-                    }
-                ]
-            },
-            {
-                name: "Group",
-                image: "/static/images/Calculate v3.png",
-                children: [
-                    {
-                        name: "START"
-                    }
-                ]
-            },
-            {
-                name: "Calculate",
-                image: "/static/images/Column.png",
-                children: [
-                    {
-                        name: "START"
-                    }
-                ]
-            }                            
+    children: [
+        {
+            name: "Move Data",
+            image: "/static/images/Extract v3.png",
+            children: [
+                {
+                    name: "Search",
+                    image: "/static/images/Extract v3.png",
+                    children: [{
+                            name: "START"                        
+                        }
+                    ]                           
+                },
+                {
+                    name:"Combine",
+                    image: "/static/images/Combine V4.png",
+                    children: [{
+                            name: "START"                        
+                        }
+                    ]
+                },
+                {
+                    name:"Update",
+                    image: "/static/images/Update v3.png",
+                    children: [
+                        {
+                            name: "START" 
+                        }
+                    ]
+                },
+            ]
+        }, 
+        {
+            name: "Analyze Data",
+            children: [
+                {
+                    name: "Calculate",
+                    image: "/static/images/Column.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                },  
+                {
+                    name: "Group",
+                    image: "/static/images/Calculate v3.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                },  
+                {
+                    name: "Reconcile",
+                    image: "/static/images/Reconcile v3.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                },
+                {
+                    name: "Filter",
+                    image: "/static/images/Column.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                }                             
+            ]
+        },                                                        
         ]
     };
 
     var margin = {
-            top: 40, //20
+            top: 0, //20
             right: 180,   // 90
-            bottom: 60,  //30
-            left: 350     // 90
+            bottom: 0,  //30
+            left: 250     // 90
         },
         width = 4000 - margin.left - margin.right,
         height = 600 - margin.top - margin.bottom;
 
     var svg = d3
         .select("svg")
-        .attr("width", width + margin.right + margin.left)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")       
+        //.attr("width", width + margin.right + margin.left)
+        //.attr("height", height + margin.top + margin.bottom)
+        .append("g")      
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var i = 0,

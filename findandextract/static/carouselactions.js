@@ -78,12 +78,13 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     var path = window.location.pathname;
     var page = path.split("/").pop();
     console.log('we started')
-    //await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    //await add_to_carousel('An algorithm will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    await gently_show_tree();
     ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    fake_start();
+    //fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -472,13 +473,6 @@ function user_tables_as_array_with_brackets(){
     return table_array
 }
 
-// adjust column header
-function adjust_col_header(){
-    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    add_to_carousel('If your column headers are not on the first row, then click on the row containing your column headers.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
-    document.getElementById("colselecttablediv1").style.display = "block";
-    col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
-}
 
 async function decide_algo_path(algorithm_type)
 {
@@ -1178,6 +1172,15 @@ async function fourth_sheet_selection(){
     col_headers = populate_table_element(primary_sheet_name, 1, 'data1_tableid');
 }*/
 
+
+// adjust column header
+function adjust_col_header(){
+    add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    add_to_carousel('If your column headers are not on the first row, then click on the row containing your column headers.', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById("colselecttablediv1").style.display = "block";
+    col_headers = populate_table_element(primary_sheet_name, 0, 'data1_tableid');
+}
+
 function adjust_col_header2(){
     add_to_carousel('Change column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     add_to_carousel('Current column headers are highlighted in white.','If your column headers are not on the first row, then click on the row containing your column headers.',
@@ -1640,6 +1643,9 @@ function calc_max_files(){
     else if (algorithm_type === 'Calculate'){
         return "Maximum 1 file for this algorithm type";
     }
+    else if (algorithm_type === 'Filter'){
+        return "Maximum 1 file for this algorithm type";
+    }
 }
 
 
@@ -1706,6 +1712,10 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             algorithm_type = 'Columns'
             algo_desc = 'Create a new column by describing what you want and having an formula generated.'
             max_file_upload = 1;
+        }
+        else if (parent_node_name === 'Filter'){
+            algorithm_type = 'Filter'
+            algo_desc = 'Filter a dataset by describing conditions to apply to one or more column.'
         }
         begin_file_upload(algo_desc);
     }
@@ -1820,16 +1830,20 @@ function assign_algo_type_description(algo_type){
         algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
         max_file_upload = 4;
     }
-    else if (parent_node_name === 'Reconcile'){
+    else if (algo_type === 'Reconcile'){
         algo_desc = 'Reconcile values of two datasets by matching rows and comparing similarities and differences.'
         max_file_upload = 2;
     }
-    else if (parent_node_name === 'Group'){
+    else if (algo_type === 'Group'){
         algo_desc = 'Group together rows of data which have common values to calculate metrics per group.'
         max_file_upload = 1;
     }
-    else if (parent_node_name === 'Columns'){
+    else if (algo_type === 'Columns'){
         algo_desc = 'Create a new column by describing what you want and having an formula generated.'
+        max_file_upload = 1;
+    }
+    else if (algo_type === 'Filter'){
+        algo_desc = 'Filter a dataset by describing conditions to apply to one or more column.'
         max_file_upload = 1;
     }
 }
@@ -1878,6 +1892,9 @@ async function confirm_algorithm_type(selected_algo_type){
         document.getElementById('confirm-algo-img-reconcile').style.display = 'block';
     }
     else if (algo === 'Calculate'){
+        document.getElementById('confirm-algo-img-calculate').style.display = 'block';
+    }
+    else if (algo === 'Filter'){
         document.getElementById('confirm-algo-img-calculate').style.display = 'block';
     }
 
@@ -2420,4 +2437,42 @@ function check_filedrop_populated(filedrop){
             return true;
         }
     }
+}
+
+async function gently_show_tree(){
+    try{
+        hide_containers(2);
+    }
+    catch(error){
+
+    }
+    document.getElementById('confirm-algo-select').style.display='none';
+    document.getElementById('describe-algo-banner').style.display='none';
+    var element = document.getElementsByTagName('body')[0];
+    element.scroll(-1000,1000);
+    window.focus(); 
+    window.scrollTo(0,800); 
+    elem = document.getElementById('algo-desc-graph')
+    await add_to_carousel('START', action_color, [null], true, false);
+    await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    elem.fadeIn = function(timing) {
+        var newValue = 0;
+
+        elem.style.display = 'block';
+        elem.style.opacity = 0;
+
+        fadeInInterval = setInterval(function() {
+
+            if (newValue < 1) {
+                newValue += 0.01;
+            }
+
+            elem.style.opacity = newValue;
+
+        }, timing);
+
+    }
+
+    elem.fadeIn(10);
 }

@@ -831,43 +831,32 @@ $(document.body).on('click', '#changealgorithm' , async function(){
 });
 
 
-$(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async function(){   
-    console.log('fading in')
+// not sure which algo show description box
+$(document.body).on('click', '#not-sure-which-algo' , async function(){  
     try{
-        hide_containers(2);
+        hide_containers(3);
     }
     catch(error){
 
     }
-    document.getElementById('confirm-algo-select').style.display='none';
-    document.getElementById('describe-algo-banner').style.display='none';
+    document.getElementById('algo-desc-graph').style.display='none';
+    //document.getElementById('describe-algo-banner').style.display='none';
     var element = document.getElementsByTagName('body')[0];
     element.scroll(-1000,1000);
     window.focus(); 
     window.scrollTo(0,800); 
     elem = document.getElementById('algo-desc-graph')
-    await add_to_carousel('START', action_color, [null], true, false);
-    await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
-    elem.fadeIn = function(timing) {
-        var newValue = 0;
+    //await add_to_carousel('START', action_color, [null], true, false);
+    await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('An algorithm type will be seugested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById('confirm-algo-select').style.display='block';
+    document.getElementById('describe-algo-banner').style.display='block';
+});
 
-        elem.style.display = 'block';
-        elem.style.opacity = 0;
 
-        fadeInInterval = setInterval(function() {
-
-            if (newValue < 1) {
-                newValue += 0.01;
-            }
-
-            elem.style.opacity = newValue;
-
-        }, timing);
-
-    }
-
-    elem.fadeIn(10);
+// description help or algo is not what you wanted
+$(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async function(){  
+    gently_show_tree();
     
 });
 
