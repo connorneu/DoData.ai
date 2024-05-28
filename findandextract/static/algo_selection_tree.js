@@ -9,7 +9,6 @@ $(document).ready(function () {
     children: [
         {
             name: "Move Data",
-            image: "/static/images/Extract v3.png",
             children: [
                 {
                     name: "Search",
@@ -93,8 +92,8 @@ $(document).ready(function () {
 
     var svg = d3
         .select("svg")
-        //.attr("width", width + margin.right + margin.left)
-        //.attr("height", height + margin.top + margin.bottom)
+        .attr("width", width + margin.right + margin.left)
+        .attr("height", height + margin.top + margin.bottom)
         .append("g")      
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -170,7 +169,7 @@ $(document).ready(function () {
             .attr("xlink:href", function(d) {
                 return d.data.image;
             })
-            .attr("x", 210)  //116
+            .attr("x", 110)  //116
             .attr("y", -25)     //-25
             .attr("width", 500)       //50
             .attr("height", 500);
@@ -340,22 +339,75 @@ function force_text_background(class_name){
 
 function adjust_svg_img_y_pos(class_name){
     var parent_nodes = document.getElementsByClassName(class_name);
+    var both_parent_nodes_active = false;
+    var one_parent_node_active = false;
     for (var i = 0; i<parent_nodes.length; i++){ 
+        var node = $(parent_nodes[i]).closest('.node');
+        if (node.hasClass('active')){
+            var txt = node.find('tspan').text();
+            if (txt.includes('Move Data') || txt.includes('Analyze Data')){
+                if(one_parent_node_active){
+                   both_parent_nodes_active=true; 
+                   console.log('TRE')
+                }
+                else{
+                    one_parent_node_active=true;
+                }
+            }
+        }
         var node_name = parent_nodes[i].getElementsByTagName('tspan')[0].innerHTML;
         if (node_name === 'Combine'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-120);    
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220); 
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-90); 
+            }
+               
         }
         if (node_name === 'Update'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-200);    
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420);
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-150);
+            }
+                
         } 
         if (node_name === 'Reconcile'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-290);    
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-320); 
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420); 
+            }
+               
         }
         if (node_name === 'Group'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-370);    
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-170);    
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-350);    
+            }
+            
         }
-        if (node_name === 'Calculate'){
-            var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-450);    
+        if (node_name === 'Calculate'){  
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-20);   
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-280);  
+            } 
+        }
+        if (node_name === 'Filter'){
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-470);     
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-490);    
+            } 
+            
         }
     }
 }

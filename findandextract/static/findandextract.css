@@ -973,9 +973,11 @@ display: table;
    /*height:1500px;*/
    height:100%; 
    display:none;
+
 }
 .selection-svg{
     height:600px;
+    width:8000px;
 }
 .algo-details{
     width:100%;
