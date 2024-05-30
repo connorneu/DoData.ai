@@ -69,7 +69,7 @@ $(document).ready(function () {
                 },
                 {
                     name: "Filter",
-                    image: "/static/images/Column.png",
+                    image: "/static/images/Filter.png",
                     children: [
                         {
                             name: "START"

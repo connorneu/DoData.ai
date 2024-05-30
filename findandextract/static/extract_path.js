@@ -69,6 +69,7 @@ $(document.body).on('input propertychange', '.describe-textarea', async function
     else{
         $('#describe-data-extract').find('.or-separator').hide();
         $('#extractusefile').hide();
+        document.getElementById('submit-extract-wrap').style.display = 'block';
     }
 });
 
@@ -222,7 +223,6 @@ async function describe_data_extract(){
 // when file selected show column dropdown
 // FIX THIS id is too broad - effects every dropdown
 $(document.body).on('click', '#extractinputfile_ul li a' ,function(){
-    console.log('fagdrag')
     var selectedfile = $(this).text();
     var colheaders = get_col_headers_for_filename(selectedfile);
     populate_drop_down("#extractinputcol_ul", colheaders, true);
@@ -307,9 +307,6 @@ $(document.body).on('click', '.dropdown.extractfrom.dataset li a' ,async functio
     $(this).closest('.extract-from-file').find('.dropdown.extractfrom.col').css("display", "flex");
 }); 
 
-$(document.body).on('click', '#first-col_ul li a' ,async function(){
-    document.getElementById('submit-extract-wrap').style.display = 'block';
-}); 
 
 // if adjust header column button is clicken when describing where to search for values to extract
 $(document.body).on('click', '#data2_adj_col_header' ,async function(){

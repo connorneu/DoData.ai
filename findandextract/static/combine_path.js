@@ -137,6 +137,7 @@ async function write_joins(write_strings){
 
 $(document.body).on('click', '#submit-merge' ,async function(){
     hide_containers(2);
+    $('submit-merge').hide();
     document.getElementsByClassName('combinewrap')[1].style.display = 'none';
     document.getElementById('joinbtnswrap').style.display = 'none';
     write_strings = collect_joins();

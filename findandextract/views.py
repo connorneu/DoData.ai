@@ -153,6 +153,7 @@ def findandextract(request):
                     write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except:
+                    traceback.print_exc()
                     log.critical("A critical error occured during combine algorithm.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'update_file':
@@ -166,6 +167,7 @@ def findandextract(request):
                     write_result_raw(df_result, request)
                     return HttpResponse(status=200)    
                 except Exception:
+                    traceback.print_exc()
                     log.critical("A critical error occured during update method.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'reconcile':
@@ -233,7 +235,7 @@ def findandextract(request):
                     df = unmelt(file, sheet, request.user)
                     df_result = Parse_User_Formula(df, user_text, new_col_name)
                     print(df_result)
-                    df_list = melt_df(df_result)
+                    df_list = melt_df(df_result, request.user)
                     write_result_raw(df_result, request)
                     #print("saving result to db...")
                     #db_obj_list = []
@@ -259,10 +261,14 @@ def findandextract(request):
                         print('DATA UPLOAD POS')
                         print(request.POST)
                         print('user::', request.user)
+                        print('startwrining')
                         upload_data_files(request)
+                        print('endwriting')
                         # i think i can do this
                         # why would i need more than a 1000 rows
+                        print('start upload')
                         fande_db_data = return_1k_rows(request)
+                        print('end uplod')
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     except Exception: 
                         print('upload data file failure')
@@ -284,7 +290,9 @@ def findandextract(request):
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
+                    print('start longuest')
                     fande_db_data = return_1k_rows(request)
+                    print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
                 # DONT DELETE THIS FUCK
@@ -297,23 +305,23 @@ def findandextract(request):
             return HttpResponse(status=500)  
 
 def return_1k_rows(request):
-    return list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values()[:1000])
+    return list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values())
 
 
 # write result to result databse
 def write_result_raw(df_result, request):
-    df_list = melt_df(df_result)
+    df_list = melt_df(df_result, str(request.user))
     print('dflist')
     print(df_list)
-    shitlist = []
-    for elem in df_list:
-        shitlist.append([elem[0], elem[1], str(request.user)])
+    #shitlist = []
+    #for elem in df_list:
+    #    shitlist.append([elem[0], elem[1], str(request.user)])
     csv_filename = str(request.user) + ' result.csv'
     print('shitlist')
-    print(shitlist)
+    print(df_list)
     with open(csv_filename, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')
-        writer.writerows(shitlist)       
+        writer.writerows(df_list)       
     with open(csv_filename) as infile:
         with connection.cursor() as stmt:
             stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
@@ -493,16 +501,17 @@ def replace_thilde(df):
 
 
 # for dataframe input
-def melt_df(df):
+def melt_df(df, user_id):
     df_k_v = df.melt()
+    df_k_v['uid'] = user_id
     print("K AND V")
     print(df_k_v)
     try:
         print('melt: key value')
-        df_list = list(df_k_v[['key', 'value']].values)  #list(df_k_v[['key', 'value']].values)
+        df_list = list(df_k_v[['key', 'value', 'uid']].values)  #list(df_k_v[['key', 'value']].values)
     except:
         print('melt: variable value')
-        df_list = list(df_k_v[['variable', 'value']].values)
+        df_list = list(df_k_v[['variable', 'value', 'uid']].values)
     return df_list
 
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly

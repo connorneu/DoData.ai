@@ -1686,7 +1686,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
             algorithm_type = 'Combine';      
-            algo_desc = 'Join two datasets on either rows or column headers to combine the values into one file.' 
+            algo_desc = 'Combine two or more datasets into one file by searching for common values and adding columns where they match.'
             max_file_upload = 4;  
         }
         else if(parent_node_name === 'Update'){
@@ -1823,7 +1823,7 @@ function assign_algo_type_description(algo_type){
         max_file_upload = 4;
     }
     else if (algo_type === 'Combine'){   
-        algo_desc = 'Join two datasets on either rows or column headers to combine the values into one file.' 
+        algo_desc = 'Combine two or more datasets into one file by searching for common values and adding columns where they match.' 
         max_file_upload = 4;  
     }
     else if(algo_type === 'Update'){
@@ -1894,8 +1894,11 @@ async function confirm_algorithm_type(selected_algo_type){
     else if (algo === 'Calculate'){
         document.getElementById('confirm-algo-img-calculate').style.display = 'block';
     }
+    else if (algo === 'Group'){
+        document.getElementById('confirm-algo-img-group').style.display = 'block';
+    }
     else if (algo === 'Filter'){
-        document.getElementById('confirm-algo-img-calculate').style.display = 'block';
+        document.getElementById('confirm-algo-img-filter').style.display = 'block';
     }
 
     // click continue after confirm algorithm text

@@ -45,7 +45,7 @@
                     <i class="bx bx-chevron-right"></i>
                 </div>
                 <div class="logo">
-                    <img src="/static/images/DoData.ai Logo.png" alt="...">
+                    <img src="/static/images/logov2.png" alt="...">
                 </div>
                 <nav>
                     <div class="nav-title"> MENU </div>
@@ -176,7 +176,8 @@
                             <img id="confirm-algo-img-update" class="confirm-algo-img" src="/static/images/Update v3 hor.png">
                             <img id="confirm-algo-img-reconcile" class="confirm-algo-img" src="/static/images/Reconcile v3 hor.png">
                             <img id="confirm-algo-img-calculate" class="confirm-algo-img" src="/static/images/Calculate v3 hor.png">
-                            <img id="confirm-algo-img-calculate" class="confirm-algo-img" src="/static/images/Column hor.png">
+                            <img id="confirm-algo-img-group" class="confirm-algo-img" src="/static/images/Column hor.png">
+                            <img id="confirm-algo-img-filter" class="confirm-algo-img" src="/static/images/Filter hor.png">
                         </div>
                         <div>
                             <h2 class="hide center" id="algo-example-extract"><b>Example:</b> Search through multiple files and combine all rows containing certain clients into one file.</h2>
@@ -191,12 +192,19 @@
                     <div class="scroll-collapse-tree" id="algo-desc-graph"> 
                         <svg id="maine" class="selection-svg">
                             <defs>
-                                <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(0, 250, 250)">
+                                <linearGradient id="grad" x1="10%" y1="0%" x2="0%" y2="50%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(10, 250, 100)">
 
-                                    <stop offset="10%" style="stop-color:rgb(80, 0, 167);stop-opacity:1" />
+                                    <!--
+                                        <stop offset="10%" style="stop-color:rgb(80, 0, 167);stop-opacity:1" />
                                     <stop offset="20%" style="stop-color:rgb(110, 5, 185);stop-opacity:1" />
                                     <stop offset="30%" style="stop-color:rgba(130,0,255,1);stop-opacity:1" />
-
+                                    -->
+                                    <stop offset="20%" style="stop-color:rgb(23, 19, 245);stop-opacity:.8" />
+                                    <stop offset="30%" style="stop-color:rgb(0, 46, 133);stop-opacity:.81" />
+                                    <stop offset="40%" style="stop-color:rgb(82, 17, 236);stop-opacity:.81" />
+                                    <stop offset="45%" style="stop-color:rgb(11, 59, 161);stop-opacity:.81" />
+                                    <stop offset="60%" style="stop-color:rgb(204, 0, 255);stop-opacity:.81" />
+                                    <stop offset="90%" style="stop-color:#7410ff;stop-opacity:.8" />
                                     <!--orig 
                                     <stop offset="10%" style="stop-color:#200031;stop-opacity:1" />
                                     <stop offset="20%" style="stop-color:#ffffff;stop-opacity:1" />
@@ -517,6 +525,14 @@
                             <div id="extractusefile">
                                 <div>
                                     <h2 class="regular-header">Search for values from a file:</h2>
+                                    <div class="join-tooltip">
+                                        <img class="infoimg" src="/static/images/info.png" alt="Search from a file">
+                                        <div class="hover-prompt" id="search-file-prompt">
+                                            <h2>
+                                                Select a column in one of your files and the algorithm will search for each of those values in all your datasets.
+                                            </h2>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="clear"></div>
                                 <div class="dropdown show inline" id="extract-from-file-drop">
@@ -610,7 +626,17 @@
                             <h2 class="regular-header">Or</h2>
                         </div>
                         <div id="extractfromdescribe">
-                            <h2 class="regular-header">Describe values to find:</h2>
+                            <div>
+                                <h2 class="regular-header">Describe values to find:</h2>
+                                <div class="join-tooltip">
+                                    <img class="infoimg" src="/static/images/info.png" alt="Search from a file">
+                                    <div class="hover-prompt" id="search-file-prompt">
+                                        <h2>
+                                            Use the options below to describe the values you want the algorithm to search for in your uploaded datasets.
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="extract-descriptions">
                                 <div class="describe-textarea-div-wrap">
                                     <div class="dropdown hide">

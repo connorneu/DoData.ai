@@ -323,7 +323,7 @@ def classify_zeroshot(classifier, user_text):
     result_index = scores.index(max(scores))
     result_raw = output['labels'][result_index]
     result_word = {'combine files': 'combine', 'select values': 'extract', 'compare files': 'reconcile', 'change values': 'update', 'calculate metrics': 'calculate'}#
-    result_desc = {'combine': 'Join two datasets on either rows or column headers to combine the values into one file.',
+    result_desc = {'combine': 'Combine two or more datasets into one file by searching for common values and adding columns where they match.',
                    'extract': 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.',
                    'reconcile': 'Reconcile values of two datasets by matching rows and comparing similarities and differences.',
                    'update': '<u>Change values in one or more files:</u> <br><br> Describe what you want to find. <br><br> Search through your files for these values. <br><br> Change the values on the same row.',
