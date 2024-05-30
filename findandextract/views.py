@@ -813,27 +813,53 @@ def Reorder_Columns(df, matched_col_header, all_df_col_headers):
 def Search_Column_Values(df, col, df_extract_values):
     df_result = df[df[col].isin(df_extract_values)]
     return df_result
+
+
+def Group_Same_File_Joins(params):
+    grouped_params = []
+    for i in range(len(params)):
+        for j in range(len(params)):
+            if i != j:
+                if params[i][3] == params[j][3] and (params[i][0] != 'REMOVE' and params[j][0] != 'REMOVE'):
+                    params[i][2].extend(params[j][2])
+                    params[i][4].extend(params[j][4])
+                    params[j][0] = 'REMOVE'
+                    print('updated i')
+                    print(params[i])
+                    print('updated j')
+                    print(params[j])
+    for param in params:
+        print(param)
+        if param[0] != 'REMOVE':
+            grouped_params.append(param)
+    print('grouped params::-')
+    print(grouped_params)
+    return grouped_params    
+
+
+
     
 def Combine_Merge(join_params, username):
     print('join params')
     print(join_params)
+    grouped_params = Group_Same_File_Joins(join_params)
     df_result = None
-    for join in join_params:
+    for join in grouped_params:
         file1, sheet1 = parse_file_name_from_bracket_display(join[1])
         file2, sheet2 = parse_file_name_from_bracket_display(join[3])
         df1 = unmelt(file1, sheet1, username)
         df2 = unmelt(file2, sheet2, username)
-        print('df1')
-        print(df1)
-        print('df2')
-        print(df2)
-        if not isinstance(df_result, pd.DataFrame):
-            df_single_result = pd.merge(df1, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower())
+        file2_suffix = '_' + file2 + '_' + sheet2
+        if not isinstance(df_result, pd.DataFrame):   
+            print('single')
+            print(join[2])
+            print(join[4])         
+            df_single_result = pd.merge(df1, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower(), suffixes=('', file2_suffix))
             print('single result')
             print(df_single_result)
             df_result = df_single_result
         else:
-            df_result = pd.merge(df_single_result, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower())
+            df_result = pd.merge(df_single_result, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower(), suffixes=('', file2_suffix))
             print('result')
             print(df_result)
     if df_result is not None:

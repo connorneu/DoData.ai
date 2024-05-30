@@ -91,7 +91,7 @@ $(document.body).on('click', '.joinfile.dropdown-menu li a' ,function(){
 $(document.body).on('click', '#addjoin' ,function(){
     var num_joins = $('.join-two-files').length;
     console.log('num joins ' + num_joins)
-    $('.join-two-files').eq(0).clone().appendTo('#combines');
+    $('.join-two-files').eq(0).clone().appendTo('#combine_items');
     var new_elem = $('.join-two-files').eq(num_joins);
     $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(0).find('.btn').addClass('disabled');
     $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(1).find('.btn').text('Select Dataset');
@@ -122,7 +122,7 @@ function collect_joins(){
         write_strings.push(jointype + ': ' + first_file);
         write_strings.push(jointype + ': ' + second_file);
         write_strings.push('\xa0\xa0\xa0$ ' + first_col + ', ' + second_col);
-        joins_data.push([jointype, first_file, first_col, second_file, second_col]);    
+        joins_data.push([jointype, first_file, [first_col], second_file, [second_col]]);    
     }
     console.log(write_strings)
     return write_strings;
@@ -135,14 +135,38 @@ async function write_joins(write_strings){
     }
 }
 
+// dont show add join button until first file selected
+$(document.body).on('click', '.joined-file.leftside .dropdown.flexdropdown.selectfile li a' ,async function(){
+    $('#joinbtnswrap').show();
+});
+
+
+// warnings
+function check_for_combine_warnings(){
+    var joined_files = $('#combine_items').find('.joined-file').find('.dropdown');
+    for (var i=0;i<joined_files.length;i++){
+        if ($(joined_files[i]).text().includes('Select Dataset') || $(joined_files[i]).text().includes('Select Column')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a dataset and column');
+            return false;
+        }
+    }
+    return true;
+}
+
+
 $(document.body).on('click', '#submit-merge' ,async function(){
-    hide_containers(2);
-    $('submit-merge').hide();
-    document.getElementsByClassName('combinewrap')[1].style.display = 'none';
-    document.getElementById('joinbtnswrap').style.display = 'none';
-    write_strings = collect_joins();
-    await write_joins(write_strings);
-    submit_combine_algo_parameters('combine_merge', joins_data);
+    if (check_for_combine_warnings()){
+        $('.warning-box-wrapper').show();
+        hide_containers(2);
+        $('#combinehowwrap').hide();
+        $('#submit-merge').hide();
+        document.getElementsByClassName('combinewrap')[1].style.display = 'none';
+        document.getElementById('joinbtnswrap').style.display = 'none';
+        write_strings = collect_joins();
+        await write_joins(write_strings);
+        submit_combine_algo_parameters('combine_merge', joins_data);
+    }
 });
 
 async function display_combine_result_table(data){

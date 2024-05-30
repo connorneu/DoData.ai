@@ -2225,3 +2225,6 @@ outside of combine*/
 #descriptionhelp{
     margin-top:10%;
 }
+#joinbtnswrap{
+    display:none;
+}

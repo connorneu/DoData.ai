@@ -338,7 +338,6 @@ function check_dropdowns_populated(){
         var from_file_btns = $('#extractusefile').find('.btn');
         for (var i=0;i<from_file_btns.length;i++){
             if($(from_file_btns[i]).text().includes('Select Dataset') || $(from_file_btns[i]).text().includes('Select Column')){
-                console.log($(from_file_btns[i]).text())
                 $('.warning-box-wrapper').show();
                 $('#warningtext').text('You need to select a dataset and column');
                 return false;
