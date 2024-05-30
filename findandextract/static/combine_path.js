@@ -90,7 +90,6 @@ $(document.body).on('click', '.joinfile.dropdown-menu li a' ,function(){
 
 $(document.body).on('click', '#addjoin' ,function(){
     var num_joins = $('.join-two-files').length;
-    console.log('num joins ' + num_joins)
     $('.join-two-files').eq(0).clone().appendTo('#combine_items');
     var new_elem = $('.join-two-files').eq(num_joins);
     $(new_elem).find('.dropdown.flexdropdown.selectfile').eq(0).find('.btn').addClass('disabled');
@@ -124,7 +123,6 @@ function collect_joins(){
         write_strings.push('\xa0\xa0\xa0$ ' + first_col + ', ' + second_col);
         joins_data.push([jointype, first_file, [first_col], second_file, [second_col]]);    
     }
-    console.log(write_strings)
     return write_strings;
 }
 
@@ -170,8 +168,10 @@ $(document.body).on('click', '#submit-merge' ,async function(){
 });
 
 async function display_combine_result_table(data){
+    console.log('displaying cmobination _result')
     document.getElementById('combinehowwrap').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    console.log('populated tabl3')
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }

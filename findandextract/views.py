@@ -7,6 +7,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import StreamingHttpResponse
 from .models import KeyValueDataFrame
 from .models import KeyValueDataFrame_Result
+from .models import KeyValueDataFrame_Display_Result
 import os
 from django.http import JsonResponse
 import json
@@ -286,7 +287,9 @@ def findandextract(request):
             if is_ajax(request):
                 # return the result table to display
                 if request.GET.get('ajaxid') == 'result_db': # ajaxid:'result_db'
-                    result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values()[:1000])
+                    print('getting reuslts')
+                    #result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values())                    
+                    result_table_db = get_result_db(request.user)
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
@@ -301,31 +304,50 @@ def findandextract(request):
                 #threads.append(x)
                 return render(request, "findandextract/fandemain.html")
         except:
+            traceback.print_exc()
             log.critical("An error occurred when making request", exc_info=True)
-            return HttpResponse(status=500)  
+            return HttpResponse('Critical Error', status=500)  
 
 def return_1k_rows(request):
     return list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values())
 
+def get_result_db(uid):
+    # DO NOT DELETE
+    #print("csv method")
+    #csv_filename = str(uid) + ' result.csv'
+    #with open(csv_filename, newline='') as f:
+    #    reader = csv.reader(f, delimiter='~')
+    #    data = list(reader)
+    #    os.remove(csv_filename)
+    #return data
+    return list(KeyValueDataFrame_Display_Result.objects.filter(uid=str(uid)).values())
+
+
+def write_display_results(df_result, request):
+    df_result_disp = df_result.head(100)
+    df_disp_list = melt_df(df_result_disp, str(request.user))
+    db_obj_list = []
+    for dbframe in df_disp_list:                    
+        db_obj_list.append(KeyValueDataFrame_Display_Result(key=dbframe[0], val=dbframe[1], uid=request.user))
+    KeyValueDataFrame_Display_Result.objects.bulk_create(db_obj_list) 
 
 # write result to result databse
 def write_result_raw(df_result, request):
-    df_list = melt_df(df_result, str(request.user))
-    print('dflist')
-    print(df_list)
-    #shitlist = []
-    #for elem in df_list:
-    #    shitlist.append([elem[0], elem[1], str(request.user)])
-    csv_filename = str(request.user) + ' result.csv'
-    print('shitlist')
-    print(df_list)
-    with open(csv_filename, 'w', newline='') as f:
-        writer = csv.writer(f, delimiter='~')
-        writer.writerows(df_list)       
-    with open(csv_filename) as infile:
-        with connection.cursor() as stmt:
-            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
-    os.remove(csv_filename)
+    print('writing display results')
+    write_display_results(df_result, request)
+    
+    ## DO NOT FUCKING DELETE
+    #df_list = melt_df(df_result, str(request.user))
+    #print('writing to csv')
+    #csv_filename = str(request.user) + ' result.csv'
+    #with open(csv_filename, 'w', newline='') as f:
+    #    writer = csv.writer(f, delimiter='~')
+    #    writer.writerows(df_list)       
+    #print('writing to db')
+    #with open(csv_filename) as infile:
+    #    with connection.cursor() as stmt:
+    #        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
+    #os.remove(csv_filename)
 
 
 def clean_describe_values(describe_values_raw):
@@ -824,24 +846,15 @@ def Group_Same_File_Joins(params):
                     params[i][2].extend(params[j][2])
                     params[i][4].extend(params[j][4])
                     params[j][0] = 'REMOVE'
-                    print('updated i')
-                    print(params[i])
-                    print('updated j')
-                    print(params[j])
     for param in params:
-        print(param)
         if param[0] != 'REMOVE':
             grouped_params.append(param)
-    print('grouped params::-')
-    print(grouped_params)
     return grouped_params    
 
 
 
     
 def Combine_Merge(join_params, username):
-    print('join params')
-    print(join_params)
     grouped_params = Group_Same_File_Joins(join_params)
     df_result = None
     for join in grouped_params:
@@ -850,18 +863,11 @@ def Combine_Merge(join_params, username):
         df1 = unmelt(file1, sheet1, username)
         df2 = unmelt(file2, sheet2, username)
         file2_suffix = '_' + file2 + '_' + sheet2
-        if not isinstance(df_result, pd.DataFrame):   
-            print('single')
-            print(join[2])
-            print(join[4])         
+        if not isinstance(df_result, pd.DataFrame):        
             df_single_result = pd.merge(df1, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower(), suffixes=('', file2_suffix))
-            print('single result')
-            print(df_single_result)
             df_result = df_single_result
         else:
             df_result = pd.merge(df_single_result, df2, left_on=join[2], right_on=join[4], how=join[0].split(' ')[0].lower(), suffixes=('', file2_suffix))
-            print('result')
-            print(df_result)
     if df_result is not None:
         df_result = df_result.drop_duplicates()
     return df_result

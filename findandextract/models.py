@@ -20,6 +20,13 @@ class KeyValueDataFrame_Result(models.Model):
     id = models.AutoField(primary_key=True)
 
 
+class KeyValueDataFrame_Display_Result(models.Model):
+    key = models.CharField(max_length=200, default="No_Column_Header")
+    val = models.TextField()
+    uid = models.CharField(max_length=200, default="NOUID")
+    id = models.AutoField(primary_key=True)
+
+
 
 class DataFilters(models.Model):
     primary_file_name = models.CharField(max_length=200, default="NOFILENAME")
