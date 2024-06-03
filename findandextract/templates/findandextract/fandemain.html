@@ -199,12 +199,12 @@
                                     <stop offset="20%" style="stop-color:rgb(110, 5, 185);stop-opacity:1" />
                                     <stop offset="30%" style="stop-color:rgba(130,0,255,1);stop-opacity:1" />
                                     -->
-                                    <stop offset="20%" style="stop-color:rgb(23, 19, 245);stop-opacity:.8" />
-                                    <stop offset="30%" style="stop-color:rgb(0, 46, 133);stop-opacity:.81" />
-                                    <stop offset="40%" style="stop-color:rgb(82, 17, 236);stop-opacity:.81" />
-                                    <stop offset="45%" style="stop-color:rgb(11, 59, 161);stop-opacity:.81" />
-                                    <stop offset="60%" style="stop-color:rgb(204, 0, 255);stop-opacity:.81" />
-                                    <stop offset="90%" style="stop-color:#7410ff;stop-opacity:.8" />
+                                    <stop offset="20%" style="stop-color:rgb(23, 19, 245);stop-opacity:.98" />
+                                    <stop offset="30%" style="stop-color:rgb(0, 46, 133);stop-opacity:.981" />
+                                    <stop offset="40%" style="stop-color:rgb(82, 17, 236);stop-opacity:.981" />
+                                    <stop offset="45%" style="stop-color:rgb(11, 59, 161);stop-opacity:.981" />
+                                    <stop offset="60%" style="stop-color:rgb(204, 0, 255);stop-opacity:.981" />
+                                    <stop offset="90%" style="stop-color:#7410ff;stop-opacity:.98" />
                                     <!--orig 
                                     <stop offset="10%" style="stop-color:#200031;stop-opacity:1" />
                                     <stop offset="20%" style="stop-color:#ffffff;stop-opacity:1" />
@@ -659,23 +659,7 @@
                                         Select Column
                                         </button>
                                         <ul class="dropdown-menu colsel"></ul>
-                                    </div>
-                                    <div class="dropdown show inline describeaction">
-                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Equals
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item">Equals</a></li>
-                                            <li><a class="dropdown-item">Contains</a></li>
-                                            <li><a class="dropdown-item">Between</a></li>
-                                            <li><a class="dropdown-item">Greater Than</a></li>
-                                            <li><a class="dropdown-item">Less Than</a></li>
-                                            <li><a class="dropdown-item">Not Equal To</a></li>
-                                            <li><a class="dropdown-item">Does Not Contain</a></li>
-                                            <li><a class="dropdown-item">Starts With</a></li>
-                                            <li><a class="dropdown-item">Ends With</a></li>
-                                        </ul>
-                                    </div>
+                                    </div>                        
                                     <div class="inline btmmargin">
                                         <textarea class="describe-textarea" maxlength="37"></textarea>
                                     </div>
@@ -865,31 +849,50 @@
                     <div class="update-from-file" id="update_file_wrap">
                         <div class="describe-data-wrap" id="describe-data-upload">
                             <div class="flexy-side-drops-narrow">
-                                <div class="dropdown show alignbottom" id="update-from-file-drop">
+                                <div>
                                     <h2 class="regular-header">Choose which file to update</h2>
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Dataset
-                                    </button>
-                                    <ul class="dropdown-menu" id="updateinputfile_ul"></ul>
-                                </div>
-                                <div class="dropdown alignbottom" id="update-from-file-column-drop">
-                                    <div>
-                                        <h2>Update the values in this column</h2>
+                                    <div class="dropdown show alignbottom" id="update-from-file-drop">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Dataset
+                                        </button>
+                                        <ul class="dropdown-menu" id="updateinputfile_ul"></ul>
                                     </div>
-                                    <div class="clear"></div>
-                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Select Column
-                                    </button>
-                                    <ul class="dropdown-menu" id="updateinputcol_ul"></ul>
+                                </div>
+                                <div id="update-from-file-column-drop">
+                                    <h2>Update the values in which column</h2>
+                                    <div class="dropdown alignbottom show">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="dropdown-menu" id="updateinputcol_ul"></ul>
+                                    </div>
                                 </div>
                             </div>
                             <div class="describe-data-wrap hide" id="update-from-what">
                                 <div>
                                     <h2>Replace with values from another file</h2>
                                 </div>
+
+                                <div class="joined-file leftside" id="update-from-file-column-drop-replace">
+                                    <div class="dropdown flexdropdown selectfile">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Dataset
+                                        </button>
+                                        <ul class="joinfile dropdown-menu" id="updatedatasetreplace_ul"></ul>
+                                    </div>                                  
+                                    <div class="dropdown flexdropdown selectcolumn">
+                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Select Column
+                                        </button>
+                                        <ul class="joincol dropdown-menu" id="updatecolreplace_ul"></ul>
+                                    </div>
+                                </div>
+
+
+                                <!--
+
                                 <div class="flexy-side-drops-narrow">
                                     <div class="left-right-auto alignbottom" id="update-from-file-column-drop-replace">
-                                        <div class="clear"></div>
                                         <div class="dropdown alignbottom show small-right-space">
                                             <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             Select Dataset
@@ -904,6 +907,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                -->
+
+
+
+                        
                                 <div class="header-bottomspace">
                                     <h2>Or</h2>
                                 </div>
@@ -920,6 +928,18 @@
                             <div class="describe-data-wrap hide" id="update-how">
                                 <div class="flexy-side-drops-narrow flexy-row small-spacy-flexy-row">
                                     <div id="update-when" class="update-cond">
+                                        <div class="join-tooltip">
+                                            <img class="infoimg" src="/static/images/info.png" alt="How to update">
+                                            <div class="hover-prompt">
+                                                <h2>Your column will be updated when the below conditions are met.</h2>
+                                                <br>
+                                                <br>
+                                                <h2><b><u>If you are using a file to update your dataset</u></b>, select a column containing common values. Where the values match, the updated values will be populated in your specified column.</h2>
+                                                <br>
+                                                <br>
+                                                <h2><b><u>If you are entering in your values</u></b>, describe what column values should equal to be updated with the new value.</h2>
+                                            </div>
+                                        </div>
                                         <div class="centered-flex-row">
                                             <div class="centered-flex-row">
                                                 <div>
@@ -937,7 +957,7 @@
                                             </div>
                                             <div id="update-where-clauses">
                                                 <div class="flexwrap">
-                                                    <div class="dropdown show alignbottom">
+                                                    <div class="dropdown show alignbottom hightopmargin">
                                                         <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         Select Column
                                                         </button>
@@ -946,11 +966,11 @@
                                                             <h2 class="grey-banner" id="update_when_datasetname"></h2>
                                                         </div>
                                                     </div>
-                                                    <div class="hor-center-flex">
-                                                        <h2>equals</h2>
+                                                    <div class="hor-center-flex tenpaces">
+                                                        <h2 class="big-header">=</h2>
                                                     </div>
                                                     <div class="dropdown show alignbottom">
-                                                        <button class="btn  btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                         Select Column
                                                         </button>
                                                         <ul class="dropdown-menu" id="update_equals_this_column_ul"></ul>

@@ -898,13 +898,13 @@ def Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_upd
         equals.append(cols[1])
     num_conditions = len(equals)   
     if num_conditions == 1:
-        df_to_update[col_to_update] = np.where(df_to_update[whens[0]] == equals[0], text_to_update, df_to_update[col_to_update])
+        df_to_update[col_to_update] = np.where(df_to_update[whens[0]].str.lower() == equals[0].lower(), text_to_update, df_to_update[col_to_update])
     elif num_conditions == 2:
-        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]), text_to_update, df_to_update[col_to_update])
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]].str.lower() == equals[0].lower()) & (df_to_update[whens[1]].str.lower() == equals[1].lower()), text_to_update, df_to_update[col_to_update])
     elif num_conditions == 3:
-        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]) & (df_to_update[whens[2]] == equals[2]), text_to_update, df_to_update[col_to_update])
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]].str.lower() == equals[0].lower()) & (df_to_update[whens[1]].str.lower() == equals[1].lower()) & (df_to_update[whens[2]].str.lower() == equals[2].lower()), text_to_update, df_to_update[col_to_update])
     elif num_conditions == 4:
-        df_to_update[col_to_update] = np.where((df_to_update[whens[0]] == equals[0]) & (df_to_update[whens[1]] == equals[1]) & (df_to_update[whens[2]] == equals[2]) & (df_to_update[whens[3]] == equals[3]), text_to_update, df_to_update[col_to_update])
+        df_to_update[col_to_update] = np.where((df_to_update[whens[0]].str.lower() == equals[0].lower()) & (df_to_update[whens[1]].str.lower() == equals[1].lower()) & (df_to_update[whens[2]].str.lower() == equals[2].lower()) & (df_to_update[whens[3]].str.lower() == equals[3].lower()), text_to_update, df_to_update[col_to_update])
     else:
         return "Error"
     return df_to_update

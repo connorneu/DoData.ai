@@ -34,7 +34,16 @@ $(document).ready(function () {
                             name: "START" 
                         }
                     ]
-                },
+                },                
+                {
+                    name: "Filter",
+                    image: "/static/images/Filter.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                } 
             ]
         }, 
         {
@@ -66,16 +75,7 @@ $(document).ready(function () {
                             name: "START"
                         }
                     ]
-                },
-                {
-                    name: "Filter",
-                    image: "/static/images/Filter.png",
-                    children: [
-                        {
-                            name: "START"
-                        }
-                    ]
-                }                             
+                }                            
             ]
         },                                                        
         ]
@@ -189,10 +189,14 @@ $(document).ready(function () {
             .select("circle")
             .attr("r", 24)
             .style("fill", function(d) {
-                return d._children ? 'url(#grad)' : '#7196dd';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
+                return d._children ? 'url(#grad)' : 'black';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
             
             })
-            .attr('stroke', "black")
+            .style("stroke", function(d) {
+                return d._children ? 'url(#grad)' : 'url(#grad)';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
+            
+            })
+            //.attr('stroke', "black")
             .attr('class','front');
    
         // Transition exiting nodes to the parent's new position
@@ -358,7 +362,7 @@ function adjust_svg_img_y_pos(class_name){
         var node_name = parent_nodes[i].getElementsByTagName('tspan')[0].innerHTML;
         if (node_name === 'Combine'){
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220); 
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-180); 
             }
             else{
                 var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-90); 
@@ -367,7 +371,7 @@ function adjust_svg_img_y_pos(class_name){
         }
         if (node_name === 'Update'){
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420);
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-320);
             }
             else{
                 var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-150);
@@ -376,28 +380,28 @@ function adjust_svg_img_y_pos(class_name){
         } 
         if (node_name === 'Reconcile'){
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-320); 
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-360); 
             }
             else{
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420); 
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-500); 
             }
                
         }
         if (node_name === 'Group'){
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-170);    
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-210);    
             }
             else{
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-350);    
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-420);    
             }
             
         }
         if (node_name === 'Calculate'){  
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-20);   
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-60);   
             }
             else{
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-280);  
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-360);  
             } 
         }
         if (node_name === 'Filter'){
@@ -405,7 +409,7 @@ function adjust_svg_img_y_pos(class_name){
                 var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-470);     
             }
             else{
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-490);    
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220);    
             } 
             
         }

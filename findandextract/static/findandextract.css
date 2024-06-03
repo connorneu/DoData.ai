@@ -880,7 +880,7 @@ display: table;
     }
 .node circle {
     /*fill: fill: hsl(248, 53%, 58%); */
-    stroke-width: 1px;
+    stroke-width: 2px;
     /*filter:blur(1px);                                              */
     /*filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128)); */
     filter: blur(1px) drop-shadow(0px 0px 1px rgb(68, 7, 128));
@@ -1309,7 +1309,7 @@ display: inline-block;
     margin-right:0;
 }
 .flexy-side-drops-narrow > .dropdown{
-    flex: 0 0 2 0%;
+    flex: 0 0 20%;
     margin-left:0;
     margin-right:0;
 }
@@ -2006,8 +2006,8 @@ outside of combine*/
     left: 0;
     z-index: 10;
     border-style: inset;
-    /*width: 640px;
-    height: 105px;*/
+    width: 640px;
+    max-height: 300px;
     max-width:640px;
     left: 50%;
     background-color:black;
@@ -2015,6 +2015,7 @@ outside of combine*/
     border-color: rgb(0, 0, 0) #000000;
     padding: 10px;
     white-space: wrap;
+    overflow:scroll;
 }
 .selectfile{
     padding: 0px 10px 0px 10px;
@@ -2227,4 +2228,35 @@ outside of combine*/
 }
 #joinbtnswrap{
     display:none;
+}
+#update_file_wrap .btn{
+    margin-top:0%;
+}
+#update_file_wrap .btn:hover{
+    margin-top:0%;
+}
+#update-from-file-column-drop{
+    display:none;
+}
+.header-bottomspace{
+    margin-top:1%;
+}
+.hightopmargin{
+    margin-top:4% !important;
+}
+#update-hover-prompt{
+    text-align: center;
+}
+#update-when .space-left{
+    margin-left: 35px;
+}
+.tenpaces{
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.big-header{
+    font-size:20px;
+}
+#update-where-clauses > .flexwrap{
+    margin-bottom:0%;
 }
