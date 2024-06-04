@@ -2242,7 +2242,7 @@ outside of combine*/
     margin-top:1%;
 }
 .hightopmargin{
-    margin-top:4% !important;
+    margin-top:1% !important;
 }
 #update-hover-prompt{
     text-align: center;
@@ -2253,6 +2253,8 @@ outside of combine*/
 .tenpaces{
     margin-right: 20px;
     margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 0%;
 }
 .big-header{
     font-size:20px;

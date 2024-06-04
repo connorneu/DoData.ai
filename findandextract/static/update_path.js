@@ -134,7 +134,7 @@ $(document.body).on('click', '#update-from-file-column-drop-replace' ,function()
 
 
 async function display_update_result_table(data){
-    hide_containers(1)
+    //hide_containers(1)
     document.getElementById('update_file_wrap').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
@@ -148,9 +148,7 @@ $(document.body).on('click', '#update-where-clauses .dropdown.show.alignbottom:e
 
 
 $(document.body).on('input propertychange', '#update-where-clauses textarea' ,function(){
-    console.log("heeb")
     if($(this).val().length > 0){
-        console.log('sheeb')
         $('#submit_update_this_file').show();
     }
 });
@@ -162,9 +160,6 @@ function check_for_update_warnings(){
     var dropdowns = $('#update-where-clauses').find('.btn');
     for (var i=0;i<dropdowns.length;i++){
         if ($(dropdowns[i]).text().includes('Select Dataset') || $(dropdowns[i]).text().includes('Select Column')){
-            console.log('dd')
-            console.log($(dropdowns[i]).is(':visible'))
-            console.log($(dropdowns[i]))
             if($(dropdowns[i]).is(':visible')){
                 $('.warning-box-wrapper').show();
                 $('#warningtext').text('You need to select a dataset and column');
@@ -217,12 +212,29 @@ function collect_update_params(){
     return update_params
 }
 
+async function write_update_params(update_params){
+    await add_to_carousel('Update: ' + update_params['file_to_update'], standard_color, [null], true, false);
+    await add_to_carousel('\xa0\xa0\xa0Column: ' + update_params['col_to_update'], input_color, [null], true, true);
+    if(update_params['update_from_text']){
+        await add_to_carousel('Update value: ' + update_params['file_to_update'], second_color, [null], true, false);
+    }
+    else{
+        await add_to_carousel('Update values in: ' + update_params['replace_file'] + ' ' + update_params['replace_col'], third_color, [null], true, false);
+    }
+    var update_when_val = update_params['update_when'];
+    await add_to_carousel('where values match: ', fourth_color, [null], true, false);
+    for (var i=0;i<update_when_val.length;i++){
+        await add_to_carousel('\xa0\xa0\xa0$ ' + update_when_val[i][0] + ' == ' + update_when_val[i][1], standard_color, [null], true, true);
+    }
+}
 
 // when submit update file
-$(document.body).on('click', '#submit-update-file' ,function(){
+$(document.body).on('click', '#submit-update-file' ,async function(){
     if(check_for_update_warnings()){
         $('.warning-box-wrapper').hide();
         var update_params = collect_update_params();
+        hide_containers(1);
+        await write_update_params(update_params);
         submit_update_file_algo_parameters(update_params);
     }
 });

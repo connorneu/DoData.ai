@@ -443,10 +443,7 @@ async function edit_data(){
     await add_to_carousel('Edit data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false); 
     await add_to_carousel('Filter data or adjust column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     document.getElementById('edit-data-tables').style.display = "block";
-    console.log('algotypes')
-    console.log(algorithm_type)
     if (algorithm_type === 'Filter'){
-        console.log('s')
         $('#nextbtns-edit-tables').hide();
     }
 }
@@ -1636,22 +1633,22 @@ function dumpCSSText(element){
 
 function calc_max_files(){
     if (algorithm_type === 'Extract'){
-        return "Up to 4 files for this algorithm type";
+        return "Max 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Combine'){
-        return "Maximum 4 files for this algorithm type";
+        return "Max 4 files for this algorithm type";
     }
     else if (algorithm_type === 'Update'){
-        return "Up to 4 files for this algorithm type";
+        return "Max 2 files for this algorithm type";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "Maximum 2 files for this algorithm type";
+        return "Max 2 files for this algorithm type";
     }
     else if (algorithm_type === 'Calculate'){
-        return "Maximum 1 file for this algorithm type";
+        return "Max 1 file for this algorithm type";
     }
     else if (algorithm_type === 'Filter'){
-        return "Maximum 1 file for this algorithm type";
+        return "Max 1 file for this algorithm type";
     }
 }
 
@@ -1700,7 +1697,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             console.log('algo selected - update')
             algorithm_type = 'Update';
             algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
-            max_file_upload = 4;
+            max_file_upload = 2;
         }
         else if (parent_node_name === 'Compare'){
             console.log('algo selected - reconcile')
@@ -1837,7 +1834,7 @@ function assign_algo_type_description(algo_type){
     }
     else if(algo_type === 'Update'){
         algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
-        max_file_upload = 4;
+        max_file_upload = 2;
     }
     else if (algo_type === 'Reconcile'){
         algo_desc = 'Reconcile values of two datasets by matching rows and comparing similarities and differences.'

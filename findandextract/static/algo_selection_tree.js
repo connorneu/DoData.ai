@@ -189,7 +189,7 @@ $(document).ready(function () {
             .select("circle")
             .attr("r", 24)
             .style("fill", function(d) {
-                return d._children ? 'url(#grad)' : 'black';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
+                return d._children ? 'url(#grad)' : '#160046';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
             
             })
             .style("stroke", function(d) {

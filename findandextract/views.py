@@ -107,14 +107,11 @@ def findandextract(request):
                         #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
                         #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
                         fande_db_data = return_1k_rows(request)
-                        print('dyump')
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     else:     
-                        print("FUCK")
                         fande_db_data = return_1k_rows(request) 
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                 except Exception:
-                    print('fucj')
                     log.critical("A critical error occured during filter data.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'extract':
@@ -165,6 +162,10 @@ def findandextract(request):
                     df_result = Update(params, request.user)
                     print('----------------RESULT---------------')
                     print(df_result)
+                    if isinstance(df_result, str):
+                        warnings = df_result
+                        log.error("An error occurred during calculate method: " + warnings, exc_info=True)
+                        return HttpResponse(warnings, status=400)  
                     write_result_raw(df_result, request)
                     return HttpResponse(status=200)    
                 except Exception:
@@ -887,6 +888,8 @@ def Update(params, username):
         df_result = Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update)
     else:
         df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update, username)
+    if df_to_update.equals(df_result):
+        return 'Described conditions did not match any of the data. No changes have been applied.'
     return df_result
 
 
