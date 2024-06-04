@@ -497,17 +497,22 @@
                             <ul class="dropdown-menu" id="calc_column_dataset_ul"></ul>
                         </div>
                         <div class="side-header">
-                            <div class="flexy-side-drops-centered">
+                            <div class="flexy-side-drops-centered flex-auto-center">
                                 <h2>New Column Name:</h2>
                             </div>
-                            <textarea class="text-short" id="newcolname" placeholder="Marketing_Sales"></textarea>
+                            <textarea class="text-short flex-auto-center" id="newcolname" placeholder="" maxlength="185"></textarea>
                         </div>
-                        <div>
-                            <textarea id="caaanDo" placeholder="Sum column Sales Price when column Department equals Marketing and column Sale Date is today"></textarea>
+                        <div class="side-header margin-top-four">
+                            <div class="flexy-side-drops-centered flex-auto-center">
+                                <h2>Describe what you want to calculate in the new column</h2>
+                                <br>
+                                <h2>Any mention of a column name must have the word column before it and the column name in quotes</h2>                                
+                            </div>
+                            <textarea id="caaanDo" placeholder="Sum column &quot;Sales Price&quot; if column &quot;Department&quot; is Marketing and column &quot;Sale Date&quot; is today"></textarea>
                         </div>
-                        <div class="button-banner show">
-                            <a class="myButton bigr show" id="send_input_formula">Submit</a>                  
-                        </div>
+                        <div class="submit-algo-buttons" id="submit-columns-wrap">
+                            <button id="send_input_formula" class="glowbutton">Build Algorithm</button>
+                        </div>   
 
                     </div>
   

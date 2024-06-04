@@ -15,6 +15,16 @@ async function start_columns_path(){
 }
 
 
+$(document.body).on('input propertychange', '#caaanDo', async function(){
+  if($(this).length > 0){
+    $('#submit-columns-wrap').show();
+  }
+  else{
+    $('#submit-columns-wrap').hide();
+  }
+}); 
+
+
 async function build_tribute_object(col_dic){
     const {default: Tribute} = await import("./tribute-master/src/Tribute.js");
       var tribute = new Tribute({
@@ -51,7 +61,8 @@ function collect_col_params(){
 
 $(document.body).on('click', '#send_input_formula' ,async function(){  
     var column_params = collect_col_params(); 
-    console.log(column_params)
+    await add_to_carousel('Generate Formula: ' + column_params['dataset'], standard_color, [null], true, true);
+    await add_to_carousel('$ ' + column_params['new_col_name'] + ' ' + column_params['user_text'], second_color, [null], true, true);
     submit_user_formula(column_params);
 });
 

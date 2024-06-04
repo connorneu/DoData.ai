@@ -352,7 +352,6 @@ function adjust_svg_img_y_pos(class_name){
             if (txt.includes('Move Data') || txt.includes('Analyze Data')){
                 if(one_parent_node_active){
                    both_parent_nodes_active=true; 
-                   console.log('TRE')
                 }
                 else{
                     one_parent_node_active=true;

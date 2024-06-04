@@ -84,7 +84,7 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
     ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    //fake_start();
+    fake_start();
     //if(path === "/findandextract/"){   
     //    matchcolumns();
     //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
@@ -98,7 +98,7 @@ function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
     var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
-    start_algo_path('START', 'Update', desc);
+    start_algo_path('START', 'Columns', desc);
 }
 
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
@@ -1644,7 +1644,7 @@ function calc_max_files(){
     else if (algorithm_type === 'Reconcile'){
         return "Max 2 files for this algorithm type";
     }
-    else if (algorithm_type === 'Calculate'){
+    else if (algorithm_type === 'Calculate' || algorithm_type === 'Columns'){
         return "Max 1 file for this algorithm type";
     }
     else if (algorithm_type === 'Filter'){
@@ -1711,7 +1711,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             algo_desc = 'Group together rows of data which have common values to calculate metrics per group.'
             max_file_upload = 1;
         }
-        else if (parent_node_name === 'Columns'){
+        else if (parent_node_name === 'Columns' || parent_node_name === 'Calculate'){
             console.log('algo selected - columns')
             algorithm_type = 'Columns'
             algo_desc = 'Create a new column by describing what you want and having an formula generated.'
@@ -1844,7 +1844,8 @@ function assign_algo_type_description(algo_type){
         algo_desc = 'Group together rows of data which have common values to calculate metrics per group.'
         max_file_upload = 1;
     }
-    else if (algo_type === 'Columns'){
+    else if (algo_type === 'Columns' || algo_type === 'Calculate'){
+        console.log('b')
         algo_desc = 'Create a new column by describing what you want and having an formula generated.'
         max_file_upload = 1;
     }

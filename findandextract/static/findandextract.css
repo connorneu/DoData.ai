@@ -1255,6 +1255,7 @@ textarea {
 }
 .text-short{
     width: 300px;
+    height: 40px;
     text-align: center;
     margin-top: 0;
 }
@@ -1262,7 +1263,18 @@ textarea {
     display: flex;
     justify-content: center;
     margin-bottom: 1%;
+    flex-direction: column;
 }
+#caaanDo{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+}
+.margin-top-four{
+    margin-top:4%;
+}
+.centered
 /*send icon*/
 .submiticon{
     font-size: 36px;
@@ -1290,7 +1302,12 @@ display: inline-block;
 
 .describe-data-wrap{
     display:none;
-
+}
+.flex-auto-center{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
 }
 .flexy-side-drops{
     display:flex;
@@ -1298,11 +1315,8 @@ display: inline-block;
 }
 .flexy-side-drops-centered{
     align-items: center;
+    display:flex;
 }
-.flexy-side-drops-centered > h2{
-    margin-bottom: 0;
-    margin-right: 10px;
-} 
 .flexy-side-drops > .dropdown{
     flex: 0 0 30%;
     margin-left:0;

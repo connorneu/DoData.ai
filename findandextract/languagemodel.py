@@ -114,6 +114,13 @@ def add_formula_openpyxl(df, new_formula, new_col):
 
 
 def update_formula_columns(formula, revised_col_map_list):
+    print('REVISED C')
+    #revised_col_map_list = "[('last_name', 'C', 'B'), ('ip_address', 'F', 'C')]"
+    #print(revised_col_map_list)
+    print("FOR")
+    #formula = "[('last_name', 'C', 'B'), ('ip_address', 'F', 'C')]" 
+    print(formula)
+    pos_already_changed = []
     for map in revised_col_map_list:
         new_col = map[1]
         old_col = map[2]
@@ -125,24 +132,16 @@ def update_formula_columns(formula, revised_col_map_list):
                 potential_col_chars = formula[i:i + len(old_col)]
             if potential_col_chars == old_col:
                 if formula[i-1] != '=' and not formula[i-1].isalpha() and not formula[i:i + len(old_col) + 1].isalpha():
-                    #print('match found from:', i, str(i + len(old_col)))
                     formula_l = list(formula)
-                    #print('orig')
-                    #print(formula_l)
-                    #print('I:', i, 'lenolccol:', len(old_col), i+len(old_col))
-                    for p in range(len(old_col)):
-                        formula_l.pop(i)
-                        #print('popd')
-                        #print(formula_l)
-                    new_col_idx = 0
-                    for ins in range(i, i + len(new_col)):
-                        formula_l.insert(ins, new_col[new_col_idx])
-                        new_col_idx += 1
-                    #print('instr')
-                    #print(formula_l)
-                    formula = ''.join(formula_l)
-                    #print(i)
-
+                    if i not in pos_already_changed:
+                        for p in range(len(old_col)):
+                            formula_l.pop(i)
+                            pos_already_changed.append(i)
+                        new_col_idx = 0
+                        for ins in range(i, i + len(new_col)):
+                            formula_l.insert(ins, new_col[new_col_idx])
+                            new_col_idx += 1
+                        formula = ''.join(formula_l)
             i += 1
     print('revised formula:', formula)
     return formula
@@ -224,10 +223,12 @@ def parse_response(response):
 
 
 def gpt(user_text):
+    print('user question')
+    print(user_text)
     SECRET = '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'
     # Authorization: SECRET
+    print('a')
     client = OpenAI(api_key=SECRET)
-
     question = f"""
                 Generate an excel formula based on below Question.
                 Question: {user_text}. 

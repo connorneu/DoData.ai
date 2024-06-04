@@ -233,8 +233,9 @@ def findandextract(request):
                     user_text = params['user_text']
                     dataset = params['dataset']
                     new_col_name = params['new_col_name']
+                    log.info(user_text)
                     file, sheet = parse_file_name_from_bracket_display(dataset)
-                    df = unmelt(file, sheet, request.user)
+                    df = unmelt(file, sheet, request.user)                    
                     df_result = Parse_User_Formula(df, user_text, new_col_name)
                     print(df_result)
                     df_list = melt_df(df_result, request.user)
@@ -247,6 +248,7 @@ def findandextract(request):
                     #print('saved results')
                     return HttpResponse(status=200)
                 except:
+                    print(traceback.print_exc())
                     log.critical("A critical error occurred during user formula method", exc_info=True)
                     return HttpResponse('Critical Error', status=500) 
             elif request.method == 'POST': 
