@@ -68,7 +68,7 @@ $(document).ready(function () {
                     ]
                 },  
                 {
-                    name: "Reconcile",
+                    name: "Compare",
                     image: "/static/images/Reconcile v3.png",
                     children: [
                         {

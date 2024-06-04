@@ -443,6 +443,12 @@ async function edit_data(){
     await add_to_carousel('Edit data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false); 
     await add_to_carousel('Filter data or adjust column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     document.getElementById('edit-data-tables').style.display = "block";
+    console.log('algotypes')
+    console.log(algorithm_type)
+    if (algorithm_type === 'Filter'){
+        console.log('s')
+        $('#nextbtns-edit-tables').hide();
+    }
 }
 
 function populate_mini_table_headers(){
@@ -496,6 +502,7 @@ async function decide_algo_path(algorithm_type)
     else if (algorithm_type ==='Columns'){
         start_columns_path();
     }
+
 }
 
 async function start_extract_custom(){
@@ -1695,7 +1702,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
             max_file_upload = 4;
         }
-        else if (parent_node_name === 'Reconcile'){
+        else if (parent_node_name === 'Compare'){
             console.log('algo selected - reconcile')
             algorithm_type = 'Reconcile';
             algo_desc = 'Reconcile values of two datasets by matching rows and comparing similarities and differences.'
@@ -1714,8 +1721,10 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             max_file_upload = 1;
         }
         else if (parent_node_name === 'Filter'){
+            console.log('algo selected - filter')
             algorithm_type = 'Filter'
             algo_desc = 'Filter a dataset by describing conditions to apply to one or more column.'
+            max_file_upload = 1;
         }
         begin_file_upload(algo_desc);
     }
