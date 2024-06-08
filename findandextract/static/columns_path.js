@@ -6,8 +6,8 @@
 async function start_columns_path(){
   hide_containers(2);
   document.getElementById('edit-data-tables').style.display = "none";
-  await add_to_carousel('Describe the function to create in the new column:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-  await add_to_carousel('Column names will autopopulate after writing the word column in your description', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+  await add_to_carousel('Describe the calulation you want in the new column:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+  await add_to_carousel('Column names will autopopulate after writing the word \"column\" in your description', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
   document.getElementById('columns-main-wrap').style.display = 'block';
   $('#calc_column_dataset_ul').closest('.dropdown').find('.btn').text(dataset_names[0]);
   populate_tribute_dic(dataset_names[0]);
@@ -61,16 +61,16 @@ function collect_col_params(){
 
 $(document.body).on('click', '#send_input_formula' ,async function(){  
     var column_params = collect_col_params(); 
+    hide_containers(2);
     await add_to_carousel('Generate Formula: ' + column_params['dataset'], standard_color, [null], true, true);
     await add_to_carousel('$ ' + column_params['new_col_name'] + ' ' + column_params['user_text'], second_color, [null], true, true);
     submit_user_formula(column_params);
 });
 
 async function display_column_result_table(data){
-  hide_containers(2);
   document.getElementById('columns-main-wrap').style.display = 'none';
   populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-  await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+  await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
   document.getElementById('resultbox_div').style.display = 'block';
   
 }

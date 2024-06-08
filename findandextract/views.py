@@ -228,6 +228,7 @@ def findandextract(request):
                 try:
                     print(request.POST)
                     parameters = request.POST.get('parameters')
+                    print('params')
                     print(parameters)
                     params = ast.literal_eval(parameters)
                     user_text = params['user_text']
@@ -236,7 +237,7 @@ def findandextract(request):
                     log.info(user_text)
                     file, sheet = parse_file_name_from_bracket_display(dataset)
                     df = unmelt(file, sheet, request.user)                    
-                    df_result = Parse_User_Formula(df, user_text, new_col_name)
+                    df_result = Parse_User_Formula(df, user_text, new_col_name, request.user)
                     print(df_result)
                     df_list = melt_df(df_result, request.user)
                     write_result_raw(df_result, request)

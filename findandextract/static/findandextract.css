@@ -2042,6 +2042,8 @@ outside of combine*/
 }
 #result_table_tbody td {
     min-width: 200px;
+    overflow:hidden;
+    white-space:nowrap;
 }
 #result_table_tbody th {
     width: 200px;
@@ -2275,4 +2277,7 @@ outside of combine*/
 }
 #update-where-clauses > .flexwrap{
     margin-bottom:0%;
+}
+.resultbox{
+    display:none;
 }
