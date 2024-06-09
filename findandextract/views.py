@@ -237,10 +237,11 @@ def findandextract(request):
                     log.info(user_text)
                     file, sheet = parse_file_name_from_bracket_display(dataset)
                     df = unmelt(file, sheet, request.user)                    
-                    df_result = Parse_User_Formula(df, user_text, new_col_name, request.user)
+                    df_result, df_display_result = Parse_User_Formula(df, user_text, new_col_name, request.user)
                     print(df_result)
-                    df_list = melt_df(df_result, request.user)
-                    write_result_raw(df_result, request)
+                    write_results(df_result, df_display_result, str(request.user))
+                    #df_list = melt_df(df_result, request.user)
+                    #write_result_raw(df_result, request)
                     #print("saving result to db...")
                     #db_obj_list = []
                     #for dbframe in df_list:
@@ -250,7 +251,7 @@ def findandextract(request):
                     return HttpResponse(status=200)
                 except:
                     print(traceback.print_exc())
-                    log.critical("A critical error occurred during user formula method", exc_info=True)
+                    log.critical("A critical error occurred during user formula method - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('Critical Error', status=500) 
             elif request.method == 'POST': 
                 try:
@@ -327,6 +328,7 @@ def get_result_db(uid):
     return list(KeyValueDataFrame_Display_Result.objects.filter(uid=str(uid)).values())
 
 
+# worse version of write_display_result_to_db
 def write_display_results(df_result, request):
     df_result_disp = df_result.head(100)
     df_disp_list = melt_df(df_result_disp, str(request.user))
@@ -353,6 +355,40 @@ def write_result_raw(df_result, request):
     #        stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
     #os.remove(csv_filename)
 
+def write_results(df_result, df_display_result, uid):
+    #write_result_to_db(df_result, uid)
+    write_display_result_to_db(df_display_result, uid)
+
+# better version of write_display_results
+def write_display_result_to_db(df_display_result, uid):
+    df_disp_list = melt_df(df_display_result, uid)
+    db_obj_list = []
+    for dbframe in df_disp_list:                    
+        db_obj_list.append(KeyValueDataFrame_Display_Result(key=dbframe[0], val=dbframe[1], uid=uid))
+    KeyValueDataFrame_Display_Result.objects.bulk_create(db_obj_list) 
+
+
+def write_result_to_db(df_result, uid):
+    # DO NOT FUCKING DELETE
+    df_list = melt_df(df_result, uid)
+    print('writing to csv')
+    usr_dir = create_tmp_dir(uid)
+    result_csv_filename = uid + ' result.csv'
+    csv_filepath = os.path.join(usr_dir, result_csv_filename)
+    with open(csv_filepath, 'w', newline='') as f:
+        writer = csv.writer(f, delimiter='~')
+        writer.writerows(df_list)       
+    print('writing to db')
+    with open(csv_filepath) as infile:
+        with connection.cursor() as stmt:
+            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
+    os.remove(csv_filepath)
+
+def create_tmp_dir(uid):
+    dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    return dir_name
 
 def clean_describe_values(describe_values_raw):
     describe_values = []

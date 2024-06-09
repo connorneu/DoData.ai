@@ -17,6 +17,7 @@ import pandas as pd
 import xlsxwriter   
 import formulas
 import numpy as np
+import logging
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -25,6 +26,7 @@ print('root', PROJECT_ROOT)
 MODELS_DIR = os.path.join(SETTINGS_DIR, 'static/models/')
 print('models dir', MODELS_DIR)
 
+log = logging.getLogger(__name__)
 
 GOOGLE_NEG_300 = MODELS_DIR + 'GoogleNews-vectors-negative300.bin'
 GOOGLE_NEG_300_Q = MODELS_DIR + 'google_news_neg300_q'
@@ -34,172 +36,94 @@ TEMPORARY_EXCEL_DIR = '/home/kman/Desktop/desktopfiles/fake data/formula results
 
 def Parse_User_Formula(df, user_text, new_col_name, username):
     df = infer_col_dtypes(df)
-    print('nydf')
-    print(df)
     response = gpt(user_text)
+    log.info('username: ' + str(username) + '\n' +response)
     formula, col_map_list = parse_response(response)
     revised_col_map_list = find_real_file_col_mapping(df, col_map_list)
     new_formula = update_formula_columns(formula, revised_col_map_list)
-    print('START INCREMENT')
     increment_formula_list = create_incremented_formula(df.shape[0], revised_col_map_list, new_formula)
-    result_df_uncompiled = add_formula_openpyxl(df, increment_formula_list, new_col_name)
-    result_df = compile_excel_formulas(result_df_uncompiled, username)
-    return result_df
+    result_df = add_formula_openpyxl(df, increment_formula_list, new_col_name)
+    tmp_usr_dir = Create_Tmp_Dir(username)
+    df_uncompiled_path = os.path.join(tmp_usr_dir, 'Result DF.xlsx')
+    df_display_uncompiled_path = os.path.join(tmp_usr_dir, 'Result DF Display.xlsx')
+    df = convert_datetime_col_to_str(df)
+    write_uncompiled_df_to_file(df, df_uncompiled_path, df_display_uncompiled_path)
+    result_display_df = compile_excel_formulas(df_display_uncompiled_path, tmp_usr_dir)
+    result_display_df = check_calculated_column_nan(new_col_name, result_display_df)
+    print(result_display_df)
+    return result_df, result_display_df
+
+
+def check_calculated_column_nan(new_col_name, result_display_df):
+    print("IS NUL??!")
+    print(result_display_df[new_col_name].isnull().values.all())
+    if result_display_df[new_col_name].isnull().values.all():
+        result_display_df[new_col_name] = 'Download to view result'
+    return result_display_df
 
 
 def convert_datetime_col_to_str(df):
     for col in df:
-        print('dtype col', col)
-        print('col dtype', df[col].dtype)
         if 'date' in str(df[col].dtype).lower():
-            df = df[col].astype(str)
+            df[col] = df[col].astype("string")
     return df
 
 
-def create_list_of_datetime_column(df):
-    datetime_columns = []
-    for col in df:
-        print('dtype col', col)
-        print('col dtype', df[col].dtype)
-        if 'date' in str(df[col].dtype).lower():
-        #if np.issubdtype(df[col].dtype, np.datetime64):
-            print(col, 'is datetime')
-            datetime_columns.append(col)
-    return datetime_columns
-
-
-def convert_columns_to_datetime(df, datetime_columns):
-    for col in datetime_columns:
-        df[col] = pd.to_datetime(df[col], errors='coerce')
-        #df[col] = df[col].astype('datetime64[ns]')
-    return df
-
-
-def compile_excel_formulas(df, username):
-    tmp_usr_dir = Create_Tmp_Dir(username)
-    uncompiled_df_path = os.path.join(tmp_usr_dir, 'str_formula_df.xlsx')
-    print('df before export')
-    print(df)
-    print(list(df.columns))
-    print('opring dtypes')
-    print(df.dtypes)
-    datetime_columns = create_list_of_datetime_column(df)
-    print('datetime columns')
-    print(datetime_columns)
-    df = convert_datetime_col_to_str(df)
-    print('foorced dtypes')
-    print(df.dtypes)
-    df.to_excel(uncompiled_df_path, index=False)
+def compile_excel_formulas(df_uncompiled_path, tmp_usr_dir):
     compile_dir = os.path.join(tmp_usr_dir, 'compiled_dir')
-    inpath, dirout = uncompiled_df_path, compile_dir
+    inpath, dirout = df_uncompiled_path, compile_dir
     xl_model = formulas.ExcelModel().loads(inpath).finish()
     xl_model.calculate()
     xl_model.write(dirpath=dirout)
-    print('compile dir', compile_dir)
     for filename in os.listdir(compile_dir):
-        print('filename!', filename)
-        print('filedire', compile_dir + ' | ' + filename)
         df_result = pd.read_excel(os.path.join(compile_dir, filename), index_col=None)
-        print('Column Data Types')
-        print(df_result.dtypes)
-        #if datetime_columns:
-        #    df_result = convert_columns_to_datetime(df_result, datetime_columns)
-        print('df result')
-        print(df_result)
         break
     # eror handing if dfresult nul
     return df_result
 
 
+def write_uncompiled_df_to_file(df, df_uncompiled_path, df_display_uncompiled_path):
+    df.to_excel(df_uncompiled_path, index=False)
+    df_display = df.head(99)
+    df_display.to_excel(df_display_uncompiled_path, index=False)
+
+
 def Create_Tmp_Dir(username):
-    print(type(username))
     dir_name = os.path.join('./User Files', str(username) + '_datafiles')
-    print('Temp Directory Name') 
-    print(dir_name)
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     return dir_name
 
 
 def infer_col_dtypes(df):
-    print("INFERING DTYPES")
-    print(df.info())
     cols = df.columns
     for c in cols:
-        print(c)
         converted = False
         try:
             df[c] = pd.to_numeric(df[c])
             converted = True
-            print('numeri')
         except:
             pass
         if not converted:
             try:                       
                 df[c] = pd.to_datetime(df[c])
                 converted = True
-                print('datye')
             except:
                 pass
         if not converted:
-            print('startstring')
             try:
                 df[c] = df[c].astype('string')
-                print(df[c].dtype)
             except:
                 pass
-            #df[c] = df[c].astype('str')
-            #print(df[c].dtype)
-            #df[c] = df[c].astype('|S')
-            #print(df[c].dtype)
-    print(df.info())
     return df
-
-
-def add_formula(df, new_formula, new_col):
-    print("add formula")
-    print(df.info())
-    df[new_col] = new_formula
-    print('new col added')
-    print(df.info())
-    writer = pd.ExcelWriter(TEMPORARY_EXCEL_DIR, engine='xlsxwriter')
-    book = writer.book
-    df.to_excel(writer, sheet_name='Sheet1', index=False)
-    worksheet = writer.sheets['Sheet1']
-    writer.close()
-    df = pd.read_excel(TEMPORARY_EXCEL_DIR)
-    print('reread')
-    print(df.info())
-    print('REINFER')
-    df = infer_col_dtypes(df)
-    return df
-
-
-def add_formula_writer(df, new_formula, new_col):
-    writer = pd.ExcelWriter(r'/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx', engine='xlsxwriter')
-    workbook = writer.book
-    worksheet = workbook.add_worksheet('Sheet1')
-    df.to_excel(writer, sheet_name='Sheet1', index=False)
-    worksheet.write_formula('C1', new_formula)
-    writer.close()
-    df_a = pd.read_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx')
     
 
 def add_formula_openpyxl(df, new_formula, new_col):
-    print('new col', new_col)
-    print('new forms', new_formula)
     df[new_col] = new_formula
-    print(df)
-    #df.to_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results wide.xlsx', engine='openpyxl', index=False)
-    #df_result = pd.read_excel(r'/home/kman/Desktop/desktopfiles/fake data/formula results wide.xlsx')
-    #print(df_result)
-    #print(df_result.info())
     return df
 
 
 def update_formula_columns(formula, revised_col_map_list):
-    print("FORmuul")
-    print(formula)
     pos_already_changed = []
     for map in revised_col_map_list:
         new_col = map[1]
@@ -223,35 +147,26 @@ def update_formula_columns(formula, revised_col_map_list):
                             new_col_idx += 1
                         formula = ''.join(formula_l)
             i += 1
-    print('revised formula:', formula)
     return formula
 
 def create_incremented_formula(num_rows, revised_col_map_list, new_formula):
     incremented_formula_list = []
-    print('numberofrows', num_rows)
     for rownum in range(2, num_rows+2):
-        print('rownum', rownum)
         new_formula_rowise = new_formula
         for col_map in revised_col_map_list:
             char_to_find = col_map[1]
-            print('chartofind', char_to_find)
             i = 1
             while i < len(new_formula_rowise)-1:
-                print('shcho:', new_formula_rowise[i:i+len(char_to_find)])
                 if new_formula_rowise[i:i+len(char_to_find)] == char_to_find:
-                    print('inONE')
-                    print('before:', new_formula_rowise[i-len(char_to_find):i], 'after:', new_formula_rowise[i+1:i+len(char_to_find)+1])
-                    if not new_formula_rowise[i-len(char_to_find)-1:i].isalpha() and not new_formula_rowise[i+1:i+len(char_to_find)+1].isalpha():
+                    print('prechar')
+                    print(new_formula_rowise[i-len(char_to_find):i])
+                    print('postchar')
+                    print(new_formula_rowise[i+1:i+len(char_to_find)+1])
+                    if not new_formula_rowise[i-len(char_to_find):i].isalpha() and not new_formula_rowise[i+1:i+len(char_to_find)+1].isalpha():
                         new_formula_rowise = new_formula_rowise[:i] + char_to_find + str(rownum) + new_formula_rowise[i+1:]
-                        print('shmup', new_formula_rowise)
                 i += len(char_to_find)
         incremented_formula_list.append(new_formula_rowise)
-    print('increment formula new list')
-    print(incremented_formula_list)
     return incremented_formula_list
-            
-
-
 
 
 def find_real_file_col_mapping(df, col_map_list):
@@ -275,8 +190,6 @@ def find_real_file_col_mapping(df, col_map_list):
     else:
         # sort - if unsorted and change B->A then A->C everything will be C
         revised_col_map_list = sorted(revised_col_map_list, key=lambda x: x[2])
-        print('revised_col_map_list:')
-        print(revised_col_map_list)
         return revised_col_map_list
     
 
@@ -314,52 +227,28 @@ def parse_split_delimiter(txt):
 
 def parse_response(response):
     response = response.replace('`', '')
-    print("RESPONSO")
-    print(response)
     response = os.linesep.join([s for s in response.splitlines() if s])
-    print('response clean')
-    print(response)
     formula_r = response.split('\n')[0]
-    print('formulas r')
-    print(formula_r)
     col_maps_r = response.split('\n')[1]
-    print('col map r')
-    print(col_maps_r)
     formula = formula_r.replace('Formula:', '').rstrip().strip()
     if formula[0] == '\'' or formula[0] == '"' or formula[0] == '`':
         formula = formula[1:]
     if formula[-1] == '\'' or formula[-1] == '"' or formula[-1] == '`':
         formula = formula[:-1]
-    print("FORMULA:", formula)
     col_maps_list = []
     col_maps = col_maps_r.replace('Column mapping:', '').rstrip().strip()
-    print('col map presplit')
-    print(col_maps)
-    print('length:', len(col_maps))
-    print('type:', type(col_maps))
     if ',' in col_maps:
-        print('comma split')
         col_maps_split = col_maps.split(',')
-        print('col maps split')
-        print(col_maps_split)
         for map in col_maps_split:
             split_char = parse_split_delimiter(map)
-            print('split char:', split_char)
-            print('map:', map)
             key = map.split(split_char)[0].rstrip().strip()
             val = map.split(split_char)[1].rstrip().strip()
             col_maps_list.append((key, val))
     else:
-        print('comma nosplit')
         split_char = parse_split_delimiter(col_maps)
-        print('split char:', split_char)
-        print('map:', col_maps)
         key = col_maps.split(split_char)[0].rstrip().strip()
         val = col_maps.split(split_char)[1].rstrip().strip()
         col_maps_list.append((key, val))
-
-    print("COL MAPPING:")
-    print(col_maps_list)
     return formula, col_maps_list
 
 
@@ -368,7 +257,6 @@ def gpt(user_text):
     print(user_text)
     SECRET = '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'
     # Authorization: SECRET
-    print('a')
     client = OpenAI(api_key=SECRET)
     question = f"""
                 Generate an excel formula based on below Question. The cell references in the formula need to be for the entire column. For example when refering to column A instead of A2 it should be A:A.
