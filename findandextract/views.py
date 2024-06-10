@@ -37,6 +37,7 @@ goog_w2v_model = None
 nlp = None
 threads = []
 nli = None
+display_table_row_num = 999
 
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
@@ -65,6 +66,7 @@ def Get_LNI_Model():
 def findandextract(request):
     global nli
     global threads
+    global display_table_row_num
     if request.method == 'POST':
         if is_ajax(request): 
             log.info(request)
@@ -135,7 +137,8 @@ def findandextract(request):
                     df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
                     print('------------- RESULT --------------')
                     print(df_result)
-                    write_result_raw(df_result, request)
+                    write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                    #write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except Exception:
                     log.critical("A critical error occured during extract algorithm.", exc_info=True)
@@ -149,7 +152,8 @@ def findandextract(request):
                     df_result = Combine_Merge(joins, request.user)
                     print('------------- RESULT --------------')
                     print(df_result)
-                    write_result_raw(df_result, request)
+                    write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                    #write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except:
                     traceback.print_exc()
@@ -167,7 +171,8 @@ def findandextract(request):
                         warnings = df_result
                         log.error("An error occurred during calculate method: " + warnings, exc_info=True)
                         return HttpResponse(warnings, status=400)  
-                    write_result_raw(df_result, request)
+                    write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                    #write_result_raw(df_result, request)
                     return HttpResponse(status=200)    
                 except Exception:
                     traceback.print_exc()
@@ -188,7 +193,8 @@ def findandextract(request):
                     if isinstance(df_result, pd.DataFrame): 
                         print('------------- RESULT --------------')
                         print(df_result)
-                        write_result_raw(df_result, request)
+                        write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                        #write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
                         log.error('Error in Calcualte method', exc_info=True)
@@ -209,7 +215,8 @@ def findandextract(request):
                         print(df_result)
                         print('------------- RESULT --------------')
                         print(df_result)
-                        write_result_raw(df_result, request)
+                        write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                        #write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
                         log.error('Error in Calcualte method', exc_info=True)
@@ -244,7 +251,6 @@ def findandextract(request):
                     file, sheet = parse_file_name_from_bracket_display(dataset)
                     df = unmelt(file, sheet, request.user)                    
                     df_result, df_display_result = Parse_User_Formula(df, user_text, new_col_name, request.user)
-                    print(df_result)
                     write_results(df_result, df_display_result, str(request.user))
                     #df_list = melt_df(df_result, request.user)
                     #write_result_raw(df_result, request)
@@ -275,10 +281,6 @@ def findandextract(request):
                         print('user::', request.user)
                         print('startwrining')
                         upload_data_files(request)
-                        print('endwriting')
-                        # i think i can do this
-                        # why would i need more than a 1000 rows
-                        print('start upload')
                         fande_db_data = return_1k_rows(request)
                         print('end uplod')
                         return JsonResponse({'fande_data_dump' : fande_db_data})
@@ -286,12 +288,7 @@ def findandextract(request):
                         print('upload data file failure')
                         traceback.print_exc()
                         log.critical("An error occurred during upload_data_files", exc_info=True)
-                        return HttpResponse('Critical Error', status=500)
-
-        #else:
-        #    print("AJAXFAILURE")
-        #    log.error("An error occurred when checking if is ajax", exc_info=True)
-        #    return HttpResponse(status=400)    
+                        return HttpResponse('Critical Error', status=500)  
     else:
         try:
             print("GET REQUEST")
@@ -319,8 +316,9 @@ def findandextract(request):
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
 
+# if user filters first 1000 rows out of data then tables will look empty
 def return_1k_rows(request):
-    return list(KeyValueDataFrame.objects.filter(uid=str(request.user)).values())
+    return list(KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).values())
 
 def get_result_db(uid):
     # DO NOT DELETE
@@ -336,7 +334,8 @@ def get_result_db(uid):
 
 # worse version of write_display_result_to_db
 def write_display_results(df_result, request):
-    df_result_disp = df_result.head(100)
+    global display_table_row_num
+    df_result_disp = df_result.head(display_table_row_num)
     df_disp_list = melt_df(df_result_disp, str(request.user))
     db_obj_list = []
     for dbframe in df_disp_list:                    
@@ -412,14 +411,16 @@ def clean_describe_values(describe_values_raw):
 # write uploaded files to db raw
 def write_upload_files_raw(df_list, request, filenum):
     print('writing uploaded file', filenum)
+    temp_dir = create_tmp_dir(str(request.user))
     list_to_write = []
     for elem in df_list:
         list_to_write.append([elem[0], elem[1], elem[2], elem[3], str(request.user)])
     csv_filename = str(request.user) + ' filenum' + str(filenum) + '.csv'
-    with open(csv_filename, 'w', newline='') as f:
+    csv_filepath = os.path.join(temp_dir, csv_filename)
+    with open(csv_filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')
         writer.writerows(list_to_write)       
-    with open(csv_filename) as infile:
+    with open(csv_filepath) as infile:
         with connection.cursor() as stmt:
             stmt.copy_from(infile, 'findandextract_keyvaluedataframe', sep="~", columns=['file_name', 'sheet_name', 'key', 'val', 'uid'])
     os.remove(csv_filename)
