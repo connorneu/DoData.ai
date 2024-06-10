@@ -453,17 +453,6 @@ $(document.body).on('click', '#matchfourthdata_ul' , async function(){
     //document.getElementById('matchboxcolumn4').style.display = 'flex';
 });
 
-$(document.body).on('click', '#runcode' , async function(){     
-    document.getElementById('typingtextcontainer').style.display = 'none';
-    document.getElementById('executeorrun').style.display = 'none';
-    
-    load_summary_carousel();
-    setTimeout(function() {
-        submit_algo_parameters();
-        document.getElementById('page').style.display = 'none';
-    }, 5000);
-    
-});
 
 
 // if span? (which isnt in the right place but still works) or icon is clicked and status is ACTIVE then submit
@@ -596,4 +585,25 @@ $(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async functi
 $(document.body).on('click', '#runcode' , async function(){  
     
     
+    let url = "{% url 'the url'%}"
+    $.post(url, function(data)
+    {
+        console.log(data);
+        location.replace(url);
+    });
+    //download_result();
+    
 });
+
+
+
+/*
+$(document.body).on('click', '' , async function(){         
+    load_summary_carousel();
+    setTimeout(function() {
+        download_result()
+        document.getElementById('page').style.display = 'none';
+    }, 5000);
+    
+});
+*/

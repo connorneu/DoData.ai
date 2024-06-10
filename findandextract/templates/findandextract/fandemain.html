@@ -664,7 +664,23 @@
                                         Select Column
                                         </button>
                                         <ul class="dropdown-menu colsel"></ul>
-                                    </div>                        
+                                    </div>    
+                                    <div class="dropdown show inline describeaction">
+                                        <button class="btn btn-outline-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Equals
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item">Equals</a></li>
+                                            <li><a class="dropdown-item">Contains</a></li>
+                                            <li><a class="dropdown-item">Between</a></li>
+                                            <li><a class="dropdown-item">Greater Than</a></li>
+                                            <li><a class="dropdown-item">Less Than</a></li>
+                                            <li><a class="dropdown-item">Not Equal To</a></li>
+                                            <li><a class="dropdown-item">Does Not Contain</a></li>
+                                            <li><a class="dropdown-item">Starts With</a></li>
+                                            <li><a class="dropdown-item">Ends With</a></li>
+                                        </ul>
+                                    </div>                   
                                     <div class="inline btmmargin">
                                         <textarea class="describe-textarea" maxlength="37"></textarea>
                                     </div>
@@ -1164,14 +1180,22 @@
                                 <tbody id="result_table_tbody"></tbody>
                             </table>
                         </div>
+
                         <div class="addcondition" id="executeorrun" style="margin-top:4%;">
-                            <a class="myButton" id="runcode">Download</a>
+                            <a class="myButton" id="runcode">Restart</a>                    
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <input class="downloadbutton" type="submit" name="download" value="Download" />
+                            </form>
                         </div>
+                        
                     </div>
 
                     <div class="warning-box-wrapper">
                         <h4 class="warning-box-warning" id="warningtext"></h4>
                     </div>
+  
+  
 
                 </div>
 

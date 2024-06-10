@@ -269,8 +269,9 @@ def findandextract(request):
                     return HttpResponse('There was an error. Please try again.', status=500)                 
             elif request.POST.get('ajax_name') == 'download_result':
                 try:
+                    print('downloading result.')
                     response = download_file(request)
-                    return HttpResponse(response, status=200)
+                    return response
                 except:
                     print(traceback.print_exc())
                     log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
@@ -299,6 +300,13 @@ def findandextract(request):
                         traceback.print_exc()
                         log.critical("An error occurred during upload_data_files", exc_info=True)
                         return HttpResponse('Critical Error', status=500)  
+        else:
+            print('nonajax post')
+            print('downloading result.')
+            print(request)
+            print(request.POST)
+            response = download_file(request)
+            return response
     else:
         try:
             print("GET REQUEST")
@@ -320,6 +328,12 @@ def findandextract(request):
                 #x = threading.Thread(target=Get_LNI_Model) # target=Load_Language_Model
                 #x.start()
                 #threads.append(x)
+                print('this page')
+                KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
+                KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
+                KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
+                KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete()            
+                print('deleted all data.')
                 return render(request, "findandextract/fandemain.html")
         except:
             traceback.print_exc()
@@ -332,8 +346,30 @@ def download_file(request):
     usr_dir = create_tmp_dir(uid)
     result_csv_filename = uid + ' result.csv'
     csv_filepath = os.path.join(usr_dir, result_csv_filename)
-    response = FileResponse(open(csv_filepath, 'rb'))
+    with open(csv_filepath, newline='') as f:
+        reader = csv.reader(f, delimiter='~')
+        data = list(reader)
+    df = unmelt_result_df(data)
+    unmelted_result_path = os.path.join(usr_dir, 'Algorithm Result.xlsx')
+    df.to_excel(unmelted_result_path, index=False)
+    response = FileResponse(open(unmelted_result_path, 'rb'), as_attachment=True)
     return response
+
+# unmelt result data
+def unmelt_result_df(result_db_data):
+    key_val = []
+    for row in result_db_data:
+        key = row[0]
+        val = row[1]
+        key_val.append((key, val))
+    df_melt = pd.DataFrame(key_val, columns=['key', 'val'])    
+    df = df_melt.assign(idx=df_melt.groupby('key').cumcount())
+    # convert column values to categories to prevent pandas from sorting alphabetically
+    col_cats = f7(df['key'].values.tolist())
+    cat_type = CategoricalDtype(categories=col_cats, ordered=True)
+    df['key'] = df['key'].astype(cat_type)
+    df = df.pivot(index='idx', columns='key', values='val')
+    return df
 
 
 # if user filters first 1000 rows out of data then tables will look empty
@@ -659,23 +695,6 @@ def unmelt(file_name, sheet_name, username):
     df = df.pivot(index='idx', columns='key', values='val')
     return df
 
-# unmelt result data
-def unmelt_result_df(result_db_data):
-    key_val = []
-    for row in result_db_data:
-        key = row['key']
-        val = row['val']
-        key_val.append((key, val))
-    df_melt = pd.DataFrame(key_val, columns=['key', 'val'])    
-    df = df_melt.assign(idx=df_melt.groupby('key').cumcount())
-    # convert column values to categories to prevent pandas from sorting alphabetically
-    col_cats = f7(df['key'].values.tolist())
-    cat_type = CategoricalDtype(categories=col_cats, ordered=True)
-    df['key'] = df['key'].astype(cat_type)
-    df = df.pivot(index='idx', columns='key', values='val')
-    #df = df.to_json()
-    df = df.values.tolist()
-    return df
 
 def change_header(df, header_row):
     print('REchange')
