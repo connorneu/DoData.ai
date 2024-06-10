@@ -47,6 +47,29 @@ async function populate_tribute_dic(dataset_name) {
     tribute.attach(document.getElementById("caaanDo"));
 };
 
+// warnings
+function check_for_columns_warnings(){
+  if(!$.trim($("#newcolname").val())){
+    $('.warning-box-wrapper').show();
+    $('#warningtext').text('You need to add a new column name');
+    return false;
+  }
+  if(!$.trim($("#caaanDo").val())){
+    $('.warning-box-wrapper').show();
+    $('#warningtext').text('You need to describe what to calculate');
+    return false;
+  }
+
+  var desc_text = $("#caaanDo").val();
+  if(!desc_text.includes('"')){
+    alert("You must mention your columns by writing the word column followed by your column name in quotation marks.\n\nFor example:\nSum the values in column \"Sales Price\" when column \"Customer Number\" starts with 321\n\nWhen you write the word column a dropdown of all available column names will appear.")
+    $('.warning-box-wrapper').show();
+    $('#warningtext').text('Your description does not properly mention column names.When you write the word column, select your column name from the dropdown.');
+    return false;
+  }
+  return true;
+}
+
 function collect_col_params(){
   var dataset = $('#calc_column_dataset_ul').closest('.dropdown').find('.btn').text();
   var newcolname = $('#newcolname').val();
@@ -60,11 +83,14 @@ function collect_col_params(){
 }
 
 $(document.body).on('click', '#send_input_formula' ,async function(){  
-    var column_params = collect_col_params(); 
-    hide_containers(2);
-    await add_to_carousel('Generate Formula: ' + column_params['dataset'], standard_color, [null], true, true);
-    await add_to_carousel('$ ' + column_params['new_col_name'] + ' ' + column_params['user_text'], second_color, [null], true, true);
-    submit_user_formula(column_params);
+  if (check_for_columns_warnings()){
+    $('.warning-box-wrapper').hide();
+      var column_params = collect_col_params(); 
+      hide_containers(2);
+      await add_to_carousel('Generate Formula: ' + column_params['dataset'], standard_color, [null], true, true);
+      await add_to_carousel('$ ' + column_params['new_col_name'] + ' ' + column_params['user_text'], second_color, [null], true, true);
+      submit_user_formula(column_params);
+  }
 });
 
 async function display_column_result_table(data){

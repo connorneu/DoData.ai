@@ -39,9 +39,14 @@ def Parse_User_Formula(df, user_text, new_col_name, username):
     response = gpt(user_text)
     log.info('username: ' + str(username) + '\n' +response)
     formula, col_map_list = parse_response(response)
+    log.info('username: ' + str(username) + '\n' + 'original formula: ' + formula)
+    log.info('username: ' + str(username) + '\n' + 'column mapping: ' + str(col_map_list))
     revised_col_map_list = find_real_file_col_mapping(df, col_map_list)
+    log.info('username: ' + str(username) + '\n' + 'revised column mapping: ' + str(revised_col_map_list))
     new_formula = update_formula_columns(formula, revised_col_map_list)
+    log.info('username: ' + str(username) + '\n' + 'new formula: ' + str(col_map_list))
     increment_formula_list = create_incremented_formula(df.shape[0], revised_col_map_list, new_formula)
+    log.info('username: ' + str(username) + '\n' + 'incremented formula 1 and 2: ' + str(increment_formula_list[0]) + ' | ' + str(increment_formula_list[1]))
     result_df = add_formula_openpyxl(df, increment_formula_list, new_col_name)
     tmp_usr_dir = Create_Tmp_Dir(username)
     df_uncompiled_path = os.path.join(tmp_usr_dir, 'Result DF.xlsx')
@@ -50,13 +55,10 @@ def Parse_User_Formula(df, user_text, new_col_name, username):
     write_uncompiled_df_to_file(df, df_uncompiled_path, df_display_uncompiled_path)
     result_display_df = compile_excel_formulas(df_display_uncompiled_path, tmp_usr_dir)
     result_display_df = check_calculated_column_nan(new_col_name, result_display_df)
-    print(result_display_df)
     return result_df, result_display_df
 
 
 def check_calculated_column_nan(new_col_name, result_display_df):
-    print("IS NUL??!")
-    print(result_display_df[new_col_name].isnull().values.all())
     if result_display_df[new_col_name].isnull().values.all():
         result_display_df[new_col_name] = 'Download to view result'
     return result_display_df
@@ -158,10 +160,6 @@ def create_incremented_formula(num_rows, revised_col_map_list, new_formula):
             i = 1
             while i < len(new_formula_rowise)-1:
                 if new_formula_rowise[i:i+len(char_to_find)] == char_to_find:
-                    print('prechar')
-                    print(new_formula_rowise[i-len(char_to_find):i])
-                    print('postchar')
-                    print(new_formula_rowise[i+1:i+len(char_to_find)+1])
                     if not new_formula_rowise[i-len(char_to_find):i].isalpha() and not new_formula_rowise[i+1:i+len(char_to_find)+1].isalpha():
                         new_formula_rowise = new_formula_rowise[:i] + char_to_find + str(rownum) + new_formula_rowise[i+1:]
                 i += len(char_to_find)

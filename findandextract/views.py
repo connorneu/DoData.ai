@@ -252,7 +252,7 @@ def findandextract(request):
                 except:
                     print(traceback.print_exc())
                     log.critical("A critical error occurred during user formula method - " + 'username: ' + str(request.user), exc_info=True)
-                    return HttpResponse('Critical Error', status=500) 
+                    return HttpResponse('There was an error. Please try again.', status=500) 
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
