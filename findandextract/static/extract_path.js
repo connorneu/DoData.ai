@@ -73,6 +73,10 @@ $(document.body).on('input propertychange', '.describe-textarea', async function
     }
 });
 
+// when first col selected display build algo button
+$(document.body).on('click', '#first-col_ul li a', async function(){
+    document.getElementById('submit-extract-wrap').style.display = 'block';
+});
 
 // when dropdowns used grey out from file option
 $(document.body).on('click', '#extractfromdescribe .dropdown li a', async function(){  
@@ -335,12 +339,17 @@ function check_dropdowns_populated(){
     }
     else{
         console.log('warnings from file')
-        var from_file_btns = $('#extractusefile').find('.btn');
-        for (var i=0;i<from_file_btns.length;i++){
-            if($(from_file_btns[i]).text().includes('Select Dataset') || $(from_file_btns[i]).text().includes('Select Column')){
-                $('.warning-box-wrapper').show();
-                $('#warningtext').text('You need to select a dataset and column');
-                return false;
+        var from_file_drops = $('#extractusefile').find('.extract-from-file');
+        for (var i=0;i<from_file_drops.length;i++){
+            if ($(from_file_drops[i]).is(":visible")){
+                var btns = $(from_file_drops[i]).find('.btn');
+                for (var j=0;j<btns.length;j++){
+                    if ($(btns[j]).text().includes('Select Dataset') || $(btns[j]).text().includes('Select Column')){
+                        $('.warning-box-wrapper').show();
+                        $('#warningtext').text('You need to select a dataset and column');
+                        return false;
+                    }
+                }
             }
         }
         return true;

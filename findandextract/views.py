@@ -8,6 +8,7 @@ from django.http import StreamingHttpResponse
 from .models import KeyValueDataFrame
 from .models import KeyValueDataFrame_Result
 from .models import KeyValueDataFrame_Display_Result
+from .models import KeyValueDataFrame_Display
 import os
 from django.http import JsonResponse
 import json
@@ -32,6 +33,7 @@ from django.db import connection
 import csv
 import logging
 from dateutil.parser import parse
+from django.http import FileResponse
 
 goog_w2v_model = None
 nlp = None
@@ -109,10 +111,10 @@ def findandextract(request):
                         #for dbframe in df_list:                    
                         #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
                         #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
-                        fande_db_data = return_1k_rows(request)
+                        fande_db_data = return_1k_rows_display(request)
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     else:     
-                        fande_db_data = return_1k_rows(request) 
+                        fande_db_data = return_1k_rows_display(request) 
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                 except Exception:
                     log.critical("A critical error occured during filter data.", exc_info=True)
@@ -264,6 +266,14 @@ def findandextract(request):
                 except:
                     print(traceback.print_exc())
                     log.critical("A critical error occurred during user formula method - " + 'username: ' + str(request.user), exc_info=True)
+                    return HttpResponse('There was an error. Please try again.', status=500)                 
+            elif request.POST.get('ajax_name') == 'download_result':
+                try:
+                    response = download_file(request)
+                    return HttpResponse(response, status=200)
+                except:
+                    print(traceback.print_exc())
+                    log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('There was an error. Please try again.', status=500) 
             elif request.method == 'POST': 
                 try:
@@ -281,7 +291,7 @@ def findandextract(request):
                         print('user::', request.user)
                         print('startwrining')
                         upload_data_files(request)
-                        fande_db_data = return_1k_rows(request)
+                        fande_db_data = return_1k_rows_display(request)
                         print('end uplod')
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                     except Exception: 
@@ -302,7 +312,7 @@ def findandextract(request):
                 else:
                     print("AJAX GET REQUEST")
                     print('start longuest')
-                    fande_db_data = return_1k_rows(request)
+                    fande_db_data = return_1k_rows_display(request)
                     print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
@@ -315,9 +325,23 @@ def findandextract(request):
             traceback.print_exc()
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
+        
+
+def download_file(request):
+    uid = str(request.user)
+    usr_dir = create_tmp_dir(uid)
+    result_csv_filename = uid + ' result.csv'
+    csv_filepath = os.path.join(usr_dir, result_csv_filename)
+    response = FileResponse(open(csv_filepath, 'rb'))
+    return response
+
 
 # if user filters first 1000 rows out of data then tables will look empty
-def return_1k_rows(request):
+def return_1k_rows_display(request):
+    return list(KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).values())
+
+# this is never used
+def return_1k_rows_display_result(request):
     return list(KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).values())
 
 def get_result_db(uid):
@@ -342,6 +366,7 @@ def write_display_results(df_result, request):
         db_obj_list.append(KeyValueDataFrame_Display_Result(key=dbframe[0], val=dbframe[1], uid=request.user))
     KeyValueDataFrame_Display_Result.objects.bulk_create(db_obj_list) 
 
+#DESCHNOMISHIONED
 # write result to result databse
 def write_result_raw(df_result, request):
     print('writing display results')
@@ -361,7 +386,7 @@ def write_result_raw(df_result, request):
     #os.remove(csv_filename)
 
 def write_results(df_result, df_display_result, uid):
-    #write_result_to_db(df_result, uid)
+    write_result_to_db(df_result, uid)
     write_display_result_to_db(df_display_result, uid)
 
 # better version of write_display_results
@@ -372,6 +397,21 @@ def write_display_result_to_db(df_display_result, uid):
         db_obj_list.append(KeyValueDataFrame_Display_Result(key=dbframe[0], val=dbframe[1], uid=uid))
     KeyValueDataFrame_Display_Result.objects.bulk_create(db_obj_list) 
 
+
+def write_display_to_db(df_display, uid, myfile):
+    global display_table_row_num
+    df = df_display.head(display_table_row_num)
+    df_keyvalue = df.melt(id_vars = ['sheet'])
+    print('dropping unrelated datapoints...')
+    df_keyvalue = drop_columns_from_unrelated_sheets(df_keyvalue)
+    df_keyvalue['file_name'] = str(myfile)
+    df_list = list(df_keyvalue[['file_name', 'sheet', 'variable', 'value']].values)
+    db_obj_list = []
+    for dbframe in df_list:                    
+        db_obj_list.append(KeyValueDataFrame_Display(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=uid))
+    KeyValueDataFrame_Display.objects.bulk_create(db_obj_list) 
+        #    #obj = KeyValueDataFrame.objects.create(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3]) 
+        #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
 
 def write_result_to_db(df_result, uid):
     # DO NOT FUCKING DELETE
@@ -387,7 +427,7 @@ def write_result_to_db(df_result, uid):
     with open(csv_filepath) as infile:
         with connection.cursor() as stmt:
             stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
-    os.remove(csv_filepath)
+    #os.remove(csv_filepath)
 
 def create_tmp_dir(uid):
     dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
@@ -423,7 +463,7 @@ def write_upload_files_raw(df_list, request, filenum):
     with open(csv_filepath) as infile:
         with connection.cursor() as stmt:
             stmt.copy_from(infile, 'findandextract_keyvaluedataframe', sep="~", columns=['file_name', 'sheet_name', 'key', 'val', 'uid'])
-    os.remove(csv_filename)
+    os.remove(csv_filepath)
 
 
 # call write uploaded files to db file for each individual file
@@ -440,7 +480,7 @@ def upload_data_files(request):
         print(myfile)
         sheetname = request.POST['file_1_sheet']
         delimiter = request.POST['file_1_delimiter']
-        df_columns, df_list = build_df_melt(myfile, sheetname, delimiter)
+        df_columns, df_list = build_df_melt(myfile, sheetname, delimiter, str(request.user))
         write_upload_files_raw(df_list, request, filenum)
         #db_obj_list = []
         #for dbframe in df_list:
@@ -456,7 +496,7 @@ def upload_data_files(request):
             myfile2 = request.FILES['file_2']     
             sheetname2 = request.POST['file_2_sheet']
             delimiter = request.POST['file_2_delimiter']
-            df2_columns, df_list2 = build_df_melt(myfile2, sheetname2, delimiter)
+            df2_columns, df_list2 = build_df_melt(myfile2, sheetname2, delimiter, str(request.user))
             filenum = 2
             write_upload_files_raw(df_list2, request, filenum)
     if 'file_3' in request.FILES:
@@ -466,7 +506,7 @@ def upload_data_files(request):
             myfile3 = request.FILES['file_3']  
             sheetname3 = request.POST['file_3_sheet']   
             delimiter = request.POST['file_3_delimiter']
-            df3_columns, df_list3 = build_df_melt(myfile3, sheetname3, delimiter)
+            df3_columns, df_list3 = build_df_melt(myfile3, sheetname3, delimiter, str(request.user))
             write_upload_files_raw(df_list3, request, filenum)
     if 'file_4' in request.FILES:
         if request.method == 'POST' and request.FILES['file_4']:    
@@ -474,7 +514,7 @@ def upload_data_files(request):
             myfile4 = request.FILES['file_4']  
             sheetname4 = request.POST['file_4_sheet']  
             delimiter = request.POST['file_4_delimiter']
-            df4_columns, df_list4 = build_df_melt(myfile4, sheetname4, delimiter)
+            df4_columns, df_list4 = build_df_melt(myfile4, sheetname4, delimiter, str(request.user))
             filenum = 4
             write_upload_files_raw(df_list4, request, filenum)
 
@@ -539,7 +579,7 @@ def choose_delimiter(delimiter):
 
 
 # for raw input
-def build_df_melt(myfile, sheetname, mydelimiter):
+def build_df_melt(myfile, sheetname, mydelimiter, uid):
     file_ext = str(myfile).split('.')[-1]
     print('file ext', file_ext)
     if 'xl' in file_ext:
@@ -553,6 +593,7 @@ def build_df_melt(myfile, sheetname, mydelimiter):
         df['sheet'] = 'Sheet1'
     # replace all thildes as is delimiter for db
     df = replace_thilde(df)
+    write_display_to_db(df, uid, myfile)
     df_columns = list(df.columns)
     df_keyvalue = df.melt(id_vars = ['sheet'])
     print('dropping unrelated datapoints...')
