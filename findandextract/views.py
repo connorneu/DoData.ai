@@ -67,6 +67,7 @@ def findandextract(request):
     global threads
     if request.method == 'POST':
         if is_ajax(request): 
+            log.info(request)
             if request.POST.get('ajax_name') == 'filter_data':
                 try:
                     warnings = "No warnings"
@@ -197,7 +198,7 @@ def findandextract(request):
                 parameters = request.POST.get('parameters')
                 parameters = json.loads(parameters)
                 try:
-                    df_result = Calculate_Metrics(parameters)   
+                    df_result = Calculate_Metrics(parameters, request.user)   
                     if isinstance(df_result, pd.DataFrame): 
                         print('final result')
                         print(df_result)
@@ -1159,18 +1160,18 @@ def change_col_dtype(df, metric_cols):
         try:
             df[metric_col] = pd.to_numeric(df[metric_col])
         except:
-            raise Exception('Cannot calculate metric on this column. Metrics can only be calculated on numeric columns. All values in this column must be numeric. You can filter out non-numeric values by using a different algorithm type first.')
+            raise Exception('Cannot calculate metric on this column. Metrics can only be calculated on numeric columns. All values in this column must be numeric.')
     return df 
 
 
-def Calculate_Metrics(parameters):
+def Calculate_Metrics(parameters, username):
     try:
         filename = parameters['filename']
         groups = list(set(parameters['groups']))
         metrics = parameters['metrics']
         metric_cols = parameters['metric_cols']
         file, sheet = parse_file_name_from_bracket_display(filename)
-        df = unmelt(file, sheet)
+        df = unmelt(file, sheet, username)
         df = change_col_dtype(df, metric_cols)
         action_dict = combine_actions_for_each_column_into_array(metrics, metric_cols)
         df_result = df.groupby(groups).agg(action_dict).reset_index()
@@ -1179,97 +1180,3 @@ def Calculate_Metrics(parameters):
         return df_result
     except Exception as e:
         return e
-    
-
-
-
-# OLD EXTRACT
-if False:
-    print("START OF AJAX POST submit_extract_parameters")
-    print(request.POST)
-    inputordescription = request.POST.get('parameters[inputordescription]')
-    primary_file_name = request.POST.get('parameters[primaryfilename]')
-    primary_header_row = int(request.POST.get('parameters[primaryheaderrow]'))
-    primary_sheet_name = request.POST.get('parameters[primarysheetname]')
-    values_to_extract_dataset = primary_file_name + ' {' +  primary_sheet_name + '}'
-
-    values_to_extract_col = request.POST.get('parameters[inputfilecol]')
-    primary_conditions = json.loads(request.POST.get('parameters[inputfileconditions]'))
-    #ast.literal_eval(request.POST.get('parameters[inputfileconditions]'))
-    describevalues = request.POST.get('parameters[describevalues]')
-
-    secondary_file_name = request.POST.get('parameters[secondaryfilename]')
-    secondary_sheet_name = request.POST.get('parameters[secondarysheetname]')
-    secondaryextractcolname = request.POST.get('parameters[secondextractcol]')
-    secondary_header_row = int(request.POST.get('parameters[secondheaderrow]'))
-
-    third_file_name = request.POST.get('parameters[thirdfilename]')
-    third_sheet_name = request.POST.get('parameters[thirdsheetname]')
-    thirdextractcolname = request.POST.get('parameters[thirdextractcol]')
-    third_header_row = int(request.POST.get('parameters[thirdheaderrow]'))
-
-    fourth_file_name = request.POST.get('parameters[fourthfilename]')
-    fourth_sheet_name = request.POST.get('parameters[fourthsheetname]')
-    fourthextractcolname = request.POST.get('parameters[fourthextractcol]')
-    fourth_header_row = int(request.POST.get('parameters[fourthheaderrow]'))
-
-    secondaryheaderrow = request.POST.get('parameters[secondaryheaderrow]')
-    thirdheaderrow = request.POST.get('parameters[thirdheaderrow]')
-    fourthheaderrow = request.POST.get('parameters[fourthheaderrow]')
-
-    algorithm_type = 'Extract'
-    extract_from = [[secondary_file_name, '{' + secondary_sheet_name + '}', secondaryextractcolname],
-                    [third_file_name, '{' + third_sheet_name + '}', thirdextractcolname],
-                    [fourth_file_name, '{' + fourth_sheet_name + '}', fourthextractcolname]]                
-    df1 = None
-    df2 = None
-    df3 = None
-    df4 = None
-    print('primary names', primary_file_name, primary_sheet_name)
-    df1 = unmelt(primary_file_name, primary_sheet_name)
-    df1_name = primary_file_name + ' {' + primary_sheet_name + '}'
-    if secondary_file_name != None:
-        df2 = unmelt(secondary_file_name, secondary_sheet_name)
-        df2_name = secondary_file_name + ' {' + secondary_sheet_name + '}'
-    if third_file_name != None:
-        df3 = unmelt(third_file_name, third_sheet_name)
-        df3_name = third_file_name + ' {' + third_sheet_name + '}'
-    if fourth_file_name != None:
-        df4 = unmelt(fourth_file_name, fourth_sheet_name)
-        df4_name = fourth_file_name + ' {' + fourth_sheet_name + '}'
-    if primary_header_row > 0:
-        print("CHANGING HEADER1")
-        df1 = change_header(df1, primary_header_row)
-    if secondary_header_row > 0:
-        print("CHANGING HEADER2")
-        df2 = change_header(df2, secondary_header_row)
-    if third_header_row > 0:
-        print("CHANGING HEADER3")
-        df3 = change_header(df3, third_header_row)
-    if fourth_header_row > 0:
-        print("CHANGING HEADER4")
-        df4 = change_header(df4, fourth_header_row)
-    if primary_conditions != []: # not sure why this exists only for primary and there is another area to apply_conditions()
-        print('conditions applied 1')
-        df1 = apply_conditions(df1, primary_conditions) 
-    print('dataframenames')
-    print(df1)
-    print(df2)
-    if df1 is not None and df2 is None:
-        dfs = {df1_name:df1}
-    elif df1 is not None and df2 is not None and df3 is None:
-            dfs = {df1_name:df1, df2_name:df2}
-    elif df1 is not None and df2 is not None and df3 is not None and df4 is None:
-        dfs = {df1_name:df1, df2_name:df2, df3_name:df3}
-    elif df1 is not None and df2 is not None and df3 is not None and df4 is None:
-        dfs = {df1_name:df1, df2_name:df2, df3_name:df3, df4_name:df4}
-
-    if algorithm_type == 'Extract':
-        print('Algorithm Type', algorithm_type)
-        df_result = Extract(dfs, values_to_extract_dataset, values_to_extract_col, extract_from)
-        print('------------- RESULT --------------')
-        print(df_result)
-        df_list = melt_df(df_result)
-        print("saving result to db...")
-        for dbframe in df_list:
-            obj = KeyValueDataFrame_Result.objects.create(key=dbframe[0], val=dbframe[1])

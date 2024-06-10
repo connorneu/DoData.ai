@@ -154,11 +154,33 @@ async function display_calc_params(calc_params){
     }
 }
 
+function check_warnings_group(){
+    var metrics = $('#calcmetrics').find('.dropdown');
+    for (var i=0;i<metrics.length;i++){
+        if($(metrics[i]).find('.btn').text().includes('Choose what to calculate')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to choose a metric to calculate');
+            return false;
+        }
+    }
+    var select_cols = $('#calc-group-select').find('.dropdown');
+    for (var i=0;i<select_cols.length;i++){
+        if($(select_cols[i]).find('.btn').text().includes('Select Column')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a column for each metric and group');
+            return false;
+        }
+    } 
+    return true;
+}
+
 // when submit button is pressed
 $(document.body).on('click', '#submit-calculate' ,async function(){
-    calc_params = collect_calc_params();
-    console.log(calc_params)
-    submit_calc_algo_parameters(calc_params);
+    if(check_warnings_group()){
+        $('.warning-box-wrapper').hide();
+        calc_params = collect_calc_params();
+        submit_calc_algo_parameters(calc_params);
+    }
 });
 
 async function display_calculate_result_table(data){

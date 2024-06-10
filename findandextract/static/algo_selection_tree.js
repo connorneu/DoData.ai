@@ -412,6 +412,15 @@ function adjust_svg_img_y_pos(class_name){
             } 
             
         }
+        if (node_name === 'Filter'){
+            if(!both_parent_nodes_active){
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-350);     
+            }
+            else{
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-500);    
+            } 
+            
+        }
     }
 }
 
