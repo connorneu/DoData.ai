@@ -189,7 +189,7 @@ $(document).ready(function () {
             .select("circle")
             .attr("r", 24)
             .style("fill", function(d) {
-                return d._children ? 'url(#grad)' : '#160046';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
+                return d._children ? 'url(#grad)' : 'black';               //return d._children ? "lightsteelblue" : "#fff";   action_color : fyi_color
             
             })
             .style("stroke", function(d) {
@@ -377,9 +377,9 @@ function adjust_svg_img_y_pos(class_name){
             }
                 
         } 
-        if (node_name === 'Reconcile'){
+        if (node_name === 'Compare'){
             if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-360); 
+                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-350); 
             }
             else{
                 var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-500); 
@@ -409,15 +409,6 @@ function adjust_svg_img_y_pos(class_name){
             }
             else{
                 var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-220);    
-            } 
-            
-        }
-        if (node_name === 'Filter'){
-            if(!both_parent_nodes_active){
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-350);     
-            }
-            else{
-                var img_node = parent_nodes[i].getElementsByTagName('image')[0].setAttribute('y',-500);    
             } 
             
         }

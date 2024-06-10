@@ -880,7 +880,7 @@ display: table;
     }
 .node circle {
     /*fill: fill: hsl(248, 53%, 58%); */
-    stroke-width: 2px;
+    stroke-width: 3px;
     /*filter:blur(1px);                                              */
     /*filter: blur(1px) drop-shadow(2px 1px 5px rgb(128,0,128)); */
     filter: blur(1px) drop-shadow(0px 0px 1px rgb(68, 7, 128));
@@ -1786,6 +1786,31 @@ outside of combine*/
 .col-match-block{
     margin-top:2%;
 }
+#compare-match-wrap{
+    display:none;
+}
+#reco-add-compare{
+    display:none;
+}
+#reco-first-file-wrap{
+    display: flex;
+    flex-direction: column;
+}
+#reco-second-file-wrap{
+    display: flex;
+    flex-direction: column;
+}
+#reconcilefiles .flexy-wrap-child {
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+}
+#reco-match-wrap{
+    display:none;
+}
+#reco-add-match{
+    display:none;
+}
 .file-drop{
     margin-right:1%;
 }
@@ -2280,4 +2305,7 @@ outside of combine*/
 }
 .resultbox{
     display:none;
+}
+#reconcilefiles .middle-flex-align{
+    align-items: center;
 }

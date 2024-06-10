@@ -5,20 +5,32 @@ async function start_reconcile(){
     await add_to_carousel('Describe how to reconcile both files :', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     document.getElementById('reconcilefiles').style.display = 'block';
     //center_match_columns();
-    $('#reco-first-file-wrap').find('.btn').text(dataset_names[0]);
-    $('#reco-second-file-wrap').find('.btn').text(dataset_names[1]);
-    var colheaders = get_col_headers_for_filename(dataset_names[0]);
-    populate_drop_down('#reco-match-col1', colheaders, true);
-    var colheaders = get_col_headers_for_filename(dataset_names[1]);
-    populate_drop_down('#reco-match-col2', colheaders, true);
-
-    var left_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(0).find('ul');
-    var colheaders = get_col_headers_for_filename(dataset_names[0]);
-    populate_drop_down(left_compare_columns, colheaders, true);
-    var right_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(1).find('ul');
-    var colheaders = get_col_headers_for_filename(dataset_names[1]);
-    populate_drop_down(right_compare_columns, colheaders, true);
+    populate_drop_down('#reco-first-dataset', dataset_names, true);
+    populate_drop_down('#reco-second-dataset', dataset_names, true);
 }
+
+
+$(document.body).on('click', '#reco-first-dataset li a' ,async function(){ 
+    var selected_val = $(this).closest('.dropdown').find('.btn').text()
+    var colheaders = get_col_headers_for_filename(selected_val);
+    populate_drop_down('#reco-match-col1', colheaders, true);
+    var left_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(0).find('ul');
+    var colheaders = get_col_headers_for_filename(selected_val);
+    populate_drop_down(left_compare_columns, colheaders, true);
+});
+
+
+$(document.body).on('click', '#reco-second-dataset li a' ,async function(){ 
+    var selected_val = $(this).closest('.dropdown').find('.btn').text()
+    var colheaders = get_col_headers_for_filename(selected_val);
+    populate_drop_down('#reco-match-col2', colheaders, true);
+    var right_compare_columns = $('#reco-all-cols-to-compare').find('.dropdown').eq(1).find('ul');
+    var colheaders = get_col_headers_for_filename(selected_val);
+    populate_drop_down(right_compare_columns, colheaders, true);
+    $('#reco-match-wrap').show();
+    $('#reco-add-match').show();
+});
+
 
 function center_match_columns(){
     var left_parent = document.getElementById("reco-first-file");
@@ -84,6 +96,13 @@ $(document.body).on('click', '#reco-add-compare' ,async function(){
 }); 
 
 
+// when column selected in match columns display columns to compare
+$(document.body).on('click', '#reco-match-col2 li a' ,async function(){ 
+    $('#compare-match-wrap').show();
+    $('#reco-add-compare').show();
+}); 
+
+
 function collect_reco_params(){
     var first_file = $('#reco-first-file').find('.btn').text();
     var second_file = $('#reco-second-file').find('.btn').text();
@@ -112,14 +131,35 @@ function collect_reco_params(){
 }
 
 $(document.body).on('click', '#reco-all-cols-to-compare .dropdown.nohide.matchcol-right.right-flex-align ul' ,function(){
-    console.log('founQQd')
-    $('#submit-reco').show();
+    $('#submit-reco-btn').show();
 });
 
+function check_warnings_reconcile(){
+    var match_cols = $('#reco-all-cols-to-match').find('.dropdown');
+    for (var i=0;i<match_cols.length;i++){
+        if($(match_cols[i]).find('.btn').text().includes('Select Column')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a column to match');
+            return false;
+        }
+    }
+    var compare_cols = $('#reco-all-cols-to-compare').find('.dropdown');
+    for (var i=0;i<compare_cols.length;i++){
+        if($(compare_cols[i]).find('.btn').text().includes('Select Column')){
+            $('.warning-box-wrapper').show();
+            $('#warningtext').text('You need to select a column to compare');
+            return false;
+        }
+    }
+    return true;
+}
 
 $(document.body).on('click', '#submit-reco' , function(){ 
-    var reco_params = collect_reco_params();
-    submit_reco_algo_parameters(reco_params);
+    if (check_warnings_reconcile()){
+        $('.warning-box-wrapper').hide();
+        var reco_params = collect_reco_params();
+        submit_reco_algo_parameters(reco_params);
+    }
 }); 
 
 async function display_reconcile_result_table(data){

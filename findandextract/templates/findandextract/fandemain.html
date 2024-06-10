@@ -931,8 +931,10 @@
                                         <div>
                                             <div class="select-reconcile-file" id="reco-first-file">
                                                 <div class="dropdown nohide file-drop">
-                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                
+                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                
+                                                    Select Dataset
                                                     </button>
+                                                    <ul class="dropdown-menu" id="reco-first-dataset"></ul>   
                                                 </div>      
                                             </div>   
                                         </div>
@@ -944,8 +946,10 @@
                                         <div>
                                             <div class="select-reconcile-file" id="reco-second-file">
                                                 <div class="dropdown nohide file-drop">
-                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Select Dataset
                                                     </button>
+                                                    <ul class="dropdown-menu" id="reco-second-dataset"></ul>   
                                                 </div>        
                                             </div>   
                                         </div>
@@ -953,9 +957,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-match-block">
+                        <div class="col-match-block" id="reco-match-wrap">
                             <div>                                
-                                <h2>Match These Rows</h2>
+                                <h2>Match the values in these columns:</h2>
                                 <div class="join-tooltip">
                                     <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
                                     <div class="hover-prompt" id="joins-prompt">
@@ -1000,11 +1004,11 @@
                             </div>
                         </div>
                         <div class="addcondition nohide no-top-margin">                    
-                            <a class="myButton" id="reco-add-match">Add Columns to Compare</a>
+                            <a class="myButton" id="reco-add-match">Add Columns</a>
                         </div>
-                        <div class="col-match-block">
+                        <div class="col-match-block" id="compare-match-wrap">
                             <div>                                
-                                <h2>Compare These Columns</h2>
+                                <h2>Compare the values in these columns:</h2>
                                 <div class="join-tooltip">
                                     <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
                                     <div class="hover-prompt" id="joins-prompt">
@@ -1039,10 +1043,10 @@
                             </div>
                         </div>
                         <div class="addcondition nohide no-top-margin">                    
-                            <a class="myButton" id="reco-add-compare">Add Matching Columns</a>
+                            <a class="myButton" id="reco-add-compare">Add Columns</a>
                         </div>
-                        <div class="addcondition">                    
-                            <button id="submit-reco" class="glowbutton hide">Build Algorithm</button>
+                        <div class="submit-algo-buttons" id="submit-reco-btn">
+                            <button id="submit-reco" class="glowbutton">Build Algorithm</button>
                         </div>
                     </div>
 

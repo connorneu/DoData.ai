@@ -184,12 +184,17 @@ def findandextract(request):
                     cols_to_match = parameters['matches']
                     cols_to_compare = parameters['compares']
                     print(cols_to_compare[0])
-                    df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare)
-                    print('------------- RESULT --------------')
-                    print(df_result)
-                    write_result_raw(df_result, request)
-                    return HttpResponse(status=200)
+                    df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare, request.user)
+                    if isinstance(df_result, pd.DataFrame): 
+                        print('------------- RESULT --------------')
+                        print(df_result)
+                        write_result_raw(df_result, request)
+                        return HttpResponse(status=200)
+                    else:
+                        log.error('Error in Calcualte method', exc_info=True)
+                        return HttpResponse(df_result, status=400) 
                 except Exception:
+                    traceback.print_exc()
                     log.critical("A critical error occured during reconcile method.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'calculate':
@@ -1037,8 +1042,8 @@ def Reconcile_Files(first_file, second_file, match_cols, compare_cols, username)
     df2 = unmelt(file2, sheet2, username)
     first_file_name = first_file.replace('.csv', '')
     second_file_name = second_file.replace('.csv', '')
-    df1 = df1.add_suffix(' {' + first_file_name + '}')
-    df2 = df2.add_suffix(' {' + second_file_name + '}')
+    #df1 = df1.add_suffix(' _' + first_file_name)
+    df2 = df2.add_suffix('_' + second_file_name)
     leftmatch, rightmatch = Split_Left_Right_Match_Cols(match_cols, first_file_name, second_file_name)
     leftcompare, rightcompare = Split_Left_Right_Match_Cols(compare_cols, first_file_name, second_file_name)
     left_cols = leftmatch + leftcompare
@@ -1049,6 +1054,7 @@ def Reconcile_Files(first_file, second_file, match_cols, compare_cols, username)
     df2_trim.drop_duplicates(inplace=True)
     df_merge = pd.merge(df1_trim, df2_trim, how='inner', left_on=leftmatch, right_on=rightmatch)
     match_values = Unique_Column_Pairs(df_merge[leftmatch].values.tolist())
+    df1_og = df1.copy()
     for match_value in match_values:
         conds = []
         for i_val in range(len(match_value)):
@@ -1074,17 +1080,19 @@ def Reconcile_Files(first_file, second_file, match_cols, compare_cols, username)
                 comparison_column_name = 'Comparison: ' + rightcompare[i_comp]
                 print('COMPARISON NAME')
                 print(comparison_column_name)
-                df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = 'Other Values: ' + str(val_variants)  
+                df1.loc[np.logical_and.reduce(conds_df1_match), comparison_column_name] = 'Other Values: ' + str(list(set(val_variants)))  
                 df1.loc[df1[comparison_column_name] == 'nan', comparison_column_name] = 'EXACT MATCH'
                 df1.loc[df1[comparison_column_name] == '[]', comparison_column_name] = 'EXACT MATCH'
+    if df1.equals(df1_og):
+        df1 = 'No values matched in the specified columns.'
     return df1
 
 def Split_Left_Right_Match_Cols(match_cols, sufix_df1, sufix_df2):
     lefton = []
     righton = []
     for cols in match_cols:
-        lefton.append(cols[0] + ' {' + sufix_df1 +'}')
-        righton.append(cols[1] + ' {' + sufix_df2 + '}')
+        lefton.append(cols[0]) # lefton.append(cols[0] + '_' + sufix_df1)
+        righton.append(cols[1] + '_' + sufix_df2)
     return lefton, righton
 
 def Column_Merged_Name(df_merged, col, x_or_y):
