@@ -1,8 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&family=Syne&family=Ubuntu+Mono&display=swap');
 *{
     margin: 0;
     padding: 0;
     font-family: 'poppins',sans-serif;
+    font-family: 'Ubuntu Mono', monospace;
+}
+body{
+    background: black;
 }
 section{
     display: flex;
@@ -11,9 +19,15 @@ section{
     min-height: 100vh;
     width: 100%;
     
-    background: url(images/background6.jpg)no-repeat;
+    /*background: url(images/background6.jpg)no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: cover;*/
+
+
+    background: rgba(53, 1, 95, 0.037);
+    border-radius: .25rem;
+    box-shadow: inset 0 0 8rem rgba(50,50,50,.08), inset 0 0 8rem rgba(98, 0, 255, 0.08), inset 0 0 8rem rgba(36, 1, 75, 0.08), inset 0 0 8rem rgba(62, 43, 116, 0.064), inset 0 0 5rem rgba(250,245,255,.09);
+    
 }
 .form-box{
     position: relative;
@@ -27,6 +41,10 @@ section{
     justify-content: center;
     align-items: center;
 
+}
+h1{
+    color: #fff;
+    font-size: 1em;
 }
 h2{
     font-size: 2em;
@@ -53,6 +71,7 @@ input:focus ~ label,
 input:valid ~ label{
 top: -5px;
 }
+
 .inputbox input {
     width: 100%;
     height: 50px;
@@ -113,4 +132,8 @@ button{
 }
 .register p a:hover{
     text-decoration: underline;
+}
+.sidetextonlylogo{
+    width: 325px;
+    margin-right: 50px;
 }

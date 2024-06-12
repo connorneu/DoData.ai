@@ -69,6 +69,7 @@ def findandextract(request):
     global nli
     global threads
     global display_table_row_num
+    print('where here')
     if request.method == 'POST':
         if is_ajax(request): 
             log.info(request)
