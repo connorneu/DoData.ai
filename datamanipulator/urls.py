@@ -18,11 +18,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("main.urls")),
-    path('', include("login.urls")),
-    path('', include("reconcile.urls")),
-    path('', include("findandextract.urls")),
-    path('', include("select_menu.urls"))
-
+    #path('', include("main.urls")),
+    #path('', include("login.urls")),
+    #path('', include("reconcile.urls")),
+    path('algorithmbuilder/', include("findandextract.urls")),
+    #path('', include("select_menu.urls")),
+    path('login/', include("users.urls"))
 
 ]

@@ -581,18 +581,9 @@ $(document.body).on('click', '#descriptionhelp, #confirm-algo-no' , async functi
     
 });
 
-// download csv file
+// restart
 $(document.body).on('click', '#runcode' , async function(){  
-    
-    
-    let url = "{% url 'the url'%}"
-    $.post(url, function(data)
-    {
-        console.log(data);
-        location.replace(url);
-    });
-    //download_result();
-    
+    location.reload();
 });
 
 

@@ -484,31 +484,3 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
     return false;
     }
     
-
-function download_result(){
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    // create an AJAX call
-    $.ajax({
-        data: {   //JSON.stringify(condition_arr2)
-            'ajax_name':'download_result',
-
-        }, // get the form data        $(this).serialize()
-        type: 'POST', //$(this).attr('method'), // GET or POST
-        headers: {
-            "X-CSRFToken": getCookie("csrftoken")},
-        //url: "{% url 'findandextract' %}",
-        // on success
-        success: function () {
-
-            console.log("File download successful.");
-            
-        },
-        // on error
-        error: function (request, status, error) {
-
-            alert("Error downloading file");
-
-        }
-    });
-    return false;
-}

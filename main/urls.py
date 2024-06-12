@@ -7,6 +7,6 @@ from . import views
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("", views.home, name="home"),
-    path("data", views.Import_Excel_pandas,name="Import_Excel_pandas"),
+    #path("", views.home, name="home"),
+    #path("data", views.Import_Excel_pandas,name="Import_Excel_pandas"),
     ]
