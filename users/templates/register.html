@@ -7,34 +7,50 @@
 </head>
 <body>
     <section>
-        <div class="form-box">
-            <div class="form-value">
-                <form action="{% url 'registered' %}" method="POST">
-                    {% csrf_token %}
-                    <h2>Register</h2>
-                    <div class="inputbox">
-                        <ion-icon name="mail-outline"></ion-icon>
-                        <input type="email" name="email" required>
-                        <label for="">Email</label>
+        <div>
+            <div>
+                <div class="form-box">
+                    <div class="form-value">
+                        <form action="{% url 'registered' %}" method="POST">
+                            {% csrf_token %}
+                            <h2>Register</h2>
+                            {% if form.errors %}
+                            <div class="badnews">
+                                <p>Email already exists.</p>
+                            </div>
+                            {% endif %}
+                            <div class="inputbox">
+                                <ion-icon name="mail-outline"></ion-icon>
+                                <input type="email" name="email" required>
+                                <label for="">Email</label>
+                            </div>
+                            <div class="inputbox">
+                                <ion-icon name="person-outline"></ion-icon>
+                                <input type="name" name="name" required>
+                                <label for="">Name</label>
+                            </div>
+                            <div class="inputbox">
+                                <ion-icon name="lock-closed-outline"></ion-icon>
+                                <input type="password" name="password" required>
+                                <label for="">Password</label>
+                            </div>
+                            <!--<div class="forget">
+                                <label for=""><input type="checkbox">Remember Me  <a href="#">Forget Password</a></label>                      
+                            </div>--> 
+                            <button>Register</button>
+                            <div class="register">
+                                <p>Already have a account? <a href="{% url 'login' %}">Log in</a></p>
+                            </div>
+                        </form>
                     </div>
-                    <div class="inputbox">
-                        <ion-icon name="person-outline"></ion-icon>
-                        <input type="name" name="name" required>
-                        <label for="">Name</label>
-                    </div>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                        <input type="password" name="password" required>
-                        <label for="">Password</label>
-                    </div>
-                    <!--<div class="forget">
-                        <label for=""><input type="checkbox">Remember Me  <a href="#">Forget Password</a></label>                      
-                    </div>--> 
-                    <button>Register</button>
-                    <div class="register">
-                        <p>Already have a account? <a href="{% url 'login' %}">Log in</a></p>
-                    </div>
-                </form>
+                </div>
+            </div>
+            <div>
+                {% for message in messages %}
+                <div class="message-alert">
+                       {{ message }}
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="/static/users/login-page.css">
+  <title>doData.ai</title>
+  {% load static %}
+</head>
+<body>
+    <section>
+        <div style="display:flex;flex-direction: column;">
+            <div style="display:flex">
+                <div class="logo" style="margin-top:auto;margin-bottom:auto;">
+                    <img class='sidetextonlylogo' src="{% static 'users/images/logov2 just text.png' %}" alt="...">
+                </div>
+                <div class="form-box">
+                    <div class="form-value">
+
+                        {% block content %}
+
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <h2>Login</h2>
+                            <div class="inputbox">
+                                <ion-icon name="mail-outline"></ion-icon>
+                                <input type="email" name="username" required>
+                                <label for="">Email</label>
+                            </div>
+                            <div class="inputbox">
+                                <ion-icon name="lock-closed-outline"></ion-icon>
+                                <input type="password" name="password" required>
+                                <label for="">Password</label>
+                            </div>
+
+                            <button type="submit">Log in</button>
+                            <input type="hidden" name="next" value="{{ next }}">
+                        </form>
+
+                        <div class="register">
+                            <p>
+                                <a href="{% url 'password_reset' %}">Forgot password?</a>
+                            </p>
+                        </div>
+                        <div class="register">
+                            <p>
+                                <a href="{% url 'register' %}">Don't have an account?</a>
+                            </p>
+                        </div>
+
+                        {% endblock %}
+                    </div>
+                </div> 
+            </div> 
+            <div>
+                {% if form.errors %}
+                <div class="badnews">
+                    <p>Username and password combination don't exist.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

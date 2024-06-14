@@ -34,6 +34,7 @@ import csv
 import logging
 from dateutil.parser import parse
 from django.http import FileResponse
+from django.contrib.auth.decorators import login_required
 
 goog_w2v_model = None
 nlp = None
@@ -65,11 +66,14 @@ def Get_LNI_Model():
     global nli
     nli = Load_NLI_Model()
 
+
+@login_required()
 def findandextract(request):
     global nli
     global threads
     global display_table_row_num
     print('where here')
+    print(request.user)
     if request.method == 'POST':
         if is_ajax(request): 
             log.info(request)
@@ -331,7 +335,7 @@ def findandextract(request):
                 #threads.append(x)
                 print('this page')
                 KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
+                KeyValueDataFrame_Display.objects.filter(uid=str()).delete()
                 KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete()            
                 print('deleted all data.')

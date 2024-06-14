@@ -137,3 +137,12 @@ button{
     width: 325px;
     margin-right: 50px;
 }
+.badnews p{
+    text-align: end;
+    margin-right: 14px;
+    color:red;
+}
+.message-alert{
+    color:red;
+    text-align: center;
+}
