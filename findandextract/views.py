@@ -35,6 +35,8 @@ import logging
 from dateutil.parser import parse
 from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
+import re
+
 
 goog_w2v_model = None
 nlp = None
@@ -65,6 +67,11 @@ def Load_Language_Model():
 def Get_LNI_Model():
     global nli
     nli = Load_NLI_Model()
+
+
+def clean_username(user):
+    username = re.sub(r'\W+', '', user)
+    return username
 
 
 @login_required()
@@ -347,7 +354,7 @@ def findandextract(request):
         
 
 def download_file(request):
-    uid = str(request.user)
+    uid = clean_username(str(request.user))
     usr_dir = create_tmp_dir(uid)
     result_csv_filename = uid + ' result.csv'
     csv_filepath = os.path.join(usr_dir, result_csv_filename)
@@ -492,11 +499,11 @@ def clean_describe_values(describe_values_raw):
 # write uploaded files to db raw
 def write_upload_files_raw(df_list, request, filenum):
     print('writing uploaded file', filenum)
-    temp_dir = create_tmp_dir(str(request.user))
+    temp_dir = create_tmp_dir(clean_username(str(request.user)))
     list_to_write = []
     for elem in df_list:
         list_to_write.append([elem[0], elem[1], elem[2], elem[3], str(request.user)])
-    csv_filename = str(request.user) + ' filenum' + str(filenum) + '.csv'
+    csv_filename = clean_username(str(request.user)) + ' filenum' + str(filenum) + '.csv'
     csv_filepath = os.path.join(temp_dir, csv_filename)
     with open(csv_filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')

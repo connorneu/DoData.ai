@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user
 from django.contrib import messages
+from django_email_verification import send_email
 
 # Create your views here.
 
@@ -30,6 +31,8 @@ def registered(request):
         password = request.POST['password']
         log.info(name + ' | ' + email + ' | ' + password)
         user = User.objects.create_user(username=email, email=email, password=password)
+        user.is_active = False  # Example
+        send_email(user)
         user.first_name = name.split()[0]
         if len(name.split()) > 1:
             user.last_name = name.split()[1:]

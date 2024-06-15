@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django_email_verification import urls as email_urls  # include the urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,6 @@ urlpatterns = [
     path("register/", include('users.urls')),
     #path('', include("select_menu.urls")),
     #path('login/', include("users.urls")),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('email/', include(email_urls))
 ]
