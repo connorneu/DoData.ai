@@ -23,7 +23,7 @@ urlpatterns = [
     #path('', include("login.urls")),
     #path('', include("reconcile.urls")),
     path('algorithmbuilder/', include("findandextract.urls")),
-    path("register/", include('users.urls')),
+    path("", include('users.urls')),
     #path('', include("select_menu.urls")),
     #path('login/', include("users.urls")),
     path('accounts/', include('django.contrib.auth.urls')),

@@ -1,4 +1,4 @@
-import traceback
+#import traceback
 import nltk
 import requests
 from nltk.corpus import wordnet
@@ -9,14 +9,14 @@ from nltk.corpus import stopwords
 import spacy
 import time
 import sys
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
-import torch
+#from transformers import AutoTokenizer, AutoModelForSequenceClassification
+#import torch
 from transformers import pipeline
 from openai import OpenAI
 import pandas as pd
-import xlsxwriter   
+#import xlsxwriter   
 import formulas
-import numpy as np
+#import numpy as np
 import logging
 
 SETTINGS_DIR = os.path.dirname(__file__)

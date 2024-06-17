@@ -1,10 +1,11 @@
-from fileinput import filename
-from sqlite3 import DatabaseError
+#from fileinput import filename
+#from sqlite3 import DatabaseError
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
+#from django.http import HttpResponse, HttpResponseRedirect
 import pandas as pd
-from django.core.files.storage import FileSystemStorage
-from django.http import StreamingHttpResponse
+#from django.core.files.storage import FileSystemStorage
+#from django.http import StreamingHttpResponse
 from .models import KeyValueDataFrame
 from .models import KeyValueDataFrame_Result
 from .models import KeyValueDataFrame_Display_Result
@@ -13,21 +14,21 @@ import os
 from django.http import JsonResponse
 import json
 from django.shortcuts import redirect
-from django.urls import reverse
-import math
-from .forms import DataFilters 
+#from django.urls import reverse
+#import math
+#from .forms import DataFilters 
 import json
-import sys
-import time
+#import sys
+#import time
 from pandas.api.types import CategoricalDtype
 import numpy as np
 import json
 from .languagemodel import *
-import threading
+#import threading
 import os
 import ast
 import collections
-from functools import reduce
+#from functools import reduce
 import traceback
 from django.db import connection
 import csv
