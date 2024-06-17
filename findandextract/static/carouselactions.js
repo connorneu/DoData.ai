@@ -73,25 +73,27 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 
 
  $(document).ready(async function() {
-    myanime = TweenMax.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
-    myanime.play();
-    var path = window.location.pathname;
-    var page = path.split("/").pop();
-    console.log('we started')
-    //await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    //await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    await gently_show_tree();
-    ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-    ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    if (window.location.href.indexOf("algorithmbuilder") > -1){
+        myanime = TweenMax.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
+        myanime.play();
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+        console.log('we started')
+        //await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+        //await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+        await gently_show_tree();
+        ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+        ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
 
-    //fake_start();
-    //if(path === "/findandextract/"){   
-    //    matchcolumns();
-    //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    //    add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-    //    add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
-    //    
-   // }
+        //fake_start();
+        //if(path === "/findandextract/"){   
+        //    matchcolumns();
+        //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        //    add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
+        //    add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
+        //    
+    // }
+    }
 });
 
 function fake_start(){
@@ -117,6 +119,25 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
         }
     })   
 }
+
+async function home_page_carousel(idnew, text_new, color_new, func_new, isTyped_new, carousel_break_new){
+  
+    return new Promise((resolve, reject) => {    
+        id_new = idnew;
+        carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
+        var carousel_result = carousel(carousel_obj)  
+        if (carousel_result) {
+            //carousel_num++;  
+            resolve(carousel_result);
+        }
+        else {
+            //carousel_num++;  
+            reject(carousel_result);
+        }
+    })   
+}
+
+
 // 20
 //type speed 10 is a good nunmber
 async function typeSentence(sentence, eleRef, color, delay = 0) {
@@ -1741,11 +1762,13 @@ async function describe_search_file_single(){
 }
 
 $(document).ready(function() {
-    var url = window.location.href;
-    if( url.indexOf('#') < 0 ) {
-        window.location.replace(url + "#");
-    } else {
-        window.location.replace(url);
+    if (window.location.href.indexOf("algorithmbuilder") > -1){
+        var url = window.location.href;
+        if( url.indexOf('#') < 0 ) {
+            window.location.replace(url + "#");
+        } else {
+            window.location.replace(url);
+        }
     }
 });
 
@@ -1778,47 +1801,51 @@ async function collect_extract_parameters_OLD_DECOMISSIONED(){
 
 //HORIZONTAL NAVBAR  https://codepen.io/DaiSenzz/pen/wvQGjQd
 $(document).ready(function() {
-    const sidebar = document.querySelector('.sidebar');
-    const navItems = document.querySelectorAll('nav .nav-item');
-    const toggle = document.querySelector('.sidebar .toggle');
+    if (window.location.href.indexOf("algorithmbuilder") > -1){
+        const sidebar = document.querySelector('.sidebar');
+        const navItems = document.querySelectorAll('nav .nav-item');
+        const toggle = document.querySelector('.sidebar .toggle');
 
-    toggle.addEventListener('click', () => {
+        toggle.addEventListener('click', () => {
 
-        if (sidebar.className === 'sidebar')
-            sidebar.classList.add('open');
-        else
-            sidebar.classList.remove('open');
-
-    });
-
-    navItems.forEach(navItem => {
-
-        navItem.addEventListener('click', () => {
-
-            navItems.forEach(navItem => {
-                navItem.classList.remove('active');
-            });
-
-            navItem.classList.add('active');
+            if (sidebar.className === 'sidebar')
+                sidebar.classList.add('open');
+            else
+                sidebar.classList.remove('open');
 
         });
 
-    });
+        navItems.forEach(navItem => {
+
+            navItem.addEventListener('click', () => {
+
+                navItems.forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+
+                navItem.classList.add('active');
+
+            });
+
+        });
+    }
 });
 
 
 // change submit icon to amke it active when text is input
 $(document).ready(function() {
-    var textarea = document.getElementById("textbox-algo-desc");
-    textarea.addEventListener('input', icon_color_on_empty);
-    function icon_color_on_empty() {
-        var text = this.value;
+    if (window.location.href.indexOf("algorithmbuilder") > -1){
+        var textarea = document.getElementById("textbox-algo-desc");
+        textarea.addEventListener('input', icon_color_on_empty);
+        function icon_color_on_empty() {
+            var text = this.value;
 
-        if (text !== ''){
-            document.getElementById("submittexticon").style.color = "white";              
-        }
-        else{
-            document.getElementById("submittexticon").style.color = "grey"; 
+            if (text !== ''){
+                document.getElementById("submittexticon").style.color = "white";              
+            }
+            else{
+                document.getElementById("submittexticon").style.color = "grey"; 
+            }
         }
     }
 });
@@ -2292,92 +2319,94 @@ function startTimer(duration, display) {
 // TextScramble
 // ——————————————————————————————————————————————————
 $(document).ready(function () {
-class TextScramble {
-    constructor(el) {
-      this.el = el
-      this.chars = 'abcdefghijklmnopqrstuvwxyz!<>-_\\/[]{}—=+*^?#________'
-      this.update = this.update.bind(this)
-    }
-    setText(newText) {
-      const oldText = this.el.innerText
-      const length = Math.max(oldText.length, newText.length)
-      const promise = new Promise((resolve) => this.resolve = resolve)
-      this.queue = []
-      for (let i = 0; i < length; i++) {
-        const from = oldText[i] || ''
-        const to = newText[i] || ''
-        const start = Math.floor(Math.random() * 40)
-        const end = start + Math.floor(Math.random() * 40)
-        this.queue.push({ from, to, start, end })
-      }
-      cancelAnimationFrame(this.frameRequest)
-      this.frame = 0
-      this.update()
-      return promise
-    }
-    update() {
-      let output = ''
-      let complete = 0
-      for (let i = 0, n = this.queue.length; i < n; i++) {
-        let { from, to, start, end, char } = this.queue[i]
-        if (this.frame >= end) {
-          complete++
-          output += to
-        } else if (this.frame >= start) {
-          if (!char || Math.random() < 0.28) {
-            char = this.randomChar()
-            this.queue[i].char = char
-          }
-          output += `<span class="dud">${char}</span>`
-        } else {
-          output += from
+    if (window.location.href.indexOf("algorithmbuilder") > -1){
+    class TextScramble {
+        constructor(el) {
+        this.el = el
+        this.chars = 'abcdefghijklmnopqrstuvwxyz!<>-_\\/[]{}—=+*^?#________'
+        this.update = this.update.bind(this)
         }
-      }
-      this.el.innerHTML = output
-      if (complete === this.queue.length) {
-        this.resolve()
-      } else {
-        this.frameRequest = requestAnimationFrame(this.update)
-        this.frame++
-      }
+        setText(newText) {
+        const oldText = this.el.innerText
+        const length = Math.max(oldText.length, newText.length)
+        const promise = new Promise((resolve) => this.resolve = resolve)
+        this.queue = []
+        for (let i = 0; i < length; i++) {
+            const from = oldText[i] || ''
+            const to = newText[i] || ''
+            const start = Math.floor(Math.random() * 40)
+            const end = start + Math.floor(Math.random() * 40)
+            this.queue.push({ from, to, start, end })
+        }
+        cancelAnimationFrame(this.frameRequest)
+        this.frame = 0
+        this.update()
+        return promise
+        }
+        update() {
+        let output = ''
+        let complete = 0
+        for (let i = 0, n = this.queue.length; i < n; i++) {
+            let { from, to, start, end, char } = this.queue[i]
+            if (this.frame >= end) {
+            complete++
+            output += to
+            } else if (this.frame >= start) {
+            if (!char || Math.random() < 0.28) {
+                char = this.randomChar()
+                this.queue[i].char = char
+            }
+            output += `<span class="dud">${char}</span>`
+            } else {
+            output += from
+            }
+        }
+        this.el.innerHTML = output
+        if (complete === this.queue.length) {
+            this.resolve()
+        } else {
+            this.frameRequest = requestAnimationFrame(this.update)
+            this.frame++
+        }
+        }
+        randomChar() {
+        return this.chars[Math.floor(Math.random() * this.chars.length)]
+        }
     }
-    randomChar() {
-      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    
+    // ——————————————————————————————————————————————————
+    // Example
+    // ——————————————————————————————————————————————————
+    
+    const phrases = [
+        'e.g Combine two datasets by matching on values in a common column',
+        'e.g Create a custom Excel formula',
+        'e.g Find all the rows that contain specific values',
+        'e.g Compare two datasets to find what matches and what doesn\'t',
+        'e.g Group rows together that have the same value and calculate metrics for each group',
+        'e.g Change values based on an input file',
+        'e.g Filter data',
+        'e.g Update one file with values from another',
+        'e.g Reconcile two files',
+        'e.g Search for certain values in multiple files',
+        'e.g Create calculated column',
+        'e.g Join two datasets',
+        'e.g Search through multiple files and combine matching rows into one file'
+    ]
+    
+    const el = document.querySelector('.text')
+    const fx = new TextScramble(el)
+    
+    let counter = 0
+    const next = () => {
+        fx.setText(phrases[counter]).then(() => {
+        setTimeout(next, 3200)
+        })
+        counter = (counter + 1) % phrases.length
     }
-  }
-  
-  // ——————————————————————————————————————————————————
-  // Example
-  // ——————————————————————————————————————————————————
-  
-  const phrases = [
-    'e.g Combine two datasets by matching on values in a common column',
-    'e.g Create a custom Excel formula',
-    'e.g Find all the rows that contain specific values',
-    'e.g Compare two datasets to find what matches and what doesn\'t',
-    'e.g Group rows together that have the same value and calculate metrics for each group',
-    'e.g Change values based on an input file',
-    'e.g Filter data',
-    'e.g Update one file with values from another',
-    'e.g Reconcile two files',
-    'e.g Search for certain values in multiple files',
-    'e.g Create calculated column',
-    'e.g Join two datasets',
-    'e.g Search through multiple files and combine matching rows into one file'
-  ]
-  
-  const el = document.querySelector('.text')
-  const fx = new TextScramble(el)
-  
-  let counter = 0
-  const next = () => {
-    fx.setText(phrases[counter]).then(() => {
-      setTimeout(next, 3200)
-    })
-    counter = (counter + 1) % phrases.length
-  }
-  
-  next()
+    
+    next()
+}
 });
 
 function write_color(i){
