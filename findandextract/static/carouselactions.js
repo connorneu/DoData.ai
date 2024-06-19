@@ -125,7 +125,7 @@ async function home_page_carousel(idnew, text_new, color_new, func_new, isTyped_
     return new Promise((resolve, reject) => {    
         id_new = idnew;
         carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
-        var carousel_result = carousel(carousel_obj)  
+        var carousel_result = carousel(carousel_obj, true)  
         if (carousel_result) {
             //carousel_num++;  
             resolve(carousel_result);
@@ -140,10 +140,12 @@ async function home_page_carousel(idnew, text_new, color_new, func_new, isTyped_
 
 // 20
 //type speed 10 is a good nunmber
-async function typeSentence(sentence, eleRef, color, delay = 0) {
+async function typeSentence(sentence, eleRef, color, delay = 10) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
+  console.log('sentence')
+  console.log(sentence)
   const letters = sentence.split("");
   var arr = [];
   let i = 0;var is_spaned = false; 
@@ -219,8 +221,10 @@ function waitForMs(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-async function carousel(carousel_obj) {
-    carousel_num++;  
+async function carousel(carousel_obj, isHomeCarousel=false) {
+    if (!isHomeCarousel){
+        carousel_num++;  
+    }
     create_carousel_elem(carousel_obj);  // if elem doesn't exist create it
     //only run functions that update text params until after text is written
     for(var j=0;j<carousel_obj.func.length;j++)
@@ -236,7 +240,7 @@ async function carousel(carousel_obj) {
                 }
             }
         }
-    }``
+    }
     updateFontColor(carousel_obj.id, carousel_obj.color)
     // evaluate functions after text has been written
     for(var j=0;j<carousel_obj.func.length;j++)

@@ -1,21 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="/static/users/login-page.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
   <link rel="stylesheet" href="/static/findandextract.css">
-  <script src="/static/carouselactions.js"></script>
-  <script src="/static/users/index_js.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="/static/users/home-page.css">
+  <script src="/static/carouselactions.js"></script>    
+  <script src="/static/users/index_js.js" type="module"></script>
+
+
+
   <title>doData.ai</title>
  
   {% load static %}
 </head>
 <body>
-    <script src="/static/carouselactions.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <div class="parent-wrap" id="parentwrap">
 
-    </div>
+
+
+		<div class="container demo-1">
+				<div id="large-header" class="large-header">
+					<canvas id="demo-canvas"></canvas>
+      </div>
+		</div><!-- /container -->
+
+
+
+
+
+  <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
+  
+  <header class="main_h">
+
+      <div class="row">
+        <div class="imglogo-wrap">
+          <img class="tinylogo" src="/static/users/images/logov2 justimg.png">
+          <a class="logo" href="#">doData.ai</a>
+          
+        </div>
+          <div class="mobile-toggle">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+
+          <nav>
+              <ul>
+                  <li><a href=".sec01">How it works</a></li>
+                  <li><a href=".sec02">Section 02</a></li>
+                  <li><a href=".sec03">Section 03</a></li>
+                  <li><a href=".sec04">Section 04</a></li>
+              </ul>
+          </nav>
+
+      </div> <!-- / row -->
+
+  </header>
+
+  <div class="hero">
+
+      <h1 id="homepagebannertext"><br></h1>
+      <span id="herotext"></span>
+
+      <!--<div class="mouse">
+          <span></span>
+      </div>-->
+      <div class="submit-algo-buttons" id="homepagebuildalgo">
+        <button id="homepagebuildalgo" class="glowbutton">Build Algorithm</button>
+    </div>  
+
+  </div>
+
+  <div class="row content">
+      <h1 class="sec01" id="howworkheader"></h1>
+      <p id="howwork"></p>
+      <div class="carousel">
+        <ul class="carousel__list">
+          <li class="carousel__item" data-pos="-2">
+            <img class="sample-menu-img" src="/static/users/images/Search Menu.png">
+          </li>
+          <li class="carousel__item" data-pos="-1">2</li>
+          <li class="carousel__item" data-pos="0">3</li>
+          <li class="carousel__item" data-pos="1">4</li>
+          <li class="carousel__item" data-pos="2">5</li>
+        </ul>
+      </div>
+
+      <h1 class="sec02"></h1>
+      <p></p>
+      <h1 class="sec03"></h1>
+      <p></p>
+      <h1 class="sec04"></h1>
+      <p></p>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
 </body>
 </html>
