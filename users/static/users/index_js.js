@@ -6,9 +6,10 @@ $(document).ready(async function() {
 async function load_homepage(){
     await home_page_carousel('#homepagebannertext', 'doData.ai', [null], true, true);
     await home_page_carousel('#herotext', 'Algorithm Builder', [null], true, true);
-    $('#homepagebuildalgo').show();
-    await home_page_carousel('#howworkheader', ['How it works'], [null], false, false);
-    await home_page_carousel('#howwork', 'Build your own algorithm. Select an algorithm type and then choose which datasets to apply it to, which columns to use, and define any conditions.', [null], true, true);
+    await $('#homepagebuildalgo').show();
+    await home_page_carousel('#howworkheader', ['Build your algorithm'], [null], false, false);
+    await home_page_carousel('#howwork', 'Select the type of algorithm you want to build and customize the options to suit your data.', [null], true, true);
+    await $('#menu-cards').show();
 }
 
 
@@ -243,10 +244,6 @@ $(document).ready(async function() {
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 
-// requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
-
-// MIT license
-
 $(document).ready(async function() {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -280,15 +277,11 @@ $(document).ready(async function() {
     const elems = Array.from(carouselItems);
 
     carouselList.addEventListener('click', function (event) {
-        console.log('event')
-        console.log(event)
         if ($(event.target).is('img')){
-            console.log('is img')
             var newActive = event.target.parentNode;
             console.log(newActive)
         }
         else{
-            console.log('notimg')
             var newActive = event.target;
             console.log(newActive)
         }
@@ -309,10 +302,12 @@ $(document).ready(async function() {
     const next = elems.find((elem) => elem.dataset.pos == 1);
     const first = elems.find((elem) => elem.dataset.pos == -2);
     const last = elems.find((elem) => elem.dataset.pos == 2);
+    const tre = elems.find((elem) => elem.dataset.pos == 3);
+    const revtre = elems.find((elem) => elem.dataset.pos == -3);
     
     current.classList.remove('carousel__item_active');
     
-    [current, prev, next, first, last].forEach(item => {
+    [current, prev, next, first, last, tre, revtre].forEach(item => {
         var itemPos = item.dataset.pos;
 
         item.dataset.pos = getPos(itemPos, newActivePos)
@@ -322,10 +317,12 @@ $(document).ready(async function() {
     const getPos = function (current, active) {
     const diff = current - active;
 
-    if (Math.abs(current - active) > 2) {
+    if (Math.abs(current - active) > 3) {
         return -current
     }
 
     return diff;
     }
 });
+
+

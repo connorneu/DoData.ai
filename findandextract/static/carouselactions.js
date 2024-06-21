@@ -466,7 +466,7 @@ async function edit_data(){
     }
     populate_mini_table_headers();
     await add_to_carousel('Edit data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false); 
-    await add_to_carousel('Filter data or adjust column headers', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
+    await add_to_carousel('Filter data or adjust column headers, if necessary', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false); 
     document.getElementById('edit-data-tables').style.display = "block";
     if (algorithm_type === 'Filter'){
         $('#nextbtns-edit-tables').hide();

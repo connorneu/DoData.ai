@@ -337,10 +337,6 @@ def findandextract(request):
                     print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
-                # DONT DELETE THIS FUCK
-                #x = threading.Thread(target=Get_LNI_Model) # target=Load_Language_Model
-                #x.start()
-                #threads.append(x)
                 print('this page')
                 KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Display.objects.filter(uid=str()).delete()

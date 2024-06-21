@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="/static/users/home-page.css">
   <script src="/static/carouselactions.js"></script>    
   <script src="/static/users/index_js.js" type="module"></script>
+  <script src="/static/algo_selection_tree.js"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>  
 
 
 
@@ -74,20 +76,40 @@
   <div class="row content">
       <h1 class="sec01" id="howworkheader"></h1>
       <p id="howwork"></p>
-      <div class="carousel">
+
+
+      
+      <div class="carousel fade-in" id="menu-cards">
         <ul class="carousel__list">
-          <li class="carousel__item" data-pos="-2">
-            <img class="sample-menu-img" src="/static/users/images/Search Menu.png">
+          <li class="carousel__item" data-pos="-3">
+            <img class="sample-menu-img" src="/static/users/images/Calculate.png">
           </li>
-          <li class="carousel__item" data-pos="-1">2</li>
-          <li class="carousel__item" data-pos="0">3</li>
-          <li class="carousel__item" data-pos="1">4</li>
-          <li class="carousel__item" data-pos="2">5</li>
+          <li class="carousel__item" data-pos="-2">
+            <img class="sample-menu-img" src="/static/users/images/Reconcile.png">
+          </li>
+          <li class="carousel__item" data-pos="-1">
+            <img class="sample-menu-img" src="/static/users/images/Filter.png">
+          </li>
+          <li class="carousel__item" data-pos="0">
+            <img class="sample-menu-img" src="/static/users/images/Column.png">
+          </li>
+          <li class="carousel__item" data-pos="1">
+            <img class="sample-menu-img" src="/static/users/images/Extract.png">
+          </li>
+          <li class="carousel__item" data-pos="2">
+            <img class="sample-menu-img" src="/static/users/images/Combine.png">
+          </li>
+          <li class="carousel__item" data-pos="3">
+            <img class="sample-menu-img" src="/static/users/images/Update.png">
+          </li>
         </ul>
       </div>
+      
 
       <h1 class="sec02"></h1>
       <p></p>
+
+
       <h1 class="sec03"></h1>
       <p></p>
       <h1 class="sec04"></h1>
