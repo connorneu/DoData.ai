@@ -144,8 +144,6 @@ async function typeSentence(sentence, eleRef, color, delay = 10) {
   all_my_sentences.push(sentence);
   var clean_id = 'span' + eleRef.substring(1);
   var eleRefSpan = '#' + clean_id;
-  console.log('sentence')
-  console.log(sentence)
   const letters = sentence.split("");
   var arr = [];
   let i = 0;var is_spaned = false; 

@@ -12,7 +12,7 @@ $(document).ready(function () {
             children: [
                 {
                     name: "Search",
-                    image: "/static/images/Extract v3.png",
+                    image: "/static/images/Extract.png",
                     children: [{
                             name: "START"                        
                         }
@@ -20,7 +20,7 @@ $(document).ready(function () {
                 },
                 {
                     name:"Combine",
-                    image: "/static/images/Combine V4.png",
+                    image: "/static/images/Combine.png",
                     children: [{
                             name: "START"                        
                         }
@@ -28,7 +28,7 @@ $(document).ready(function () {
                 },
                 {
                     name:"Update",
-                    image: "/static/images/Update v3.png",
+                    image: "/static/images/Update.png",
                     children: [
                         {
                             name: "START" 
@@ -60,7 +60,7 @@ $(document).ready(function () {
                 },  
                 {
                     name: "Group",
-                    image: "/static/images/Calculate v3.png",
+                    image: "/static/images/Calculate.png",
                     children: [
                         {
                             name: "START"
@@ -69,7 +69,7 @@ $(document).ready(function () {
                 },  
                 {
                     name: "Compare",
-                    image: "/static/images/Reconcile v3.png",
+                    image: "/static/images/Reconcile.png",
                     children: [
                         {
                             name: "START"

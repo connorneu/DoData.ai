@@ -13,14 +13,55 @@ async function load_homepage(){
 }
 
 
+function isScrolledIntoView(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+var whataremnus = (function() {
+    var executed = false;
+    return function() {
+        if (!executed) {
+            executed = true;
+            console.log('emnus triger')
+            home_page_carousel('#whataremenus', 'The option menus are different for each algorithm. Use the dropdown menus to select which columns to use and apply any conditions.', [null], true, true);
+            $('#searchmenu').show();
+        }
+    };
+})();
+
+var whereresult = (function() {
+    var executed = false;
+    return function() {
+        if (!executed) {
+            executed = true;
+            console.log('home triger')
+            home_page_carousel('#whereresult', 'After designing your algorithm press the Build Algorithm button. Your algorithm will execute and display part of your data for review. You can then download the result.', [null], true, true);
+            $('#sampleresult').show();
+        }
+    };
+})();
+
+
 // homepage scroller
 // Sticky Header
 $(window).scroll(function() {
-    console.log('werescrolling')
     if ($(window).scrollTop() > 100) {
         $('.main_h').addClass('sticky');
     } else {
         $('.main_h').removeClass('sticky');
+    }
+    if(isScrolledIntoView('#whataremenus')){
+        whataremnus();
+    }
+    if(isScrolledIntoView('#whereresult')){
+        whereresult();
     }
 });
 

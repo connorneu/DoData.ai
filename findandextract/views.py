@@ -339,7 +339,7 @@ def findandextract(request):
             else:
                 print('this page')
                 KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Display.objects.filter(uid=str()).delete()
+                KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete()            
                 print('deleted all data.')
