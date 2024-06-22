@@ -391,6 +391,9 @@ async function ajax_get_result_db(algo_type){
                     console.log(data)
                     display_column_result_table(data);
                 }
+                else if(algo_type==='filter'){
+                    display_filter_result_table(data)
+                }
             }
        },
        // on error
@@ -452,7 +455,8 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
             'conds' : JSON.stringify(conds),
             'header_row' : header_row,
             'table_name' : table_name,
-            'sheet_name' : sheet_name
+            'sheet_name' : sheet_name,
+            'algo_type' : algo_type
             
         },
         type: 'POST',
@@ -471,7 +475,7 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
             console.log("here")
             //hide_containers(3); 
             if (algo_type === 'Filter'){
-
+                ajax_get_result_db('filter');
             }
             else{
                 edit_data();

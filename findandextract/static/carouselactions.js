@@ -2520,6 +2520,7 @@ async function gently_show_tree(){
 
 async function display_filter_result_table(data){
     console.log('displaying filter _result')
+    document.getElementById('edit-data-tables').style.display = "none";
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';

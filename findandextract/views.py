@@ -98,6 +98,8 @@ def findandextract(request):
                     print('table num:', table_name)
                     sheet_name = request.POST.get('sheet_name')
                     print('sheet name:', sheet_name)
+                    my_algo_type = request.POST.get('algo_type')
+                    print('aglotype:', my_algo_type)
                     df = unmelt(table_name, sheet_name, request.user)
                     df_og = df.copy(deep=True)
                     if header_row > 0:
@@ -115,21 +117,24 @@ def findandextract(request):
                             return HttpResponse(warnings, status=400) 
                             #return JsonResponse({'fande_data_dump' : fande_db_data, 'warnings': warnings})#(warnings, status=400) 
                     if header_row > 0 or conds[0][1] != 'Select Column':
-                        print('deleting old records')
-                        objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
-                        objs_del.delete()
-                        objs_disp_del = KeyValueDataFrame_Display.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
-                        objs_disp_del.delete()
-                        df_list = melt_filtered_df(df, table_name, sheet_name, str(request.user))
-
-                        write_upload_files_raw(df_list, request, '0')
-                        
-                        #db_obj_list = []
-                        #for dbframe in df_list:                    
-                        #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
-                        #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
-                        fande_db_data = return_1k_rows_display(request)
-                        return JsonResponse({'fande_data_dump' : fande_db_data})
+                        if my_algo_type == 'Filter':
+                            print('itsalfilter')
+                            write_results(df, df.head(display_table_row_num), str(request.user))
+                            return HttpResponse(status=200)
+                        else:
+                            print('deleting old records')
+                            objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
+                            objs_del.delete()
+                            objs_disp_del = KeyValueDataFrame_Display.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
+                            objs_disp_del.delete()
+                            df_list = melt_filtered_df(df, table_name, sheet_name, str(request.user))
+                            write_upload_files_raw(df_list, request, '0')
+                            #db_obj_list = []
+                            #for dbframe in df_list:                    
+                            #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
+                            #KeyValueDataFrame.objects.bulk_create(db_obj_list)                    
+                            fande_db_data = return_1k_rows_display(request)
+                            return JsonResponse({'fande_data_dump' : fande_db_data})
                     else:     
                         fande_db_data = return_1k_rows_display(request) 
                         return JsonResponse({'fande_data_dump' : fande_db_data})
@@ -334,6 +339,8 @@ def findandextract(request):
                     print('getting reuslts')
                     #result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values())                    
                     result_table_db = get_result_db(request.user)
+                    print('resulto')
+                    print(result_table_db)
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
