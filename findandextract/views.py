@@ -341,14 +341,27 @@ def findandextract(request):
                 KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete()            
+                KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete() 
+                dir_name = os.path.join('./User Files', clean_username(str(request.user)) + '_datafiles')
+                if os.path.exists(dir_name):
+                    delete_user_files(dir_name, str(request.user))
+        
                 print('deleted all data.')
                 return render(request, "findandextract/fandemain.html")
         except:
             traceback.print_exc()
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
-        
+
+def delete_user_files(tmp_dir, uid):
+    try:
+        for filename in os.listdir(tmp_dir):
+            if 'result' in filename.lower():
+                os.remove(os.path.join(tmp_dir, filename))
+        os.rmdir(tmp_dir)
+    except:
+        traceback.print_exc()
+        log.critical('Failed to delete directory for username :' + uid, exc_info=True)
 
 def download_file(request):
     uid = clean_username(str(request.user))
@@ -462,8 +475,8 @@ def write_result_to_db(df_result, uid):
     # DO NOT FUCKING DELETE
     df_list = melt_df(df_result, uid)
     print('writing to csv')
-    usr_dir = create_tmp_dir(uid)
-    result_csv_filename = uid + ' result.csv'
+    usr_dir = create_tmp_dir(clean_username(uid))
+    result_csv_filename = clean_username(uid) + ' result.csv'
     csv_filepath = os.path.join(usr_dir, result_csv_filename)
     with open(csv_filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')

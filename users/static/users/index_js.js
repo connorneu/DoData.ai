@@ -36,6 +36,12 @@ var whataremnus = (function() {
     };
 })();
 
+
+$('#homepagebuildalgo').click(function() {
+    window.location.href = '/algorithmbuilder';
+});
+
+
 var whereresult = (function() {
     var executed = false;
     return function() {
