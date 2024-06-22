@@ -341,7 +341,7 @@ $(document.body).on('click', '#conditionnext' ,async function(){
         var cur_header_row = get_header_row_from_filenum(current_conditions_file);
         document.getElementById('conditioncontainerwrap').style.display = 'none';
         await display_conditions(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
-        ajax_submit_filters(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
+        ajax_submit_filters(condition_arr, cur_header_row, file_sheet[0], file_sheet[1], algorithm_type);
     }
 });
 

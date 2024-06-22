@@ -118,8 +118,12 @@ def findandextract(request):
                         print('deleting old records')
                         objs_del = KeyValueDataFrame.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
                         objs_del.delete()
-                        df_list = melt_filtered_df(df, table_name, sheet_name)
-                        write_upload_files_raw(df_list, request, table_name+'_'+sheet_name)
+                        objs_disp_del = KeyValueDataFrame_Display.objects.filter(file_name=table_name, sheet_name=sheet_name, uid=request.user)
+                        objs_disp_del.delete()
+                        df_list = melt_filtered_df(df, table_name, sheet_name, str(request.user))
+
+                        write_upload_files_raw(df_list, request, '0')
+                        
                         #db_obj_list = []
                         #for dbframe in df_list:                    
                         #    db_obj_list.append(KeyValueDataFrame(file_name=dbframe[0], sheet_name=dbframe[1], key=dbframe[2], val=dbframe[3], uid=request.user))
@@ -130,6 +134,7 @@ def findandextract(request):
                         fande_db_data = return_1k_rows_display(request) 
                         return JsonResponse({'fande_data_dump' : fande_db_data})
                 except Exception:
+                    traceback.print_exc()
                     log.critical("A critical error occured during filter data.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'extract':
@@ -337,7 +342,6 @@ def findandextract(request):
                     print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
-                print('this page')
                 KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
                 KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
@@ -345,8 +349,6 @@ def findandextract(request):
                 dir_name = os.path.join('./User Files', clean_username(str(request.user)) + '_datafiles')
                 if os.path.exists(dir_name):
                     delete_user_files(dir_name, str(request.user))
-        
-                print('deleted all data.')
                 return render(request, "findandextract/fandemain.html")
         except:
             traceback.print_exc()
@@ -356,7 +358,7 @@ def findandextract(request):
 def delete_user_files(tmp_dir, uid):
     try:
         for filename in os.listdir(tmp_dir):
-            if 'result' in filename.lower():
+            if filename.lower().endswith('.csv') or filename.lower().endswith('.xlsx'):
                 os.remove(os.path.join(tmp_dir, filename))
         os.rmdir(tmp_dir)
     except:
@@ -478,15 +480,13 @@ def write_result_to_db(df_result, uid):
     usr_dir = create_tmp_dir(clean_username(uid))
     result_csv_filename = clean_username(uid) + ' result.csv'
     csv_filepath = os.path.join(usr_dir, result_csv_filename)
+    print("CSVFILEPATH:", csv_filepath)
     with open(csv_filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')
         writer.writerows(df_list)       
     print('writing to db')
     with open(csv_filepath) as infile:
-        with connection.cursor() as stmt:
-            stmt.copy_from(infile, 'findandextract_keyvaluedataframe_result', sep="~", columns=['key', 'val', 'uid'])
-    #os.remove(csv_filepath)
-
+        with connection.cursor() as stmt:write_upload_files_raw
 def create_tmp_dir(uid):
     dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
     if not os.path.exists(dir_name):
@@ -609,10 +609,12 @@ def findandextract_data_upload(request):
     fande_db_data = list(KeyValueDataFrame.objects.values())
     return render(request, "findandextract/fandeload.html", {'fande_data_dump' : fande_db_data})
 
-def melt_filtered_df(df, filename, sheetname):
+def melt_filtered_df(df, filename, sheetname, uid):
     df['sheet'] = sheetname
     df_keyvalue = df.melt(id_vars = ['sheet'])
     df_keyvalue['file_name'] = str(filename)
+    df = replace_thilde(df)
+    write_display_to_db(df, uid, filename)
     if 'variable' in df_keyvalue.columns:
         df_keyvalue.rename(columns={'variable':'key'}, inplace=True)
     df_list = list(df_keyvalue[['file_name', 'sheet', 'key', 'value']].values)

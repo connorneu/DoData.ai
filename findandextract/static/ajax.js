@@ -439,7 +439,7 @@ function ajax_submit_user_input_text(){
        return false;
     }
 
-function ajax_submit_filters(conds, header_row, table_name, sheet_name){
+function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_type){
     console.log('ajax submit filters')
     console.log(conds)
     console.log(header_row)
@@ -470,7 +470,12 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name){
             //}
             console.log("here")
             //hide_containers(3); 
-            edit_data();           
+            if (algo_type === 'Filter'){
+
+            }
+            else{
+                edit_data();
+            }           
         },
         // on error
         error: function (request, status, error) {
