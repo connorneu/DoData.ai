@@ -1907,9 +1907,9 @@ async function confirm_algorithm_type(selected_algo_type){
     document.getElementById('algo-desc-graph').style.display = 'none';
     var algo = capitalizeFirstLetter(selected_algo_type)
     await add_to_carousel('Confirm algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('If the description below doesn\'t describe what you need then change the algorithm type.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    //await add_to_carousel('Confirm this algorithm type .', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     //document.getElementById('confirm-algo-header-type').innerHTML = '<b><u>' + algo + '</u></b>' 
-    document.getElementById('confirm-algo-header-desc').innerHTML =  algo_desc;
+    //document.getElementById('confirm-algo-header-desc').innerHTML =  algo_desc;
     document.getElementById('confirm-algo-select').style.display = 'block';
     document.getElementById('confirmalgo-btns').style.display = 'block';
     console.log('algo type: ' + selected_algo_type)
@@ -1927,7 +1927,7 @@ async function confirm_algorithm_type(selected_algo_type){
     else if (algo === 'Reconcile'){
         document.getElementById('confirm-algo-img-reconcile').style.display = 'block';
     }
-    else if (algo === 'Calculate'){
+    else if (algo === 'Columns'){
         document.getElementById('confirm-algo-img-calculate').style.display = 'block';
     }
     else if (algo === 'Group'){
@@ -2321,7 +2321,7 @@ function startTimer(duration, display) {
 // TextScramble
 // ——————————————————————————————————————————————————
 $(document).ready(function () {
-    if (window.location.href.indexOf("algorithmbuilder") > -1){
+    //if (window.location.href.indexOf("algorithmbuilder") > -1 ){
     class TextScramble {
         constructor(el) {
         this.el = el
@@ -2408,7 +2408,7 @@ $(document).ready(function () {
     }
     
     next()
-}
+//}
 });
 
 function write_color(i){

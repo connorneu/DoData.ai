@@ -1421,7 +1421,7 @@ display: inline-block;
     text-align: center;
     width:100%;
     margin: 0 auto;
-    margin-top:1%;
+    margin-top:0%;
 }
 .side-by-side-tags{
     display:flex;
@@ -1436,18 +1436,17 @@ display: inline-block;
     margin-right: auto;
 }
 .confirm-algo-img-wrap{
-    width:650px;
+    /*width:650px;
     height:250px;
     clear: both;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;*/
 }
 .confirm-algo-img{
     display:none;
-    max-width: 100%; 
-    height: auto;
-    margin-top: 10%;
-    margin-left: 0%;
+    margin-left: auto;
+    margin-right: auto;
+    height:500px;
 }
 
 .side-by-side-tags h2{
@@ -1675,6 +1674,7 @@ outside of combine*/
     text-shadow: 0 0 .5em var(--glow-color);
     position: relative;
     transition: all 0.3s;
+    cursor: pointer;
    }
    
    .glowbutton::after {

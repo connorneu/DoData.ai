@@ -1,5 +1,4 @@
 $(document).ready(async function() {
-    console.log("started home page")
     await load_homepage();
 });
 
@@ -9,9 +8,13 @@ async function load_homepage(){
     await $('#homepagebuildalgo').show();
     await home_page_carousel('#howworkheader', ['Build your algorithm'], [null], false, false);
     await home_page_carousel('#howwork', 'Select the type of algorithm you want to build and customize the options to suit your data.', [null], true, true);
-    await $('#menu-cards').show();
+    await showcards();
 }
 
+async function showcards(){
+    await $('#menu-cards').css('visibility','visible');
+    await $('#menu-cards').show();
+}
 
 function isScrolledIntoView(elem)
 {
@@ -20,39 +23,63 @@ function isScrolledIntoView(elem)
 
     var elemTop = $(elem).offset().top;
     var elemBottom = elemTop + $(elem).height();
-
-    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+    return ((elemBottom + 50 <= docViewBottom) && (elemTop >= docViewTop));
 }
 
 var whataremnus = (function() {
     var executed = false;
-    return function() {
+    return async function() {
         if (!executed) {
             executed = true;
-            console.log('emnus triger')
-            home_page_carousel('#whataremenus', 'The option menus are different for each algorithm. Use the dropdown menus to select which columns to use and apply any conditions.', [null], true, true);
-            $('#searchmenu').show();
+            await home_page_carousel('#whataremenus', 'The option menus are different for each algorithm. Use the dropdown menus to select which columns to use and apply any conditions.', [null], true, true);
+            await fas()
         }
     };
 })();
 
+async function fas(){
+    await $('#searchmenu').css('visibility','visible');
+    await $('#searchmenu').show();
+}
 
 $('#homepagebuildalgo').click(function() {
+    window.location.href = '/algorithmbuilder';
+});
+$('#homepagebuildalgo-btm').click(function() {
     window.location.href = '/algorithmbuilder';
 });
 
 
 var whereresult = (function() {
     var executed = false;
-    return function() {
+    return async function() {
         if (!executed) {
             executed = true;
             console.log('home triger')
-            home_page_carousel('#whereresult', 'After designing your algorithm press the Build Algorithm button. Your algorithm will execute and display part of your data for review. You can then download the result.', [null], true, true);
-            $('#homepagebuildalgo').show();
+            await home_page_carousel('#whereresult', 'After designing your algorithm press the Build Algorithm button. Your algorithm will execute and display part of your data for review. You can then download the result.', [null], true, true);
+            await shobtn();
         }
     };
 })();
+
+async function shobtn(){
+    await $('#homepagebuildalgobottom').show();
+}
+
+var describetheproblem = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#describeproblem', 'You can also describe what you want to do and an algorithm type will be suggested to you.', [null], true, true);
+            await desp();
+        }
+    };
+})();
+
+async function desp(){
+    await $('#textbox-algo-desc-wrap').css('visibility','visible');
+}
 
 
 // homepage scroller
@@ -65,6 +92,9 @@ $(window).scroll(function() {
     }
     if(isScrolledIntoView('#whataremenus')){
         whataremnus();
+    }
+    if(isScrolledIntoView('#describeproblem')){
+        describetheproblem();
     }
     if(isScrolledIntoView('#whereresult')){
         whereresult();

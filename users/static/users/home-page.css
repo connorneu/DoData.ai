@@ -332,7 +332,7 @@ section {
     animation-name: fadeInOpacity;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
-    animation-duration: 2s;
+    animation-duration: 1s;
   }
 
   @keyframes fadeInOpacity {
@@ -353,6 +353,7 @@ section {
   align-items: center;
   font-family: Arial;
   margin-bottom:20%;
+  visibility:hidden;
 }
 .carousel__list {
   display: flex;
@@ -382,28 +383,34 @@ section {
   border-radius: 12px;
 }
 .carousel__item:nth-child(1) {
-  background: linear-gradient(45deg, #2d35eb 0%, #904ed4 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
 }
 .carousel__item:nth-child(2) {
-  background: linear-gradient(45deg, #2d35eb 0%, #fdbb2d 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  /*background: linear-gradient(45deg, #2d35eb 0%, #fdbb2d 100%);*/
 }
 .carousel__item:nth-child(3) {
-  background: linear-gradient(45deg, #2d35eb 0%, #22c1c3 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  /*background: linear-gradient(45deg, #2d35eb 0%, #22c1c3 100%);*/
 }
 .carousel__item:nth-child(4) {
-  background: linear-gradient(45deg, #fdbb2d 0%, #904ed4 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  /*background: linear-gradient(45deg, #fdbb2d 0%, #904ed4 100%);*/
+  /*background: linear-gradient(45deg, #fdbb2d 0%, #904ed4 100%);*/
 }
 .carousel__item:nth-child(5) {
-  background: linear-gradient(45deg, #3a22c3 0%, #904ed4 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
 }
 .carousel__item:nth-child(5) {
-  background: linear-gradient(45deg, #225ac3 0%, #904ed4 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
 }
 .carousel__item:nth-child(6) {
-  background: linear-gradient(45deg, #ffffff 0%, #575757 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  /*background: linear-gradient(45deg, #ffffff 0%, #575757 100%);*/
 }
 .carousel__item:nth-child(7) {
-  background: linear-gradient(45deg, #501f1f 0%, #bb7c06 100%);
+  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  /*background: linear-gradient(45deg, #501f1f 0%, #bb7c06 100%);*/
 }
 .carousel__item[data-pos="0"] {
   z-index: 5;
@@ -447,9 +454,9 @@ section {
 }
 .samplemenu{
   width:632px;
-  height:491px;
-  display:none;
-  border-image: linear-gradient(#fff, #090909) 30;
+  height:490px;
+  visibility: hidden;
+  border-image: linear-gradient(#b0b0b0, #423f3f)30;
   border-width: 1px;
   border-style: solid;
 }
@@ -460,4 +467,7 @@ section {
   border-image: linear-gradient(#fff, #090909) 30;
   border-width: 1px;
   border-style: solid;
+}
+.describetextboxwrap{
+  visibility: hidden;
 }
