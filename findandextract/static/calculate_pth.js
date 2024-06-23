@@ -178,12 +178,14 @@ function check_warnings_group(){
 $(document.body).on('click', '#submit-calculate' ,async function(){
     if(check_warnings_group()){
         $('.warning-box-wrapper').hide();
+        $('#calculatespinner').show();
         calc_params = collect_calc_params();
         submit_calc_algo_parameters(calc_params);
     }
 });
 
 async function display_calculate_result_table(data){
+    $('#calculatespinner').hide();
     await display_calc_params(calc_params);
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);

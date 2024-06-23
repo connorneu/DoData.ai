@@ -243,9 +243,9 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         },
         // on error
         error: function (request, status, error) {
-
+            $('#submit-update-file').show();
+            $('#updatespinner').hide();
             alert(request.responseText);
-
         }
     });
     return false;

@@ -85,6 +85,8 @@ function collect_col_params(){
 $(document.body).on('click', '#send_input_formula' ,async function(){  
   if (check_for_columns_warnings()){
     $('.warning-box-wrapper').hide();
+      $('#send_input_formula').hide();
+      $('#columnspinner').show();
       var column_params = collect_col_params(); 
       hide_containers(2);
       await add_to_carousel('Generate Formula: ' + column_params['dataset'], standard_color, [null], true, true);
@@ -94,6 +96,7 @@ $(document.body).on('click', '#send_input_formula' ,async function(){
 });
 
 async function display_column_result_table(data){
+  $('#columnspinner').hide();
   document.getElementById('columns-main-wrap').style.display = 'none';
   populate_table_element('nosheetname', 0, 'result_table_tbody', data);
   await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);

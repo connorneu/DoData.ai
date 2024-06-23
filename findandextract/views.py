@@ -1025,11 +1025,18 @@ def Update(params, username):
     update_when = params['update_when']
     file, sheet = parse_file_name_from_bracket_display(file_to_update)
     df_to_update = unmelt(file, sheet, username)
+    df_orig = df_to_update.copy()
     if update_from_text:        
         df_result = Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update)
+        print('result')
+        print(df_result)
+        print('end result')
     else:
         df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update, username)
-    if df_to_update.equals(df_result):
+    print('toupdate')
+    print(df_to_update)
+    print('endupdate')
+    if df_orig.equals(df_result):
         return 'Described conditions did not match any of the data. No changes have been applied.'
     return df_result
 
@@ -1041,7 +1048,13 @@ def Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_upd
         whens.append(cols[0])
         equals.append(cols[1])
     num_conditions = len(equals)   
+    print('numconditions:', num_conditions)
+    print('whens0:', whens[0])
+    print('equals0', equals[0])
     if num_conditions == 1:
+        print('one')
+        print(df_to_update)
+        print('textotupdate:', text_to_update)
         df_to_update[col_to_update] = np.where(df_to_update[whens[0]].str.lower() == equals[0].lower(), text_to_update, df_to_update[col_to_update])
     elif num_conditions == 2:
         df_to_update[col_to_update] = np.where((df_to_update[whens[0]].str.lower() == equals[0].lower()) & (df_to_update[whens[1]].str.lower() == equals[1].lower()), text_to_update, df_to_update[col_to_update])

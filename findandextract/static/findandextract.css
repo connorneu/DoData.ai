@@ -1473,7 +1473,7 @@ display: inline-block;
   width:20px;
   height:20px;
 }
-.load hr{opacity: 0.6;border:0;margin: 0 auto;width:100%;height:100%;position:absolute;border-radius:50%;animation:spinq 0.003s ease infinite} /*change spinq to 2s to get 4 circles*/
+.load hr{opacity: 0.6;border:0;margin: 0 auto;width:100%;height:100%;position:absolute;border-radius:50%;animation:spinq .0034s ease infinite} /*change spinq to 2s to get 4 circles || 0.003 ||  0.0009s is also good*/
 .load :first-child{background:#aa7ff8;animation-delay:-1.5s}
 .load :nth-child(2){background:#a13af6;animation-delay:-1s}
 .load :nth-child(3){background:#7812bd;animation-delay:-0.5s}
@@ -2247,7 +2247,7 @@ outside of combine*/
     margin-top:2%;
 }
 .warning-box-wrapper h4{
-    font-size:20px;
+    font-size:18px;
     color:red;
     text-align:center;
 }

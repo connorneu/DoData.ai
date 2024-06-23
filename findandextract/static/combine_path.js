@@ -155,12 +155,14 @@ function check_for_combine_warnings(){
 
 $(document.body).on('click', '#submit-merge' ,async function(){
     if (check_for_combine_warnings()){
-        $('.warning-box-wrapper').show();
-        hide_containers(2);
-        $('#combinehowwrap').hide();
+        $('.warning-box-wrapper').hide();
         $('#submit-merge').hide();
-        document.getElementsByClassName('combinewrap')[1].style.display = 'none';
-        document.getElementById('joinbtnswrap').style.display = 'none';
+        $('#combinespinner').show();
+        hide_containers(2);
+        //$('#combinehowwrap').hide();
+        //$('#submit-merge').hide();
+        //document.getElementsByClassName('combinewrap')[1].style.display = 'none';
+        //document.getElementById('joinbtnswrap').style.display = 'none';
         write_strings = collect_joins();
         await write_joins(write_strings);
         submit_combine_algo_parameters('combine_merge', joins_data);
@@ -168,10 +170,9 @@ $(document.body).on('click', '#submit-merge' ,async function(){
 });
 
 async function display_combine_result_table(data){
-    console.log('displaying cmobination _result')
+    $('#combinespinner').hide();
     document.getElementById('combinehowwrap').style.display = 'none';
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    console.log('populated tabl3')
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
 }

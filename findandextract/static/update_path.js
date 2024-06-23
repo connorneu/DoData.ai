@@ -133,14 +133,6 @@ $(document.body).on('click', '#update-from-file-column-drop-replace' ,function()
 });
 
 
-async function display_update_result_table(data){
-    //hide_containers(1)
-    document.getElementById('update_file_wrap').style.display = 'none';
-    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
-    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
-    document.getElementById('resultbox_div').style.display = 'block';
-}
-
 // when update when column selected then show build algorithm 
 $(document.body).on('click', '#update-where-clauses .dropdown.show.alignbottom:eq(1) li a' ,function(){
     $('#submit_update_this_file').show();
@@ -232,6 +224,8 @@ async function write_update_params(update_params){
 $(document.body).on('click', '#submit-update-file' ,async function(){
     if(check_for_update_warnings()){
         $('.warning-box-wrapper').hide();
+        $('#submit-update-file').hide();
+        $('#updatespinner').show();
         var update_params = collect_update_params();
         hide_containers(1);
         await write_update_params(update_params);
@@ -239,4 +233,17 @@ $(document.body).on('click', '#submit-update-file' ,async function(){
     }
 });
 
+function hide_fail(){
+    console.log('hide failures')
+    $('#submit-update-file').show();
+    $('#updatespinner').hide();
+}
 
+async function display_update_result_table(data){
+    //hide_containers(1)
+    $('#updatespinner').show();
+    document.getElementById('update_file_wrap').style.display = 'none';
+    populate_table_element('nosheetname', 0, 'result_table_tbody', data);
+    await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById('resultbox_div').style.display = 'block';
+}

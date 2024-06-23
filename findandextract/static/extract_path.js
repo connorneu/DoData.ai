@@ -360,6 +360,8 @@ function check_dropdowns_populated(){
 $(document.body).on('click', '#submit-extract' ,async function(){
     if(check_dropdowns_populated()){
         $('.warning-box-wrapper').hide();
+        $('#submit-extract').hide();
+        $('#extractspinner').show();
         extract_params = collect_extract_parameters();
         submit_extract_algo_parameters(extract_params);
     }
@@ -492,6 +494,7 @@ $(document.body).on('click', '#extract-descriptions .describe-textarea-div-wrap 
 
 
 async function display_extract_result_table(data){
+    $('#extractspinner').hide();
     await display_extract_params(extract_params);
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
