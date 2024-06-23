@@ -2487,13 +2487,19 @@ async function gently_show_tree(){
     catch(error){
 
     }
+    console.log('yeah were here')
     document.getElementById('confirm-algo-select').style.display='none';
     document.getElementById('describe-algo-banner').style.display='none';
     var element = document.getElementsByTagName('body')[0];
     element.scroll(-1000,1000);
     window.focus(); 
     window.scrollTo(0,800); 
+    window.scroll(-1000,0)
+    window.scrollTo(0,0)
     elem = document.getElementById('algo-desc-graph')
+    elem.scroll(-100,0);
+    elem.scroll(-1000,0);
+    elem.scroll(-10000,0);
     await add_to_carousel('START', action_color, [null], true, false);
     await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
     await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
@@ -2516,6 +2522,15 @@ async function gently_show_tree(){
     }
 
     elem.fadeIn(10);
+    element.scroll(-1000,1000);
+    window.focus(); 
+    window.scrollTo(0,800); 
+    window.scroll(-1000,0)
+    window.scrollTo(0,0)
+    elem = document.getElementById('algo-desc-graph')
+    elem.scroll(-100,0);
+    elem.scroll(-1000,0);
+    elem.scroll(-10000,0);
 }
 
 async function display_filter_result_table(data){

@@ -693,7 +693,11 @@ def melt_df(df, user_id):
 
 # if value for each columni n a sheet is NaN then drop after melt as it was appended to sheet name incorrectly
 def drop_columns_from_unrelated_sheets(df):
-    sheet_and_header_pairs = df[['sheet', 'variable']].values.tolist()
+    try:
+        sheet_and_header_pairs = df[['sheet', 'variable']].values.tolist()
+    except:
+        df.rename(columns={'key':'variable'}, inplace=True)
+        sheet_and_header_pairs = df[['sheet', 'variable']].values.tolist()
     sheet_and_header_pairs = [list(x) for x in set(tuple(x) for x in sheet_and_header_pairs)]
     dropped_cols = []
     for pair in sheet_and_header_pairs:
@@ -701,7 +705,7 @@ def drop_columns_from_unrelated_sheets(df):
             df_values = df.loc[(df['sheet'] == pair[0]) & (df['variable'] == pair[1])]
             if df_values['value'].isnull().all():
                 df = df.drop(df[((df['sheet'] == pair[0]) & (df['variable'] == pair[1]))].index)
-                dropped_cols.append(pair[1])                                                                                                                                                                                
+                dropped_cols.append(pair[1])                                                                                                                                                                               
     return df
 
 def is_ajax(request):

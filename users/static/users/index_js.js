@@ -49,7 +49,7 @@ var whereresult = (function() {
             executed = true;
             console.log('home triger')
             home_page_carousel('#whereresult', 'After designing your algorithm press the Build Algorithm button. Your algorithm will execute and display part of your data for review. You can then download the result.', [null], true, true);
-            $('#sampleresult').show();
+            $('#homepagebuildalgo').show();
         }
     };
 })();
