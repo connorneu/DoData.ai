@@ -19,6 +19,9 @@ $(document.body).on('click', '#next_loadedfiles' ,function(){
     if (check_no_incomplete_file_input()){
         $('.warning-box-wrapper').hide();
         $('#warningtext').text('')
+        $('#addsecondfile').hide();
+        $('#next_loadedfiles').hide();
+        $('#loadfilespinner').show();
         submit_files();
     }
 });
@@ -290,7 +293,6 @@ $(document.body).on('click', '#addconditionbtn' ,async function(){
 
 // when between is selected unhide other input 
 $(document.body).on('click', '.condition-dropdown-action li a' ,async function(){
-    console.log('triggered')
     var btn_text = $(this).text();
     if (btn_text.includes('Between')){
         $(this).closest('.condition-inputs').find('.condition-and-input-wrap').css('visibility', 'visible');
@@ -301,13 +303,10 @@ $(document.body).on('click', '.condition-dropdown-action li a' ,async function()
 // check if all conditions dont have Select Column before submitting
 function check_submit_dropdowns_populated(){
     var conditions = $('#conditioncontainerwrap').find('.conditiondiv');
-    console.log('conditions len')
-    console.log(conditions.length)
     if (conditions.length === 1){
         return true;
     }
     else{
-        console.log('se')
         for (var i=0;i<conditions.length;i++){
             var t = $(conditions[i]).find('.dropdown.condition-dropdown').find('.btn').text();
             console.log(t)
@@ -340,11 +339,11 @@ $(document.body).on('click', '#conditionnext' ,async function(){
         var file_sheet = get_file_and_sheet(dataset_selection)
         var cur_header_row = get_header_row_from_filenum(current_conditions_file);
         document.getElementById('conditioncontainerwrap').style.display = 'none';
-        await display_conditions(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
+        $('#editdataspinner').show();
         ajax_submit_filters(condition_arr, cur_header_row, file_sheet[0], file_sheet[1], algorithm_type);
+        // display_conditions(condition_arr, cur_header_row, file_sheet[0], file_sheet[1]);
     }
 });
-
 
 // first condition populated -> show add condition button
 $(document.body).on('click', '#conditioncontainerwrap .conditiondiv .dropdown.condition-dropdown li a' ,async function(){

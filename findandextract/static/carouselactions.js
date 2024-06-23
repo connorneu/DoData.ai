@@ -1719,7 +1719,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if(parent_node_name === 'Update'){
             console.log('algo selected - update')
             algorithm_type = 'Update';
-            algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
+            algo_desc = 'Modify a dataset with conditions describing how to update which values.'
             max_file_upload = 2;
         }
         else if (parent_node_name === 'Compare'){
@@ -1737,7 +1737,7 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
         else if (parent_node_name === 'Columns' || parent_node_name === 'Calculate'){
             console.log('algo selected - columns')
             algorithm_type = 'Columns'
-            algo_desc = 'Create a new column by describing what you want and having an formula generated.'
+            algo_desc = 'Create a new column by describing what you want and having a formula generated.'
             max_file_upload = 1;
         }
         else if (parent_node_name === 'Filter'){
@@ -1862,7 +1862,7 @@ function assign_algo_type_description(algo_type){
         max_file_upload = 4;  
     }
     else if(algo_type === 'Update'){
-        algo_desc = 'Upload all files to be updated and the files that will be used to update them, if any'
+        algo_desc = 'Modify a dataset with conditions describing how to update which values.'
         max_file_upload = 2;
     }
     else if (algo_type === 'Reconcile'){
@@ -1875,7 +1875,7 @@ function assign_algo_type_description(algo_type){
     }
     else if (algo_type === 'Columns' || algo_type === 'Calculate'){
         console.log('b')
-        algo_desc = 'Create a new column by describing what you want and having an formula generated.'
+        algo_desc = 'Create a new column by describing what you want and having a formula generated.'
         max_file_upload = 1;
     }
     else if (algo_type === 'Filter'){

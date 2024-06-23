@@ -320,7 +320,11 @@
                             </div>
                             <div class="addfile" id="addfiles" style="display:none">
                                 <a class="myButton conditionbtn" id="addsecondfile">Add Additional File</a>
-                                <a class="myButton" id="next_loadedfiles">Next</a>                    
+                                <a class="myButton" id="next_loadedfiles">Next</a>      
+                                <div id="loadfilespinner" style="display:none;" class="load">
+                                    <hr/><hr/>  
+                                    <hr/><hr/>                        
+                                </div>              
                             </div>
                         </form> 
                     </div>
@@ -462,11 +466,14 @@
                     </div>
                     <div class="addcondition">
                         <a class="myButton conditionbtn" id="addconditionbtn">Add Condition</a>
-                        <a class="myButton" id="conditionnext">Skip</a>
+                        <a class="myButton" id="conditionnext">Skip</a> 
                     </div>
                 </div>
 
-
+                <div id="editdataspinner" style="display:none;" class="load">
+                    <hr/><hr/>  
+                    <hr/><hr/>                        
+                </div>  
 
                     <!-- ALGO PATCH OPTIONS -->
                     <div class="option-select-wrap" id="user_select_input_file_or_custom">

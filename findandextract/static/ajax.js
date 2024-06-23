@@ -462,7 +462,7 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
         type: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
-        success: function (db_data) {
+        success: async function (db_data) {
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
             data_json = db_data['fande_data_dump'];
@@ -474,6 +474,8 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
             //}
             console.log("here")
             //hide_containers(3); 
+            $('#editdataspinner').hide();
+            await display_conditions(condition_arr, header_row, table_name, sheet_name);
             if (algo_type === 'Filter'){
                 ajax_get_result_db('filter');
             }
