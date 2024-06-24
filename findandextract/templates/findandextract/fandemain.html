@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        {% load static %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>doData.ai</title>
@@ -12,28 +13,32 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <link rel="stylesheet" href="/static/findandextract.css">
+
         <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="/static/tribute-master/tribute.css" />
+        <link rel="stylesheet" href="{% static 'tribute-master/tribute.css' %}"/>
+        <link rel="stylesheet" href="{% static 'findandextract.css' %}">
 
     </head>
     <body>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
+        
+        
 
+        <script src="{% static 'carouselactions.js' %}"></script>
+        <script src="{% static 'events.js' %}"></script>
+        <script src="{% static 'ajax.js' %}"></script>
+        <script src="{% static 'algo_selection_tree.js' %}"></script>
+        
 
-        <script src="/static/carouselactions.js"></script>
-        <script src="/static/events.js"></script>
-        <script src="/static/ajax.js"></script>
-        <script src="/static/algo_selection_tree.js"></script>
-        <script src="/static/extract_path.js"></script>
-        <script src="/static/combine_path.js"></script>
-        <script src="/static/update_path.js"></script>
-        <script src="/static/reconcile_path.js"></script>
-        <script src="/static/calculate_pth.js"></script>
-        <script src="/static/columns_path.js"></script> <!--type="module" -->
+        <script src="{% static 'extract_path.js' %}"></script>
+        <script src="{% static 'combine_path.js' %}"></script>
+        <script src="{% static 'update_path.js' %}"></script>
+        <script src="{% static 'reconcile_path.js' %}"></script>
+        <script src="{% static 'calculate_pth.js' %}"></script>
+        <script src="{% static 'columns_path.js' %}"></script> <!--type="module" -->
 
         <!-- <script src="/static/tribute-master/src/Tribute.js"></script> -->
 
@@ -45,7 +50,7 @@
                     <i class="bx bx-chevron-right"></i>
                 </div>
                 <div class="logo">
-                    <img src="/static/images/logov2.png" alt="...">
+                    <img src="{% static 'images/logov2.png' %}" alt="...">
                 </div>
                 <nav>
                     <div class="nav-title"> MENU </div>
@@ -171,13 +176,13 @@
                             <h2 id="confirm-algo-header-desc"></h2>
                         </div>-->
                         <div class="confirm-algo-img-wrap">
-                            <img id="confirm-algo-img-extract" class="confirm-algo-img" src="/static/images/Extract.png">
-                            <img id="confirm-algo-img-combine" class="confirm-algo-img" src="/static/images/Combine.png">
-                            <img id="confirm-algo-img-update" class="confirm-algo-img" src="/static/images/Update.png">
-                            <img id="confirm-algo-img-reconcile" class="confirm-algo-img" src="/static/images/Reconcile.png">
-                            <img id="confirm-algo-img-group" class="confirm-algo-img" src="/static/images/Calculate.png">
-                            <img id="confirm-algo-img-calculate" class="confirm-algo-img" src="/static/images/Column.png">
-                            <img id="confirm-algo-img-filter" class="confirm-algo-img" src="/static/images/Filter.png">
+                            <img id="confirm-algo-img-extract" class="confirm-algo-img" src="{% static 'images/Extract.png' %}">
+                            <img id="confirm-algo-img-combine" class="confirm-algo-img" src="{% static 'images/Combine.png' %}">
+                            <img id="confirm-algo-img-update" class="confirm-algo-img" src="{% static 'images/Update.png' %}">
+                            <img id="confirm-algo-img-reconcile" class="confirm-algo-img" src="{% static 'images/Reconcile.png' %}">
+                            <img id="confirm-algo-img-group" class="confirm-algo-img" src="{% static 'images/Calculate.png' %}">
+                            <img id="confirm-algo-img-calculate" class="confirm-algo-img" src="{% static 'images/Column.png' %}">
+                            <img id="confirm-algo-img-filter" class="confirm-algo-img" src="{% static 'images/Filter.png' %}">
                         </div>
                         <div>
                             <h2 class="hide center" id="algo-example-extract"><b>Example:</b> Search through multiple files and combine all rows containing certain clients into one file.</h2>
@@ -193,28 +198,12 @@
                         <svg id="maine" class="selection-svg">
                             <defs>
                                 <linearGradient id="grad" x1="10%" y1="0%" x2="0%" y2="50%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(10, 250, 100)">
-
-                                    <!--
-                                        <stop offset="10%" style="stop-color:rgb(80, 0, 167);stop-opacity:1" />
-                                    <stop offset="20%" style="stop-color:rgb(110, 5, 185);stop-opacity:1" />
-                                    <stop offset="30%" style="stop-color:rgba(130,0,255,1);stop-opacity:1" />
-                                    -->
                                     <stop offset="20%" style="stop-color:rgb(23, 19, 245);stop-opacity:.98" />
                                     <stop offset="30%" style="stop-color:rgb(0, 46, 133);stop-opacity:.981" />
                                     <stop offset="40%" style="stop-color:rgb(82, 17, 236);stop-opacity:.981" />
                                     <stop offset="45%" style="stop-color:rgb(11, 59, 161);stop-opacity:.981" />
                                     <stop offset="60%" style="stop-color:rgb(204, 0, 255);stop-opacity:.981" />
                                     <stop offset="90%" style="stop-color:#7410ff;stop-opacity:.98" />
-                                    <!--orig 
-                                    <stop offset="10%" style="stop-color:#200031;stop-opacity:1" />
-                                    <stop offset="20%" style="stop-color:#ffffff;stop-opacity:1" />
-                                    <stop offset="30%" style="stop-color:#771dab;stop-opacity:1" />
-                                    <stop offset="40%" style="stop-color:#924ae5;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#8f52ff;stop-opacity:1" />
-                                    <stop offset="60%" style="stop-color:#8b4ae5;stop-opacity:1" />
-                                    <stop offset="70%" style="stop-color:#7900bf;stop-opacity:1" /> 
-
-                                    90-->
                                 </linearGradient>
                             </defs>
                         </svg>
@@ -483,8 +472,8 @@
                         </div>
                     </div>
                     <div class="col-match-flexy-wrap hide" id="merge_or_append">
-                        <img class="combine-type-img" src="/static/images/Combine Merge.png" alt="Merge Data" id="user_merge"/>
-                        <img class="combine-type-img" src="/static/images/Combine Append.png" alt="Append Data" id="user_append"/>
+                        <img class="combine-type-img" src="{% static 'images/Combine Merge.png' %}" alt="Merge Data" id="user_merge"/>
+                        <img class="combine-type-img" src="{% static 'images/Combine Append.png' %}" alt="Append Data" id="user_append"/>
                         <!-- <a class="myButton bigr" id="user_merge">Merge</a> -->
                         <!-- <a class="myButton bigr" id="user_append">Append</a> -->                   
                     </div>
@@ -542,7 +531,7 @@
                                 <div>
                                     <h2 class="regular-header">Search for values from a file:</h2>
                                     <div class="join-tooltip">
-                                        <img class="infoimg" src="/static/images/info.png" alt="Search from a file">
+                                        <img class="infoimg" src="{% static 'images/info.png' %}" alt="Search from a file">
                                         <div class="hover-prompt" id="search-file-prompt">
                                             <h2>
                                                 Select a column in one of your files and the algorithm will search for each of those values in all your datasets.
@@ -614,22 +603,6 @@
                                             <ul class="dropdown-menu" id="third-col_ul"></ul>
                                         </div>
                                     </div>
-                                    <!-- Fourth file - specify where to extract from
-                                    <div id="fourth-extractfrom" class="extract-from-file">
-                                        <div class="dropdown extractfrom dataset" id="fourth-file-fileselect">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Dataset
-                                            </button>
-                                            <ul class="dropdown-menu" id="fourth-file_ul"></ul>
-                                        </div>
-                                        <div class="dropdown extractfrom col" id="fourth-col-fileselect">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu" id="fourth-col_ul"></ul>
-                                        </div>
-                                    </div>
-                                    -->
                                     <div class="addcondition">
                                         <a class="myButton conditionbtn" id="extractfrom-addfile">Add File</a>
                                     </div>                                                   
@@ -645,7 +618,7 @@
                             <div>
                                 <h2 class="regular-header">Describe values to find:</h2>
                                 <div class="join-tooltip">
-                                    <img class="infoimg" src="/static/images/info.png" alt="Search from a file">
+                                    <img class="infoimg" src="{% static 'images/info.png' %}" alt="Search from a file">
                                     <div class="hover-prompt" id="search-file-prompt">
                                         <h2>
                                             Use the options below to describe the values you want the algorithm to search for in your uploaded datasets.
@@ -722,7 +695,7 @@
                             <div id="combines">
                                 <div class="combinewrap" id="combine_items">
                                     <div class="join-tooltip">
-                                        <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                        <img class="infoimg" src="{% static 'images/info.png' %}" alt="Types of joins">
                                         <div class="hover-prompt" id="joins-prompt">
                                             <h2><b>Inner Join:</b> Only keep rows where a match is found</h2>
                                             <br>
@@ -784,22 +757,6 @@
                         </div>
                     </div>
 
-
-
-                    <!--<div class="dropdown" style="display:block;">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown button
-                        </button>
-                        <ul class="dropdown-menu">
-                            <input class="search-input" type="text"
-                            class="form-control border-0 border-bottom 
-                            shadow-none mb-2" placeholder="Search...">
-                            <li><a class="dropdown-item" href="#">apple</a></li>
-                            <li><a class="dropdown-item" href="#">banana</a></li>
-                            <li><a class="dropdown-item" href="#">cherry</a></li>
-                        </ul>
-                    </div> -->
-
                     <!-- Update File -->
                     <div class="update-from-file" id="update_file_wrap">
                         <div class="describe-data-wrap" id="describe-data-upload">
@@ -842,30 +799,6 @@
                                         <ul class="joincol dropdown-menu" id="updatecolreplace_ul"></ul>
                                     </div>
                                 </div>
-
-
-                                <!--
-
-                                <div class="flexy-side-drops-narrow">
-                                    <div class="left-right-auto alignbottom" id="update-from-file-column-drop-replace">
-                                        <div class="dropdown alignbottom show small-right-space">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Dataset
-                                            </button>
-                                            <ul class="dropdown-menu" id="updatedatasetreplace_ul"></ul>
-                                        </div>
-                                        <div class="dropdown alignbottom show">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Select Column
-                                            </button>
-                                            <ul class="dropdown-menu" id="updatecolreplace_ul"></ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-
-
-
                         
                                 <div class="header-bottomspace">
                                     <h2>Or</h2>
@@ -884,7 +817,7 @@
                                 <div class="flexy-side-drops-narrow flexy-row small-spacy-flexy-row">
                                     <div id="update-when" class="update-cond">
                                         <div class="join-tooltip">
-                                            <img class="infoimg" src="/static/images/info.png" alt="How to update">
+                                            <img class="infoimg" src="{% static 'images/info.png' %}" alt="How to update">
                                             <div class="hover-prompt">
                                                 <h2>Your column will be updated when the below conditions are met.</h2>
                                                 <br>
@@ -1016,7 +949,7 @@
                             <div>                                
                                 <h2>Match the values in these columns:</h2>
                                 <div class="join-tooltip">
-                                    <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                    <img class="infoimg" src="{% static 'images/info.png' %}" alt="Types of joins">
                                     <div class="hover-prompt" id="joins-prompt">
                                         <h2><b>Select the columns in both files with common values</b></h2>
                                         <br>
@@ -1043,16 +976,6 @@
                                                 </button>      
                                                 <ul class="dropdown-menu" id="reco-match-col2"></ul>                      
                                             </div>
-                                            <!-- is this necessary for search dropdown
-                                            <div class="dropdown nohide matchcol-right">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Select Column
-                                                </button>
-                                                <ul class="dropdown-menu col-select">
-                                                    <input type="text" class="search-input form-control border-0 border-bottom shadow-none mb-2" placeholder="Search...">
-                                                </ul>                                
-                                            </div>
-                                            -->
                                         </div>
                                     </div>
                                 </div>
@@ -1065,7 +988,7 @@
                             <div>                                
                                 <h2>Compare the values in these columns:</h2>
                                 <div class="join-tooltip">
-                                    <img class="infoimg" src="/static/images/info.png" alt="Types of joins">
+                                    <img class="infoimg" src="{% static 'images/info.png' %}" alt="Types of joins">
                                     <div class="hover-prompt" id="joins-prompt">
                                         <h2><b>Select columns with values to compare in both files</b></h2>
                                         <br>
@@ -1124,7 +1047,7 @@
                         <div class="calculate-what-wrap">
                             <div class="h-sentence-wrap">
                                 <div class="join-tooltip">
-                                    <img class="infoimg" src="/static/images/info.png" alt="Metrics">
+                                    <img class="infoimg" src="{% static 'images/info.png' %}" alt="Metrics">
                                     <div class="hover-prompt" id="group-metrics-prompt">
                                         <h2>What values do you want calculated when all the rows from each group are collapsed into one row?</h2>
                                     </div>
@@ -1149,7 +1072,7 @@
                         </div>          
                         <div class="calc-select-files" id="calculate-select-file">  
                             <div class="join-tooltip">
-                                <img class="infoimg" src="/static/images/info.png" alt="Metrics">
+                                <img class="infoimg" src="{% static 'images/info.png' %}" alt="Metrics">
                                 <div class="hover-prompt" id="group-prompt">
                                     <h2>Values in this column will be collapsed into one row and the above metrics calculated.</h2>
                                 </div>
@@ -1191,18 +1114,6 @@
                                                 <ul class="dropdown-menu"></ul>                              
                                             </div>
                                         </div>
-
-                                        <!--
-                                        <div class="h-sentence-wrap">
-                                            <h2></h2>
-                                        </div>
-                                        <div class="dropdown col flex">
-                                            <button class="btn btn-secondary dropdown-toggle special-interaction-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">                                        
-                                            </button>
-                                            <ul class="dropdown-menu" id="calc-col-select-ul1"></ul>
-                                        </div>
-                                        -->
-
                                     </div>
                                 </div>
                             </div> 

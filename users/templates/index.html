@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
 
+  {% load static %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="/static/findandextract.css">
-  <link rel="stylesheet" href="/static/users/home-page.css">
-  <script src="/static/carouselactions.js"></script>    
-  <script src="/static/users/index_js.js" type="module"></script>
-  <script src="/static/algo_selection_tree.js"></script>
+  <link rel="stylesheet" href="{% static 'findandextract.css' %}">
+  <link rel="stylesheet" href="{% static 'users/home-page.css' %}">
+  <script src="{% static 'carouselactions.js' %}"></script>    
+  <script src="{% static 'users/index_js.js' %}" type="module"></script>
+  <script src="{% static 'algo_selection_tree.js' %}"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>  
 
 
 
   <title>doData.ai</title>
  
-  {% load static %}
+  
 </head>
 <body>
 
@@ -36,7 +37,7 @@
 
       <div class="row">
         <div class="imglogo-wrap">
-          <img class="tinylogo" src="/static/users/images/logov2 justimg.png">
+          <img class="tinylogo" src="{% static 'users/images/logov2 justimg.png' %}">
           <a class="logo" href="#">doData.ai</a>
           
         </div>
@@ -63,10 +64,6 @@
 
       <h1 id="homepagebannertext"><br></h1>
       <span id="herotext"></span>
-
-      <!--<div class="mouse">
-          <span></span>
-      </div>-->
       <div class="submit-algo-buttons" id="homepagebuildalgo">
         <button id="homepagebuildalgo" class="glowbutton">Build Algorithm</button>
       </div>  
@@ -79,25 +76,25 @@
       <div class="carousel fade-in" id="menu-cards">
         <ul class="carousel__list">
           <li class="carousel__item" data-pos="-3">
-            <img class="sample-menu-img" src="/static/users/images/Calculate.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Calculate.png' %}">
           </li>
           <li class="carousel__item" data-pos="-2">
-            <img class="sample-menu-img" src="/static/users/images/Combine.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Combine.png' %}">
           </li>
           <li class="carousel__item" data-pos="-1">
-            <img class="sample-menu-img" src="/static/users/images/Filter.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Filter.png' %}">
           </li>
           <li class="carousel__item" data-pos="0">
-            <img class="sample-menu-img" src="/static/users/images/Column.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Column.png' %}">
           </li>
           <li class="carousel__item" data-pos="1">
-            <img class="sample-menu-img" src="/static/users/images/Extract.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Extract.png' %}">
           </li>
           <li class="carousel__item" data-pos="2">
-            <img class="sample-menu-img" src="/static/users/images/Reconcile.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Reconcile.png' %}">
           </li>
           <li class="carousel__item" data-pos="3">
-            <img class="sample-menu-img" src="/static/users/images/Update.png">
+            <img class="sample-menu-img" src="{% static 'users/images/Update.png' %}">
           </li>
         </ul>
       </div>
@@ -109,7 +106,7 @@
 
 
       <p id="whataremenus" style="margin-top:20%;"></p>
-      <img class="samplemenu fade-in" id="searchmenu" src="/static/users/images/Search Menu.png">
+      <img class="samplemenu fade-in" id="searchmenu" src="{% static 'users/images/Search Menu.png' %}">
       
 
 

@@ -184,6 +184,7 @@ async function ajax_check_file_names(file){
             // alert the error if any error occured
             //alert(response.responseJSON.errors);
             //console.log(response.responseJSON.errors)
+            console.log("The sheets r bad")
             alert(request.responseText);
         }
     });

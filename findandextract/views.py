@@ -304,7 +304,11 @@ def findandextract(request):
                     file = request.FILES['file']
                     print('AJAX file pos sheets')
                     print(request.POST)
-                    myfile = request.FILES['file']  
+                    myfile = request.FILES['file']
+                    if check_mal_filename(str(myfile)):
+                        warning = "Invalid File" 
+                        log.warning('Invalid FileType: ' + str(myfile) + ' by user: ' + str(request.user))
+                        return HttpResponse(warning, status=400) 
                     sheets = get_sheet_names(myfile)
                     return JsonResponse({'sheets' : sheets})
                 except:
@@ -362,6 +366,26 @@ def findandextract(request):
             traceback.print_exc()
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
+
+
+def check_mal_filename(filename_raw):
+    filename = str(filename_raw).lower()
+    badchars = [';', ':', '>', '<', '/', '\\', '%', '$']
+    verybad = ['web.config', '.htaccess', '.php']
+    verygood = ['.csv', '.xlsx', '.xla', '.xlm', '.xls', '.xlsm', '.xlt', '.xltm', '.xltx', '.xlsb', '.txt', '.xlam']
+    if filename.count('.') > 1:
+        return True
+    elif len(filename) > 250:
+        return True
+    elif any(c in filename for c in badchars):
+        return True
+    elif any(badname in filename for badname in verybad):
+        return True
+    else:
+        for good in verygood:
+            if filename.endswith(good):
+                return False
+        return True
 
 
 def delete_user_files(tmp_dir, uid):

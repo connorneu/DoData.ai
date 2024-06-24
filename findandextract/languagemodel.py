@@ -1,17 +1,17 @@
 #import traceback
-import nltk
+#import nltk
 import requests
-from nltk.corpus import wordnet
-from gensim import models
-from gensim.test.utils import datapath
+#from nltk.corpus import wordnet
+#from gensim import models
+#from gensim.test.utils import datapath
 import os
-from nltk.corpus import stopwords
-import spacy
+#from nltk.corpus import stopwords
+#import spacy
 import time
 import sys
 #from transformers import AutoTokenizer, AutoModelForSequenceClassification
 #import torch
-from transformers import pipeline
+#from transformers import pipeline
 from openai import OpenAI
 import pandas as pd
 #import xlsxwriter   
@@ -19,6 +19,7 @@ import formulas
 #import numpy as np
 import logging
 import re
+from decouple import config
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -259,7 +260,7 @@ def parse_response(response):
 def gpt(user_text):
     print('user question')
     print(user_text)
-    SECRET = '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'
+    SECRET = config('GPT_SECRET')
     # Authorization: SECRET
     client = OpenAI(api_key=SECRET)
     question = f"""
@@ -287,7 +288,7 @@ def gpt(user_text):
 
 
 def gpt_algo_desc(user_text):
-    SECRET = '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'
+    SECRET = config('GPT_SECRET')
     # Authorization: SECRET
     client = OpenAI(api_key=SECRET)
     question = f"""
@@ -444,7 +445,7 @@ def query(payload, API_URL, headers):
 
 # https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
 def hf_sent_sim_mini(source_sentence):
-    API_TOKEN = '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'
+    API_TOKEN = ''
     API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
     output = query({
@@ -462,7 +463,7 @@ def hf_sent_sim_mini(source_sentence):
 
 # https://huggingface.co/sentence-transformers/all-mpnet-base-v2
 def hf_sent_sim(source_sentence):
-    API_TOKEN = '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'
+    API_TOKEN = ''
     API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-mpnet-base-v2"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
     output = query({
@@ -562,7 +563,7 @@ def Read_Category_Words():
     return {'combine': combine, 'extract': extract, 'reconcile': reconcile, 'update':update}
 
 def hf_sent_sim_classification_model(source_sentence, words_dic):
-    API_TOKEN = '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'
+    API_TOKEN = ''
     #API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2"
     API_URL = "https://api-inference.huggingface.co/models/sentence-transformers/all-mpnet-base-v2"
     headers = {"Authorization": f"Bearer {API_TOKEN}"}
