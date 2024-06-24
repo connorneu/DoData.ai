@@ -1,0 +1,13 @@
+Django==4.2.7
+django_email_verification==0.3.3
+formulas==1.2.7
+gensim==4.3.2
+import_export==0.3.1
+nltk==3.8.1
+numpy==2.0.0
+openai==1.35.3
+pandas==2.2.2
+python_dateutil==2.8.2
+Requests==2.32.3
+spacy==3.7.2
+transformers==4.37.2
