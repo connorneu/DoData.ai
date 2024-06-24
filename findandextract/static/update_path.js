@@ -186,11 +186,14 @@ function collect_update_params(){
         var when = $(whens[i]).find('.dropdown.show.alignbottom').eq(0).find('.btn').text();
         if(!update_from_text){
             var equals = $(whens[i]).find('.dropdown.show.alignbottom').eq(1).find('.btn').text();
+            var how = null;
         }
         else{
             var equals = $(whens[i]).find('textarea').val();
+            var how = $(whens[i]).find('.describeaction').find('.btn').text().trim();
+            console.log('howard: ' + how)
         }
-        update_when.push([when, equals])
+        update_when.push([when, equals, how])
     }
     var update_params = {
         file_to_update: file_to_update,

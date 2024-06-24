@@ -339,8 +339,6 @@ def findandextract(request):
                     print('getting reuslts')
                     #result_table_db = list(KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).values())                    
                     result_table_db = get_result_db(request.user)
-                    print('resulto')
-                    print(result_table_db)
                     return JsonResponse({'result_table' : result_table_db})
                 else:
                     print("AJAX GET REQUEST")
@@ -1028,33 +1026,68 @@ def Update(params, username):
     df_orig = df_to_update.copy()
     if update_from_text:        
         df_result = Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update)
-        print('result')
-        print(df_result)
-        print('end result')
     else:
         df_result = Update_From_Input_File(replace_file, replace_col, update_when, df_to_update, col_to_update, username)
-    print('toupdate')
-    print(df_to_update)
-    print('endupdate')
     if df_orig.equals(df_result):
         return 'Described conditions did not match any of the data. No changes have been applied.'
     return df_result
 
 
+def build_type_of_cond(a, b, how):
+    if how == 'Equals':  
+        return a == b
+    if how == 'Contains':
+        return a.str.contains(b)     
+    #if how == 'Between':
+    #    return (df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])
+    if how == 'Greater Than':
+        return a > b
+    if how == 'Less Than':
+        return a < b
+    if how == 'Not Equal To':
+        return a.str.lower() != str(b).lower()
+    if how == 'Does Not Contain':
+        return ~a.str.contains(str(b).lower())
+    if how == 'Starts With':
+        return a.str.startswith(str(b))
+    if how == 'Ends With':
+        return a.str.endswith(str(b).lower())
+
+
 def Update_From_Text_Input(update_when, df_to_update, text_to_update, col_to_update):
+    whens = []
+    equals = []
+    hows = []
+    for cols in update_when:
+        whens.append(cols[0])
+        equals.append(cols[1])
+        hows.append(cols[2])
+    num_conditions = len(equals)   
+    if num_conditions == 1:
+        a = df_to_update[whens[0]].str.lower()
+        b = equals[0].lower()
+        how = hows[0]
+        df_to_update[col_to_update] = np.where(build_type_of_cond(a, b, how), text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 2:
+        df_to_update[col_to_update] = np.where((build_type_of_cond(df_to_update[whens[0]].str.lower(), equals[0].lower(), hows[0])) & (build_type_of_cond(df_to_update[whens[1]].str.lower(), equals[1].lower(), hows[1])), text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 3:
+        df_to_update[col_to_update] = np.where((build_type_of_cond(df_to_update[whens[0]].str.lower(), equals[0].lower(), hows[0])) & (build_type_of_cond(df_to_update[whens[1]].str.lower(), equals[1].lower(), hows[1])) & (build_type_of_cond(df_to_update[whens[2]].str.lower(), equals[2].lower(), hows[2])), text_to_update, df_to_update[col_to_update])
+    elif num_conditions == 4:
+        df_to_update[col_to_update] = np.where((build_type_of_cond(df_to_update[whens[0]].str.lower(), equals[0].lower(), hows[0])) & (build_type_of_cond(df_to_update[whens[1]].str.lower(), equals[1].lower(), hows[1])) & (build_type_of_cond(df_to_update[whens[2]].str.lower(), equals[2].lower(), hows[2])) & (build_type_of_cond(df_to_update[whens[3]].str.lower(), equals[3].lower(), hows[3])), text_to_update, df_to_update[col_to_update])
+    else:
+        return "Error"
+    return df_to_update
+
+
+
+def Update_From_Text_Input_ATTEMPT(update_when, df_to_update, text_to_update, col_to_update):
     whens = []
     equals = []
     for cols in update_when:
         whens.append(cols[0])
         equals.append(cols[1])
     num_conditions = len(equals)   
-    print('numconditions:', num_conditions)
-    print('whens0:', whens[0])
-    print('equals0', equals[0])
     if num_conditions == 1:
-        print('one')
-        print(df_to_update)
-        print('textotupdate:', text_to_update)
         df_to_update[col_to_update] = np.where(df_to_update[whens[0]].str.lower() == equals[0].lower(), text_to_update, df_to_update[col_to_update])
     elif num_conditions == 2:
         df_to_update[col_to_update] = np.where((df_to_update[whens[0]].str.lower() == equals[0].lower()) & (df_to_update[whens[1]].str.lower() == equals[1].lower()), text_to_update, df_to_update[col_to_update])
@@ -1099,7 +1132,6 @@ def Update_From_Input_File(replace_file, replace_col, update_when, df_to_update,
                 print('failed to drop', col)
     return df_result
             
-
 
 def Update_From_File_DEPERECRATE(update_file_params, files_to_update_params):
     df_update_file = unmelt(update_file_params[0], update_file_params[1])
