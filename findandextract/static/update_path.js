@@ -48,6 +48,10 @@ $(document.body).on('click', '#add-update-when-cond' ,function(){
     }
     $('#update-where-clauses').find('.flexwrap:last').find('.btn').text('Select Column');
     $('#update-where-clauses').find('.flexwrap:last').find('textarea').val('');
+    $('#update-where-clauses').find('.flexwrap:last').find('.describeaction').find('.btn').text('Equals');
+    if ($('#update-from-file-column-drop-replace').is(':visible')){
+        $('#update-where-clauses').find('.flexwrap:last').find('.describeaction').find('.btn').addClass('disabled');
+    }
     if (when_conds.length == 4){
         $('#add_update_when').hide();
     }
@@ -60,6 +64,9 @@ $(document.body).on('click', '#updatecolreplace_ul li a' ,function(){
     $('#update-from-what-text').hide();
     document.getElementById('update-how').style.display = 'block';  
     $('#disabled_update_col_ul').parents(".dropdown").find('.btn').text($('#updateinputcol_ul').parents(".dropdown").find('.btn').text());
+    if ($('#update-from-file-column-drop-replace').is(':visible')){
+        $('#update-where-clauses').find('.flexwrap:last').find('.describeaction').find('.btn').addClass('disabled');
+    }
 });
 
 

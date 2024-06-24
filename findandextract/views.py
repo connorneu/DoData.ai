@@ -1040,10 +1040,10 @@ def build_type_of_cond(a, b, how):
         return a.str.contains(b)     
     #if how == 'Between':
     #    return (df[condition[1]] > condition[3]) & (df[condition[1]] < condition[4])
-    if how == 'Greater Than':
-        return a > b
-    if how == 'Less Than':
-        return a < b
+    #if how == 'Greater Than':
+    #    return a > b
+    #if how == 'Less Than':
+    #    return a < b
     if how == 'Not Equal To':
         return a.str.lower() != str(b).lower()
     if how == 'Does Not Contain':
