@@ -87,7 +87,9 @@ async function submit_files(){
                // alert the error if any error occured
                //alert(response.responseJSON.errors);
                //console.log(response.responseJSON.errors)
-               alert('There was an error reading your data. Please ensure the file is not corrupt or malformed.');
+               alert(request.responseText);
+               $('#next_loadedfiles').show();
+               $('#loadfilespinner').hide();
            }
        });
        

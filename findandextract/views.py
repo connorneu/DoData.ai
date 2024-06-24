@@ -44,6 +44,7 @@ nlp = None
 threads = []
 nli = None
 display_table_row_num = 999
+MAX_UPLOAD_SIZE = 52428800
 
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
@@ -313,7 +314,10 @@ def findandextract(request):
                         print(request.POST)
                         print('user::', request.user)
                         print('startwrining')
-                        upload_data_files(request)
+                        warning = upload_data_files(request)
+                        if warning:
+                            print("WARNING")
+                            return HttpResponse(warning, status=400) 
                         fande_db_data = return_1k_rows_display(request)
                         print('end uplod')
                         return JsonResponse({'fande_data_dump' : fande_db_data})
@@ -359,6 +363,7 @@ def findandextract(request):
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
 
+
 def delete_user_files(tmp_dir, uid):
     try:
         for filename in os.listdir(tmp_dir):
@@ -366,10 +371,7 @@ def delete_user_files(tmp_dir, uid):
                 os.remove(os.path.join(tmp_dir, filename))
         if os.path.exists(os.path.join(tmp_dir, 'compiled_dir')):
             for subfilename in os.listdir(os.path.join(tmp_dir, 'compiled_dir')):
-                print('FILENAME', subfilename)
                 if subfilename.lower().endswith('.xlsx'):
-                    print("WAHTS")
-                    print(os.path.join(os.path.join(tmp_dir, 'compiled_dir'), subfilename))
                     os.remove(os.path.join(os.path.join(tmp_dir, 'compiled_dir'), subfilename))
             os.rmdir(os.path.join(tmp_dir, 'compiled_dir'))
         os.rmdir(tmp_dir)
@@ -536,6 +538,14 @@ def write_upload_files_raw(df_list, request, filenum):
     os.remove(csv_filepath)
 
 
+def check_file(file):
+    print('filesize: ', file.size)
+    if file.size > MAX_UPLOAD_SIZE:
+        return False
+    else:
+        return True
+
+
 # call write uploaded files to db file for each individual file
 def upload_data_files(request):
     print("UPLOADING FILES")
@@ -544,7 +554,9 @@ def upload_data_files(request):
         print("Importing file 1...")
         print(request.FILES)
         filenum = 1
-        myfile = request.FILES['file_1']  
+        myfile = request.FILES['file_1']
+        if not check_file(myfile):
+            return 'File size too big. Maximum upload size per file is 20 Mb.'
         print('MYFILE')
         print(type(myfile))
         print(myfile)
@@ -563,7 +575,9 @@ def upload_data_files(request):
     if 'file_2' in request.FILES:
         if request.method == 'POST' and request.FILES['file_2']:    
             print('Importing file 2...')
-            myfile2 = request.FILES['file_2']     
+            myfile2 = request.FILES['file_2']   
+            if not check_file(myfile2):
+                return 'File size too big. Maximum upload size per file is 20 Mb.'  
             sheetname2 = request.POST['file_2_sheet']
             delimiter = request.POST['file_2_delimiter']
             df2_columns, df_list2 = build_df_melt(myfile2, sheetname2, delimiter, str(request.user))
@@ -574,6 +588,8 @@ def upload_data_files(request):
             print('Importing file 3...')
             filenum = 3
             myfile3 = request.FILES['file_3']  
+            if not check_file(myfile3):
+                return 'File size too big. Maximum upload size per file is 20 Mb.'              
             sheetname3 = request.POST['file_3_sheet']   
             delimiter = request.POST['file_3_delimiter']
             df3_columns, df_list3 = build_df_melt(myfile3, sheetname3, delimiter, str(request.user))
@@ -582,6 +598,8 @@ def upload_data_files(request):
         if request.method == 'POST' and request.FILES['file_4']:    
             print('Importing file 4...')
             myfile4 = request.FILES['file_4']  
+            if not check_file(myfile4):
+                return 'File size too big. Maximum upload size per file is 20 Mb.'  
             sheetname4 = request.POST['file_4_sheet']  
             delimiter = request.POST['file_4_delimiter']
             df4_columns, df_list4 = build_df_melt(myfile4, sheetname4, delimiter, str(request.user))
