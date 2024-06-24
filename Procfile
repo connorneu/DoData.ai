@@ -1,1 +1,1 @@
-web: gunicorn datamanipulator.wsgi
+web: gunicorn datamanipulator.wsgi --log-file -
