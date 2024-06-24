@@ -49,8 +49,8 @@ MAX_UPLOAD_SIZE = 52428800
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
 # THESE LINES NEED TO BE REMOVED AFTER DEBUG
-from django import db
-db.reset_queries()
+#from django import db
+#db.reset_queries()
 
 # Create your views here.
 log = logging.getLogger(__name__)

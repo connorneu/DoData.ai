@@ -368,3 +368,4 @@ findandextract/static/models/
 findandextract/static/models/google_news_neg300_q.vectors.npy
 findandextract/static/models/GoogleNews-vectors-negative300.bin
 findandextract/static/models/google_news_neg300_q
+.env

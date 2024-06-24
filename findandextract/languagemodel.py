@@ -32,8 +32,8 @@ log = logging.getLogger(__name__)
 GOOGLE_NEG_300 = MODELS_DIR + 'GoogleNews-vectors-negative300.bin'
 GOOGLE_NEG_300_Q = MODELS_DIR + 'google_news_neg300_q'
 TOPIC_DESC_DIR = MODELS_DIR + '/Topic Descriptions/'
-SPACY_EN_LG = "/home/kman/VS_Code/datamanipulator/dodata-venv/lib/python3.10/site-packages/en_core_web_lg/en_core_web_lg-3.7.0"
-TEMPORARY_EXCEL_DIR = '/home/kman/Desktop/desktopfiles/fake data/formula results.xlsx'
+SPACY_EN_LG = "/lib/python3.10/site-packages/en_core_web_lg/en_core_web_lg-3.7.0"
+TEMPORARY_EXCEL_DIR = '/fake data/formula results.xlsx'
 
 def Parse_User_Formula(df, user_text, new_col_name, username):
     df = infer_col_dtypes(df)
