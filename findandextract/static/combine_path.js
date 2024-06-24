@@ -152,17 +152,21 @@ function check_for_combine_warnings(){
     return true;
 }
 
+function combines_error(){
+    joins_data = [];
+    alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.');
+    $('#submit-merge').show();
+    $('#combinespinner').hide();
+}
 
 $(document.body).on('click', '#submit-merge' ,async function(){
+    console.log('saaa')
     if (check_for_combine_warnings()){
+        console.log('encore')
         $('.warning-box-wrapper').hide();
         $('#submit-merge').hide();
         $('#combinespinner').show();
         hide_containers(2);
-        //$('#combinehowwrap').hide();
-        //$('#submit-merge').hide();
-        //document.getElementsByClassName('combinewrap')[1].style.display = 'none';
-        //document.getElementById('joinbtnswrap').style.display = 'none';
         write_strings = collect_joins();
         await write_joins(write_strings);
         submit_combine_algo_parameters('combine_merge', joins_data);

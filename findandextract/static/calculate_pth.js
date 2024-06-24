@@ -178,6 +178,7 @@ function check_warnings_group(){
 $(document.body).on('click', '#submit-calculate' ,async function(){
     if(check_warnings_group()){
         $('.warning-box-wrapper').hide();
+        $('#submit-calculate').hide();
         $('#calculatespinner').show();
         calc_params = collect_calc_params();
         submit_calc_algo_parameters(calc_params);

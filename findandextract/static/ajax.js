@@ -136,14 +136,12 @@ function submit_extract_algo_parameters(extract_params){
         //url: "{% url 'findandextract' %}",
         // on success
         success: function () {
-
-            console.log("algorithm parameters submitted");
             ajax_get_result_db('extract');
 
         },
         // on error
         error: function (request, status, error) {
-
+            console.log('extrct error')
             alert(request.responseText);
 
         }
@@ -191,6 +189,7 @@ async function ajax_check_file_names(file){
  }
 
 function submit_combine_algo_parameters(combine_type, merge_params_map){
+    console.log('startcombine sbmt')
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
@@ -258,15 +257,10 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         data: {   //JSON.stringify(condition_arr2)
             'ajax_name':'reconcile',
             'parameters': JSON.stringify(reco_params_map),
-
-
-
-        }, // get the form data        $(this).serialize()
-        type: 'POST', //$(this).attr('method'), // GET or POST
+        },
+        type: 'POST', 
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
-        //url: "{% url 'findandextract' %}",
-        // on success
         success: function () {
 
             ajax_get_result_db('reconcile');
@@ -274,7 +268,8 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         },
         // on error
         error: function (request, status, error) {
-
+            $('#submit-reco').show();
+            $('#recospinner').hide();
             alert(request.responseText);
 
         }
@@ -287,25 +282,21 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
-        data: {   //JSON.stringify(condition_arr2)
+        data: {
             'ajax_name':'calculate',
             'parameters': JSON.stringify(calc_params)
-
-
-
-        }, // get the form data        $(this).serialize()
-        type: 'POST', //$(this).attr('method'), // GET or POST
+        }, 
+        type: 'POST',
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
-        //url: "{% url 'findandextract' %}",
-        // on success
         success: function () {
             ajax_get_result_db('calculate');
 
         },
         // on error
         error: function (request, status, error) {
-
+            $('#submit-calculate').show();
+            $('#calculatespinner').hide();
             alert(request.responseText)
 
 
@@ -319,14 +310,11 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     // create an AJAX call
     $.ajax({
-        data: {   //JSON.stringify(condition_arr2)
+        data: { 
             'ajax_name':'submit_user_formula',
             'parameters': JSON.stringify(column_params) 
-
-
-
-        }, // get the form data        $(this).serialize()
-        type: 'POST', //$(this).attr('method'), // GET or POST
+        }, 
+        type: 'POST', 
         headers: {
             "X-CSRFToken": getCookie("csrftoken")},
         //url: "{% url 'findandextract' %}",
@@ -339,7 +327,8 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         },
         // on error
         error: function (request, status, error) {
-
+            $('#send_input_formula').show();
+            $('#columnspinner').hide();
             alert(request.responseText);
 
         }
@@ -364,37 +353,43 @@ async function ajax_get_result_db(algo_type){
            //print_the_filtered_data(data);
            console.log('get result ajax')
            console.log(data['result_table'])
-            if (data['result_table'].length === 0){
-                alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.')
-            }
-            else{
-                if(algo_type==='extract'){
-                    console.log('extract get result success')
-                    console.log(data)
+            if(algo_type==='extract'){
+                if (data['result_table'].length === 0){
+                    alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.');
+                    $('#submit-extract').show();
+                    $('#extractspinner').hide();
+                }
+                else{
                     display_extract_result_table(data);
                 }
-                else if(algo_type==='combine'){
-                    display_combine_result_table(data);
-                }
-                else if(algo_type==='update'){
-                    display_update_result_table(data);
-                }
-                else if(algo_type==='reconcile'){
-                    display_reconcile_result_table(data);
-                }    
-                else if(algo_type==='calculate'){
-                    console.log(data)
-                    display_calculate_result_table(data);
-                }    
-                else if(algo_type==='column'){
-                    console.log('retreive column data')
-                    console.log(data)
-                    display_column_result_table(data);
-                }
-                else if(algo_type==='filter'){
-                    display_filter_result_table(data)
-                }
             }
+            else if(algo_type==='combine'){
+                if (data['result_table'].length === 0){
+                    combines_error();
+                }
+                else{
+                    display_combine_result_table(data);
+                }                
+            }
+            else if(algo_type==='update'){
+                display_update_result_table(data);
+            }
+            else if(algo_type==='reconcile'){
+                display_reconcile_result_table(data);
+            }    
+            else if(algo_type==='calculate'){
+                console.log(data)
+                display_calculate_result_table(data);
+            }    
+            else if(algo_type==='column'){
+                console.log('retreive column data')
+                console.log(data)
+                display_column_result_table(data);
+            }
+            else if(algo_type==='filter'){
+                console.log("here?")
+                display_filter_result_table(data)
+            }            
        },
        // on error
        error: function (request, status, error) {
@@ -421,8 +416,8 @@ function ajax_submit_user_input_text(){
                'ajax_name' : 'classify_text',
                'user_algo_desc' : user_algo_desc,
                
-           }, // get the form data        $(this).serialize()
-           type: 'POST', //$(this).attr('method'), // GET or POST
+           },
+           type: 'POST', 
            headers: {
                "X-CSRFToken": getCookie("csrftoken")},
            //url: "{% url 'findandextract' %}",
@@ -466,12 +461,6 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
             data_json = db_data['fande_data_dump'];
-            //console.log("WARNINGS")
-            //console.log(db_data)
-            //console.log(db_data['warnings'])
-            //if (db_data['warnings'] !== 'No warnings'){
-            //    alert(db_data['warnings'])
-            //}
             console.log("here")
             //hide_containers(3); 
             $('#editdataspinner').hide();
@@ -485,9 +474,9 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
         },
         // on error
         error: function (request, status, error) {
-            console.log("sheme")
+            hide_containers(3);
+            $('#editdataspinner').hide();
             alert(request.responseText);
-            //hide_containers(3);
             edit_data();  
 
         }

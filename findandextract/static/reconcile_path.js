@@ -157,6 +157,8 @@ function check_warnings_reconcile(){
 $(document.body).on('click', '#submit-reco' , function(){ 
     if (check_warnings_reconcile()){
         $('.warning-box-wrapper').hide();
+        $('#submit-reco').hide();
+        $('#recospinner').show();
         var reco_params = collect_reco_params();
         submit_reco_algo_parameters(reco_params);
     }
