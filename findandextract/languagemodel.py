@@ -18,6 +18,7 @@ import pandas as pd
 import formulas
 #import numpy as np
 import logging
+import re
 
 SETTINGS_DIR = os.path.dirname(__file__)
 print('settings', SETTINGS_DIR)
@@ -48,7 +49,7 @@ def Parse_User_Formula(df, user_text, new_col_name, username):
     increment_formula_list = create_incremented_formula(df.shape[0], revised_col_map_list, new_formula)
     log.info('username: ' + str(username) + '\n' + 'incremented formula 1 and 2: ' + str(increment_formula_list[0]) + ' | ' + str(increment_formula_list[1]))
     result_df = add_formula_openpyxl(df, increment_formula_list, new_col_name)
-    tmp_usr_dir = Create_Tmp_Dir(username)
+    tmp_usr_dir = Create_Tmp_Dir(clean_username(str(username)))
     df_uncompiled_path = os.path.join(tmp_usr_dir, 'Result DF.xlsx')
     df_display_uncompiled_path = os.path.join(tmp_usr_dir, 'Result DF Display.xlsx')
     df = convert_datetime_col_to_str(df)
@@ -56,6 +57,11 @@ def Parse_User_Formula(df, user_text, new_col_name, username):
     result_display_df = compile_excel_formulas(df_display_uncompiled_path, tmp_usr_dir)
     result_display_df = check_calculated_column_nan(new_col_name, result_display_df)
     return result_df, result_display_df
+
+
+def clean_username(user):
+    username = re.sub(r'\W+', '', user)
+    return username
 
 
 def check_calculated_column_nan(new_col_name, result_display_df):

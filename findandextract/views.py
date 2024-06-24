@@ -80,7 +80,6 @@ def findandextract(request):
     global nli
     global threads
     global display_table_row_num
-    print('where here')
     print(request.user)
     if request.method == 'POST':
         if is_ajax(request): 
@@ -365,6 +364,14 @@ def delete_user_files(tmp_dir, uid):
         for filename in os.listdir(tmp_dir):
             if filename.lower().endswith('.csv') or filename.lower().endswith('.xlsx'):
                 os.remove(os.path.join(tmp_dir, filename))
+        if os.path.exists(os.path.join(tmp_dir, 'compiled_dir')):
+            for subfilename in os.listdir(os.path.join(tmp_dir, 'compiled_dir')):
+                print('FILENAME', subfilename)
+                if subfilename.lower().endswith('.xlsx'):
+                    print("WAHTS")
+                    print(os.path.join(os.path.join(tmp_dir, 'compiled_dir'), subfilename))
+                    os.remove(os.path.join(os.path.join(tmp_dir, 'compiled_dir'), subfilename))
+            os.rmdir(os.path.join(tmp_dir, 'compiled_dir'))
         os.rmdir(tmp_dir)
     except:
         traceback.print_exc()
@@ -711,7 +718,6 @@ def is_ajax(request):
 
 # unmelt user data with file names
 def unmelt(file_name, sheet_name, username):
-    #db_data = list(KeyValueDataFrame.objects.values())
     db_data =  list(KeyValueDataFrame.objects.filter(uid=str(username)).values())
     key_val = []
     for row in db_data:
@@ -1266,11 +1272,8 @@ def Unique_Column_Pairs(col_list):
     return unique
 
 def parse_file_name_from_bracket_display(filename):
-    print('FILENAME')
-    print(filename)
     file = filename.split('{')[0].strip()
     sheet = filename.split('{')[1].replace('}','').strip()
-    print('file:', file, 'sheet:', sheet)
     return file, sheet
 
 
