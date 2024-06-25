@@ -44,7 +44,7 @@ nlp = None
 threads = []
 nli = None
 display_table_row_num = 999
-MAX_UPLOAD_SIZE = 5242880
+MAX_UPLOAD_SIZE = 3145728
 
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
@@ -606,7 +606,7 @@ def upload_data_files(request):
         filenum = 1
         myfile = request.FILES['file_1']
         if not check_file(myfile):
-            return 'File size too big. Maximum upload size per file is 20 Mb.'
+            return 'File size too big. Maximum upload size per file is 3 Mb.'
         print('MYFILE')
         print(type(myfile))
         print(myfile)
