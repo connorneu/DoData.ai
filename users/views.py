@@ -50,8 +50,8 @@ def registered(request):
         # REACTIVATE WHEN DEBUG EQUALS FALSE
         # U DIDNT FINNISH CONFIGURING THIS - restricting to accounts that click on link works
         # IN CONSOLE LINK APPEARS BUT NO EMAIL HAS EVER BEEN SENT
-        #user.is_active = False  # Example
-        #send_email(user)
+        user.is_active = False  # Example
+        send_email(user)
         user.first_name = name.split()[0]
         if len(name.split()) > 1:
             user.last_name = name.split()[1:]
