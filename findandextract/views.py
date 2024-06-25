@@ -405,16 +405,26 @@ def delete_user_files(tmp_dir, uid):
 
 def download_file(request):
     uid = clean_username(str(request.user))
+    print('uid', uid)
     usr_dir = create_tmp_dir(uid)
+    print('usr_dir', usr_dir)
     result_csv_filename = uid + ' result.csv'
     csv_filepath = os.path.join(usr_dir, result_csv_filename)
+    print('csv_filepath', csv_filepath)
     with open(csv_filepath, newline='') as f:
         reader = csv.reader(f, delimiter='~')
         data = list(reader)
+    print('read csv')
     df = unmelt_result_df(data)
+    print('result df')
+    print(df)
     unmelted_result_path = os.path.join(usr_dir, 'Algorithm Result.xlsx')
+    print('result path', unmelted_result_path)
     df.to_excel(unmelted_result_path, index=False)
+    print('writted to excel')
     response = FileResponse(open(unmelted_result_path, 'rb'), as_attachment=True)
+    print('response')
+    print(response)
     return response
 
 # unmelt result data
