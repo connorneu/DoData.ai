@@ -74,8 +74,8 @@ var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a
 
  $(document).ready(async function() {
     if (window.location.href.indexOf("algorithmbuilder") > -1){
-        myanime = TweenMax.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
-        myanime.play();
+        // myanime = TweenMax.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
+        // myanime.play();
         var path = window.location.pathname;
         var page = path.split("/").pop();
         console.log('we started')
