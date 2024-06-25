@@ -420,7 +420,10 @@ def download_file(request):
     print(df)
     unmelted_result_path = os.path.join(usr_dir, 'Algorithm Result.xlsx')
     print('result path', unmelted_result_path)
-    df.to_excel(unmelted_result_path, index=False)
+    try:
+        df.to_excel(unmelted_result_path, index=False)
+    except:
+        traceback.print_exc()
     print('writted to excel')
     response = FileResponse(open(unmelted_result_path, 'rb'), as_attachment=True)
     print('response')
