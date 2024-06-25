@@ -1113,7 +1113,7 @@ display: table;
     text-align:center;*/
 }
 .sidebar.open .logo img {
-    width: 225px;
+    width: 175px;
 }
 
 .sidebar .logo h3 {
@@ -1144,6 +1144,7 @@ display: table;
     opacity: 1;
     transition: .4s;
     transition-delay: .2s;
+    font-size:14px;
 }
 
 .sidebar nav {

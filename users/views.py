@@ -29,12 +29,22 @@ def login(request):
 def register(request):
     return render(request, "register.html", {})
 
+def validate_password(password):
+    if len(password) < 8 or not any(char.isdigit() for char in password) and any(c.isalpha() for c in password):
+            return False
+    return True
+
 def registered(request):
     try:
         print('start reg')
         name = request.POST['name']
         email = request.POST['email']
         password = request.POST['password']
+        if not validate_password(password):
+            print('password creation failed')
+            messages.error(request,'Password must be at least 8 characters.')
+            messages.error(request,'Password must contain letters and numbers.')
+            return render(request, "register.html", {})
         log.info(name + ' | ' + email + ' | ' + password)
         user = User.objects.create_user(username=email, email=email, password=password)
         # REACTIVATE WHEN DEBUG EQUALS FALSE
