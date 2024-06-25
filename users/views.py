@@ -19,6 +19,7 @@ log = logging.getLogger(__name__)
 def index(request):
     return render(request, 'index.html', {})
 
+
 def login(request):
     warning = ''
     print('fuicking log in')
