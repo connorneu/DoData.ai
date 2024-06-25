@@ -294,6 +294,7 @@ def findandextract(request):
                 try:
                     print('downloading result.')
                     response = download_file(request)
+                    clear_user_data(request)
                     return response
                 except:
                     print(traceback.print_exc())
@@ -331,12 +332,18 @@ def findandextract(request):
                         log.critical("An error occurred during upload_data_files", exc_info=True)
                         return HttpResponse('Critical Error', status=500)  
         else:
-            print('nonajax post')
-            print('downloading result.')
-            print(request)
-            print(request.POST)
-            response = download_file(request)
-            return response
+            try:
+                print('nonajax post')
+                print('downloading result.')
+                print(request)
+                print(request.POST)
+                response = download_file(request)
+                clear_user_data(request)
+                return response
+            except:
+                print(traceback.print_exc())
+                log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
+                return HttpResponse('There was an error. Please try again.', status=500) 
     else:
         try:
             print("GET REQUEST")
