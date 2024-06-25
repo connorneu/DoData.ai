@@ -44,7 +44,7 @@ nlp = None
 threads = []
 nli = None
 display_table_row_num = 999
-MAX_UPLOAD_SIZE = 52428800
+MAX_UPLOAD_SIZE = 5242880
 
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
