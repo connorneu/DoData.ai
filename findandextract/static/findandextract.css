@@ -39,14 +39,16 @@ body {
     min-height:125px;
     /*max-height:20%;
     min-height:20%;*/
-    overflow: scroll;
+    overflow: auto;
     margin-bottom:2%; /*4%*/
     width:100%;
+    overflow-x: hidden;
 }
 .interaction-container{
     height:80%;
-    overflow:scroll;
+    overflow:auto;
     width:100%;
+    overflow-x: hidden;
 }
 
 h1{
@@ -489,9 +491,9 @@ margin:auto;
 margin-top:1%;
 max-height: 400px;
 display: block;
-overflow-x:scroll;
+overflow-x:auto;
 
-overflow-y: scroll;
+overflow-y: auto;
 /*width: 90%;*/
 
 table-layout: fixed;
@@ -974,7 +976,7 @@ display: table;
 {
    /* margin-left:0px; -150px*/
    overflow-x: hidden;
-   overflow-y: scroll;
+   overflow-y: auto;
    scroll-behavior: smooth;
    /*height:1500px;*/
    height:100%; 
@@ -1373,7 +1375,7 @@ display: inline-block;
 #textbox-algo-desc{
     font-size:16px;
     width:850px;
-    margin-top:0%;
+    margin-top:1%;
 }
 .header-banner-wrap h2{
     font-size:18px;
@@ -2060,13 +2062,13 @@ outside of combine*/
     border-color: rgb(0, 0, 0) #000000;
     padding: 10px;
     white-space: wrap;
-    overflow:scroll;
+    overflow:auto;
 }
 .selectfile{
     padding: 0px 10px 0px 10px;
 }
 .resulttable_cont{
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 80%;
     margin-left: auto;
     margin-right: auto;

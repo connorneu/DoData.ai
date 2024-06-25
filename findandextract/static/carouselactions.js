@@ -60,47 +60,31 @@ var color_array = [input_color, second_color, third_color, fourth_color, writing
 
 var myanime = null;
 
-// COLLAPSABLE FUCKING THING YOU DON T KUNDERSTAND
 root = null;
 treeData = null;
 
-var action_color = "#ffd9cb";  //coral
+var action_color = "#ffd9cb"
 var standard_color =  "#f57542"; 
 var codexdisplaycolor = '#f5f1f0';
-var fyi_color =  action_color; //'#ffa585' //"cyan";   #714ac7   '#95fff1    #4a63c7
+var fyi_color =  action_color;
 
 
 
 
  $(document).ready(async function() {
     if (window.location.href.indexOf("algorithmbuilder") > -1){
-        //myanime = TweenMax.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
         myanime = gsap.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
         myanime.play();
         var path = window.location.pathname;
         var page = path.split("/").pop();
-        console.log('we started')
-        //await add_to_carousel('Select algorithm type:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-        //await add_to_carousel('The algorithm type decides which options will be provided for you to describe the process you want to create.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
         await gently_show_tree();
-        ////await add_to_carousel('or', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-        ////await add_to_carousel('Or click on an algorithm type', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
-
-        //fake_start();
-        //if(path === "/findandextract/"){   
-        //    matchcolumns();
-        //    add_to_carousel(['Click on an algorithm type to start describing the process you want to automate:'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        //    add_to_carousel(['OR'], action_color, ['display_algo_graph()',"document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, false);
-        //    add_to_carousel(['Describe what you want your algorithm to do:'], fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], false, true);
-        //    
-    // }
     }
 });
 
 function fake_start(){
     console.log('fake start')
     document.getElementById('describe-algo-banner').style.display='none'
-    var desc = 'Select rows ' //of data from one or multiple files based on values or conditions and extract them into one file.'
+    var desc = 'Select rows '
     start_algo_path('START', 'Group', desc);
 }
 

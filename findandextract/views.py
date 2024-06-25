@@ -354,18 +354,22 @@ def findandextract(request):
                     print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
-                KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
-                KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete() 
-                dir_name = os.path.join('./User Files', clean_username(str(request.user)) + '_datafiles')
-                if os.path.exists(dir_name):
-                    delete_user_files(dir_name, str(request.user))
+                clear_user_data(request)
                 return render(request, "findandextract/fandemain.html")
         except:
             traceback.print_exc()
             log.critical("An error occurred when making request", exc_info=True)
             return HttpResponse('Critical Error', status=500)  
+
+
+def clear_user_data(request):
+    KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
+    KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
+    KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
+    KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete() 
+    dir_name = os.path.join('./User Files', clean_username(str(request.user)) + '_datafiles')
+    if os.path.exists(dir_name):
+        delete_user_files(dir_name, str(request.user))
 
 
 def check_mal_filename(filename_raw):
@@ -389,10 +393,12 @@ def check_mal_filename(filename_raw):
 
 
 def delete_user_files(tmp_dir, uid):
+    files_ext_to_delete = ['.csv', '.xlsx', '.xla', '.xlm', '.xls', '.xlsm', '.xlt', '.xltm', '.xltx', '.xlsb', '.txt', '.xlam']
     try:
         for filename in os.listdir(tmp_dir):
-            if filename.lower().endswith('.csv') or filename.lower().endswith('.xlsx'):
-                os.remove(os.path.join(tmp_dir, filename))
+            for ext in files_ext_to_delete:
+                if filename.lower().endswith(ext):
+                    os.remove(os.path.join(tmp_dir, filename))
         if os.path.exists(os.path.join(tmp_dir, 'compiled_dir')):
             for subfilename in os.listdir(os.path.join(tmp_dir, 'compiled_dir')):
                 if subfilename.lower().endswith('.xlsx'):

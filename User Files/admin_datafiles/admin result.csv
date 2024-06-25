@@ -1,0 +1,54 @@
+Client Name~Jordan Ruthers~admin
+Client Name~John van der Lit~admin
+Client Name~Poovey Johnes~admin
+Client Name~Celine Bright~admin
+Client Name~Karim Jordan~admin
+Client Name~Lia Hermpest~admin
+Client Name~Josh Dosth~admin
+Client Name~Lastel Pigsley~admin
+Client Name~Jenny Beauchamp~admin
+Address~2255 - No.4 Williams Driver~admin
+Address~198 Rolland Papineaux, Mon~admin
+Address~204 Nesbit Dr., Clevland OH~admin
+Address~2 First Street, Toronto Ontar~admin
+Address~15 Rorvigne, Singapore, 002~admin
+Address~Karlington, Greenburg Britis~admin
+Address~09-10 Dawel Road, Montreal ~admin
+Address~20 Fastorl, Lance Biggerstaff,~admin
+Address~nan~admin
+Client No.~488~admin
+Client No.~557~admin
+Client No.~626~admin
+Client No.~466~admin
+Client No.~907~admin
+Client No.~809~admin
+Client No.~204~admin
+Client No.~901~admin
+Client No.~222~admin
+Sign On~1999-03-05~admin
+Sign On~2019-02-12~admin
+Sign On~2020-03-28~admin
+Sign On~2019-09-15~admin
+Sign On~2014-01-22~admin
+Sign On~2019-10-16~admin
+Sign On~2012-02-14~admin
+Sign On~2001-03-04~admin
+Sign On~2022-11-12~admin
+Can_Bert_Column_Value1908~3_4~admin
+Can_Bert_Column_Value1908~1_1~admin
+Can_Bert_Column_Value1908~2_0~admin
+Can_Bert_Column_Value1908~0~admin
+Can_Bert_Column_Value1908~7~admin
+Can_Bert_Column_Value1908~9~admin
+Can_Bert_Column_Value1908~6~admin
+Can_Bert_Column_Value1908~3~admin
+Can_Bert_Column_Value1908~8~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A2:A2)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A3:A3)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A4:A4)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A5:A5)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A6:A6)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A7:A7)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A8:A8)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A9:A9)), ""dog"", """")"~admin
+fast~"=IF(ISNUMBER(SEARCH(""a"", A10:A10)), ""dog"", """")"~admin

@@ -18,6 +18,7 @@ body {
   background: black;
   overflow: scroll;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .form-box{
