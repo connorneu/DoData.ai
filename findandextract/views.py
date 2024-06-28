@@ -370,13 +370,19 @@ def findandextract(request):
 
 
 def clear_user_data(request):
+    print('clearing user data')
     KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
     KeyValueDataFrame_Display.objects.filter(uid=str(request.user)).delete()
     KeyValueDataFrame_Result.objects.filter(uid=str(request.user)).delete()
     KeyValueDataFrame_Display_Result.objects.filter(uid=str(request.user)).delete() 
+    print('cleared user data')
     dir_name = os.path.join('./User Files', clean_username(str(request.user)) + '_datafiles')
+    print('temp directory:', dir_name)
     if os.path.exists(dir_name):
+        print('directory exists')
         delete_user_files(dir_name, str(request.user))
+    else:
+        print('temporary directory does not exist')
 
 
 def check_mal_filename(filename_raw):
@@ -405,14 +411,19 @@ def delete_user_files(tmp_dir, uid):
         for filename in os.listdir(tmp_dir):
             for ext in files_ext_to_delete:
                 if filename.lower().endswith(ext):
+                    print('removing:', filename)
                     os.remove(os.path.join(tmp_dir, filename))
         if os.path.exists(os.path.join(tmp_dir, 'compiled_dir')):
             for subfilename in os.listdir(os.path.join(tmp_dir, 'compiled_dir')):
                 if subfilename.lower().endswith('.xlsx'):
+                    print('removing subfile:', subfilename)
                     os.remove(os.path.join(os.path.join(tmp_dir, 'compiled_dir'), subfilename))
             os.rmdir(os.path.join(tmp_dir, 'compiled_dir'))
+            print('removed sub dir:', os.path.join(tmp_dir, 'compiled_dir'))
         os.rmdir(tmp_dir)
+        print('removed dir:', tmp_dir)
     except:
+        print('FAILED TO DELETTE USER FILES')
         traceback.print_exc()
         log.critical('Failed to delete directory for username :' + uid, exc_info=True)
 

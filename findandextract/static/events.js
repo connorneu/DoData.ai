@@ -594,3 +594,7 @@ $(document.body).on('click', '' , async function(){
     
 });
 */
+
+$(document.body).on('click', '#resultdownload' ,function(){      
+    $('#resultdownload').hide();
+});

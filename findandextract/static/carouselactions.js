@@ -2527,6 +2527,7 @@ async function display_filter_result_table(data){
 }
 
 async function clear_global_variables(){
+    console.log('cearling vs')
     gv.data_json = null;
     gv = null;
     unique_file_names = null;
@@ -2588,6 +2589,6 @@ async function clear_global_variables(){
     standard_color =  null; 
     codexdisplaycolor = null;
     fyi_color =  null;
-
-    var clean_first_update_file = null;
+    clean_first_update_file = null;
+    console.log('vsd')
 }
