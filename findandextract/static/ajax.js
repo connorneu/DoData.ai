@@ -356,6 +356,7 @@ async function ajax_get_result_db(algo_type){
            //print_the_filtered_data(data);
            console.log('get result ajax')
            console.log(data['result_table'])
+           clear_global_variables();
             if(algo_type==='extract'){
                 if (data['result_table'].length === 0){
                     alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.');
@@ -463,7 +464,7 @@ function ajax_submit_filters(conds, header_row, table_name, sheet_name, algo_typ
         success: async function (db_data) {
             console.log("applied conditions to data");
             //convert_text_to_decision(model_result);
-            data_json = db_data['fande_data_dump'];
+            gv.data_json = db_data['fande_data_dump'];
             console.log("here")
             //hide_containers(3); 
             $('#editdataspinner').hide();

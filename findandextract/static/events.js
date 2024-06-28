@@ -180,32 +180,29 @@ $(document.body).on('click', '#fourthsheet_ul' ,function(){
 
 // when col header for table 1 is adjusted
 $(document.body).on('click', '#data1_tableid' ,function(e){  
+    console.log('he1')
     const cell = e.target.closest('td');
     if (!cell) {return;} // Quit, not clicked on a cell
     const row = cell.parentElement; // row user clicked on
     primary_header_row = row.rowIndex;
-    //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names   
-    //$("#loadedfile1").text(unique_file_names[0]); // text value of Data Accordion 1
-   // var selected_data1_sheet_dropdown = $('#data1selectsheetbutton').val($(this).text()).text() // get current data1 sheet value
-    var repivoted_data = repivot_keyval(data_json, primary_file_name, primary_sheet_name); // create array original table dimension from key value table
+    var repivoted_data = repivot_keyval(gv.data_json, primary_file_name, primary_sheet_name); // create array original table dimension from key value table
     createTable_values1 = createTable(repivoted_data, 'data1_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
     var col_headers = createTable_values1[0];
     var createTable_html = createTable_values1[1];
     table_html_obj_arr = parse_table_column_values(createTable_html);
-    //populate_obj_list("data1selectedcolumnvalues", table_html_obj_arr);
     populate_drop_down("#data1columns", col_headers, true); // populate data column selection with header update
     document.getElementById("data1_table_reset").style.display = "block";
     $("tr").css({ 'background-color' : '#2b2b2b'});  //once column has been selected change the background of the table - only works with coral color for some reason + if user clicks again they get bad result
-    //console.log(cell.innerHTML, row.rowIndex, cell.cellIndex);
 });
 
 // when col header for table 2 is adjusted
 $(document.body).on('click', '#data2_tableid' ,function(e){  
+    console.log('he2')
     const cell = e.target.closest('td');
     if (!cell) {return;} // Quit, not clicked on a cell
     const row = cell.parentElement; // row user clicked on
     secondary_header_row = row.rowIndex;
-    var repivoted_data = repivot_keyval(data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
+    var repivoted_data = repivot_keyval(gv.data_json, secondary_file_name, secondary_sheet_name); // create array original table dimension from key value table
     createTable_values2 = createTable(repivoted_data, 'data2_tableid', secondary_header_row); // create html table for data 1 from repivoted key value table
     var col_headers = createTable_values2[0];
     var createTable_html = createTable_values2[1];
@@ -221,7 +218,7 @@ $(document.body).on('click', '#data3_tableid' ,function(e){
     if (!cell) {return;} // Quit, not clicked on a cell
     const row = cell.parentElement; // row user clicked on
     third_header_row = row.rowIndex;
-    var repivoted_data = repivot_keyval(data_json, third_file_name, third_sheet_name); // create array original table dimension from key value table
+    var repivoted_data = repivot_keyval(gv.data_json, third_file_name, third_sheet_name); // create array original table dimension from key value table
     createTable_values3 = createTable(repivoted_data, 'data3_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
     var col_headers = createTable_values3[0];
     var createTable_html = createTable_values3[1];
@@ -237,7 +234,7 @@ $(document.body).on('click', '#data4_tableid' ,function(e){
     if (!cell) {return;} // Quit, not clicked on a cell
     const row = cell.parentElement; // row user clicked on
     fourth_header_row = row.rowIndex;
-    var repivoted_data = repivot_keyval(data_json, fourth_file_name, fourth_sheet_name); // create array original table dimension from key value table
+    var repivoted_data = repivot_keyval(gv.data_json, fourth_file_name, fourth_sheet_name); // create array original table dimension from key value table
     createTable_values4 = createTable(repivoted_data, 'data4_tableid', row.rowIndex); // create html table for data 1 from repivoted key value table
     var col_headers = createTable_values4[0];
     var createTable_html = createTable_values4[1];

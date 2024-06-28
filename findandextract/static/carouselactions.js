@@ -1,54 +1,55 @@
 
+var gv = {};
 
-data_json = null;
-unique_file_names = null;
-unique_sheet_names = null;
-carouselText = [];
-carousel_num = 1;
-primary_file_name = null;
-primary_file_sheets = [];
-primary_sheet_name = 'Sheet1';
-secondary_file_name = null;
-secondary_file_sheets = [];
-secondary_sheet_name = 'Sheet1';
-third_file_name = null;
-third_sheet_name = 'Sheet1';
-third_file_sheets = [];
-fourth_file_name = null;
-fourth_sheet_name = 'Sheet1';
-fourth_file_sheets = [];
-createTable_values1 = '';
-createTable_values2 = '';
-createTable_values3 = '';
-createTable_values4 = '';
-condition_arr = [];
-condition_arr2 = [];
-condition_arr3 = [];
-condition_arr4 = [];
-table_html_obj_arr = null;
-table_html_obj_arr2 = null;
-table_html_obj_arr3 = null;
-table_html_obj_arr4 = null;
-primary_header_row = 0;
-secondary_header_row = 0;
-third_header_row = 0;
-fourth_header_row = 0;
-input_type = null;
-algorithm_type = null;
-newline_scroll = 50;
-start_scrolling_after = 10;
-input_or_description = '';
-max_file_upload = 4;
+// var data_json = null;
+var unique_file_names = null;
+var unique_sheet_names = null;
+var carouselText = [];
+var carousel_num = 1;
+var primary_file_name = null;
+var primary_file_sheets = [];
+var primary_sheet_name = 'Sheet1';
+var secondary_file_name = null;
+var secondary_file_sheets = [];
+var secondary_sheet_name = 'Sheet1';
+var third_file_name = null;
+var third_sheet_name = 'Sheet1';
+var third_file_sheets = [];
+var fourth_file_name = null;
+var fourth_sheet_name = 'Sheet1';
+var fourth_file_sheets = [];
+var createTable_values1 = '';
+var createTable_values2 = '';
+var createTable_values3 = '';
+var createTable_values4 = '';
+var condition_arr = [];
+var condition_arr2 = [];
+var condition_arr3 = [];
+var condition_arr4 = [];
+var table_html_obj_arr = null;
+var table_html_obj_arr2 = null;
+var table_html_obj_arr3 = null;
+var table_html_obj_arr4 = null;
+var primary_header_row = 0;
+var secondary_header_row = 0;
+var third_header_row = 0;
+var fourth_header_row = 0;
+var input_type = null;
+var algorithm_type = null;
+var newline_scroll = 50;
+var start_scrolling_after = 10;
+var input_or_description = '';
+var max_file_upload = 4;
 // maybe delete these
-dataset_names = [];
-dataset_index = [];
-values_to_extract_dataset = null;
-values_to_extract_col = null;
-extract_from = [];
-all_my_sentences = [];
+var dataset_names = [];
+var dataset_index = [];
+var values_to_extract_dataset = null;
+var values_to_extract_col = null;
+var extract_from = [];
+var all_my_sentences = [];
 
-extract_col = null;
-current_conditions_file = 0;
+var extract_col = null;
+var current_conditions_file = 0;
 
 var input_color = '#d93095';
 var second_color = '#92fcff';
@@ -60,14 +61,13 @@ var color_array = [input_color, second_color, third_color, fourth_color, writing
 
 var myanime = null;
 
-root = null;
-treeData = null;
+var root = null;
+var treeData = null;
 
 var action_color = "#ffd9cb"
 var standard_color =  "#f57542"; 
 var codexdisplaycolor = '#f5f1f0';
 var fyi_color =  action_color;
-
 
 
 
@@ -400,10 +400,10 @@ async function display_algo_graph(){
 async function start_data_filter(db_data){  
     document.getElementById('filedrops').style.display = 'none';
     hide_containers(3);
-    data_json = db_data['fande_data_dump'];
+    gv.data_json = db_data['fande_data_dump'];
     //data_json = JSON.parse(document.getElementById('fande_data_dump').textContent);
-    unique_file_names = uniq_fast_files(data_json, 'file_name', 'sheet_name');  // calcualte file names 
-    unique_sheet_names = uniq_fast_files(data_json, 'sheet_name', 'file_name'); 
+    unique_file_names = uniq_fast_files(gv.data_json, 'file_name', 'sheet_name');  // calcualte file names 
+    unique_sheet_names = uniq_fast_files(gv.data_json, 'sheet_name', 'file_name'); 
     for (var i = 0; i<unique_file_names.length; i++){
         if(i === 0){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], input_color, [null], true, false);
@@ -1121,7 +1121,7 @@ function distinct_val_by_key(data_json, key1, key2, filename) {
 }
 
 function get_file_sheets(file_name) {
-    var file_sheets = distinct_val_by_key(data_json, 'file_name', 'sheet_name');
+    var file_sheets = distinct_val_by_key(gv.data_json, 'file_name', 'sheet_name');
     for (var elem of file_sheets) {
         var key = Object.keys(elem)[0];
         if (key === file_name) {
@@ -1222,7 +1222,7 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
     //unique_file_names = uniq_fast(data_json, 'file_name');  // calcualte file names  
     var col_headers = null;
     if (tablenumber === 1){
-        var repivoted_data = repivot_keyval(data_json, primary_file_name, selected_sheet);
+        var repivoted_data = repivot_keyval(gv.data_json, primary_file_name, selected_sheet);
         //do you have problems?
         //this used to be createTable(repivoted_data, data_tableid) you added the rest to be able to actual max col
         createTable_values1 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
@@ -1231,28 +1231,28 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         table_html_obj_arr = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 2){
-        var repivoted_data = repivot_keyval(data_json, secondary_file_name, selected_sheet);
+        var repivoted_data = repivot_keyval(gv.data_json, secondary_file_name, selected_sheet);
         createTable_values2 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
         table_html_obj_arr2 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 3){
-        var repivoted_data = repivot_keyval(data_json, third_file_name, selected_sheet);
+        var repivoted_data = repivot_keyval(gv.data_json, third_file_name, selected_sheet);
         createTable_values3 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values3[0];
         var createTable_html = createTable_values3[1];
         table_html_obj_arr3 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 4){
-        var repivoted_data = repivot_keyval(data_json, fourth_file_name, selected_sheet);
+        var repivoted_data = repivot_keyval(gv.data_json, fourth_file_name, selected_sheet);
         createTable_values4 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
         col_headers = createTable_values4[0];
         var createTable_html = createTable_values4[1];
         table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 0){
-        var repivoted_data = repivot_keyval(data_json, 'nofilename', 'nosheetname', result_data['result_table']);
+        var repivoted_data = repivot_keyval(gv.data_json, 'nofilename', 'nosheetname', result_data['result_table']);
         var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=30);
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
@@ -2524,4 +2524,68 @@ async function display_filter_result_table(data){
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
+}
+
+function clear_global_variables(){
+    gv.data_json = null;
+    gv = null;
+    unique_file_names = null;
+    unique_sheet_names = null;
+    carouselText = null;
+    carousel_num = null;
+    primary_file_name = null;
+    primary_file_sheets = null;
+    primary_sheet_name = null;
+    secondary_file_name = null;
+    secondary_file_sheets = null;
+    secondary_sheet_name = null;
+    third_file_name = null;
+    third_sheet_name = null;
+    third_file_sheets = null;
+    fourth_file_name = null;
+    fourth_sheet_name = null;
+    fourth_file_sheets = null;
+    createTable_values1 = null;
+    createTable_values2 = null;
+    createTable_values3 = null;
+    createTable_values4 = null;
+    condition_arr = null;
+    condition_arr2 = null;
+    condition_arr3 = null;
+    condition_arr4 = null;
+    table_html_obj_arr = null;
+    table_html_obj_arr2 = null;
+    table_html_obj_arr3 = null;
+    table_html_obj_arr4 = null;
+    primary_header_row = null;
+    secondary_header_row = null;
+    third_header_row = null;
+    fourth_header_row = null;
+    input_type = null;
+    algorithm_type = null;
+    newline_scroll = null;
+    start_scrolling_after = null;
+    input_or_description = null;
+    max_file_upload = null;
+    dataset_names = null;
+    dataset_index = null;
+    values_to_extract_dataset = null;
+    values_to_extract_col = null;
+    extract_from = null;
+    all_my_sentences = null;
+    extract_col = null;
+    current_conditions_file = null;
+    input_color = null;
+    second_color = null;
+    third_color = null;
+    fourth_color = null;
+    writings_color = null   ;
+    color_array = null;
+    myanime = null;
+    root = null;
+    treeData = null;
+    action_color = null
+    standard_color =  null; 
+    codexdisplaycolor = null;
+    fyi_color =  null;
 }
