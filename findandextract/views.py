@@ -521,7 +521,7 @@ def write_result_raw(df_result, request):
     #os.remove(csv_filename)
 
 def write_results(df_result, df_display_result, uid):
-    write_result_to_db(df_result, uid)
+    #write_result_to_db(df_result, uid)
     write_display_result_to_db(df_display_result, uid)
 
 # better version of write_display_results
