@@ -159,7 +159,6 @@ def findandextract(request):
                     find_file_3 = params['findfile3'].rstrip().strip()
                     find_col_3 = params['findcol3'].rstrip().strip()
                     search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
-                    df = unmelt(file, sheet, username)
                     columns = ['Student ID', 'Course ID', 'Marks']
                     data = [(103, 201, 67), (103, 203, 67), (103, 204, 89)]
                     df_result = pd.DataFrame(data, columns=columns)
@@ -170,6 +169,7 @@ def findandextract(request):
                     #write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except Exception:
+                    traceback.print_exception()
                     log.critical("A critical error occured during extract algorithm.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'combine_merge':
