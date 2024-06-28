@@ -356,7 +356,6 @@ async function ajax_get_result_db(algo_type){
            //print_the_filtered_data(data);
            console.log('get result ajax')
            console.log(data['result_table'])
-           clear_global_variables();
             if(algo_type==='extract'){
                 if (data['result_table'].length === 0){
                     alert('The parameters you\'ve described don\'t match any of your data. Please ensure the values you\'re describing exist in your data.');
@@ -393,7 +392,8 @@ async function ajax_get_result_db(algo_type){
             else if(algo_type==='filter'){
                 console.log("here?")
                 display_filter_result_table(data)
-            }            
+            }       
+               
        },
        // on error
        error: function (request, status, error) {

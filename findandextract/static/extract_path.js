@@ -499,5 +499,5 @@ async function display_extract_result_table(data){
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
-    
+    await clear_global_variables();  
 }

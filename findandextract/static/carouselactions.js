@@ -1257,7 +1257,6 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
         var table_html_obj_arr0 = parse_table_column_values(createTable_html);
-
     }
     return col_headers;
 }
@@ -2524,9 +2523,10 @@ async function display_filter_result_table(data){
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
+    await clear_global_variables();
 }
 
-function clear_global_variables(){
+async function clear_global_variables(){
     gv.data_json = null;
     gv = null;
     unique_file_names = null;
@@ -2588,4 +2588,6 @@ function clear_global_variables(){
     standard_color =  null; 
     codexdisplaycolor = null;
     fyi_color =  null;
+
+    var clean_first_update_file = null;
 }

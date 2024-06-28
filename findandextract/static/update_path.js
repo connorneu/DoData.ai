@@ -1,4 +1,4 @@
-clean_first_update_file = null;
+var clean_first_update_file = null;
 
 async function start_update_file(){
     hide_containers(2);
@@ -80,6 +80,7 @@ $(document.body).on('click', '#updateinputcol_ul li a' ,function(){
 // when textarea has text then grey dropdown when empty un-grey dropdown
 $(document.body).on('focus', '.describe-textarea.specify-value', async function(){  
     $(this).removeClass('gently-blur');
+    $('#update_equals_datasetname').text('');
     $('#updatedatasetreplace_ul').closest(".dropdown").find('.btn').html('Select Dataset');
     $('#updatecolreplace_ul').closest(".dropdown").find('.btn').html('Select Column');
     $('#updatedatasetreplace_ul').closest(".dropdown").find('.btn').addClass('disabled');
@@ -256,4 +257,5 @@ async function display_update_result_table(data){
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
+    await clear_global_variables();
 }
