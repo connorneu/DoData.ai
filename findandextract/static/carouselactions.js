@@ -2529,7 +2529,7 @@ async function display_filter_result_table(data){
 async function clear_global_variables(){
     console.log('cearling vs')
     gv.data_json = null;
-    var gv = null;
+    gv = null;
     var unique_file_names = null;
     var unique_sheet_names = null;
     var carouselText = null;
