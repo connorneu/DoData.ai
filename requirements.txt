@@ -1,5 +1,5 @@
 dj_database_url==2.2.0
-Django==4.2.7
+Django==5.0.6
 django_email_verification==0.3.3
 formulas==1.2.7
 import_export==0.3.1
