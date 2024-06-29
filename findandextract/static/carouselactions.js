@@ -1332,7 +1332,7 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 function createTable(objs, table_id, specified_header_row=0, max_col_display=5, actual_max_col=null) {
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
-    var tbody.innerHTML = '';
+    tbody.innerHTML = '';
     var tr = '<tr>'; 
     var isAllValsCollected = false;
     var maxRowsReached = false;
