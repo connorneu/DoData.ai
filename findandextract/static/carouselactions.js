@@ -72,7 +72,7 @@ var fyi_color =  action_color;
 
 
 
- $(document).ready(async function() {
+$(document).ready(async function() {
     if (window.location.href.indexOf("algorithmbuilder") > -1){
         myanime = gsap.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
         myanime.play();

@@ -1,5 +1,7 @@
+"use strict";
 var clean_first_join = null;
 var joins_data = [];
+var write_strings = [];
 
 // skipping append for now - only merge
 
@@ -110,7 +112,6 @@ $(document.body).on('click', '.joined-file > .dropdown.flexdropdown.selectcolumn
 });
 
 function collect_joins(){
-    write_strings = [];
     var joins = $('.join-two-files');
     for (var i = 0; i<joins.length;i++){
         var jointype = $(joins[i]).find('.joinaction.dropdown-menu').parents(".dropdown").find('.btn').text();
@@ -160,7 +161,6 @@ function combines_error(){
 }
 
 $(document.body).on('click', '#submit-merge' ,async function(){
-    console.log('saaa')
     if (check_for_combine_warnings()){
         console.log('encore')
         $('.warning-box-wrapper').hide();
