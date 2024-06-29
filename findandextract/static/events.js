@@ -596,9 +596,5 @@ $(document.body).on('click', '' , async function(){
 */
 
 $(document.body).on('click', '#resultdownload' ,function(){      
-    //$('#resultdownload').hide();
-    console.log('hj')
-    location.reload();
-    console.log('bese')
-    return false;
+    $('#resultdownload').hide();
 });

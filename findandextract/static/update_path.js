@@ -1,3 +1,4 @@
+"use strict";
 var clean_first_update_file = null;
 
 async function start_update_file(){
