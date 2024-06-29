@@ -1,3 +1,5 @@
+"use strict";
+var extract_params = null; 
 async function start_extract_file(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
@@ -236,6 +238,8 @@ $(document.body).on('click', '#extractinputfile_ul li a' ,function(){
 
 $(document.body).on('click', '.dropdown-menu.datasel li a' ,function(){
     var selectedfile = $(this).text();
+    console.log('selectedfile')
+    console.log(selectedfile)
     var colheaders = get_col_headers_for_filename(selectedfile);
     var closest_col = $(this).closest('.describe-textarea-div-wrap').find('.dropdown-menu.colsel');
     console.log(closest_col)
@@ -499,5 +503,5 @@ async function display_extract_result_table(data){
     populate_table_element('nosheetname', 0, 'result_table_tbody', data);
     await add_to_carousel('Algorithm Result:', fyi_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, true);
     document.getElementById('resultbox_div').style.display = 'block';
-    // await clear_global_variables();  
+    await clear_global_variables();  
 }

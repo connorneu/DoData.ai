@@ -1,3 +1,4 @@
+"use strict";
 
 var gv = {};
 
@@ -91,8 +92,8 @@ function fake_start(){
 async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carousel_break_new){
   
     return new Promise((resolve, reject) => {    
-        id_new = '#feature-text' + carousel_num;
-        carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
+        var id_new = '#feature-text' + carousel_num;
+        var carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
         var carousel_result = carousel(carousel_obj)  
         if (carousel_result) {
             //carousel_num++;  
@@ -108,8 +109,8 @@ async function add_to_carousel(text_new, color_new, func_new, isTyped_new, carou
 async function home_page_carousel(idnew, text_new, color_new, func_new, isTyped_new, carousel_break_new){
   
     return new Promise((resolve, reject) => {    
-        id_new = idnew;
-        carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
+        var id_new = idnew;
+        var carousel_obj = {id:id_new, text:text_new, color:color_new, func:func_new, isTyped: isTyped_new, carousel_break: carousel_break_new};
         var carousel_result = carousel(carousel_obj, true)  
         if (carousel_result) {
             //carousel_num++;  
@@ -310,7 +311,7 @@ function adjust_glass_height(){
 // create carousel element if it doesnt exist
 async function create_carousel_elem(carousel_item){
     // get carousel id
-    carousel_elem_id = carousel_item.id;
+    var carousel_elem_id = carousel_item.id;
     // if elem does not already exist
     if(!$(carousel_elem_id).length){
         // parse number of last carouselcontainer
@@ -1033,7 +1034,7 @@ function hide_containers(num_to_hide){
 
 // using array to populate dropdown values
 function populate_drop_down(dropdown_id, val_arr, is_to_be_cleared=false){
-    once = false;
+    var once = false;
     if(is_to_be_cleared){
         $(dropdown_id).empty();
     }
@@ -1225,35 +1226,35 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
         var repivoted_data = repivot_keyval(gv.data_json, primary_file_name, selected_sheet);
         //do you have problems?
         //this used to be createTable(repivoted_data, data_tableid) you added the rest to be able to actual max col
-        createTable_values1 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
-        col_headers = createTable_values1[0];
+        createTable_values1 = createTable(repivoted_data, data_tableid);
+        var col_headers = createTable_values1[0];
         var createTable_html = createTable_values1[1];
-        table_html_obj_arr = parse_table_column_values(createTable_html);
+        var table_html_obj_arr = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 2){
         var repivoted_data = repivot_keyval(gv.data_json, secondary_file_name, selected_sheet);
-        createTable_values2 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
-        col_headers = createTable_values2[0];
+        createTable_values2 = createTable(repivoted_data, data_tableid);
+        var col_headers = createTable_values2[0];
         var createTable_html = createTable_values2[1];
-        table_html_obj_arr2 = parse_table_column_values(createTable_html);
+        var table_html_obj_arr2 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 3){
         var repivoted_data = repivot_keyval(gv.data_json, third_file_name, selected_sheet);
-        createTable_values3 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
-        col_headers = createTable_values3[0];
+        createTable_values3 = createTable(repivoted_data, data_tableid);
+        var col_headers = createTable_values3[0];
         var createTable_html = createTable_values3[1];
-        table_html_obj_arr3 = parse_table_column_values(createTable_html);
+        var table_html_obj_arr3 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 4){
         var repivoted_data = repivot_keyval(gv.data_json, fourth_file_name, selected_sheet);
-        createTable_values4 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=5, actual_max_col=actual_max_col);
-        col_headers = createTable_values4[0];
+        createTable_values4 = createTable(repivoted_data, data_tableid);
+        var col_headers = createTable_values4[0];
         var createTable_html = createTable_values4[1];
-        table_html_obj_arr4 = parse_table_column_values(createTable_html);
+        var table_html_obj_arr4 = parse_table_column_values(createTable_html);
     }
     else if(tablenumber === 0){
         var repivoted_data = repivot_keyval(gv.data_json, 'nofilename', 'nosheetname', result_data['result_table']);
-        var createTable_values0 = createTable(repivoted_data, data_tableid, specified_header_row=0, max_col_display=30);
+        var createTable_values0 = createTable(repivoted_data, data_tableid, 0, 30);
         var col_headers = createTable_values0[0];
         var createTable_html = createTable_values0[1];
         var table_html_obj_arr0 = parse_table_column_values(createTable_html);
@@ -1663,7 +1664,7 @@ function calc_max_files(){
 async function begin_file_upload(algo_desc){
     var num_files = calc_max_files();
     document.getElementById('textbox-algo-desc-wrap').style.display = 'none';
-    clean_algo_desc = clean_algorithm_description(algo_desc);
+    var clean_algo_desc = clean_algorithm_description(algo_desc);
     hide_containers(2);
     await add_to_carousel('SUMMARY OF ALGORITHM', null, [null], true, false);
     await add_to_carousel('Algorithm Type: ' + algorithm_type, standard_color, [], true, false);
@@ -1674,7 +1675,7 @@ async function begin_file_upload(algo_desc){
 }
 
 function clean_algorithm_description(algo_desc){
-    clean_algo_desc = algo_desc.replace(/<\/?[^>]+(>|$)/g, "");
+    var clean_algo_desc = algo_desc.replace(/<\/?[^>]+(>|$)/g, "");
     return clean_algo_desc;
 }
 
@@ -2480,7 +2481,7 @@ async function gently_show_tree(){
     window.scrollTo(0,800); 
     window.scroll(-1000,0)
     window.scrollTo(0,0)
-    elem = document.getElementById('algo-desc-graph')
+    var elem = document.getElementById('algo-desc-graph')
     elem.scroll(-100,0);
     elem.scroll(-1000,0);
     elem.scroll(-10000,0);
@@ -2493,7 +2494,7 @@ async function gently_show_tree(){
         elem.style.display = 'block';
         elem.style.opacity = 0;
 
-        fadeInInterval = setInterval(function() {
+        var fadeInInterval = setInterval(function() {
 
             if (newValue < 1) {
                 newValue += 0.01;
@@ -2563,7 +2564,7 @@ async function clear_global_variables(){
     var third_header_row = null;
     var fourth_header_row = null;
     var input_type = null;
-    var algorithm_type = null;
+    var algorithm_type = null;``
     var newline_scroll = null;
     var start_scrolling_after = null;
     var input_or_description = null;

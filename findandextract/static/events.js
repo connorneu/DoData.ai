@@ -1,4 +1,4 @@
-
+"use strict";
 // click start after algorithm description
 $(document).ready(async function () {
     $(document.body).on('click', '#start_algoselect' , async function(){       
@@ -596,5 +596,6 @@ $(document.body).on('click', '' , async function(){
 */
 
 $(document.body).on('click', '#resultdownload' ,function(){      
-    $('#resultdownload').hide();
+    //$('#resultdownload').hide();
+    location.reload();
 });

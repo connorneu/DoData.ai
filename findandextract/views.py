@@ -191,14 +191,14 @@ def findandextract(request):
                     print("START OF AJAX POST update file")
                     print(request.POST)
                     params = json.loads(request.POST.get('parameters'))
-                    df_result = Update(params, request.user)
+                    df_result_update = Update(params, request.user)
                     print('----------------RESULT---------------')
-                    print(df_result)
-                    if isinstance(df_result, str):
-                        warnings = df_result
+                    print(df_result_update)
+                    if isinstance(df_result_update, str):
+                        warnings = df_result_update
                         log.error("An error occurred during calculate method: " + warnings, exc_info=True)
                         return HttpResponse(warnings, status=400)  
-                    write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                    write_results(df_result_update, df_result_update.head(display_table_row_num), str(request.user))
                     #write_result_raw(df_result, request)
                     return HttpResponse(status=200)    
                 except Exception:
@@ -216,16 +216,16 @@ def findandextract(request):
                     cols_to_match = parameters['matches']
                     cols_to_compare = parameters['compares']
                     print(cols_to_compare[0])
-                    df_result = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare, request.user)
-                    if isinstance(df_result, pd.DataFrame): 
+                    df_result_reco = Reconcile_Files(first_file, second_file, cols_to_match, cols_to_compare, request.user)
+                    if isinstance(df_result_reco, pd.DataFrame): 
                         print('------------- RESULT --------------')
-                        print(df_result)
-                        write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                        print(df_result_reco)
+                        write_results(df_result_reco, df_result_reco.head(display_table_row_num), str(request.user))
                         #write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
                         log.error('Error in Calcualte method', exc_info=True)
-                        return HttpResponse(df_result, status=400) 
+                        return HttpResponse(df_result_reco, status=400) 
                 except Exception:
                     traceback.print_exc()
                     log.critical("A critical error occured during reconcile method.", exc_info=True)
@@ -236,18 +236,18 @@ def findandextract(request):
                 parameters = request.POST.get('parameters')
                 parameters = json.loads(parameters)
                 try:
-                    df_result = Calculate_Metrics(parameters, request.user)   
-                    if isinstance(df_result, pd.DataFrame): 
+                    df_result_calc = Calculate_Metrics(parameters, request.user)   
+                    if isinstance(df_result_calc, pd.DataFrame): 
                         print('final result')
-                        print(df_result)
+                        print(df_result_calc)
                         print('------------- RESULT --------------')
-                        print(df_result)
-                        write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                        print(df_result_calc)
+                        write_results(df_result_calc, df_result_calc.head(display_table_row_num), str(request.user))
                         #write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
                         log.error('Error in Calcualte method', exc_info=True)
-                        return HttpResponse(df_result, status=400) 
+                        return HttpResponse(df_result_calc, status=400) 
                 except Exception:
                     traceback.print_exc()
                     log.critical("A critical error occurred during Calculate group method", exc_info=True)

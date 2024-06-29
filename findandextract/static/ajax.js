@@ -144,6 +144,8 @@ function submit_extract_algo_parameters(extract_params){
         // on error
         error: function (request, status, error) {
             console.log('extrct error')
+            $('#submit-extract').show();
+            $('#extractspinner').hide();
             alert(request.responseText);
 
         }
