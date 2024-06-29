@@ -1,6 +1,6 @@
 //import('./tribute-master/src/Tribute.js'); 
 //https://github.com/zurb/tribute/tree/master
-
+"use strict";
 
 
 async function start_columns_path(){
@@ -36,7 +36,7 @@ async function build_tribute_object(col_dic){
 
 async function populate_tribute_dic(dataset_name) {
     var colheaders = get_col_headers_for_filename(dataset_name);
-    col_dic = [];
+    var col_dic = [];
     for (var i=0;i<colheaders.length;i++){
       col_dic.push({
         key: colheaders[i],

@@ -1,3 +1,4 @@
+"use strict";
 async function start_calculate_path(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
