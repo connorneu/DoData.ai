@@ -1,4 +1,5 @@
 "use strict";
+var calc_params = null;
 async function start_calculate_path(){
     hide_containers(2);
     document.getElementById('edit-data-tables').style.display = "none";
@@ -119,7 +120,7 @@ function collect_calc_params(){
         metrics.push(metric);
     }
     var groups_wrap = $('#groupbywrap').find('.dropdown.col.flex.groupby-dropdown');
-    groups = [];
+    var groups = [];
     for (var i=0;i<groups_wrap.length;i++){
         var group = $(groups_wrap[i]).find('.btn').text();
         groups.push(group);
@@ -130,7 +131,7 @@ function collect_calc_params(){
         var metric_col = $(metric_cols_wrap[i]).find('.dropdown.nohide.matchcol-right.right-flex-align.col.flex').find('.btn').text();
         metric_cols.push(metric_col);
     }
-    var calc_params = {
+    calc_params = {
         filename: filename,
         groups: groups,
         metrics: metrics,
