@@ -45,7 +45,7 @@ nlp = None
 threads = []
 nli = None
 display_table_row_num = 999
-MAX_UPLOAD_SIZE = 3145728
+MAX_UPLOAD_SIZE = 20971520 #3mb 3145728
 
 # REMOVE THIS AFTER DEBUG
 # ALL IS LOST IF THIS IS NOT REMOVED
@@ -313,6 +313,7 @@ def findandextract(request):
                     if check_mal_filename(str(myfile)):
                         warning = "Invalid File" 
                         log.warning('Invalid FileType: ' + str(myfile) + ' by user: ' + str(request.user))
+                        print('Invalid FileType: ' + str(myfile) + ' by user: ' + str(request.user))
                         return HttpResponse(warning, status=400) 
                     sheets = get_sheet_names(myfile)
                     return JsonResponse({'sheets' : sheets})
