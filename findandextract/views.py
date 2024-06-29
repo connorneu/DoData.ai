@@ -37,6 +37,7 @@ from dateutil.parser import parse
 from django.http import FileResponse
 from django.contrib.auth.decorators import login_required
 import re
+from io import BytesIO
 
 
 goog_w2v_model = None
@@ -172,7 +173,7 @@ def findandextract(request):
                     #write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except Exception:
-                    traceback.print_exception()
+                    traceback.print_exc()
                     log.critical("A critical error occured during extract algorithm.", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'combine_merge':
@@ -254,6 +255,7 @@ def findandextract(request):
                         log.error('Error in Calcualte method', exc_info=True)
                         return HttpResponse(df_result, status=400) 
                 except Exception:
+                    traceback.print_exc()
                     log.critical("A critical error occurred during Calculate group method", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500)
             elif request.POST.get('ajax_name') == 'classify_text':
@@ -267,6 +269,7 @@ def findandextract(request):
                     return JsonResponse({'algo_type': algo_type})
                     #return JsonResponse({'algo_type': algo_type, 'algo_desc': algo_desc})
                 except:
+                    traceback.print_exc()
                     log.critical("A critical error occurred during classify text method", exc_info=True)
                     return HttpResponse('Critical Error', status=500)  
             elif request.POST.get('ajax_name') == 'submit_user_formula':
@@ -294,7 +297,7 @@ def findandextract(request):
                     #print('saved results')
                     return HttpResponse(status=200)
                 except:
-                    print(traceback.print_exc())
+                    traceback.print_exc()
                     log.critical("A critical error occurred during user formula method - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('There was an error. Please try again.', status=500)                 
             elif request.POST.get('ajax_name') == 'download_result':
@@ -304,7 +307,7 @@ def findandextract(request):
                     clear_user_data(request)
                     return response
                 except:
-                    print(traceback.print_exc())
+                    traceback.print_exc()
                     log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('There was an error. Please try again.', status=500) 
             elif request.method == 'POST': 
@@ -348,7 +351,7 @@ def findandextract(request):
                 clear_user_data(request)
                 return response
             except:
-                print(traceback.print_exc())
+                traceback.print_exc()
                 log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
                 return HttpResponse('There was an error. Please try again.', status=500) 
     else:
@@ -434,7 +437,36 @@ def delete_user_files(tmp_dir, uid):
         traceback.print_exc()
         log.critical('Failed to delete directory for username :' + uid, exc_info=True)
 
+
 def download_file(request):
+    uid = clean_username(str(request.user))
+    print('uid', uid)
+    usr_dir = create_tmp_dir(uid)
+    print('usr_dir', usr_dir)
+    result_csv_filename = uid + ' result.csv'
+    csv_filepath = os.path.join(usr_dir, result_csv_filename)
+    print('csv_filepath', csv_filepath)
+    with open(csv_filepath, newline='') as f:
+        reader = csv.reader(f, delimiter='~')
+        data = list(reader)
+    print('read csv')
+    df = unmelt_result_df(data)
+    with BytesIO() as b:
+        # Use the StringIO object as the filehandle.
+        writer = pd.ExcelWriter(b, engine='xlsxwriter')
+        df.to_excel(writer, sheet_name='Sheet1')
+        writer.close()
+        # Set up the Http response.
+        filename = 'Algorithm Result.xlsx'
+        response = HttpResponse(
+            b.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=%s' % filename
+        return response
+
+
+def download_file_DEPRECATE(request):
     uid = clean_username(str(request.user))
     print('uid', uid)
     usr_dir = create_tmp_dir(uid)

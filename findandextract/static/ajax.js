@@ -214,7 +214,8 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
         },
         // on error
         error: function (request, status, error) {
-
+            $('#submit-merge').show();
+            $('#combinespinner').hide();
             alert(request.responseText);
 
         }
@@ -341,7 +342,7 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
 
 
 // get data after function applied
-async function ajax_get_result_db(algo_type){
+async function  ajax_get_result_db(algo_type){
    var db_data = null;
    $.ajax({
        //data: data, 
