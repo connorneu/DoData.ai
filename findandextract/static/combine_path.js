@@ -1,5 +1,5 @@
-clean_first_join = null;
-joins_data = [];
+var clean_first_join = null;
+var joins_data = [];
 
 // skipping append for now - only merge
 

@@ -2590,5 +2590,8 @@ async function clear_global_variables(){
     var codexdisplaycolor = null;
     var fyi_color =  null;
     var clean_first_update_file = null;
+    var clean_first_join = null;
+    var joins_data = null
+    var clean_first_update_file = null
     console.log('vsd')
 }

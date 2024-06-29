@@ -160,13 +160,10 @@ def findandextract(request):
                     find_file_3 = params['findfile3'].rstrip().strip()
                     find_col_3 = params['findcol3'].rstrip().strip()
                     search_where = [[find_file_1, find_col_1], [find_file_2, find_col_2], [find_file_3, find_col_3]]
-                    #columns = ['Student ID', 'Course ID', 'Marks']
-                    #data = [(103, 201, 67), (103, 203, 67), (103, 204, 89)]
-                    #df_result = pd.DataFrame(data, columns=columns)
-                    df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
-                    #columns = ['Student ID', 'Course ID', 'Marks']
-                    #data = [(103, 201, 67), (103, 203, 67), (103, 204, 89)]
-                    #df_result = pd.DataFrame(data, columns=columns)
+                    #df_result = Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, request.user)
+                    columns = ['Student ID', 'Course ID', 'Marks']
+                    data = [(103, 201, 67), (103, 203, 67), (103, 204, 89)]
+                    df_result = pd.DataFrame(data, columns=columns)
                     print('------------- RESULT --------------')
                     print(df_result)
                     write_results(df_result, df_result.head(display_table_row_num), str(request.user))
