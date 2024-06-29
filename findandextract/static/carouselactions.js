@@ -1262,16 +1262,16 @@ function populate_table_element(selected_sheet, tablenumber, data_tableid, resul
 }
 
 function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
-    result_table = [];
+    var result_table = [];
     // not super sure what this does --- it unpivots to original json object with file_name, sheet_name, key, value
     var is_data_json = false;
     if (result_data===null){
         var entries = Object.entries(data_json);
-        is_data_json = true;
+        var is_data_json = true;
     }
     else{
         var entries = Object.entries(result_data);
-        is_data_json = false;
+        var is_data_json = false;
     }
     var objs = [];
     var col_obj = {};
@@ -1332,7 +1332,7 @@ function repivot_keyval(data_json, file_name, sheet_name, result_data=null) {
 function createTable(objs, table_id, specified_header_row=0, max_col_display=5, actual_max_col=null) {
     var table_length = objs[0]['vals'].length;
     var tbody = document.getElementById(table_id);
-    tbody.innerHTML = '';
+    var tbody.innerHTML = '';
     var tr = '<tr>'; 
     var isAllValsCollected = false;
     var maxRowsReached = false;
@@ -1345,7 +1345,7 @@ function createTable(objs, table_id, specified_header_row=0, max_col_display=5, 
     var all_html = '';
     var one_extra_col = true;
     if(actual_max_col==null){
-        actual_max_col = 100;
+        var actual_max_col = 100;
     }
     // while still iterating thru each objects header + vals
     while(!isAllValsCollected){
