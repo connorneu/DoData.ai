@@ -176,10 +176,10 @@ def findandextract(request):
                     print(request.POST)
                     joins = request.POST.get('parameters')
                     joins = json.loads(joins)
-                    df_result = Combine_Merge(joins, request.user)
+                    df_result_combine = Combine_Merge(joins, request.user)
                     print('------------- RESULT --------------')
-                    print(df_result)
-                    write_results(df_result, df_result.head(display_table_row_num), str(request.user))
+                    print(df_result_combine)
+                    write_results(df_result_combine, df_result_combine.head(display_table_row_num), str(request.user))
                     #write_result_raw(df_result, request)
                     return HttpResponse(status=200)
                 except:
@@ -960,13 +960,13 @@ def apply_conditions(df, conditions):
 
 def Extract(input_or_description, extract_file_name, extract_col_name, describe_values, search_where, username):
     if input_or_description == 'input':
-        df_result = Extract_Input(extract_file_name, extract_col_name, search_where, username)
+        df_extract_result = Extract_Input(extract_file_name, extract_col_name, search_where, username)
     else:
-        df_result = Extract_Describe(describe_values, username)
+        df_extract_result = Extract_Describe(describe_values, username)
 
                 
     #df_result = Reorder_Columns(df_result, matched_col_header, all_df_col_headers)
-    return df_result
+    return df_extract_result
 
 
 def Extract_Describe(describe_values, username):
