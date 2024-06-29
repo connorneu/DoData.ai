@@ -454,7 +454,7 @@ def download_file(request):
     with BytesIO() as b:
         # Use the StringIO object as the filehandle.
         writer = pd.ExcelWriter(b, engine='xlsxwriter')
-        df.to_excel(writer, sheet_name='Sheet1')
+        df.to_excel(writer, sheet_name='Sheet1', index=False)
         writer.close()
         # Set up the Http response.
         filename = 'Algorithm Result.xlsx'
