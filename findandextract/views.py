@@ -224,7 +224,7 @@ def findandextract(request):
                         #write_result_raw(df_result, request)
                         return HttpResponse(status=200)
                     else:
-                        log.error('Error in Calcualte method', exc_info=True)
+                        log.error('Error in calculate method', exc_info=True)
                         return HttpResponse(df_result_reco, status=400) 
                 except Exception:
                     traceback.print_exc()
@@ -1418,23 +1418,20 @@ def combine_actions_for_each_column_into_array(actions, metric_cols):
         action = translate_action_name(actions[i])
         action_col = metric_cols_sort[i]
         if action_col not in action_dict:
-            print('mw dic')
             action_dict[action_col] = [action]
-            print(action_dict)
         else:
-            print('olddic')
             action_dict[action_col].append(action)
-            print(action_dict)
     return action_dict
 
 
 def change_col_dtype(df, metric_cols):
     for metric_col in metric_cols:
-        try:
-            df[metric_col] = pd.to_numeric(df[metric_col])
-        except:
-            raise Exception('Cannot calculate metric on this column. Metrics can only be calculated on numeric columns. All values in this column must be numeric.')
-    return df 
+        if metric_col != 'Total':
+            try:
+                df[metric_col] = pd.to_numeric(df[metric_col])
+            except:
+                raise Exception('Cannot calculate metric on this column. Metrics can only be calculated on numeric columns. All values in this column must be numeric.')
+    return df
 
 
 def Calculate_Metrics(parameters, username):

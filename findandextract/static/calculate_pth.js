@@ -41,7 +41,6 @@ $(document.body).on('click', '.dropdown.show.action.flexy > ul li a' ,async func
         $('.calc-col-select').last().find('h2').eq(0).append('Calculate <b><u>' + action_val + '</b></u> for column:');
     }
     else{
-        console.log('oldaction')
         var action_val = $(this).text();
         $('.calc-col-select').eq(action_index-1).find('h2').eq(0).empty();
         $('.calc-col-select').eq(action_index-1).find('h2').eq(0).append('Calculate <b><u>' + action_val + '</b></u> for column:');
