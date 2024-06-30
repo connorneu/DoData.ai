@@ -1426,7 +1426,7 @@ def combine_actions_for_each_column_into_array(actions, metric_cols):
 
 def change_col_dtype(df, metric_cols):
     for metric_col in metric_cols:
-        if metric_col != 'Total':
+        if metric_col != 'Count':
             try:
                 df[metric_col] = pd.to_numeric(df[metric_col])
             except:
