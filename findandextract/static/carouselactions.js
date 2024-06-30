@@ -48,7 +48,8 @@ var values_to_extract_dataset = null;
 var values_to_extract_col = null;
 var extract_from = [];
 var all_my_sentences = [];
-
+var algo_desc = null;
+var max_file_upload = 0;
 var extract_col = null;
 var current_conditions_file = 0;
 
@@ -1859,7 +1860,6 @@ function assign_algo_type_description(algo_type){
         max_file_upload = 1;
     }
     else if (algo_type === 'Columns' || algo_type === 'Calculate'){
-        console.log('b')
         algo_desc = 'Create a new column by describing what you want and having a formula generated.'
         max_file_upload = 1;
     }
@@ -2093,7 +2093,7 @@ function edit_loading_carousel(){
 }
 
 function collect_user_input_text(){
-    user_algo_desc = document.getElementById('textbox-algo-desc').value;
+    var user_algo_desc = document.getElementById('textbox-algo-desc').value;
     return user_algo_desc;
 }
 
