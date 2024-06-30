@@ -1641,22 +1641,22 @@ function dumpCSSText(element){
 
 function calc_max_files(){
     if (algorithm_type === 'Extract'){
-        return "Max 4 files for this algorithm type";
+        return "Max 4 files for this algorithm type (4MB total size)";
     }
     else if (algorithm_type === 'Combine'){
-        return "Max 4 files for this algorithm type";
+        return "Max 4 files for this algorithm type (4MB total size)";
     }
     else if (algorithm_type === 'Update'){
-        return "Max 2 files for this algorithm type";
+        return "Max 2 files for this algorithm type (4MB total size)";
     }
     else if (algorithm_type === 'Reconcile'){
-        return "Max 2 files for this algorithm type";
+        return "Max 2 files for this algorithm type (4MB total size)";
     }
     else if (algorithm_type === 'Calculate' || algorithm_type === 'Columns'){
-        return "Max 1 file for this algorithm type";
+        return "Max 1 file for this algorithm type (4MB total size)";
     }
     else if (algorithm_type === 'Filter'){
-        return "Max 1 file for this algorithm type";
+        return "Max 1 file for this algorithm type (4MB total size)";
     }
 }
 

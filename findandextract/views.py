@@ -335,7 +335,7 @@ def findandextract(request):
                         print('upload data file failure')
                         traceback.print_exc()
                         log.critical("An error occurred during upload_data_files", exc_info=True)
-                        return HttpResponse('Critical Error', status=500)  
+                        return HttpResponse('Critical Error. ', status=500)  
         else:
             try:
                 print('nonajax post')
@@ -645,13 +645,15 @@ def check_file(file):
 def upload_data_files(request):
     print("UPLOADING FILES")
     print(request)
+    total_file_size = 0
     if request.method == 'POST' and request.FILES['file_1']:
         print("Importing file 1...")
         print(request.FILES)
         filenum = 1
         myfile = request.FILES['file_1']
         if not check_file(myfile):
-            return 'File size too big. Maximum upload size per file is 3 Mb.'
+            return 'File size too big. Maximum upload size 4 Mb for all files.'
+        total_file_size += myfile.size
         print('MYFILE')
         print(type(myfile))
         print(myfile)
@@ -672,7 +674,8 @@ def upload_data_files(request):
             print('Importing file 2...')
             myfile2 = request.FILES['file_2']   
             if not check_file(myfile2):
-                return 'File size too big. Maximum upload size per file is 20 Mb.'  
+                return 'File size too big. Maximum total upload is 4 Mb.'  
+            total_file_size += myfile2.size
             sheetname2 = request.POST['file_2_sheet']
             delimiter = request.POST['file_2_delimiter']
             df2_columns, df_list2 = build_df_melt(myfile2, sheetname2, delimiter, str(request.user))
@@ -684,7 +687,8 @@ def upload_data_files(request):
             filenum = 3
             myfile3 = request.FILES['file_3']  
             if not check_file(myfile3):
-                return 'File size too big. Maximum upload size per file is 20 Mb.'              
+                return 'File size too big. Maximum total upload is 4 Mb.'     
+            total_file_size += myfile3.size        
             sheetname3 = request.POST['file_3_sheet']   
             delimiter = request.POST['file_3_delimiter']
             df3_columns, df_list3 = build_df_melt(myfile3, sheetname3, delimiter, str(request.user))
@@ -694,12 +698,16 @@ def upload_data_files(request):
             print('Importing file 4...')
             myfile4 = request.FILES['file_4']  
             if not check_file(myfile4):
-                return 'File size too big. Maximum upload size per file is 20 Mb.'  
+                return 'File size too big. Maximum total upload is 4 Mb.'
+            total_file_size += myfile3.size  
             sheetname4 = request.POST['file_4_sheet']  
             delimiter = request.POST['file_4_delimiter']
             df4_columns, df_list4 = build_df_melt(myfile4, sheetname4, delimiter, str(request.user))
             filenum = 4
             write_upload_files_raw(df_list4, request, filenum)
+    if total_file_size > MAX_UPLOAD_SIZE:
+        return 'Files too large. Maximum total upload is 4 Mb.'
+    
 
 #IT'S POSSIBLE YOU CAN DELETE THIS
 def findandextract_data_upload(request):
