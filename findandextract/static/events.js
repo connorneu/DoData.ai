@@ -365,6 +365,7 @@ $(document.body).on('dragenter focus click', '.file-input' ,function(e){
 // change text of file drop
 //unhide add additional file and next buttons
 $(document.body).on('change', '.file-input' ,async function(){
+    $('#editdataspinner').show()
     var filesCount = $(this)[0].files.length;
     var $textContainer = $(this).prev().prev();
     var $textbanner = $(this).prev();
@@ -394,6 +395,7 @@ $(document.body).on('change', '.file-input' ,async function(){
     if (fileName.includes('.txt')){
         $(this).closest('.file-drop-area').find('.delimiter-wrap').show();
     }
+    $('#editdataspinner').hide()
 });
 
 
