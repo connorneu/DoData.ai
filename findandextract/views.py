@@ -593,9 +593,11 @@ def write_result_to_db(df_result, uid):
     with open(csv_filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='~')
         writer.writerows(df_list)       
-    print('writing to db')
-    with open(csv_filepath) as infile:
-        with connection.cursor() as stmt:write_upload_files_raw
+    #print('writing to db')
+    #with open(csv_filepath) as infile:
+    #    with connection.cursor() as stmt:
+    #        write_upload_files_raw #df_list, request, filenum
+        
 def create_tmp_dir(uid):
     dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
     if not os.path.exists(dir_name):
