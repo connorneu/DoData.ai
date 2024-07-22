@@ -57,16 +57,7 @@ $(document).ready(function () {
                             name: "START"
                         }
                     ]
-                },  
-                {
-                    name: "Group",
-                    image: "/static/images/Calculate.png",
-                    children: [
-                        {
-                            name: "START"
-                        }
-                    ]
-                },  
+                },    
                 {
                     name: "Compare",
                     image: "/static/images/Reconcile.png",
