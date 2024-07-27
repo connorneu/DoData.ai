@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% load static %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="{% static 'findandextract.css' %}">
+  <link rel="stylesheet" href="{% static 'users/algo_desc.css' %}">
+  <link rel="stylesheet" href="{% static 'users/home-page.css' %}">  
+  <script src="https://d3js.org/d3.v6.min.js"></script>  
+  <script src="{% static 'users/algorithm_desc.js' %}" type="module"></script>
+
+
+  <title>doData.ai</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+</head>
+<body>
+
+
+
+    <header class="main_h sticky">
+
+        <div class="row">
+          <div class="imglogo-wrap">
+            <img class="tinylogo" src="{% static 'users/images/logov2 justimg.png' %}">
+            <a class="logo" href="#">doData.ai</a>
+            
+          </div>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+  
+            <nav>
+                <ul>
+                    <li><a href="{% url 'index' %}">How it works</a></li>
+                    <li><a href="{% url 'algorithms' %}">Algorithm types</a></li>
+                </ul>
+            </nav>
+        </div> 
+    </header>
+    <div class="marg-one">
+        <div class="container max-w-5xl mx-auto px-8">
+            <div class="card-wraper">
+                <div class="background" id="background"></div>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Search</h3>
+                                <p class="surface-text">Search through one or more files for rows of data that match your criteria creating a new file.</p>
+                                <br>
+                                <img class="algo-desc-img" src="{% static 'users/images/Extract.png' %}">
+                                <div class="expanded-text">
+                                    <p>Search through one or more files for rows of data that match your criteria creating a new file.<p>
+                                    <div class="img-text-wrap">
+                                        <div class="left-text" style="height:266px;">
+                                            <p class="txt-img-desc">You can upload a file containing a column of values that you want to search for in the other files.</p>
+                                        </div>
+                                        <div>
+                                            <img style="width:392px;height:266px;" class="algo-desc-img-hidden" src="{% static 'users/images/search from file.png' %}">
+                                        </div>
+                                    </div>
+                                    <div class="img-text-wrap">
+                                        <div>
+                                            <img style="width:690px;height:351px;" class="algo-desc-img-hidden" src="{% static 'users/images/search conditions.png' %}">
+                                        </div>
+                                        <div class="right-text" style="height:351px;">
+                                            <p class="txt-img-desc">You can also use conditions to describe exactly what it is that you want the algorithm to search for.</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="p-header">Examples:</p>
+                                        <div class="example-box">
+                                            <p>Search for a list of names in multiple files to find all the sales of a certain group of employees.</p>
+                                            <br>
+                                            <p>Find all the the sales invoices that start with the number '00051'.</p>
+                                            <br>
+                                            <p>Extract all rows from each file where START_DATE is between March 1st and July 31st and STATUS is 'Active'.</p>  
+                                        </div>   
+                                    </div>        
+                                </div>
+                                                           
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Combine</h3>
+                                <p>Join files together by finding common values and adding columns from other datasets.
+                                    Select one column from each uploaded file. The values in these columns will be compared.
+                                    If the values are equal, the columns from one dataset will be added to the other where the values match.
+                                    This will add more data to your dataset by adding the relevant columns for the matching rows.  
+                                </p>
+                                <img class="algo-desc-img" src="{% static 'users/images/Combine.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Reconcile.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Update.png' %}">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Calculate</h3>
+                                <p>Describe what you want to calculate and a column will be added to your dataset with the result.
+                                    The algorithm will generate a formula based on what you need and that formula will be applied to your dataset.
+                                    The result will be a new column containing a formula which calculates what you need.  
+                                </p>
+                                <img class="algo-desc-img" src="{% static 'users/images/Calculate.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Reconcile.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Update.png' %}">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Compare</h3>
+                                <p>Compare two datasets to find which values match and don't match.
+                                </p>
+                                <img class="algo-desc-img" src="{% static 'users/images/Compare.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Reconcile.png' %}">
+                                <img class="algo-desc-img-hidden" src="{% static 'users/images/Update.png' %}">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Orchid</h3>
+                                <p>Orchids ASS</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
+                    <div class="card-main">
+                        <div class="card-inner">
+                            <div>
+                                <h3>Chrysanthemum</h3>
+                                <p>Chrysanthemum ass</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/easing/EasePack.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenLite.min.js"></script>
+</body>
+</html>

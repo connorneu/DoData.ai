@@ -87,6 +87,9 @@ def log_out(request):
     logout(request)
     return render(request, "logged_out.html", {})
 
+def algorithms(request):
+    return render(request, "algorithm_desc.html", {})
+
         
     
 

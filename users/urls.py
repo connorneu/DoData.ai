@@ -9,5 +9,6 @@ urlpatterns = [
     #path("registered", views.registered, name="registered"),
     path("registered", views.index, name="registered"),
     #path("authenticate", views.authenticator, name="authenticator"),
-    path("log_out", views.log_out, name="log_out")
+    path("log_out", views.log_out, name="log_out"),
+    path("algorithms", views.algorithms, name="algorithms")
 ]
