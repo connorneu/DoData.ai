@@ -41,7 +41,7 @@ p{
   justify-content: center;
   display: flex;
   gap:50px;
-  margin-bottom:10%;
+  margin-bottom:5%;
 }
 .algo-desc-img{
     width: 306px;
@@ -51,11 +51,24 @@ p{
 .algo-desc-img-hidden{
     width: 690px;
     height: 351px;
-
     display:none;
   }
+.example-img{
+  width:1000px;
+  height:500px;
+  border:none;
+}
 .p-header{
   font-size:24px;
+}
+.banner-desc{
+  margin-bottom: 2%;
+}
+.big-space{
+  margin-bottom:7%;
+}
+.no-margin{
+  margin:0; 
 }
 .example-box{
   width: 60%;
@@ -146,7 +159,7 @@ section {
     padding: 10px;
   }
   .card-main {
-    border: 1px solid rgb(68, 7, 128);
+    border: 2px solid rgb(68, 7, 128);
     padding: 40px;
     width: 100%;
     height: 100%;
@@ -158,6 +171,12 @@ section {
   .card:hover .card-main {
     position: relative;
     z-index: 20;
+  }
+  .card-main.expanded{
+    background-color: #090411;
+  }
+  .bigp{
+    font-size:22px;
   }
   .card-inner {
     position: relative;

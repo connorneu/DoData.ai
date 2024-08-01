@@ -50,39 +50,38 @@
                 <a href="javascript:void(0)" class="card relative group block p-2 h-full w-full">
                     <div class="card-main">
                         <div class="card-inner">
-                            <div>
-                                <h3>Search</h3>
-                                <p class="surface-text">Search through one or more files for rows of data that match your criteria creating a new file.</p>
-                                <br>
+                            <div>                                   
                                 <img class="algo-desc-img" src="{% static 'users/images/Extract.png' %}">
+                                <p class="surface-text">Search through one or more files for rows of data that match your criteria.</p> `
                                 <div class="expanded-text">
-                                    <p>Search through one or more files for rows of data that match your criteria creating a new file.<p>
+                                    <p class="bigp big-space">Search through one or more files for rows of data that match your criteria.</p>                                
                                     <div class="img-text-wrap">
                                         <div class="left-text" style="height:266px;">
-                                            <p class="txt-img-desc">You can upload a file containing a column of values that you want to search for in the other files.</p>
+                                            <p class="txt-img-desc">If the values you're searching for are in a separate file then 
+                                                specify which file they're in and where to search for them
+                                            </p>
                                         </div>
                                         <div>
-                                            <img style="width:392px;height:266px;" class="algo-desc-img-hidden" src="{% static 'users/images/search from file.png' %}">
+                                            <img style="width:490px;height:280px;" class="algo-desc-img-hidden" src="{% static 'users/images/search_from_file-removebg-preview.png' %}">
                                         </div>
                                     </div>
+                                    <div class="big-space">
+                                        <div class="example-box">                                      
+                                            <div>
+                                                <img class="algo-desc-img-hidden example-img" src="{% static 'users/images/Extract from file example.png' %}">
+                                            </div>
+                                            <br>
+                                        </div>   
+                                    </div> 
+                                    
+                                    
                                     <div class="img-text-wrap">
                                         <div>
-                                            <img style="width:690px;height:351px;" class="algo-desc-img-hidden" src="{% static 'users/images/search conditions.png' %}">
-                                        </div>
-                                        <div class="right-text" style="height:351px;">
-                                            <p class="txt-img-desc">You can also use conditions to describe exactly what it is that you want the algorithm to search for.</p>
+                                            <img class="algo-desc-img-hidden example-img" src="{% static 'users/images/Extract describe example.png' %}">
                                         </div>
                                     </div>
-                                    <div>
-                                        <p class="p-header">Examples:</p>
-                                        <div class="example-box">
-                                            <p>Search for a list of names in multiple files to find all the sales of a certain group of employees.</p>
-                                            <br>
-                                            <p>Find all the the sales invoices that start with the number '00051'.</p>
-                                            <br>
-                                            <p>Extract all rows from each file where START_DATE is between March 1st and July 31st and STATUS is 'Active'.</p>  
-                                        </div>   
-                                    </div>        
+                                    
+        
                                 </div>
                                                            
                             </div>
