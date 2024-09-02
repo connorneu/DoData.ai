@@ -469,10 +469,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $("#textbox-algo-desc").keypress(function (e) {
         if(e.which == 13) {
-            if(document.getElementById("submittexticon").style.color === "white"){                
-                //convert_text_to_decision();
-                description_submitted();
-            }
+            description_submitted();
         }
     });
 });

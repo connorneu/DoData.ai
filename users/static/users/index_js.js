@@ -26,6 +26,58 @@ function isScrolledIntoView(elem)
     return ((elemBottom + 50 <= docViewBottom) && (elemTop >= docViewTop));
 }
 
+// homepage scroller
+// Sticky Header
+$(window).scroll(function() {
+    if ($(window).scrollTop() > 100) {
+        $('.main_h').addClass('sticky');
+    } else {
+        $('.main_h').removeClass('sticky');
+    }
+    if(isScrolledIntoView('#howtochoose')){
+        howtochoose();
+    }
+    if(isScrolledIntoView('#describeproblem')){
+        describetheproblem();
+    }
+    if(isScrolledIntoView('#ifunsure')){
+        ifunsure();
+    }
+    //if(isScrolledIntoView('#whereresult')){
+    //    whereresult();
+    //}
+});
+
+var howtochoose = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#howtochoose', 'Choose an algorithm from a menu of options. There are different choices if you\'re working with one or multiple files.', [null], true, true);
+            await showalgopaths()
+        }
+    };
+})();
+async function showalgopaths(){
+    await $('#algopaths').css('visibility','visible');
+}
+
+var ifunsure = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#ifunsure', 'You can also describe what you want to do and an algorithm type will be selected for you.', [null], true, true);
+            await showdesctext()
+        }
+    };
+})();
+async function showdesctext(){
+    await $('#textbox-algo-desc-wrap').css('visibility','visible');
+    await $('#textbox-algo-desc-wrap').show();
+}
+
+
 var whataremnus = (function() {
     var executed = false;
     return async function() {
@@ -71,35 +123,23 @@ var describetheproblem = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#describeproblem', 'You can also describe what you want to do and an algorithm type will be suggested to you.', [null], true, true);
+            await home_page_carousel('#describeproblem', 'Each algorithm type has different options to customize. These algorithms represent the most common time consuming data problems that can be solved with automation.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#describeproblem').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#describeproblem').append(linebreak);
+            await home_page_carousel('#describeproblem', 'Each algorithm has it\'s own options. The options are simple.', [null], true, true);
             await desp();
         }
     };
 })();
 
 async function desp(){
-    await $('#textbox-algo-desc-wrap').css('visibility','visible');
+    await $('#searchalgopath').css('visibility','visible');
 }
 
 
-// homepage scroller
-// Sticky Header
-$(window).scroll(function() {
-    if ($(window).scrollTop() > 100) {
-        $('.main_h').addClass('sticky');
-    } else {
-        $('.main_h').removeClass('sticky');
-    }
-    if(isScrolledIntoView('#whataremenus')){
-        whataremnus();
-    }
-    if(isScrolledIntoView('#describeproblem')){
-        describetheproblem();
-    }
-    if(isScrolledIntoView('#whereresult')){
-        whereresult();
-    }
-});
+
 
 // Mobile Navigation
 $('.mobile-toggle').click(function() {

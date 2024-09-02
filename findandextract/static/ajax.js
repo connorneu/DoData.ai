@@ -311,6 +311,32 @@ function submit_combine_algo_parameters(combine_type, merge_params_map){
     return false;
  }
 
+
+ function submit_desc_algo_parameters(desc_params){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    // create an AJAX call
+    $.ajax({
+        data: {
+            'ajax_name':'describe',
+            'parameters': JSON.stringify(desc_params)
+        }, 
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")},
+        success: function () {
+            ajax_get_result_db('describe');
+
+        },
+        // on error
+        error: function (request, status, error) {
+            // $('#submit-calculate').show();
+            // $('#calculatespinner').hide();
+            alert(request.responseText)
+        }
+    });
+    return false;
+ }
+
  
  function submit_user_formula(column_params){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -395,7 +421,10 @@ async function  ajax_get_result_db(algo_type){
             else if(algo_type==='filter'){
                 console.log("here?")
                 display_filter_result_table(data)
-            }       
+            }    
+            else if(algo_type==='describe'){
+                display_describe_result_table(data)
+            }   
                
        },
        // on error

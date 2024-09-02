@@ -24,6 +24,8 @@ from pandas.api.types import CategoricalDtype
 import numpy as np
 import json
 from .languagemodel import *
+from .describealgo import *
+from .desc_algo import *
 #import threading
 import os
 import ast
@@ -252,6 +254,33 @@ def findandextract(request):
                     traceback.print_exc()
                     log.critical("A critical error occurred during Calculate group method", exc_info=True)
                     return HttpResponse('Critical Error. Please try again.', status=500)
+            elif request.POST.get('ajax_name') == 'describe':
+                print('START OF AJAX POST describe')
+                print(request.POST)
+                parameters = request.POST.get('parameters')
+                parameters = json.loads(parameters)
+                descriptiontext = parameters['descriptiontext']
+                dataset = parameters['dataset']
+                print('description')
+                print(descriptiontext)
+                print('dataset')
+                print(dataset)
+                try:
+                    df_result_desc = apply_desc_algo_to_file(dataset, descriptiontext, str(request.user))   
+                    if isinstance(df_result_desc, pd.DataFrame): 
+                        print('final result')
+                        print(df_result_desc)
+                        print('------------- RESULT --------------')
+                        print(df_result_desc)
+                        write_results(df_result_desc, df_result_desc.head(display_table_row_num), str(request.user))
+                        return HttpResponse(status=200)
+                    else:
+                        log.error('Error in Describe method', exc_info=True)
+                        return HttpResponse(df_result_calc, status=400) 
+                except Exception:
+                    traceback.print_exc()
+                    log.critical("A critical error occurred during Describe", exc_info=True)
+                    return HttpResponse('Critical Error. Please try again.', status=500)
             elif request.POST.get('ajax_name') == 'classify_text':
                 try:
                     print('POST: classify_text')
@@ -304,6 +333,22 @@ def findandextract(request):
                     traceback.print_exc()
                     log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('There was an error. Please try again.', status=500) 
+            elif request.POST.get('ajax_name') == 'gpt_algo_desc':
+                print("submitting gpt desc text")
+                parameters = request.POST.get('parameters')
+                params = ast.literal_eval(parameters)
+                print(params)
+                user_desc = params['user_description']
+                col_heads = params['col_heads']
+                user_code = make_gpt_request(user_desc, col_heads)
+                filename = "youarecoding.txt"
+                content = user_code
+                response = HttpResponse(content, content_type='text/plain')
+                #response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+                response['Content-Disposition'] = 'attachment; filename=%s' % filename
+                return response
+                #return HttpResponse(user_code, content_type='text/plain')
+
             elif request.method == 'POST': 
                 try:
                     file = request.FILES['file']
@@ -459,6 +504,11 @@ def download_file(request):
         )
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
         return response
+
+
+def download_py_file(user_code):
+    return HttpResponse(user_code, content_type='text/plain')
+
 
 
 def download_file_DEPRECATE(request):

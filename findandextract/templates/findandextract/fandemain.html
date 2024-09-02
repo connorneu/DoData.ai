@@ -38,7 +38,8 @@
         <script src="{% static 'update_path.js' %}"></script>
         <script src="{% static 'reconcile_path.js' %}"></script>
         <script src="{% static 'calculate_pth.js' %}"></script>
-        <script src="{% static 'columns_path.js' %}"></script> <!--type="module" -->
+        <script src="{% static 'columns_path.js' %}"></script> 
+        <script src="{% static 'gpt_algo.js' %}"></script><!--type="module" -->
 
         <!-- <script src="/static/tribute-master/src/Tribute.js"></script> -->
 
@@ -116,6 +117,26 @@
                 </div>
 
                 <div class="interaction-container">
+
+
+                    <!-- START gpt desc-->
+ 
+
+                    <div class="header-banner-wrap" id="gpt-txt-wrap"> 
+                        <div class="describetextboxwrap" id="gpt-txt-area-wrap">
+                            <textarea id="gpt-desc" name="gptdesctext" placeholder="" rows="1" cols="90" maxlength="235"></textarea>
+                            <div class="text"></div>
+                        </div>
+                        <div>
+                            <h2>Copy and paste your column headers here:</h2> 
+                            <textarea id="desc-col-headers" name="desc-col-heads" placeholder="" rows="1" cols="90" maxlength="500"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- END gpt-->
+
+
                     <div class="header-banner-wrap" id="describe-algo-banner">
 
 
@@ -194,7 +215,12 @@
                         </div>
                     </div>
 
+
+
                     <div class="scroll-collapse-tree" id="algo-desc-graph"> 
+                        <!--<div class="help-banner-wrap desc-algo-banner" id="not-sure-which-algo">
+                            <h4>Not sure which algorithm to choose?</h4>
+                        </div>-->
                         <svg id="maine" class="selection-svg">
                             <defs>
                                 <linearGradient id="grad" x1="10%" y1="0%" x2="0%" y2="50%" gradientUnits="userSpaceOnUse" gradientTransform="rotate(10, 250, 100)">
@@ -207,9 +233,6 @@
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <div class="help-banner-wrap" id="not-sure-which-algo">
-                            <h4>Not sure which algorithm to choose?</h4>
-                        </div>
                         <div class="what-you-need-banner-wrap" id="descriptiondontseewhatyouneed" style="display:none">
                             <h4>Don't see what you need?</h4>
                         </div>
@@ -519,6 +542,35 @@
                     <!-- END COLUMNS-->
 
 
+
+
+                    <!-- START DESCRIBE-->
+                    <div class="hide" id="describe-main-wrap">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle sheet-select-drop disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sheet
+                            </button>
+                            <ul class="dropdown-menu" id="describe_dataset_ul"></ul>
+                        </div>
+                        <div class="side-header margin-top-four">
+                            <div class="flexy-side-drops-centered flex-auto-center">
+                                <h2>Describe what you want the algorithm to do to your dataset</h2>
+                                <br>
+                                <h2>Any mention of a column name must have the word column before it and the column name in quotes</h2>                                
+                            </div>
+                            <textarea id="describetext" placeholder="Remove all rows where column &quot;Sale_ID&quot; ends with 005"></textarea>
+                        </div>
+                        <div class="submit-algo-buttons" id="submit-describe-wrap">
+                            <button id="send_describe_input" class="glowbutton">Build Algorithm</button>
+                            <div id="describespinner" style="display:none;" class="load">
+                                <hr/><hr/>  
+                                <hr/><hr/>                        
+                            </div>  
+                        </div>   
+
+                    </div>
+
+                    <!-- END COLUMNS-->
 
 
 

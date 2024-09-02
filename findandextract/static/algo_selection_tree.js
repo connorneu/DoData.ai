@@ -8,8 +8,31 @@ $(document).ready(function () {
     name: root_node_name,
     children: [
         {
-            name: "Move Data",
+            name: "One file",
             children: [
+                {
+                    name: "Creat Calculated Column",
+                    image: "/static/images/Column.png",
+                    children: [
+                        {
+                            name: "START"
+                        }
+                    ]
+                },
+                {
+                    name:"Change Dataset",
+                    image: "/static/images/Update.png",
+                    children: [
+                        {
+                            name: "START" 
+                        }
+                    ]
+                }
+            ]
+        }, 
+        {
+            name: "Multiple files",
+            children: [  
                 {
                     name: "Search",
                     image: "/static/images/Extract.png",
@@ -17,15 +40,7 @@ $(document).ready(function () {
                             name: "START"                        
                         }
                     ]                           
-                },
-                {
-                    name:"Combine",
-                    image: "/static/images/Combine.png",
-                    children: [{
-                            name: "START"                        
-                        }
-                    ]
-                },
+                }, 
                 {
                     name:"Update",
                     image: "/static/images/Update.png",
@@ -34,30 +49,15 @@ $(document).ready(function () {
                             name: "START" 
                         }
                     ]
-                },                
+                }, 
                 {
-                    name: "Filter",
-                    image: "/static/images/Filter.png",
-                    children: [
-                        {
-                            name: "START"
+                    name:"Combine",
+                    image: "/static/images/Combine.png",
+                    children: [{
+                            name: "START"                        
                         }
                     ]
-                } 
-            ]
-        }, 
-        {
-            name: "Analyze Data",
-            children: [
-                {
-                    name: "Calculate",
-                    image: "/static/images/Column.png",
-                    children: [
-                        {
-                            name: "START"
-                        }
-                    ]
-                },    
+                },      
                 {
                     name: "Compare",
                     image: "/static/images/Reconcile.png",
@@ -66,7 +66,7 @@ $(document).ready(function () {
                             name: "START"
                         }
                     ]
-                }                            
+                },                      
             ]
         },                                                        
         ]

@@ -303,8 +303,8 @@ def gpt_algo_desc(user_text):
                 Reconcile: Compare two files and determine which values in the common columns match and do not match. The user must describe which columns in both files must have the same row values to compare. The user then supplies which columns contain the row values to compare. The user is returned a single file containing the first file as well as additional columns which describe the other values that exist in the second file when the matching criteria is met.
                 Columns: Generate an Excel formula based on the user decription of what they are trying to build. The user inputs a description of what they want the newly created calculated column to calculate. The user must also upload the file which they want the newly created formula applied to. The result is the original dataset with a newly created column containing the newwly created formula.           
                 Filter: Filter a single dataset by applying conditions to columns. 
-                """
-    # Group: Group data together in a single file using one or several columns as the grouping criteria where equal values on multiple rows are collapsed into one row and metrics are calculated for the columns which are not being collapsed. The user is returned a file where the rows  in the columns specified as the columns to group together are collapsed into one row, and the columns which had been indicated as those to calculate metrics for have their metrics calcualted.    
+                Group: Group data together in a single file using one or several columns as the grouping criteria where equal values on multiple rows are collapsed into one row and metrics are calculated for the columns which are not being collapsed. The user is returned a file where the rows  in the columns specified as the columns to group together are collapsed into one row, and the columns which had been indicated as those to calculate metrics for have their metrics calcualted.
+                """    
     stream = client.chat.completions.create(
         model="gpt-4-turbo-2024-04-09",
         messages=[{"role": "user", "content": question}],

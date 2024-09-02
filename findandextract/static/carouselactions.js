@@ -79,9 +79,38 @@ $(document).ready(async function() {
         myanime.play();
         var path = window.location.pathname;
         var page = path.split("/").pop();
-        await gently_show_tree();
+        //await gently_show_tree();
+        await show_gpt_txt_box();
     }
 });
+
+
+async function show_gpt_txt_box(){
+    await add_to_carousel('Describe you want to do to your data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    await add_to_carousel('We will generate a file to download that contains the code you need.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);    
+    document.getElementById('gpt-txt-wrap').style.display='block';
+    document.getElementById('gpt-txt-area-wrap').style.display='block';
+}
+
+
+$(document).ready(function() {
+    $("#gpt-desc").keypress(function (e) {
+        if(e.which == 13) {
+            submit_gpt_text();
+        }
+    });
+});
+
+
+
+
+async function show_desc_box(){
+    await add_to_carousel('Describe what you want to do:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
+    //await add_to_carousel('An algorithm type will be suggested', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, true);
+    document.getElementById('confirm-algo-select').style.display='block';
+    document.getElementById('describe-algo-banner').style.display='block';
+    document.getElementById('textbox-algo-desc-wrap').style.display='block';
+}
 
 function fake_start(){
     console.log('fake start')
@@ -420,8 +449,8 @@ async function start_data_filter(db_data){
             await add_to_carousel('Loaded file: ' + unique_file_names[i], fourth_color, [null], true, false);
         }         
     }
-    edit_data();
-    //decide_algo_path(algorithm_type);
+    //edit_data();
+    decide_algo_path(algorithm_type);
 }
 
 async function edit_data(){
@@ -506,8 +535,11 @@ async function decide_algo_path(algorithm_type)
     else if (algorithm_type === 'Calculate'){
         start_calculate_path();
     }
-    else if (algorithm_type ==='Columns'){
+    else if (algorithm_type === 'Columns'){
         start_columns_path();
+    }
+    else if (algorithm_type === 'Describe Algorithm'){
+        start_describe_path();
     }
 
 }
@@ -1696,6 +1728,11 @@ async function start_algo_path(node_name, parent_node_name, algo_desc){
             algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
             max_file_upload = 4;
         }
+        else if (parent_node_name === 'Describe Algorithm'){
+            algorithm_type = 'Describe Algorithm'
+            algo_desc = 'Describe what to do to a dataset and have an algorithm generated and executed.'
+            max_file_upload = 1
+        }
         else if (parent_node_name === 'Combine'){
             console.log('algo selected - combine')
             algorithm_type = 'Combine';      
@@ -1842,6 +1879,11 @@ function assign_algo_type_description(algo_type){
     if (algo_type === 'Extract' || algo_type === 'Search'){
         algo_desc = 'Select rows of data from one or multiple files based on values or conditions and extract them into one file.';
         max_file_upload = 4;
+    }
+    else if (algo_type === 'Describe Algorithm'){
+        algorithm_type = 'Describe Algorithm'
+        algo_desc = 'Describe what to do to a dataset and have an algorithm generated and executed.'
+        max_file_upload = 1
     }
     else if (algo_type === 'Combine'){   
         algo_desc = 'Combine two or more datasets into one file by searching for common values and adding columns where they match.' 
