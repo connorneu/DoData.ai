@@ -86,8 +86,8 @@ $(document).ready(async function() {
 
 
 async function show_gpt_txt_box(){
-    await add_to_carousel('Describe you want to do to your data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);
-    await add_to_carousel('We will generate a file to download that contains the code you need.', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);    
+    await add_to_carousel('Describe what you want to do to your data', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);  
+    await add_to_carousel('and create a program you can run on your desktop:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     document.getElementById('gpt-txt-wrap').style.display='block';
     document.getElementById('gpt-txt-area-wrap').style.display='block';
 }
@@ -293,8 +293,8 @@ async function carousel(carousel_obj, isHomeCarousel=false) {
 
 
 function center_action_text(obj_text, obj_id_raw){
-    var actionfyi_spacing = 9; // 9 is a random number fuckface
-    var action_spacing = 10;
+    var actionfyi_spacing = 14; // 9 is a random number fuckface
+    var action_spacing = 15;
     var obj_id = obj_id_raw.replace('#', '');
     var actionfyi_elem = document.getElementById(obj_id);
     var carousel_parent = actionfyi_elem.closest('.carouselcontainer');
@@ -2407,7 +2407,7 @@ $(document).ready(function () {
     // Example
     // ——————————————————————————————————————————————————
     
-    const phrases = [
+    const phrases_old = [
         'e.g Combine two datasets by matching on values in a common column',
         'e.g Create a custom Excel formula',
         'e.g Find all the rows that contain specific values',
@@ -2421,6 +2421,15 @@ $(document).ready(function () {
         'e.g Create calculated column',
         'e.g Join two datasets',
         'e.g Search through multiple files and combine matching rows into one file'
+    ]
+
+    const phrases = [
+        'Find every sale greater than $10,000 between March and July',
+        'Calculate the highest selling product for each product line',
+        'Remove any rows where the Product ID starts with 004',
+        'Create a new column ',
+
+        
     ]
     
     const el = document.querySelector('.text')

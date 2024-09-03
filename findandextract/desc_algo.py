@@ -89,6 +89,8 @@ def gpt_question(client, user_desc, col_list):
         Use column headers from the provided Column_Name_List when needed in the code.
         The file path for the input file needs to be "FilePath.csv"
         The file path for the output file needs to be "Output_File_Path.csv".
+        Don't assign the column name list while reading the file.
+        When reading input file, check if extension is csv, xlsx, or txt and have options for reading all three while ignoring enocding errors.
         Task: {user_desc}
         Column_Name_List: {col_list}
                 """

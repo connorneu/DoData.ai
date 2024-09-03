@@ -382,18 +382,32 @@ def findandextract(request):
                         log.critical("An error occurred during upload_data_files", exc_info=True)
                         return HttpResponse('Critical Error. ', status=500)  
         else:
-            try:
-                print('nonajax post')
-                print('downloading result.')
-                print(request)
+            if 'submitdescpost' in request.POST: 
+                print("submitting gpt desc text")
                 print(request.POST)
-                response = download_file(request)
-                clear_user_data(request)
+                user_desc = request.POST.get('gptdesctext')
+                col_heads = request.POST.get('desc-col-heads')
+                print("user_desc:", user_desc)
+                print("col_heads:", col_heads)
+                user_code = make_gpt_request(user_desc, col_heads)
+                filename = "doData app.py "
+                content = user_code
+                response = HttpResponse(content, content_type='text/plain')
+                #response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+                response['Content-Disposition'] = 'attachment; filename=%s' % filename
                 return response
-            except:
-                traceback.print_exc()
-                log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
-                return HttpResponse('There was an error. Please try again.', status=500) 
+            #try:
+            #    print('nonajax post')
+            #    print('downloading result.')
+            #    print(request)
+            #    print(request.POST)
+            #    response = download_file(request)
+            #    clear_user_data(request)
+            #    return response
+            #except:
+            #    traceback.print_exc()
+            #    log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
+            #    return HttpResponse('There was an error. Please try again.', status=500) 
     else:
         try:
             print("GET REQUEST")
@@ -506,8 +520,6 @@ def download_file(request):
         return response
 
 
-def download_py_file(user_code):
-    return HttpResponse(user_code, content_type='text/plain')
 
 
 

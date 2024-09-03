@@ -24,6 +24,7 @@ function ajax_submit_gpt_text(desc_params){
         success: function () {
             //ajax_get_result_db('describe');
             console.log('done');
+            
 
         },
         // on error
