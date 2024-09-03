@@ -102,6 +102,26 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function () {
+  
+    /* Every time the window is scrolled ... */
+    document.addEventListener('scroll', function (event) {
+      console.log('hes')
+      /* Check the location of each desired element */
+      $('.reveal').each(function (i) {
+        console.log("MOSSS")
+        var bottom_of_object = $(this).offset().top + $(this).outerHeight();
+        var bottom_of_window = $(window).scrollTop() + $(window).height();
+        console.log(bottom_of_window + '  -   ' + bottom_of_object)
+        /* If the object is completely visible in the window, fade it in */
+        if (bottom_of_window > (bottom_of_object*.6)) {
+            console.log('shees')
+          $(this).animate({ 'opacity': '1' }, 1500);
+          /* 1500 is the duration of fade effect */
+        }
+      });
+    }, true /*Capture event*/);
+  });
 
 
 async function show_desc_box(){
@@ -293,8 +313,8 @@ async function carousel(carousel_obj, isHomeCarousel=false) {
 
 
 function center_action_text(obj_text, obj_id_raw){
-    var actionfyi_spacing = 14; // 9 is a random number fuckface
-    var action_spacing = 15;
+    var actionfyi_spacing = 12; // 9 is a random number fuckface
+    var action_spacing = 13;
     var obj_id = obj_id_raw.replace('#', '');
     var actionfyi_elem = document.getElementById(obj_id);
     var carousel_parent = actionfyi_elem.closest('.carouselcontainer');

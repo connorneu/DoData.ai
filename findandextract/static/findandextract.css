@@ -75,7 +75,7 @@ h2 {
     display:inline;
 }
 .carouselcontainer.actionfyi h2{
-    font-size:24px; 
+    font-size:20px; 
 }
 h3{
     font-size:16px;   
@@ -98,7 +98,7 @@ h4{
 }
 
 .action h2{
-    font-size:26px;
+    font-size:22px;
     color:rgba(255, 255, 255) !important;
     /*animation: flicker 5s infinite alternate;
     text-shadow: 1px 0px 4px #7e7e7e,
@@ -112,6 +112,9 @@ h4{
 }
 .actionfyi h2{
     color:rgb(208, 208, 215) !important;
+}
+.reveal{
+    opacity: 0;
 }
 
 @keyframes flicker {
