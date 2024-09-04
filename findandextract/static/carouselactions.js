@@ -106,22 +106,20 @@ $(document).ready(function () {
   
     /* Every time the window is scrolled ... */
     document.addEventListener('scroll', function (event) {
-      console.log('hes')
       /* Check the location of each desired element */
       $('.reveal').each(function (i) {
-        console.log("MOSSS")
         var bottom_of_object = $(this).offset().top + $(this).outerHeight();
         var bottom_of_window = $(window).scrollTop() + $(window).height();
-        console.log(bottom_of_window + '  -   ' + bottom_of_object)
         /* If the object is completely visible in the window, fade it in */
         if (bottom_of_window > (bottom_of_object*.6)) {
-            console.log('shees')
           $(this).animate({ 'opacity': '1' }, 1500);
           /* 1500 is the duration of fade effect */
         }
       });
     }, true /*Capture event*/);
   });
+
+
 
 
 async function show_desc_box(){

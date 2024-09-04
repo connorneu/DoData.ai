@@ -116,6 +116,9 @@ h4{
 .reveal{
     opacity: 0;
 }
+.trans{
+    opacity:0;
+}
 
 @keyframes flicker {
     0%, 100% {

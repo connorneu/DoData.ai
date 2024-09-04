@@ -330,24 +330,22 @@ def findandextract(request):
                     clear_user_data(request)
                     return response
                 except:
-                    traceback.print_exc()
+                    traceback.print_exc()   
                     log.critical("A critical error occurred while downloading result - " + 'username: ' + str(request.user), exc_info=True)
                     return HttpResponse('There was an error. Please try again.', status=500) 
             elif request.POST.get('ajax_name') == 'gpt_algo_desc':
-                print("submitting gpt desc text")
+                print("thisistheonlyone submitting gpt desc text")
+                print(request.POST)
                 parameters = request.POST.get('parameters')
                 params = ast.literal_eval(parameters)
+                print('pam')
                 print(params)
                 user_desc = params['user_description']
                 col_heads = params['col_heads']
-                user_code = make_gpt_request(user_desc, col_heads)
-                filename = "youarecoding.txt"
-                content = user_code
-                response = HttpResponse(content, content_type='text/plain')
-                #response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
-                response['Content-Disposition'] = 'attachment; filename=%s' % filename
-                return response
-                #return HttpResponse(user_code, content_type='text/plain')
+                print("user_desc:", user_desc)
+                print("col_heads:", col_heads)
+                followups, original_question = make_gpt_request(user_desc, col_heads)
+                return JsonResponse({'followups' : followups, 'original_question' : original_question})
 
             elif request.method == 'POST': 
                 try:
@@ -383,13 +381,19 @@ def findandextract(request):
                         return HttpResponse('Critical Error. ', status=500)  
         else:
             if 'submitdescpost' in request.POST: 
-                print("submitting gpt desc text")
+                print("submitting gpt desc text FUCK")
                 print(request.POST)
                 user_desc = request.POST.get('gptdesctext')
                 col_heads = request.POST.get('desc-col-heads')
+                orig_q = request.POST.get('follow-q')
+                follow_q = request.POST.get('orig-q')
+                follow_resp = request.POST.get('followup-resp')
                 print("user_desc:", user_desc)
                 print("col_heads:", col_heads)
-                user_code = make_gpt_request(user_desc, col_heads)
+                print('orig_q:', orig_q)
+                print('follow_q:', follow_q)
+                print('follow response:', follow_resp)
+                user_code = make_gpt_request_code(user_desc, col_heads, orig_q, follow_q, follow_resp)
                 filename = "doData app.py "
                 content = user_code
                 response = HttpResponse(content, content_type='text/plain')

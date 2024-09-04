@@ -133,6 +133,13 @@
                                 <h2>Copy and paste your column headers here:</h2> 
                                 <textarea class ="txt-column-heads" id="desc-col-headers" name="desc-col-heads" spellcheck="false" placeholder="ID    Country    Department    Sale_Date    Sale_Value    Units_Sold    Client_Name" rows="1" cols="90" maxlength="600"></textarea>
                             </div>
+                            <div class="center-flex-wrap" id="hidden-followup">
+                                <h2 id="followup-header">Answer the followup questions:</h2> 
+                                <textarea class ="txt-column-heads" id="follo" name="followup-resp" spellcheck="false" placeholder="ID    Country    Department    Sale_Date    Sale_Value    Units_Sold    Client_Name" rows="1" cols="90" maxlength="600"></textarea>
+                            </div>
+                            <textarea id="hidden-original-followup" name="follow-q" style="display: none;"></textarea>
+                            <textarea id="hidden-original-question" name="orig-q" style="display: none;"></textarea>
+                            <a class="myButton" id="receive-followup">Continue</a> 
                             <input style="margin-top:1%;margin-bottom:10%;" class="downloadbutton" type="submit" name="submitdescpost" value="Submit" id="submit-desc-txt"/>
                         </form>
                         <div>
