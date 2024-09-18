@@ -40,7 +40,7 @@ body {
     /*max-height:20%;
     min-height:20%;*/
     overflow: auto;
-    margin-bottom:2%; /*4%*/
+    margin-bottom:0%; /*2%*/
     width:100%;
     overflow-x: hidden;
 }
@@ -246,7 +246,7 @@ ul li ul:hover{
 }
 .action{
     text-align : left;
-    margin-top: 1%;
+    margin-top: 4%; /*1%*/
 }
 .actionfyi{
     text-align : left;
@@ -1257,7 +1257,7 @@ textarea {
   border: 1px solid #ccc;
   box-shadow: 1px 1px 1px #999;
   resize:none;
-  background-color:#646464;;
+  background-color:rgba(173, 116, 221, 0.7); /*rgba(221, 160, 116, 0.7); #646464;*/
   color: #ddd;
   opacity:95%;
   line-height: 2;
@@ -1269,8 +1269,11 @@ textarea {
   align-content:center*/
   margin:0;
 }
+#desc-col-headers{
+    background-color: #2f2f2f;
+}
 .txt-column-heads{
-    height:70px;
+    height:40px;
     overflow: auto;
     
 }
@@ -1975,6 +1978,9 @@ outside of combine*/
   font-weight:100;
   font-size:18px;
   color:#FAFAFA;
+  position: relative;
+  top: 50px;
+  z-index: 500;
 }
 .dud{
     color:#757575;

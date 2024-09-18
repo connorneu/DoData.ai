@@ -345,6 +345,11 @@ def findandextract(request):
                 print("user_desc:", user_desc)
                 print("col_heads:", col_heads)
                 followups, original_question = make_gpt_request(user_desc, col_heads)
+                print('VIEWS')
+                print("Followupsz")
+                print(followups)
+                print("OGINIAL QUESTIONS")
+                print(original_question)
                 return JsonResponse({'followups' : followups, 'original_question' : original_question})
 
             elif request.method == 'POST': 
@@ -385,8 +390,8 @@ def findandextract(request):
                 print(request.POST)
                 user_desc = request.POST.get('gptdesctext')
                 col_heads = request.POST.get('desc-col-heads')
-                orig_q = request.POST.get('follow-q')
-                follow_q = request.POST.get('orig-q')
+                orig_q = request.POST.get('orig-q')
+                follow_q = request.POST.get('follow-q')
                 follow_resp = request.POST.get('followup-resp')
                 print("user_desc:", user_desc)
                 print("col_heads:", col_heads)

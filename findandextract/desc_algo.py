@@ -90,18 +90,13 @@ def gpt_client():
 
 
 def gpt_question(client, user_desc, col_list):
+    print('you are hjere')
     question = f"""
-        Write Python code to solve the following task. Ask two follow up question to improve the accuracy of the code before generating the result.
-        Format the response as "Please answer these questions to help ensure an accurate response:".
-        After the user has answered the followup questions output only code.
-        The beginning of the code needs to start with "XstartX" and the end of the code should end with "XendX".
-        Use column headers from the provided Column_Name_List when needed in the code. Do not use usecols when reading the data.
-        The file path for the input file needs to be "FilePath.csv"
-        The file path for the output file needs to be "doData_Output_File.csv".
-        When reading input file, check if extension is csv, Excel, or txt.
-        Create exception handling to try reading excel files with the most different encoding types.
-        Never overwrite an existing column. If the column name is in use create a different column name.
-        This code should never alter any existing file. This code will only create 1 new file which is the "doData_Output_File.csv" file. If "doData_Output_File.csv" already exists throw an exception "There is already a file called doData_Output_File.csv in this location. Please choose another location".
+        You must ask one followup question based on the task below.
+        Do not use any technical language in the followup question.
+        The followup question you generate must make it easier to create Python code that will execute without errors when the user responds to your question.
+        Do not ask what format the column is in!
+        You always ask what format the column is in ignoring the very clear prompt. DO NOT ASK WHAT FORMAT THE COLUMN IS IN
         Task: {user_desc}
         Column_Name_List: {col_list}
                 """
@@ -116,34 +111,39 @@ def gpt_question(client, user_desc, col_list):
         if chunk.choices[0].delta.content is not None:
             # print(chunk.choices[0].delta.content, end="")
             response += chunk.choices[0].delta.content
-    print('response:')
+    print('followup question response:')
     print(response)
     #strpd_response = response.split("XstartX")[1].split("XendX")[0]
     return response, question
 
 
 def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp):
-    print("FOLLOW Questio")
-    print(follow_q)
-    print("REPSOSNE TO FOLLOW QUESTIOn")
-    print(follow_resp)
     question = f"""
         Write Python code to solve the following task. Output only code.
         The beginning of the code needs to start with "XstartX" and the end of the code should end with "XendX".
-        Use column headers from the provided Column_Name_List when needed in the code. Do not use usecols when reading the data.
+        Strip any ``` and don't write python anywhere.
+        Use column headers from the provided Column_Name_List when needed in the code.
         The file path for the input file needs to be "FilePath.csv"
         The file path for the output file needs to be "doData_Output_File.csv".
         When reading input file, check if extension is csv, Excel, or txt.
-        Create exception handling to try reading excel files with the most different encoding types.
+        If the code involves numerical operations, convert the required columns to numeric data types.
+        Always ignore errors when converting data types.
+        Read date column using to_datetime. Do not use format parameter.
         Never overwrite an existing column. If the column name is in use create a different column name.
-        This code should never alter any existing file. This code will only create 1 new file which is the "doData_Output_File.csv" file. If "doData_Output_File.csv" already exists throw an exception "There is already a file called doData_Output_File.csv in this location. Please choose another location".
+        This code will only create 1 new file which is the "doData_Output_File.csv" file.
+        The exception handling in this code will never raise an exception to stop excecution but instead will handle the error so that the code can continue to execute.
+        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
+        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
+        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
+        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
+        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
         Task: {user_desc}
         Column_Name_List: {col_list}
         The user has added these clarifications to your questions. Your questions:{follow_q}. User response:{follow_resp}.
                 """
-
     stream = client.chat.completions.create(
         model="gpt-4o",
+        #messages=[{"role": "user", "content": question}],
         messages=[{"role": "user", "content": orig_q}, {"role": "assistant", "content": follow_q}, {"role": "user", "content": question}],
         stream=True
     )
@@ -152,7 +152,7 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         if chunk.choices[0].delta.content is not None:
             # print(chunk.choices[0].delta.content, end="")
             response += chunk.choices[0].delta.content
-    print('response:')
+    print('code response:')
     print(response)
     strpd_response = response.split("XstartX")[1].split("XendX")[0]
     return strpd_response
@@ -216,6 +216,7 @@ def make_gpt_request_code(user_desc, col_heads, orig_q, follow_q, follow_resp):
     print('_Code_')
     print(gpt_code)
     packages = get_package_names(gpt_code)
+    packages = get_dependant_packages(packages)
     print('packages:', packages)
     outfile = GUI + '\n' + 'USER_CODE=' + "\"\"\"" + '\n' + str(gpt_code) + '\n' + "\"\"\"" + '\n' + 'PACKAGES=' + str(packages) + '\n' + MAIN_METHOD
     print('\n\n')

@@ -20,7 +20,17 @@ function show_followup_questions(followups_json){
     var original_question = followups_json.original_question
     $('#followup-header').text(followupquestions)
     $('#hidden-original-question').val(original_question)
+    $('#hidden-original-followup').val(followupquestions)
 }
+
+$(document.body).on('input propertychange', '#gpt-desc', async function(){
+    if($(this).length > 0){
+      $('#desc-prompt').show();
+    }
+    else{
+      $('#desc-prompt').hide();
+    }
+  }); 
 
 
 function ajax_submit_gpt_text(desc_params){

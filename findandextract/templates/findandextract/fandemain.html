@@ -126,7 +126,7 @@
                         <form id="txt-desc-form" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="describetextboxwrap" id="gpt-txt-area-wrap">
-                                <div class="text"></div>
+                                <div class="text" id="desc-prompt"></div>
                                 <textarea id="gpt-desc" name="gptdesctext" placeholder="" rows="1" cols="90" maxlength="235"></textarea>
                             </div>
                             <div class="center-flex-wrap">
