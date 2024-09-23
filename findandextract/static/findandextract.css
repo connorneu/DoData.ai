@@ -50,6 +50,9 @@ body {
     width:100%;
     overflow-x: hidden;
 }
+#gpt-desc{
+    text-align: center;
+}
 
 h1{
     font-size: 24px;
@@ -117,6 +120,10 @@ h4{
     opacity: 0;
 }
 .trans{
+    opacity:0;
+}
+#hidden-followup{
+    /*visibility: hidden;*/
     opacity:0;
 }
 
@@ -1979,8 +1986,8 @@ outside of combine*/
   font-size:18px;
   color:#FAFAFA;
   position: relative;
-  top: 50px;
-  z-index: 500;
+  top: 35px;
+  z-index: 0;
 }
 .dud{
     color:#757575;

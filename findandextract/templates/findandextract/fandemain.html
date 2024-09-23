@@ -125,22 +125,26 @@
                     <div class="header-banner-wrap" id="gpt-txt-wrap"> 
                         <form id="txt-desc-form" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="describetextboxwrap" id="gpt-txt-area-wrap">
-                                <div class="text" id="desc-prompt"></div>
-                                <textarea id="gpt-desc" name="gptdesctext" placeholder="" rows="1" cols="90" maxlength="235"></textarea>
-                            </div>
                             <div class="center-flex-wrap">
                                 <h2>Copy and paste your column headers here:</h2> 
                                 <textarea class ="txt-column-heads" id="desc-col-headers" name="desc-col-heads" spellcheck="false" placeholder="ID    Country    Department    Sale_Date    Sale_Value    Units_Sold    Client_Name" rows="1" cols="90" maxlength="600"></textarea>
                             </div>
+                            <div class="describetextboxwrap" id="gpt-txt-area-wrap">
+                                <div class="text" id="desc-prompt"></div>
+                                <textarea id="gpt-desc" name="gptdesctext" placeholder="" rows="1" cols="90" maxlength="235"></textarea>
+                            </div>
                             <div class="center-flex-wrap" id="hidden-followup">
                                 <h2 id="followup-header">Answer the followup questions:</h2> 
-                                <textarea class ="txt-column-heads" id="follo" name="followup-resp" spellcheck="false" placeholder="ID    Country    Department    Sale_Date    Sale_Value    Units_Sold    Client_Name" rows="1" cols="90" maxlength="600"></textarea>
+                                <textarea class ="txt-column-heads" id="follo" name="followup-resp" spellcheck="false" placeholder="" rows="1" cols="90" maxlength="600"></textarea>
                             </div>
                             <textarea id="hidden-original-followup" name="follow-q" style="display: none;"></textarea>
                             <textarea id="hidden-original-question" name="orig-q" style="display: none;"></textarea>
+                            <div id="followup-spinner" style="display:none;" class="load">
+                                <hr/><hr/>  
+                                <hr/><hr/>                        
+                            </div>  
                             <a class="myButton" id="receive-followup">Continue</a> 
-                            <input style="margin-top:1%;margin-bottom:10%;" class="downloadbutton" type="submit" name="submitdescpost" value="Submit" id="submit-desc-txt"/>
+                            <input style="margin-top:1%;margin-bottom:10%;display:none;" class="downloadbutton" type="submit" name="submitdescpost" value="Submit" id="submit-desc-txt"/>
                         </form>
                         <div>
                             <img src="{% static 'images/build a ui.png' %}">

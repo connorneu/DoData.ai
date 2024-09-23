@@ -86,8 +86,10 @@ $(document).ready(async function() {
 
 
 async function show_gpt_txt_box(){
-    await add_to_carousel('Describe what you want to do to your data', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);  
-    await add_to_carousel('and create a program you can run on your desktop:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    await add_to_carousel('Create a desktop app that analyzes your data:', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);  
+    await add_to_carousel('The full power of ChatGPT -  offline', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    // await add_to_carousel('Never upload your data', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
+    // await add_to_carousel('Keep all your data private', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);
     document.getElementById('gpt-txt-wrap').style.display='block';
     document.getElementById('gpt-txt-area-wrap').style.display='block';
 }

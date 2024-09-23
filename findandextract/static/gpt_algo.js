@@ -1,11 +1,13 @@
 "use strict";
 
 $(document.body).on('click', '#receive-followup' ,async function(){ 
-
+    $('#receive-followup').hide();
+    $('#followup-spinner').show();
     var user_description = $('#gpt-desc').val();
     var col_heads = $('#desc-col-headers').val();
     var gpt_desc_params = {
         user_description: user_description,
+     
         col_heads: col_heads
     }
     ajax_submit_gpt_text(gpt_desc_params);
@@ -21,14 +23,14 @@ function show_followup_questions(followups_json){
     $('#followup-header').text(followupquestions)
     $('#hidden-original-question').val(original_question)
     $('#hidden-original-followup').val(followupquestions)
+    $('#followup-spinner').hide();
+    $('#submit-desc-txt').show();
+    $('#hidden-followup').animate({ 'opacity': '1' }, 1500);
 }
 
 $(document.body).on('input propertychange', '#gpt-desc', async function(){
     if($(this).length > 0){
-      $('#desc-prompt').show();
-    }
-    else{
-      $('#desc-prompt').hide();
+      $('#desc-prompt').css('visibility', 'hidden');;
     }
   }); 
 

@@ -130,6 +130,7 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         Always ignore errors when converting data types.
         Read date column using to_datetime. Do not use format parameter.
         Never overwrite an existing column. If the column name is in use create a different column name.
+        If the code requires a graph use a dark style with #6200ee as the color and make the axis labels visible and the output should be the graph.
         This code will only create 1 new file which is the "doData_Output_File.csv" file.
         The exception handling in this code will never raise an exception to stop excecution but instead will handle the error so that the code can continue to execute.
         The units that the result is expressed in should be the same as the units in the columns used for the calculation.
