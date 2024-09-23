@@ -4,6 +4,7 @@ from decouple import config
 GUI = """
 from tkinter import *
 from tkinter import filedialog
+from tkinter import ttk
 import subprocess
 
 
@@ -12,17 +13,94 @@ class Gui:
         self.root = root
         self.gpt_code = code
         self.package_name_list = packages
+
         # Setting the title
         root.title('doDatai.ai')
-        # Setting the window size
-        height = 720
-        width = 1280
+
+        # Setting the window size and centering it
+        height = 400
+        width = 530
         screenheight = root.winfo_screenheight()
         screenwidth = root.winfo_screenwidth()
-        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width)/2, (screenheight - height)/2)
+        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
-        root.resizable(width = False, height = False)
-        self.create_ui()
+        root.resizable(width=True, height=True)
+
+        # Configure root grid
+        root.grid_rowconfigure(0, weight=1)
+        root.grid_columnconfigure(0, weight=1)
+
+        # Create a Notebook for tabs
+        tab_control = ttk.Notebook(root)
+        tab_control.grid(row=0, column=0, sticky="nsew")
+
+        # Tab 1 - App Tab
+        app_tab = ttk.Frame(tab_control)
+        tab_control.add(app_tab, text="App")
+        self.create_app_tab(app_tab)
+
+        # Tab 2 - Description Tab
+        description_tab = ttk.Frame(tab_control)
+        tab_control.add(description_tab, text="Description")
+        self.create_description_tab(description_tab)
+
+        # Tab 3 - Code Tab
+        code_tab = ttk.Frame(tab_control)
+        tab_control.add(code_tab, text="Code")
+        self.create_code_tab(code_tab)
+
+        # Configure tabs to expand and fill
+        for tab in (app_tab, description_tab, code_tab):
+            tab.grid_rowconfigure(0, weight=1)
+            tab.grid_columnconfigure(0, weight=1)
+
+    # Method to create the content in the App tab
+    def create_app_tab(self, app_tab):
+        # Main frame with padding for aesthetics
+        main_frame = ttk.Frame(app_tab, padding=(20, 10))
+        main_frame.grid(row=0, column=0, sticky="nsew")
+        main_frame.grid_columnconfigure(0, weight=1)
+
+        # Aesthetic styling for buttons
+        style = ttk.Style()
+        style.configure('TButton', font=('Ubuntu', 14), padding=6, background="#2b2b2b", foreground="#c4c2c2")
+        style.map('TButton', background=[('active', 'grey')], foreground=[('active', 'black')])
+
+        # Create a label with a modern look
+        header_label = ttk.Label(main_frame, text="File Selector", font=('Ubuntu', 18, 'bold'))
+        header_label.grid(row=0, column=0, pady=(0, 20), columnspan=2)
+
+        # Adding the 'Select File' button with modern hover effects
+        self.select_btn = ttk.Button(main_frame, text="Select File", command=self.openfile, style="TButton")
+        self.select_btn.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
+
+        # Textbox to display the filename
+        self.filename_display = Text(main_frame, height=10, width=50, wrap='word', font=('Ubuntu', 10))
+        self.filename_display.grid(row=2, column=0, padx=10, pady=0, sticky="ew")
+        self.filename_display.insert(END, "Select file to begin...")
+        self.filename_display.configure(state='disabled')  # Make it read-only
+
+        # add progress bar
+        self.progressbar = ttk.Progressbar()
+        self.progressbar.grid(row=3, column=0, padx=10, pady=0, sticky="ew")
+
+        # Footer text
+        footer_label = ttk.Label(main_frame, text="doDatai.ai © 2024", font=('Ubuntu', 10, 'italic'), foreground="#888888")
+        footer_label.grid(row=4, column=0, pady=(20, 0))
+
+    # Method to create the content in the Description tab
+    def create_description_tab(self, description_tab):
+        # Text area for description
+        description_text = Text(description_tab, wrap='word', font=('Ubuntu', 12))
+        description_text.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        description_text.configure(state='disabled')
+
+    # Method to create the content in the Code tab
+    def create_code_tab(self, code_tab):
+        # Text area for code
+        code_text = Text(code_tab, wrap='word', font=('Ubuntu', 12))
+        code_text.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        code_text.configure(state='disabled')
 
     
     def create_ui(self):
@@ -32,10 +110,18 @@ class Gui:
 
     def openfile(self):
         filename = filedialog.askopenfilename()
+        self.filename_display.configure(state='normal') 
+        self.filename_display.delete("1.0", END)
+        self.filename_display.insert(END, filename + '\n')
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
         self.replace_filepath_in_code(filename)
         import_statements = self.generate_import_statements()
         self.structure_main_method(import_statements)
+        self.progressbar.step(10)
+        self.filename_display.configure(state='normal') 
+        self.filename_display.insert(END, "File Imported." + '\n')
+        self.filename_display.insert(END, "Installing required packages..." + '\n')
+        self.filename_display.configure(state='disabled') 
         print(filename)
 
 
@@ -72,7 +158,10 @@ class Gui:
         code += '\tuser_code()'
         print("Final Code")
         print(code)
+        self.progressbar.step(30)
         exec(code)
+        self.progressbar.step(100)
+        self.filename_display.insert(END, 'Complete.')
 """
 
 MAIN_METHOD = """
@@ -189,6 +278,8 @@ def get_package_names(code):
     for line in code_lines:
         if line.startswith('import'):
             line_words = line.split()
+            if '.' in line_words:
+                line_words.split('.')[0]
             package = line_words[1].strip()
             packages.append(package)
     return packages
@@ -197,7 +288,7 @@ def get_package_names(code):
 def get_dependant_packages(packages):
     for package in packages:
         if 'pandas' in package:
-            packages.append('xlrd')
+            packages.append('openpyxl')
     return packages
 
 
