@@ -98,8 +98,9 @@ class Gui:
     # Method to create the content in the Code tab
     def create_code_tab(self, code_tab):
         # Text area for code
-        code_text = Text(code_tab, wrap='word', font=('Ubuntu', 12))
+        code_text = Text(code_tab, wrap='word', font=('DejaVu Sans Mono', 10))
         code_text.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        code_text.insert(END, USER_CODE)
         code_text.configure(state='disabled')
 
     
@@ -112,15 +113,15 @@ class Gui:
         filename = filedialog.askopenfilename()
         self.filename_display.configure(state='normal') 
         self.filename_display.delete("1.0", END)
-        self.filename_display.insert(END, filename + '\n')
+        self.filename_display.insert(END, filename + '\\n')
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
         self.replace_filepath_in_code(filename)
         import_statements = self.generate_import_statements()
         self.structure_main_method(import_statements)
         self.progressbar.step(10)
         self.filename_display.configure(state='normal') 
-        self.filename_display.insert(END, "File Imported." + '\n')
-        self.filename_display.insert(END, "Installing required packages..." + '\n')
+        self.filename_display.insert(END, "File Imported." + '\\n')
+        self.filename_display.insert(END, "Installing required packages..." + '\\n')
         self.filename_display.configure(state='disabled') 
         print(filename)
 
