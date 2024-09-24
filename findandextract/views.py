@@ -399,7 +399,7 @@ def findandextract(request):
                 print('follow_q:', follow_q)
                 print('follow response:', follow_resp)
                 user_code = make_gpt_request_code(user_desc, col_heads, orig_q, follow_q, follow_resp)
-                filename = "doData app.py "
+                filename = "doData.py "
                 content = user_code
                 response = HttpResponse(content, content_type='text/plain')
                 #response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)

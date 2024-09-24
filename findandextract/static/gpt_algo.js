@@ -64,3 +64,23 @@ function ajax_submit_gpt_text(desc_params){
     });
     return false;
  }
+ 
+
+ $(document.body).on('click', '#submit-desc-txt' ,async function(){ 
+    $('#submit-desc-txt').hide();
+    $('#followup-spinner').show();
+
+
+    setTimeout(async function(){
+        
+        $('#followup-spinner').hide();
+        $('#gpt-txt-wrap').hide();
+        hide_containers(3);
+        await add_to_carousel('Your app is downloading', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('action')"], true, false);  
+        //await add_to_carousel('', action_color, ["document.getElementById('carouselcontainer" + (carousel_num) +"').classList.add('actionfyi')"], true, false);   
+        $('#downloaded-file').show();
+        
+    }, 5000);
+    
+
+});
