@@ -105,7 +105,7 @@ class Gui:
 
     
     def create_ui(self):
-        self.select = Button(self.root, command=self.openfile, bg="dark blue",fg="#dad122",cursor="hand2",text="Select File",font=("arial",18,"bold"),bd=0,activebackground="dark blue",activeforeground="#dad122")
+        self.select = Button(self.root, command=self.openfile, bg="blue",fg="purple",cursor="hand2",text="Select File",font=("arial",18,"bold"),bd=0,activebackground="dark blue",activeforeground="orange")
         self.select.pack()
 
 
@@ -124,6 +124,11 @@ class Gui:
         self.filename_display.insert(END, "Installing required packages..." + '\\n')
         self.filename_display.configure(state='disabled') 
         print(filename)
+        print()
+        print()
+        print('Process Complete.')
+        print('Result file \\"doData_Output_File.csv\\" has been created in the same folder.')
+        self.progressbar.step(100)
 
 
     def generate_import_statements(self):
@@ -217,17 +222,13 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         The file path for the output file needs to be "doData_Output_File.csv".
         When reading input file, check if extension is csv, Excel, or txt.
         If the code involves numerical operations, convert the required columns to numeric data types.
-        Always ignore errors when converting data types.
+        When converting columns to numeric data types first strip away all non-numeric characters so there are no errors during conversion (like 20% causing an error because it's a string).
         Read date column using to_datetime. Do not use format parameter.
         Never overwrite an existing column. If the column name is in use create a different column name.
         If the code requires a graph use a dark style with #6200ee as the color and make the axis labels visible and the output should be the graph.
         This code will only create 1 new file which is the "doData_Output_File.csv" file.
-        The exception handling in this code will never raise an exception to stop excecution but instead will handle the error so that the code can continue to execute.
-        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
-        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
-        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
-        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
-        The units that the result is expressed in should be the same as the units in the columns used for the calculation.
+        The exception handling in this code will print a statement which explains the issue.
+        If the code requires calculating the time difference between dates then express the result in the same units as the inputs. For example, calculate difference between january 1 2024 and january 4 2024 the result would be 3.
         Task: {user_desc}
         Column_Name_List: {col_list}
         The user has added these clarifications to your questions. Your questions:{follow_q}. User response:{follow_resp}.

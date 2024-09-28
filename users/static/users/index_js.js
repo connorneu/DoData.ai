@@ -4,10 +4,10 @@ $(document).ready(async function() {
 
 async function load_homepage(){
     await home_page_carousel('#homepagebannertext', 'doData.ai', [null], true, true);
-    await home_page_carousel('#herotext', 'Algorithm Builder', [null], true, true);
+    await home_page_carousel('#herotext', 'AI Data analysis - offline', [null], true, true);
     await $('#homepagebuildalgo').show();
     await home_page_carousel('#howworkheader', ['Build your algorithm'], [null], false, false);
-    await home_page_carousel('#howwork', 'Select the type of algorithm you want to build and customize the options to suit your data.', [null], true, true);
+    // await home_page_carousel('#howwork', 'Describe what you want to do to your data.', [null], true, true);
     await showcards();
 }
 
@@ -53,7 +53,7 @@ var howtochoose = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#howtochoose', 'Choose an algorithm from a menu of options. There are different choices if you\'re working with one or multiple files.', [null], true, true);
+            await home_page_carousel('#howtochoose', 'Describe what you want to do to your data without uploading your files. Copy and paste your column headers and describe what you want to do and we\'ll build you a desktop app you can run offline.', [null], true, true);
             await showalgopaths()
         }
     };
@@ -67,7 +67,7 @@ var ifunsure = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#ifunsure', 'You can also describe what you want to do and an algorithm type will be selected for you.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'Powered by Python & ChatGPT. You\'ll need to install Python to run the apps we generate.', [null], true, true);
             await showdesctext()
         }
     };
@@ -123,12 +123,12 @@ var describetheproblem = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#describeproblem', 'Each algorithm type has different options to customize. These algorithms represent the most common time consuming data problems that can be solved with automation.', [null], true, true);
+            await home_page_carousel('#describeproblem', 'Having your app be a Python file means you can see all the code. Just open with a text editor and see every single line of code. No trust required. 100% transparency.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#describeproblem').append(linebreak);
             var linebreak = document.createElement("br");
             $('#describeproblem').append(linebreak);
-            await home_page_carousel('#describeproblem', 'Each algorithm has it\'s own options. The options are simple.', [null], true, true);
+            await home_page_carousel('#describeproblem', 'We install all the required packages for you. Python uses packages of pre-written code to do things like read excel files and create graphs. Your app will install all the required packages when you run it.', [null], true, true);
             await desp();
         }
     };
@@ -419,12 +419,13 @@ $(document).ready(async function() {
     const next = elems.find((elem) => elem.dataset.pos == 1);
     const first = elems.find((elem) => elem.dataset.pos == -2);
     const last = elems.find((elem) => elem.dataset.pos == 2);
-    const tre = elems.find((elem) => elem.dataset.pos == 3);
-    const revtre = elems.find((elem) => elem.dataset.pos == -3);
+    //const tre = elems.find((elem) => elem.dataset.pos == 3);
+    //const revtre = elems.find((elem) => elem.dataset.pos == -3);
     
     current.classList.remove('carousel__item_active');
     
-    [current, prev, next, first, last, tre, revtre].forEach(item => {
+    // [current, prev, next, first, last, tre, revtre]
+    [current, prev, next, first, last].forEach(item => {
         var itemPos = item.dataset.pos;
 
         item.dataset.pos = getPos(itemPos, newActivePos)
@@ -434,7 +435,7 @@ $(document).ready(async function() {
     const getPos = function (current, active) {
     const diff = current - active;
 
-    if (Math.abs(current - active) > 3) {
+    if (Math.abs(current - active) > 2) {
         return -current
     }
 

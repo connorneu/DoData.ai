@@ -327,6 +327,9 @@ section {
   text-align: left;
 }
 
+.home-page-fade{
+  margin-bottom:20px;
+}
 
   .fade-in {
     opacity: 1;
