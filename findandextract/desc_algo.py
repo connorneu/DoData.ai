@@ -6,13 +6,29 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import ttk
 import subprocess
+import io
+import sys
+
+class RedirectConsole(io.StringIO):
+    # Custom IO class to redirect stdout to Tkinter text widget.
+    def __init__(self, widget):
+        super().__init__()
+        self.widget = widget
+
+    def write(self, s):
+        self.widget.insert(END, s)  # Insert text into widget
+        self.widget.see(END)  # Scroll to the end
+
+    def flush(self):
+        pass
 
 
 class Gui:
-    def __init__(self, root, code, packages):
+    def __init__(self, root, code, packages, user_desc):
         self.root = root
         self.gpt_code = code
         self.package_name_list = packages
+        self.user_desc = user_desc
 
         # Setting the title
         root.title('doDatai.ai')
@@ -79,6 +95,7 @@ class Gui:
         self.filename_display.grid(row=2, column=0, padx=10, pady=0, sticky="ew")
         self.filename_display.insert(END, "Select file to begin...")
         self.filename_display.configure(state='disabled')  # Make it read-only
+        sys.stdout = RedirectConsole(self.filename_display)
 
         # add progress bar
         self.progressbar = ttk.Progressbar()
@@ -93,6 +110,7 @@ class Gui:
         # Text area for description
         description_text = Text(description_tab, wrap='word', font=('Ubuntu', 12))
         description_text.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        description_text.insert(END, USER_DESC)
         description_text.configure(state='disabled')
 
     # Method to create the content in the Code tab
@@ -119,16 +137,7 @@ class Gui:
         import_statements = self.generate_import_statements()
         self.structure_main_method(import_statements)
         self.progressbar.step(10)
-        self.filename_display.configure(state='normal') 
-        self.filename_display.insert(END, "File Imported." + '\\n')
-        self.filename_display.insert(END, "Installing required packages..." + '\\n')
-        self.filename_display.configure(state='disabled') 
-        print(filename)
-        print()
-        print()
-        print('Process Complete.')
-        print('Result file \\"doData_Output_File.csv\\" has been created in the same folder.')
-        self.progressbar.step(100)
+        self.progressbar.step(50)
 
 
     def generate_import_statements(self):
@@ -162,18 +171,19 @@ class Gui:
         code += 'if __name__ == "__main__\\":\\n'
         code += '\\tpip_install_subprocess()\\n'
         code += '\tuser_code()'
-        print("Final Code")
-        print(code)
         self.progressbar.step(30)
         exec(code)
-        self.progressbar.step(100)
-        self.filename_display.insert(END, 'Complete.')
+        self.progressbar.step(110)
+        print('Process Complete.')
+        print('Result file:')
+        print("  doData_Output_File.csv") 
+        print('  (same folder as this app)')
 """
 
 MAIN_METHOD = """
 if __name__ == "__main__":
     root = Tk()
-    app = Gui(root, USER_CODE, PACKAGES)
+    app = Gui(root, USER_CODE, PACKAGES, USER_DESC)
     root.mainloop()
 """
 
@@ -220,7 +230,7 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         Use column headers from the provided Column_Name_List when needed in the code.
         The file path for the input file needs to be "FilePath.csv"
         The file path for the output file needs to be "doData_Output_File.csv".
-        When reading input file, check if extension is csv, Excel, or txt.
+        When reading input file, check if extension is csv, Excel, or txt. Allow all different types of Excel extension. Anything that starts with xl.
         If the code involves numerical operations, convert the required columns to numeric data types.
         When converting columns to numeric data types first strip away all non-numeric characters so there are no errors during conversion (like 20% causing an error because it's a string).
         Read date column using to_datetime. Do not use format parameter.
@@ -291,6 +301,7 @@ def get_dependant_packages(packages):
     for package in packages:
         if 'pandas' in package:
             packages.append('openpyxl')
+            packages.append('xlrd')
     return packages
 
 
@@ -312,7 +323,7 @@ def make_gpt_request_code(user_desc, col_heads, orig_q, follow_q, follow_resp):
     packages = get_package_names(gpt_code)
     packages = get_dependant_packages(packages)
     print('packages:', packages)
-    outfile = GUI + '\n' + 'USER_CODE=' + "\"\"\"" + '\n' + str(gpt_code) + '\n' + "\"\"\"" + '\n' + 'PACKAGES=' + str(packages) + '\n' + MAIN_METHOD
+    outfile = GUI + '\n' + 'USER_CODE=' + "\"\"\"" + '\n' + str(gpt_code) + '\n' + "\"\"\"" + '\n' + 'USER_DESC=' + "\"\"\"" + '\n' + str(user_desc) + '\n' + "\"\"\"" + '\n' + 'PACKAGES=' + str(packages) + '\n' +  MAIN_METHOD
     print('\n\n')
     print(outfile)
     return outfile

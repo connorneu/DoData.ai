@@ -529,9 +529,6 @@ def download_file(request):
         return response
 
 
-
-
-
 def download_file_DEPRECATE(request):
     uid = clean_username(str(request.user))
     print('uid', uid)
@@ -558,6 +555,7 @@ def download_file_DEPRECATE(request):
     print('response')
     print(response)
     return response
+
 
 # unmelt result data
 def unmelt_result_df(result_db_data):
