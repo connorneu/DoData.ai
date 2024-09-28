@@ -3,7 +3,7 @@ import os
 from openai import OpenAI
 from decouple import config
 import subprocess
-import paramiko
+# import paramiko
 from .views import *
 
 
