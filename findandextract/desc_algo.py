@@ -87,7 +87,7 @@ class Gui:
         header_label.grid(row=0, column=0, pady=(0, 20), columnspan=2)
 
         # Adding the 'Select File' button with modern hover effects
-        self.select_btn = ttk.Button(main_frame, text="Select File", command=self.openfile, style="TButton")
+        self.select_btn = ttk.Button(main_frame, text="Select File", command=self.openfile, style="TButton", )
         self.select_btn.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
 
         # Textbox to display the filename
@@ -131,7 +131,8 @@ class Gui:
         filename = filedialog.askopenfilename()
         self.filename_display.configure(state='normal') 
         self.filename_display.delete("1.0", END)
-        self.filename_display.insert(END, filename + '\\n')
+        self.filename_display.insert(END, 'File Selected:' + '\\n')
+        self.filename_display.insert(END, '  ' + filename + '\\n')
         root.update()
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
         self.replace_filepath_in_code(filename)
@@ -187,7 +188,7 @@ class Gui:
         print()
         print('Process Complete.')
         print()
-        print('Result file:')
+        print('Result file created:')
         print("  doData_Output_File.csv") 
         print('  (same folder as this app)')
 """
@@ -242,7 +243,7 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         Use column headers from the provided Column_Name_List when needed in the code.
         The file path for the input file needs to be "FilePath.csv"
         The file path for the output file needs to be "doData_Output_File.csv".
-        When reading input file, check if extension is csv, Excel, or txt. Allow all different types of Excel extension. Anything that starts with xl.
+        When reading input file, check if extension is csv, Excel, or txt. Allow all different types of Excel extension including xl, xlsx, xls, xlsm, xlsb, and ods.
         If the code involves numerical operations, convert the required columns to numeric data types.
         When converting columns to numeric data types first strip away all non-numeric characters so there are no errors during conversion (like 20% causing an error because it's a string).
         Read date column using to_datetime. Do not use format parameter.
