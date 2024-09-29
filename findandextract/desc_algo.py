@@ -132,10 +132,15 @@ class Gui:
         self.filename_display.configure(state='normal') 
         self.filename_display.delete("1.0", END)
         self.filename_display.insert(END, filename + '\\n')
+        root.update()
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
         self.replace_filepath_in_code(filename)
         import_statements = self.generate_import_statements()
-        self.structure_main_method(import_statements)
+        print('Installing packages:')
+        print('  ' + str(self.package_name_list))
+        print('   (This can take several minutes)')
+        root.update()
+        self.structure_main_method(import_statements, self.package_name_list)
         self.progressbar.step(10)
         self.progressbar.step(50)
 
@@ -153,13 +158,17 @@ class Gui:
         self.gpt_code = self.gpt_code.replace('FilePath.csv', user_path)
 
 
-    def structure_main_method(self, import_statements): 
+    def structure_main_method(self, import_statements, pkglst): 
         code = 'import subprocess\\n'
         code += 'import traceback\\n'
         code += 'def pip_install_subprocess():\\n'
         code += '\\timport sys\\n'
+        p_c = 0
         for stmnt in import_statements:
             code += '\\ttry:\\n'
+            code += '\\t\\t' + 'print(\\'  installing ' + str(pkglst[p_c]) + '...\\')\\n'
+            p_c += 1
+            code += '\\t\\troot.update()\\n'
             code += '\\t\\t' + stmnt + '\\n'
             code += '\\texcept:\\n'
             code += '\\t\\tpass\\n'
@@ -174,7 +183,10 @@ class Gui:
         self.progressbar.step(30)
         exec(code)
         self.progressbar.step(110)
+        print()
+        print()
         print('Process Complete.')
+        print()
         print('Result file:')
         print("  doData_Output_File.csv") 
         print('  (same folder as this app)')

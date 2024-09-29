@@ -91,7 +91,7 @@ var whataremnus = (function() {
 
 async function fas(){
     await $('#searchmenu').css('visibility','visible');
-    await $('#searchmenu').show();
+    // await $('#searchmenu').show();
 }
 
 $('#homepagebuildalgo').click(function() {

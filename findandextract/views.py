@@ -79,7 +79,7 @@ def clean_username(user):
     return username
 
 
-@login_required()
+# @login_required()
 def findandextract(request):
     global nli
     global threads
