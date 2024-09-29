@@ -2447,7 +2447,11 @@ $(document).ready(function () {
         'Find every sale greater than $10,000 between March and July',
         'Calculate the highest selling product for each product line',
         'Remove any rows where the Product ID starts with 004',
-        'Create a new column ',
+        'Change the dashes in email address column to underscores',
+        'Create a graph to show the number of shipments for each city',
+        'Create a new column which calculates the number of days between arrival and departure',
+        'Split first name and last name into seperate columns',
+        
 
         
     ]
