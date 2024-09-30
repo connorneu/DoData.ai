@@ -20,7 +20,13 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-a{font-size: 20px;}
+.anchors{
+  font-size: 20px;
+  color: #ff9d6e;
+}
+.anchors:hover{
+  color:darkorchid;
+}
 .form-box{
     position: relative;
     width: 400px;
@@ -383,33 +389,33 @@ section {
   border-radius: 12px;
 }
 .carousel__item:nth-child(1) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); /*linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);*/
 }
 .carousel__item:nth-child(2) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
   /*background: linear-gradient(45deg, #2d35eb 0%, #fdbb2d 100%);*/
 }
 .carousel__item:nth-child(3) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
   /*background: linear-gradient(45deg, #2d35eb 0%, #22c1c3 100%);*/
 }
 .carousel__item:nth-child(4) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
   /*background: linear-gradient(45deg, #fdbb2d 0%, #904ed4 100%);*/
   /*background: linear-gradient(45deg, #fdbb2d 0%, #904ed4 100%);*/
 }
 .carousel__item:nth-child(5) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
 }
 .carousel__item:nth-child(5) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
 }
 .carousel__item:nth-child(6) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
   /*background: linear-gradient(45deg, #ffffff 0%, #575757 100%);*/
 }
 .carousel__item:nth-child(7) {
-  background: linear-gradient(45deg, #bfc1e9 0%, #6709c5 50%,#f4f2f7 100%);
+  background: linear-gradient(45deg, #2f274d 10%, #6709c5 100%,#f4f2f7 0%); 
   /*background: linear-gradient(45deg, #501f1f 0%, #bb7c06 100%);*/
 }
 .carousel__item[data-pos="0"] {

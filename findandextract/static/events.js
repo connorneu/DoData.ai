@@ -582,6 +582,11 @@ $(document.body).on('click', '#runcode' , async function(){
 });
 
 
+//home button
+$(document.body).on('click', '#side-menu-home' , async function(){  
+     location.href="/"
+});
+
 
 /*
 $(document.body).on('click', '' , async function(){         

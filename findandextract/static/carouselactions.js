@@ -1845,6 +1845,7 @@ async function collect_extract_parameters_OLD_DECOMISSIONED(){
 }
 
 //HORIZONTAL NAVBAR  https://codepen.io/DaiSenzz/pen/wvQGjQd
+/*
 $(document).ready(function() {
     if (window.location.href.indexOf("algorithmbuilder") > -1){
         const sidebar = document.querySelector('.sidebar');
@@ -1875,6 +1876,7 @@ $(document).ready(function() {
         });
     }
 });
+*/
 
 
 // change submit icon to amke it active when text is input
@@ -2426,7 +2428,7 @@ $(document).ready(function () {
     // ——————————————————————————————————————————————————
     // Example
     // ——————————————————————————————————————————————————
-    
+
     const phrases_old = [
         'e.g Combine two datasets by matching on values in a common column',
         'e.g Create a custom Excel formula',
@@ -2485,6 +2487,7 @@ function write_color(i){
         return fourth_color
     }
 }
+
 
 // on hover info
 $(document).on({mouseenter: function () {

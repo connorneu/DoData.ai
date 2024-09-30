@@ -63,17 +63,23 @@ async function showalgopaths(){
     await $('#algopaths').css('visibility','visible');
 }
 
+
 var ifunsure = (function() {
     var executed = false;
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#ifunsure', 'Your apps are Python code. Open them with a text editor to see every single line of code. No trust required. 100% transparency.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'Your apps are in Python. Open them with a text editor to see every single line of code. No trust required. 100% transparency.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'You will need to install Python to run your apps.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'You don\'t need to do any coding.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            await home_page_carousel('#ifunsure', 'We alredy did that.', [null], true, true);
             await showdesctext()
         }
     };

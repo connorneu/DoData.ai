@@ -142,8 +142,6 @@ class Gui:
         print('   (This can take several minutes)')
         root.update()
         self.structure_main_method(import_statements, self.package_name_list)
-        self.progressbar.step(10)
-        self.progressbar.step(50)
 
 
     def generate_import_statements(self):
@@ -181,9 +179,7 @@ class Gui:
         code += 'if __name__ == "__main__\\":\\n'
         code += '\\tpip_install_subprocess()\\n'
         code += '\tuser_code()'
-        self.progressbar.step(30)
         exec(code)
-        self.progressbar.step(110)
         print()
         print()
         print('Process Complete.')
