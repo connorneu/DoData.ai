@@ -6,7 +6,8 @@ async function load_homepage(){
     await home_page_carousel('#homepagebannertext', 'doData.ai', [null], true, true);
     await home_page_carousel('#herotext', 'AI Data analysis - offline', [null], true, true);
     await $('#homepagebuildalgo').show();
-    await home_page_carousel('#howworkheader', ['Build your algorithm'], [null], false, false);
+    await home_page_carousel('#howworkheader', ['ChatGPT Excel Analysis - Offline'], [null], false, false);
+    // await home_page_carousel('#howworkheader2', ['Never upload your data'], [null], false, false);
     // await home_page_carousel('#howwork', 'Describe what you want to do to your data.', [null], true, true);
     await showcards();
 }

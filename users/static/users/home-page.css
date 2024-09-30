@@ -86,7 +86,7 @@ h2{
   background-color: black;
   opacity: 1;
   top: 0px;
-  border-bottom: 1px solid #dcdcdc;
+  /* border-bottom: 1px solid #dcdcdc; */
 }
 .logo {
   width: 50px;

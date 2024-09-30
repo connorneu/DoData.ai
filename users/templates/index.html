@@ -33,12 +33,12 @@
 
   <link href='https://fonts.googleapis.com/css?family=Montserrat|Cardo' rel='stylesheet' type='text/css'>
   
-  <header class="main_h">
+  <header class="main_h sticky">
 
       <div class="row">
         <div class="imglogo-wrap">
-          <img class="tinylogo" src="{% static 'users/images/logov2 justimg.png' %}">
-          <a class="logo" href="#">doData.ai</a>
+          <!-- <img class="tinylogo" src="{% static 'users/images/logov2 justimg.png' %}">
+          <a class="logo" href="#">doData.ai</a> -->
           
         </div>
           <div class="mobile-toggle">
@@ -60,16 +60,17 @@
 
   <div class="hero">
 
-      <h1 id="homepagebannertext"><br></h1>
+      <h1 class="sec01" id="homepagebannertext"><br></h1>
       <span id="herotext"></span>
       <div class="submit-algo-buttons" id="homepagebuildalgo">
-        <button id="homepagebuildalgo" class="glowbutton">Build Algorithm</button>
+        <button id="homepagebuildalgo" class="glowbutton">Build Desktop App</button>
       </div>  
 
   </div>
 
   <div class="row content">
       <h1 id="howworkheader"></h1>
+      <h1 id="howworkheader2"></h1>
       <p id="howwork"></p>
       <div class="carousel fade-in" id="menu-cards">
         <ul class="carousel__list">
@@ -100,7 +101,7 @@
 
       <br><br><br><br><br>
 
-      <h1 class="sec01" id="howworkheader"></h1>
+      <!-- <h1 class="sec01" id="howworkheader"></h1> -->
       <p id="describeproblem" style="height:205px;"></p>
       <video id="searchalgopath" style="width:750px;" autoplay loop muted>
         <source src="{% static 'users/images/howto.mp4' %}" type="video/mp4" />
@@ -116,7 +117,7 @@
 
       <p id="whereresult" style="margin-top:4%;"></p>
       <div class="submit-algo-buttons" id="homepagebuildalgobottom">
-        <button id="homepagebuildalgo-btm" class="glowbutton">Build Algorithm</button>
+        <button id="homepagebuildalgo-btm" class="glowbutton">Build your app</button>
       </div>  
       
       <h1 class="sec02"></h1>
