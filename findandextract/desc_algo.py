@@ -8,6 +8,7 @@ from tkinter import ttk
 import subprocess
 import io
 import sys
+import os
 
 class RedirectConsole(io.StringIO):
     # Custom IO class to redirect stdout to Tkinter text widget.
@@ -135,7 +136,8 @@ class Gui:
         self.filename_display.insert(END, '  ' + filename + '\\n')
         root.update()
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
-        self.replace_filepath_in_code(filename)
+        head, tail = os.path.split(filename)
+        self.replace_filepath_in_code(filename, head)
         import_statements = self.generate_import_statements()
         print('Installing packages:')
         print('  ' + str(self.package_name_list))
@@ -153,8 +155,10 @@ class Gui:
         return stmnts
 
 
-    def replace_filepath_in_code(self, user_path):
+    def replace_filepath_in_code(self, user_path, new_dir):
         self.gpt_code = self.gpt_code.replace('FilePath.csv', user_path)
+        outpath = os.path.join(new_dir, 'doData_Output_File.csv')
+        self.gpt_code = self.gpt_code.replace('doData_Output_File.csv', outpath)
 
 
     def structure_main_method(self, import_statements, pkglst): 
@@ -242,6 +246,8 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         When reading input file, check if extension is csv, Excel, or txt. Allow all different types of Excel extension including xl, xlsx, xls, xlsm, xlsb, and ods.
         If the code involves numerical operations, convert the required columns to numeric data types.
         When converting columns to numeric data types first strip away all non-numeric characters so there are no errors during conversion (like 20% causing an error because it's a string).
+        If there is going to be string comparison convert the column to type string and do not strip any values.
+        Make all string comparisons case insensitive.
         Read date column using to_datetime. Do not use format parameter.
         Never overwrite an existing column. If the column name is in use create a different column name.
         If the code requires a graph use a dark style with #6200ee as the color and make the axis labels visible and the output should be the graph.
