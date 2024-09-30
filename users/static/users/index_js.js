@@ -54,7 +54,7 @@ var howtochoose = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#howtochoose', 'Describe what you want to do to your data without uploading your files. Copy and paste your column headers and describe what you want to do and we\'ll build you a desktop app you can run offline.', [null], true, true);
+            await home_page_carousel('#howtochoose', 'Use ChatGPT to analyze your data without uploading your files. Describe what you want to do and we\'ll build a simple desktop app you can run offline.', [null], true, true);
             await showalgopaths()
         }
     };
@@ -68,7 +68,12 @@ var ifunsure = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#ifunsure', 'Powered by Python & ChatGPT. You\'ll need to install Python to run the apps we generate.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'Your apps are Python code. Open them with a text editor to see every single line of code. No trust required. 100% transparency.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            await home_page_carousel('#ifunsure', 'You will need to install Python to run your apps.', [null], true, true);
             await showdesctext()
         }
     };
@@ -124,12 +129,12 @@ var describetheproblem = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#describeproblem', 'Having your app be a Python file means you can see all the code. Just open with a text editor and see every single line of code. No trust required. 100% transparency.', [null], true, true);
+            await home_page_carousel('#describeproblem', 'Analyze data with AI...', [null], true, true);
             var linebreak = document.createElement("br");
             $('#describeproblem').append(linebreak);
             var linebreak = document.createElement("br");
             $('#describeproblem').append(linebreak);
-            await home_page_carousel('#describeproblem', 'We install all the required packages for you. Python uses packages of pre-written code to do things like read excel files and create graphs. Your app will install all the required packages when you run it.', [null], true, true);
+            await home_page_carousel('#describeproblem', 'keep your files on your computer.', [null], true, true);
             await desp();
         }
     };

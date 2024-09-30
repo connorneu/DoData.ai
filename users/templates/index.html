@@ -63,7 +63,7 @@
       <h1 class="sec01" id="homepagebannertext"><br></h1>
       <span id="herotext"></span>
       <div class="submit-algo-buttons" id="homepagebuildalgo">
-        <button id="homepagebuildalgo" class="glowbutton">Build Desktop App</button>
+        <button id="homepagebuildalgo" class="glowbutton">Start</button>
       </div>  
 
   </div>
@@ -71,6 +71,52 @@
   <div class="row content">
       <h1 id="howworkheader"></h1>
       <h1 id="howworkheader2"></h1>
+
+      <p id="howtochoose" style="height:100px;"></p>
+      <video style="border: 6px outset #ddd;width:750px;" id="searchalgopath"  autoplay loop muted>
+        <source src="{% static 'users/images/howto.mp4' %}" type="video/mp4" />
+      </video>
+
+      
+      <div class="carousel fade-in" style="margin-top:20%;" id="menu-cards">
+        <ul class="carousel__list">
+          <li class="carousel__item" data-pos="-2">
+            <img class="sample-menu-img" src="{% static 'users/images/Update.png' %}">
+          </li>
+          <li class="carousel__item" data-pos="-1">
+            <img class="sample-menu-img" src="{% static 'users/images/Calculate.png' %}">
+          </li>
+          <li class="carousel__item" data-pos="0">
+            <img class="sample-menu-img" src="{% static 'users/images/Column.png' %}">
+          </li>
+          <li class="carousel__item" data-pos="1">
+            <img class="sample-menu-img" src="{% static 'users/images/Extract.png' %}">
+          </li>
+          <li class="carousel__item" data-pos="2">
+            <img class="sample-menu-img" src="{% static 'users/images/Graph.png' %}">
+          </li>
+        </ul>
+      </div>
+
+      
+      <p style="height:200px;" id="ifunsure"></p>
+      <div>
+        <div style="margin-bottom:20%;"> 
+          <a target="_blank" style="color: #ff9d6e;" href="https://www.python.org/downloads/">Download Python</a>
+        </div>
+        <div>
+          <img class="fade-in" style="width:1000px;height:500px;" id="textbox-algo-desc-wrap" src="{% static 'users/images/how.png' %}">
+        </div>
+      </div>
+
+      
+
+
+
+
+      <p id="describeproblem" style="height:205px;"></p>
+
+      <!--
       <p id="howwork"></p>
       <div class="carousel fade-in" id="menu-cards">
         <ul class="carousel__list">
@@ -92,20 +138,13 @@
         </ul>
       </div>
 
-      <p id="howtochoose" style="height:100px;"></p>
-      <img style="width:420px;height:356px;margin-bottom:10%;" class="fade-in" id="algopaths" src="{% static 'users/images/ui.png' %}">
 
-      <p id="ifunsure"></p>
-      <a target="_blank" style="color: #ff9d6e;" href="https://www.python.org/downloads/">Download Python here.</a>
-      <img class="fade-in" style="width:500px;height:250px;" id="textbox-algo-desc-wrap" src="{% static 'users/images/how.png' %}">
 
-      <br><br><br><br><br>
 
-      <!-- <h1 class="sec01" id="howworkheader"></h1> -->
-      <p id="describeproblem" style="height:205px;"></p>
-      <video id="searchalgopath" style="width:750px;" autoplay loop muted>
-        <source src="{% static 'users/images/howto.mp4' %}" type="video/mp4" />
-      </video>
+      
+
+      
+
 
 
 
@@ -128,6 +167,7 @@
       <p></p>
       <h1 class="sec04"></h1>
       <p></p>
+      -->
   </div>
 
 

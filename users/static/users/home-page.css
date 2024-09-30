@@ -20,7 +20,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
-
+a{font-size: 20px;}
 .form-box{
     position: relative;
     width: 400px;
@@ -200,7 +200,7 @@ h1 {
 }
 p {
   margin-bottom: 20px;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 2;
 }
 .content {
