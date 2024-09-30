@@ -80,6 +80,11 @@ var ifunsure = (function() {
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
             await home_page_carousel('#ifunsure', 'We alredy did that.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            await home_page_carousel('#ifunsure', 'Install Python once to run your apps.', [null], true, true);
             await showdesctext()
         }
     };
