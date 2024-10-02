@@ -327,7 +327,7 @@ def findandextract(request):
                 try:
                     print('downloading result.')
                     response = download_file(request)
-                    clear_user_data(request)
+                    #clear_user_data(request)
                     return response
                 except:
                     traceback.print_exc()   
@@ -434,7 +434,7 @@ def findandextract(request):
                     print('end longues')
                     return JsonResponse({'fande_data_dump' : fande_db_data})
             else:
-                clear_user_data(request)
+                #clear_user_data(request)
                 return render(request, "findandextract/fandemain.html")
         except:
             traceback.print_exc()
