@@ -69,22 +69,27 @@ var ifunsure = (function() {
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#ifunsure', 'Your apps are in Python. Open them with a text editor to see every single line of code. No trust required. 100% transparency.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'Your apps are in Python. This way you can see every line of code you\'ve just downloaded.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'You don\'t need to do any coding.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'No trust required. 100% transparency.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'We alredy did that.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'You don\'t need to do any coding. We alredy did that.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
             var linebreak = document.createElement("br");
             $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'Install Python once to run your apps.', [null], true, true);
+            await home_page_carousel('#ifunsure', 'Install Python once.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#ifunsure').append(linebreak);
+            await home_page_carousel('#ifunsure', 'Then just click on your apps to run them.', [null], true, true);
             await showdesctext()
         }
     };

@@ -98,10 +98,6 @@ class Gui:
         self.filename_display.configure(state='disabled')  # Make it read-only
         sys.stdout = RedirectConsole(self.filename_display)
 
-        # add progress bar
-        self.progressbar = ttk.Progressbar()
-        self.progressbar.grid(row=3, column=0, padx=10, pady=0, sticky="ew")
-
         # Footer text
         footer_label = ttk.Label(main_frame, text="doDatai.ai © 2024", font=('Ubuntu', 10, 'italic'), foreground="#888888")
         footer_label.grid(row=4, column=0, pady=(20, 0))
@@ -132,18 +128,17 @@ class Gui:
         filename = filedialog.askopenfilename()
         self.filename_display.configure(state='normal') 
         self.filename_display.delete("1.0", END)
-        self.filename_display.insert(END, 'File Selected:' + '\\n')
-        self.filename_display.insert(END, '  ' + filename + '\\n')
+        head, tail = os.path.split(filename)
+        self.filename_display.insert(END, 'File Selected: ' + tail + '\\n')
         root.update()
         self.gpt_code = self.gpt_code.replace('FilePath.csv', filename)
         head, tail = os.path.split(filename)
         self.replace_filepath_in_code(filename, head)
         import_statements = self.generate_import_statements()
-        print('Installing packages:')
-        print('  ' + str(self.package_name_list))
-        print('   (This can take several minutes)')
+        print('Installing...')
+        print('[...............................................] 0% Complete')
         root.update()
-        self.structure_main_method(import_statements, self.package_name_list)
+        self.structure_main_method(import_statements, self.package_name_list, self.filename_display)
 
 
     def generate_import_statements(self):
@@ -161,18 +156,29 @@ class Gui:
         self.gpt_code = self.gpt_code.replace('doData_Output_File.csv', outpath)
 
 
-    def structure_main_method(self, import_statements, pkglst): 
+    def structure_main_method(self, import_statements, pkglst, display_box): 
         code = 'import subprocess\\n'
         code += 'import traceback\\n'
         code += 'def pip_install_subprocess():\\n'
         code += '\\timport sys\\n'
         p_c = 0
+        num_packages = len(pkglst)
+        dot_per_pkg = int(48 / num_packages)
+        hash_per_pkg = int(21 / num_packages)
+        cur_hash_pos = 0
         for stmnt in import_statements:
             code += '\\ttry:\\n'
-            code += '\\t\\t' + 'print(\\'  installing ' + str(pkglst[p_c]) + '...\\')\\n'
             p_c += 1
-            code += '\\t\\troot.update()\\n'
             code += '\\t\\t' + stmnt + '\\n'
+            prog_stmnt = '['
+            for i in range(hash_per_pkg*p_c):
+                prog_stmnt += '#'
+                cur_hash_pos += 1
+            for i in range(48-(dot_per_pkg*p_c)):
+                prog_stmnt += '.'
+            display_box.delete("end-2l","end-1l")
+            print(prog_stmnt + '] ' + str(int((100/num_packages)*p_c)) + '% Complete')
+            code += '\\t\\troot.update()\\n'
             code += '\\texcept:\\n'
             code += '\\t\\tpass\\n'
         code += '\\n'
@@ -189,8 +195,7 @@ class Gui:
         print('Process Complete.')
         print()
         print('Result file created:')
-        print("  doData_Output_File.csv") 
-        print('  (same folder as this app)')
+        print("  doData_Output_File.csv (in the same folder as this file)") 
 """
 
 MAIN_METHOD = """
@@ -308,7 +313,8 @@ def get_package_names(code):
             if '.' in line_words:
                 line_words.split('.')[0]
             package = line_words[1].strip()
-            packages.append(package)
+            if package != 'os' and package != 'sys':
+                packages.append(package)
     return packages
 
 
