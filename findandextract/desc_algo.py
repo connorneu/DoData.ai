@@ -242,7 +242,7 @@ def gpt_question(client, user_desc, col_list):
 
 def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp):
     question = f"""
-        Write Python code to solve the following task. Output only code.
+        Write Python script for the following task. Output only code.
         The beginning of the code needs to start with "XstartX" and the end of the code should end with "XendX".
         Strip any ``` and don't write python anywhere.
         Use column headers from the provided Column_Name_List when needed in the code.

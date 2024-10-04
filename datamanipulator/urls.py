@@ -22,7 +22,7 @@ urlpatterns = [
     #path('', include("main.urls")),
     #path('', include("login.urls")),
     #path('', include("reconcile.urls")),
-    path('algorithmbuilder/', include("findandextract.urls")),
+    path('excel_ai/', include("findandextract.urls")),
     path("", include('users.urls')),
     #path('', include("select_menu.urls")),
     #path('login/', include("users.urls")),

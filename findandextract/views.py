@@ -402,8 +402,8 @@ def findandextract(request):
                 filename = "doData.pyw"
                 content = user_code
                 response = HttpResponse(content, content_type='text/plain')
-                #response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
                 response['Content-Disposition'] = 'attachment; filename=%s' % filename
+                
                 return response
             #try:
             #    print('nonajax post')
@@ -442,6 +442,34 @@ def findandextract(request):
             return HttpResponse('Critical Error', status=500)  
 
 
+def download_executable():
+    uid = clean_username(str(request.META['REMOTE_ADDR']))
+    clear_user_tmp_dir(uid)
+    print('cleanedIP:', uid)
+    tmp_dir = create_tmp_dir_no_login(uid)
+    print('temp dir:', tmp_dir)
+    main_path = os.path.join(tmp_dir, 'main.py')
+    print('main path:', main_path)
+    with open(main_path, 'w+') as f:
+        f.writelines(user_code)
+    
+    import PyInstaller.__main__
+    work_dir = os.path.join(tmp_dir, 'work')
+    dist_dir = os.path.join(tmp_dir, 'dist')
+    PyInstaller.__main__.run([
+        main_path,
+        '--onefile',
+        '--windowed',
+        '--workpath', work_dir,
+        '--distpath', dist_dir
+    ]) 
+    dist_path = os.path.join(dist_dir, 'main')
+    with open(dist_path, 'rb') as f:
+        content = f.read()
+    response = HttpResponse(content, content_type='application/vnd.microsoft.portable-executable')
+    response['Content-Disposition'] = 'attachment; filename=%s' % 'doData.exe'
+
+
 def clear_user_data(request):
     print('clearing user data')
     KeyValueDataFrame.objects.filter(uid=str(request.user)).delete()
@@ -454,6 +482,15 @@ def clear_user_data(request):
     if os.path.exists(dir_name):
         print('directory exists')
         delete_user_files(dir_name, str(request.user))
+    else:
+        print('temporary directory does not exist')
+
+def clear_user_tmp_dir(uid):
+    dir_name = os.path.join('./User Files', uid + '_datafiles')
+    print('temp directory:', dir_name)
+    if os.path.exists(dir_name):
+        print('directory exists')
+        delete_user_files(dir_name, uid)
     else:
         print('temporary directory does not exist')
 
@@ -668,6 +705,12 @@ def write_result_to_db(df_result, uid):
     #        write_upload_files_raw #df_list, request, filenum
         
 def create_tmp_dir(uid):
+    dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    return dir_name
+
+def create_tmp_dir_no_login(uid):
     dir_name = os.path.join('./User Files', str(uid) + '_datafiles')
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)

@@ -117,10 +117,10 @@ async function fas(){
 }
 
 $('#homepagebuildalgo').click(function() {
-    window.location.href = '/algorithmbuilder';
+    window.location.href = '/excel_ai';
 });
 $('#homepagebuildalgo-btm').click(function() {
-    window.location.href = '/algorithmbuilder';
+    window.location.href = '/excel_ai';
 });
 
 

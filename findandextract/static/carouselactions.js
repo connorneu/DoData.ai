@@ -74,7 +74,7 @@ var fyi_color =  action_color;
 
 
 $(document).ready(async function() {
-    if (window.location.href.indexOf("algorithmbuilder") > -1){
+    if (window.location.href.indexOf("excel_ai") > -1){
         myanime = gsap.to("#grad", 10, { attr: {  gradientTransform: "rotate(365, 255 1)" }, ease: Linear.easeNone, repeat: -1 })
         myanime.play();
         var path = window.location.pathname;
@@ -1807,7 +1807,7 @@ async function describe_search_file_single(){
 }
 
 $(document).ready(function() {
-    if (window.location.href.indexOf("algorithmbuilder") > -1){
+    if (window.location.href.indexOf("excel_ai") > -1){
         var url = window.location.href;
         if( url.indexOf('#') < 0 ) {
             window.location.replace(url + "#");
@@ -1881,7 +1881,7 @@ $(document).ready(function() {
 
 // change submit icon to amke it active when text is input
 $(document).ready(function() {
-    if (window.location.href.indexOf("algorithmbuilder") > -1){
+    if (window.location.href.indexOf("excel_ai") > -1){
         var textarea = document.getElementById("textbox-algo-desc");
         textarea.addEventListener('input', icon_color_on_empty);
         function icon_color_on_empty() {
