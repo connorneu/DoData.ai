@@ -252,6 +252,7 @@ def gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp
         If the code involves numerical operations, convert the required columns to numeric data types.
         When converting columns to numeric data types first strip away all non-numeric characters so there are no errors during conversion (like 20% causing an error because it's a string).
         If there is going to be string comparison convert the column to type string and do not strip any values.
+        When performing a string operation on a column, convert the column to a string first.
         Make all string comparisons case insensitive.
         Read date column using to_datetime. Do not use format parameter.
         Never overwrite an existing column. If the column name is in use create a different column name.
@@ -308,11 +309,15 @@ def get_package_names(code):
     packages = []
     code_lines = code.split('\n')
     for line in code_lines:
-        if line.startswith('import'):
+        if line.startswith('import') or line.startswith('from'):
+            print('LINE:', line)
             line_words = line.split()
-            if '.' in line_words:
-                line_words.split('.')[0]
-            package = line_words[1].strip()
+            print('line words:', line_words)
+            if '.' in line_words[1]:
+                package = line_words[1].split('.')[0].strip()
+                print('PACKAGE:', package)
+            else:
+                package = line_words[1].strip()
             if package != 'os' and package != 'sys':
                 packages.append(package)
     return packages
@@ -339,12 +344,13 @@ def make_gpt_request_code(user_desc, col_heads, orig_q, follow_q, follow_resp):
     client = gpt_client()
     col_list = gpt_convert_columns_to_list(client, col_heads)
     gpt_code = gpt_question_code(client, user_desc, col_list, orig_q, follow_q, follow_resp)
+    gpt_code = gpt_code.replace('\d', '\\d')  # \d causes
     print('_Code_')
     print(gpt_code)
     packages = get_package_names(gpt_code)
     packages = get_dependant_packages(packages)
     print('packages:', packages)
-    outfile = GUI + '\n' + 'USER_CODE=' + "\"\"\"" + '\n' + str(gpt_code) + '\n' + "\"\"\"" + '\n' + 'USER_DESC=' + "\"\"\"" + '\n' + str(user_desc) + '\n' + "\"\"\"" + '\n' + 'PACKAGES=' + str(packages) + '\n' +  MAIN_METHOD
+    outfile = GUI + '\n' + 'USER_CODE=' + "\"\"\"" + str(gpt_code) + '\n' + "\"\"\"" + '\n' + 'USER_DESC=' + "\"\"\"" + '\n' + str(user_desc) + '\n' + "\"\"\"" + '\n' + 'PACKAGES=' + str(packages) + '\n' +  MAIN_METHOD
     print('\n\n')
     print(outfile)
     return outfile
