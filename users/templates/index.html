@@ -10,7 +10,7 @@
   <script src="{% static 'users/index_js.js' %}" type="module"></script>
   <script src="{% static 'algo_selection_tree.js' %}"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>  
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
   <title>doData.ai</title>
@@ -72,8 +72,8 @@
       <h1 id="howworkheader"></h1>
       <h1 id="howworkheader2"></h1>
 
-      <p id="howtochoose" style="height:100px;"></p>
-      <video style="border: 6px outset #ddd;width:750px;" id="searchalgopath"  autoplay loop muted>
+      <p id="howtochoose"></p>
+      <video id="searchalgopath"  autoplay loop muted>
         <source src="{% static 'users/images/howto.mp4' %}" type="video/mp4" />
       </video>
 
@@ -99,7 +99,7 @@
       </div>
 
       
-      <p style="height:400px;" id="ifunsure"></p>
+      <p id="ifunsure"></p> 
       <div>
         <div style="margin-bottom:20%;"> 
           <a class="anchors" target="_blank" href="https://www.python.org/downloads/">Download Python Here</a>

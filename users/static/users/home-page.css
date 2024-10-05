@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@100&family=Syne&family=Ubuntu+Mono&display=swap');
+
 *{
     margin: 0;
     padding: 0;
@@ -480,3 +481,55 @@ section {
 .text{
   color: #f57542;
 }
+
+#howtochoose{
+  height:100px;
+}
+
+video{
+  border: 6px outset #ddd;
+  width:750px;
+}
+
+#ifunsure{
+  height:400px;
+}
+
+  /*
+@media screen and (max-width: 500px) {
+  
+  body {
+      width: 100%;
+      margin: 0;
+      height:100%;
+  }
+  .glowbutton{
+    font-size: 20px;
+  }
+  .hero h1{
+    font-size: 69px;
+  }
+  #herotext{
+    font-size: 40px;
+  }
+
+  p{
+    font-size:25px;
+  }
+
+
+  #howtochoose{
+    height:300px;
+  }
+  #ifunsure{
+    height:1200px;
+  }
+  .anchors{
+    font-size:40px;
+  }
+  video{
+    border: 6px outset #ddd;
+    width:370px;
+  
+}
+    */

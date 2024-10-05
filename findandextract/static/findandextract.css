@@ -2379,3 +2379,49 @@ outside of combine*/
 .downloadbutton:hover{
     background: wheat;
 }
+
+@media only screen and (max-width: 767px) {
+    body {
+        font-size: 12px;
+        width: 100%;
+        margin: 0;
+        height:100%;
+    }
+    .action h2{
+        font-size:16px;
+        margin-left:0px !important;
+    }
+    .carouselcontainer.actionfyi h2 {
+        font-size:14px;
+        margin-left: 0px !important;
+    }
+    .action{
+        text-align: center;
+    }
+    .actionfyi{
+        text-align: center;
+    }
+    .sidebar{
+        display:none;
+    }
+    .header-banner-wrap h2{
+        font-size: 14px;
+    }
+    textarea{
+        width:329px;
+        font-size:14px;
+    }
+    .text{
+        font-size: 14px;
+        top:65px;
+        width: 326px;
+        left: 52px;
+    }
+    .anchors{
+        font-size:14px;
+    }
+    .header-banner-wrap h2 {
+        font-size:14px;
+    }
+
+}
