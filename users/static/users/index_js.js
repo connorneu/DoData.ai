@@ -6,10 +6,9 @@ async function load_homepage(){
     await home_page_carousel('#homepagebannertext', 'doData.ai', [null], true, true);
     await home_page_carousel('#herotext', 'AI Data analysis - offline', [null], true, true);
     await $('#homepagebuildalgo').show();
-    await home_page_carousel('#howworkheader', ['ChatGPT Excel Analysis - Offline'], [null], false, false);
+    await home_page_carousel('#howworkheader', ['What is doData.ai?'], [null], false, false);
     // await home_page_carousel('#howworkheader2', ['Never upload your data'], [null], false, false);
     // await home_page_carousel('#howwork', 'Describe what you want to do to your data.', [null], true, true);
-    await showcards();
 }
 
 async function showcards(){
@@ -35,62 +34,93 @@ $(window).scroll(function() {
     } else {
         $('.main_h').removeClass('sticky');
     }
-    if(isScrolledIntoView('#howtochoose')){
-        howtochoose();
+    if(isScrolledIntoView('#whatisheader')){
+        whatis();
     }
-    if(isScrolledIntoView('#describeproblem')){
+    if(isScrolledIntoView('#likewhatheader')){
+        likewhat();
+    }
+    if(isScrolledIntoView('#howworkheader2')){
         describetheproblem();
-    }
-    if(isScrolledIntoView('#ifunsure')){
-        ifunsure();
     }
     //if(isScrolledIntoView('#whereresult')){
     //    whereresult();
     //}
 });
 
-var howtochoose = (function() {
+var whatis = (function() {
     var executed = false;
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#howtochoose', 'Use ChatGPT to analyze your data without uploading your files. Describe what you want to do and we\'ll build a simple desktop app you can run offline.', [null], true, true);
-            await showalgopaths()
+            await home_page_carousel('#whatisheader', 'What is doData.ai?', [null], true, true);
+            await home_page_carousel('#whatis', 'An app which performs Excel analysis using AI offline.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#whatis').append(linebreak);
+            await home_page_carousel('#whatis', 'Ask ChatGPT to do stuff to your excel files without ever uploading your data to any website.', [null], true, true);
+            //await showalgopaths()
         }
     };
 })();
+
 async function showalgopaths(){
     await $('#algopaths').css('visibility','visible');
 }
 
 
-var ifunsure = (function() {
+var likewhat = (function() {
     var executed = false;
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#ifunsure', 'Your apps are in Python. This way you can see every line of code you\'ve just downloaded.', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
+            await home_page_carousel('#likewhatheader', 'Like what?', [null], true, true);
+            await showcards();
+
+            await home_page_carousel('#likewhat', '1. Filter datasets:', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'No trust required. 100% transparency.', [null], true, true);
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"Select all sales where Sale Date is between Oct 1 and Jan 31 where Sale Value is greater than $30,000\"', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
+            $('#likewhat').append(linebreak);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'You don\'t need to do any coding. We alredy did that.', [null], true, true);
+            $('#likewhat').append(linebreak);
+
+            await home_page_carousel('#likewhat', '2. Perform complex operations on columns:', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"When Last Sale Date was more than 90 days ago set Customer Status to Inactive\"', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'Install Python once.', [null], true, true);
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"Create a list of clients whose company names end in .ai\"', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
+            $('#likewhat').append(linebreak);
             var linebreak = document.createElement("br");
-            $('#ifunsure').append(linebreak);
-            await home_page_carousel('#ifunsure', 'Then just click on your apps to run them.', [null], true, true);
-            await showdesctext()
+            $('#likewhat').append(linebreak);
+
+            await home_page_carousel('#likewhat', '3. Create graphs:', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"Graph the Sale Value by the Sale Date for the last 90 days\"', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+
+            await home_page_carousel('#likewhat', '4. Create formulas:', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"Create a formula to replace the . with - in the Phone Numbers\"', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+
+            await home_page_carousel('#likewhat', '5. Ask questions of your data', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#likewhat').append(linebreak);
+            await home_page_carousel('#likewhat', '  \"Is the sum of Income higher than the sum of all the Expenses for the last month\"', [null], true, true);
+            $('#likewhat').append(linebreak);
         }
     };
 })();
