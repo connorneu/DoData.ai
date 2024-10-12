@@ -5,11 +5,18 @@ $(document).ready(async function() {
 async function load_homepage(){
     await home_page_carousel('#homepagebannertext', 'doData.ai', [null], true, true);
     await home_page_carousel('#herotext', 'AI Data analysis - offline', [null], true, true);
-    await $('#homepagebuildalgo').show();
+    await $('#homepagebuildalgo-wrap').show();
     await home_page_carousel('#howworkheader', ['What is doData.ai?'], [null], false, false);
     // await home_page_carousel('#howworkheader2', ['Never upload your data'], [null], false, false);
     // await home_page_carousel('#howwork', 'Describe what you want to do to your data.', [null], true, true);
 }
+
+$('#homepagebuildalgo').click(function() {
+    window.location.href = '/excel_ai';
+});
+$('#homepagebuildalgo-bottom').click(function() {
+    window.location.href = '/excel_ai';
+});
 
 async function showcards(){
     await $('#menu-cards').css('visibility','visible');
@@ -40,11 +47,17 @@ $(window).scroll(function() {
     if(isScrolledIntoView('#likewhatheader')){
         likewhat();
     }
-    if(isScrolledIntoView('#howworkheader2')){
-        describetheproblem();
+    if(isScrolledIntoView('#howdoesitworkheader')){
+        howdoesitwork();
     }
-    //if(isScrolledIntoView('#whereresult')){
-    //    whereresult();
+    if(isScrolledIntoView('#whatappletheader')){
+        whatapplet();
+    }
+    if(isScrolledIntoView('#whatispythonheader')){
+        whatispython();
+    }
+    //if(isScrolledIntoView('#butwhyheader')){
+    //    butwhy();
     //}
 });
 
@@ -58,13 +71,15 @@ var whatis = (function() {
             var linebreak = document.createElement("br");
             $('#whatis').append(linebreak);
             await home_page_carousel('#whatis', 'Ask ChatGPT to do stuff to your excel files without ever uploading your data to any website.', [null], true, true);
-            //await showalgopaths()
+            await showutube()
         }
     };
 })();
 
-async function showalgopaths(){
-    await $('#algopaths').css('visibility','visible');
+
+
+async function showutube(){
+    await $('#utube').css('visibility','visible');
 }
 
 
@@ -76,51 +91,6 @@ var likewhat = (function() {
             var linebreak = document.createElement("br");
             await home_page_carousel('#likewhatheader', 'Like what?', [null], true, true);
             await showcards();
-
-            await home_page_carousel('#likewhat', '1. Filter datasets:', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"Select all sales where Sale Date is between Oct 1 and Jan 31 where Sale Value is greater than $30,000\"', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-
-            await home_page_carousel('#likewhat', '2. Perform complex operations on columns:', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"When Last Sale Date was more than 90 days ago set Customer Status to Inactive\"', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"Create a list of clients whose company names end in .ai\"', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-
-            await home_page_carousel('#likewhat', '3. Create graphs:', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"Graph the Sale Value by the Sale Date for the last 90 days\"', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-
-            await home_page_carousel('#likewhat', '4. Create formulas:', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"Create a formula to replace the . with - in the Phone Numbers\"', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-
-            await home_page_carousel('#likewhat', '5. Ask questions of your data', [null], true, true);
-            var linebreak = document.createElement("br");
-            $('#likewhat').append(linebreak);
-            await home_page_carousel('#likewhat', '  \"Is the sum of Income higher than the sum of all the Expenses for the last month\"', [null], true, true);
-            $('#likewhat').append(linebreak);
         }
     };
 })();
@@ -129,67 +99,96 @@ async function showdesctext(){
     await $('#textbox-algo-desc-wrap').show();
 }
 
-
-var whataremnus = (function() {
+var howdoesitwork = (function() {
     var executed = false;
     return async function() {
         if (!executed) {
             executed = true;
-            await home_page_carousel('#whataremenus', 'The option menus are different for each algorithm. Use the dropdown menus to select which columns to use and apply any conditions.', [null], true, true);
-            await fas()
-        }
-    };
-})();
-
-async function fas(){
-    await $('#searchmenu').css('visibility','visible');
-    await $('#searchmenu').show();
-}
-
-$('#homepagebuildalgo').click(function() {
-    window.location.href = '/excel_ai';
-});
-$('#homepagebuildalgo-btm').click(function() {
-    window.location.href = '/excel_ai';
-});
-
-
-var whereresult = (function() {
-    var executed = false;
-    return async function() {
-        if (!executed) {
-            executed = true;
-            console.log('home triger')
-            await home_page_carousel('#whereresult', 'After designing your algorithm press the Build Algorithm button. Your algorithm will execute and display part of your data for review. You can then download the result.', [null], true, true);
-            await shobtn();
-        }
-    };
-})();
-
-async function shobtn(){
-    await $('#homepagebuildalgobottom').show();
-}
-
-var describetheproblem = (function() {
-    var executed = false;
-    return async function() {
-        if (!executed) {
-            executed = true;
-            await home_page_carousel('#describeproblem', 'Analyze data with AI...', [null], true, true);
+            await home_page_carousel('#howdoesitworkheader', 'How does it work?', [null], true, true);
+            await home_page_carousel('#howdoesitwork', 'Describe what you want to do to your data and tell us what your column headers are.', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#describeproblem').append(linebreak);
+            $('#howdoesitwork').append(linebreak);
             var linebreak = document.createElement("br");
-            $('#describeproblem').append(linebreak);
-            await home_page_carousel('#describeproblem', 'keep your files on your computer.', [null], true, true);
-            await desp();
+            $('#howdoesitwork').append(linebreak);
+            await home_page_carousel('#howdoesitwork', 'We\'ll create an applet for you to download and run from your computer.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#howdoesitwork').append(linebreak);
+            await home_page_carousel('#howdoesitwork', 'The applet is a tiny desktop app that runs from your computer, offline and disconected from the internet.', [null], true, true);
+            await showvideo()
         }
     };
 })();
-
-async function desp(){
-    await $('#searchalgopath').css('visibility','visible');
+async function showvideo(){
+    await $('#utube').css('visibility','visible');
+    await $('#utube').show();
 }
 
+
+var whatapplet = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#whatappletheader', 'What is the applet?', [null], true, true);
+            await home_page_carousel('#whatapplet', 'The applet is a very small file (about 10 kb) which has a simple user interface allowing you to select a file, see your prompt, and see the code your prompt generated.', [null], true, true);
+            await showui()
+            await home_page_carousel('#whatapplet2', 'The applet is not compiled meaning that all of the underlying Python code, for the user interface and to analyze your data, is visible to you if you want to see it.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#whatapplet2').append(linebreak);
+            await home_page_carousel('#whatapplet2', 'No trust required; 100% transparency.', [null], true, true);
+        }
+    };
+})();
+async function showui(){
+    await $('#frontandback-img').css('visibility','visible');
+}
+
+
+var whatispython = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#whatispythonheader', 'What is Python?', [null], true, true);
+            await home_page_carousel('#whatispython', 'Python is the most popular programming language in the world.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#whatispython').append(linebreak);
+            await home_page_carousel('#whatispython', 'It allows us to create small and versatile apps that you can easily download while still being able to see every single line of code before you run it.', [null], true, true);
+            await showinstall_btn()
+            await home_page_carousel('#butwhy', 'Python is the program that will let your computer know what to do when you run a Python file.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#butwhy').append(linebreak);
+            await home_page_carousel('#butwhy', 'You only need to install it once.', [null], true, true);
+            showbottom_start_btn();
+        }
+    };
+})();
+async function showinstall_btn(){
+    await $('#pybtn').css('visibility','visible');
+}
+async function showbottom_start_btn(){
+    await $('#homepagebuildalgo-bottom').css('visibility', 'visible');
+    $('#homepagebuildalgo-bottom-wrap').show();
+}
+
+
+var butwhy = (function() {
+    var executed = false;
+    return async function() {
+        if (!executed) {
+            executed = true;
+            await home_page_carousel('#butwhyheader', 'Why do I need to install Python before running my applets?', [null], true, true);
+            await home_page_carousel('#butwhy', 'It\'s the program that will let your computer know what to do when you run a Python file.Without it, your computer will not know what to do with the applets you download.After you install it, you\'ll be able to double click your apps and they\'ll start.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#butwhy').append(linebreak);
+            await home_page_carousel('#butwhy', 'You only need to install it once.', [null], true, true);
+            await showangryinstall_btn();
+        }
+    };
+})();
+async function showangryinstall_btn(){
+    await $('#pybtn-angry').css('visibility','visible');
+}
 
 
 
