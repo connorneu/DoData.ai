@@ -273,6 +273,15 @@ p {
 .hideimg{
   visibility: hidden;
 }
+#frontandback-img{
+  opacity:.8;
+}
+#homepagebuildalgo{
+  font-size:18px;
+}
+#homepagebuildalgo-bottom{
+  font-size:18px;
+}
 .hero {
   position: relative;
   background: black no-repeat center center fixed;

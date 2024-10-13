@@ -105,7 +105,10 @@ var howdoesitwork = (function() {
         if (!executed) {
             executed = true;
             await home_page_carousel('#howdoesitworkheader', 'How does it work?', [null], true, true);
-            await home_page_carousel('#howdoesitwork', 'Describe what you want to do to your data and tell us what your column headers are.', [null], true, true);
+            await home_page_carousel('#howdoesitwork', '1. Describe what you want to do to your data.', [null], true, true);
+            var linebreak = document.createElement("br");
+            $('#howdoesitwork').append(linebreak);
+            await home_page_carousel('#howdoesitwork', '2. Copy and paste your column headers.', [null], true, true);
             var linebreak = document.createElement("br");
             $('#howdoesitwork').append(linebreak);
             var linebreak = document.createElement("br");
@@ -155,10 +158,8 @@ var whatispython = (function() {
             $('#whatispython').append(linebreak);
             await home_page_carousel('#whatispython', 'It allows us to create small and versatile apps that you can easily download while still being able to see every single line of code before you run it.', [null], true, true);
             await showinstall_btn()
-            await home_page_carousel('#butwhy', 'Python is the program that will let your computer know what to do when you run a Python file.', [null], true, true);
+            await home_page_carousel('#butwhy', 'You\'ll need to have Python installed on your computer for your applets to run.', [null], true, true);
             var linebreak = document.createElement("br");
-            $('#butwhy').append(linebreak);
-            await home_page_carousel('#butwhy', 'You only need to install it once.', [null], true, true);
             showbottom_start_btn();
         }
     };
