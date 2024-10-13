@@ -659,7 +659,11 @@ video{
 
 @media screen and (max-width: 780px) {
   nav{
-    width: 100vw;
+    width: 90vw;
+    margin-right: 50PX;
+  }
+  .nav.ul.a {
+    font-size: 17px;
   }
   #menu-cards{
     display:none !important;

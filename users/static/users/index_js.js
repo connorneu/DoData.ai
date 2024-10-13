@@ -528,7 +528,7 @@ var x,
 	prev2,
 	prevIdPos,
 		///////
-	IMG_DIMENSTION = "1:1.3",
+	IMG_DIMENSTION = "10:13",
 		///////
 	imgDim = IMG_DIMENSTION.split(":");
 $(".slide-wrap-2 img").each(function(){
