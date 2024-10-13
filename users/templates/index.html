@@ -10,7 +10,7 @@
   <script src="{% static 'users/index_js.js' %}" type="module"></script>
   <script src="{% static 'algo_selection_tree.js' %}"></script>
   <script src="https://d3js.org/d3.v6.min.js"></script>  
-  <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
   <title>doData.ai</title>
@@ -75,7 +75,38 @@
     <p id="whatis"></p>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <h1 id="likewhatheader"></h1>
+    <div id="slideshow">
+      <button class="leftBtn" style="display: none"><div><div></div><div></div></div></button>
+      <div class="slide-wrap-outer">
+       <div class="slide-wrap">
+        <div class="slide-wrap-2">
+         <img src="{% static 'users/images/Column.png' %}" draggable="false">
+         <img src="{% static 'users/images/Update.png' %}" draggable="false">
+         <img src="{% static 'users/images/Calculate.png' %}" draggable="false">
+         <img src="{% static 'users/images/Extract.png' %}" draggable="false">
+         <img src="{% static 'users/images/Graph.png' %}" draggable="false">
+     
+        </div>
+         <div class="idPos"><div class="idPos2"></div></div>
+       </div>
+      </div>
+     </div>
     <div class="carousel fade-in" id="menu-cards">
       <ul class="carousel__list">
         <li class="carousel__item" data-pos="-2">
@@ -123,7 +154,7 @@
     </a>
 
     <div class="submit-algo-buttons hideimg" id="homepagebuildalgo-bottom-wrap">
-      <button id="homepagebuildalgo-bottom" class="glowbutton">Start Analyzing Excel with AI - Offline</button>
+      <button id="homepagebuildalgo-bottom" class="glowbutton">Start</button>
     </div>  
 
 

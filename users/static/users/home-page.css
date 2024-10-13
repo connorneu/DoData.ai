@@ -78,11 +78,7 @@ h2{
   padding-bottom: 6px;
   z-index: 100;
 }
-@media only screen and (max-width: 766px) {
-  .main_h {
-    padding-top: 25px;
- }
-}
+
 .open-nav {
   max-height: 400px !important;
 }
@@ -167,48 +163,26 @@ h2{
   100% { transform: translateY(0) }
  }
 
-@media only screen and (max-width: 766px) {
-  .logo {
-    float: none;
- }
-}
+
 nav {
   float: right;
   width: 60%;
   margin-top:10px;
 }
-@media only screen and (max-width: 766px) {
-  nav {
-    width: 100%;
- }
-}
+
 nav ul {
   list-style: none;
   overflow: hidden;
   text-align: right;
   float: right;
 }
-@media only screen and (max-width: 766px) {
-  nav ul {
-    padding-top: 10px;
-    margin-bottom: 22px;
-    float: left;
-    text-align: center;
-    width: 100%;
- }
-}
+
 nav ul li {
   display: inline-block;
   margin-left: 35px;
   line-height: 1.5;
 }
-@media only screen and (max-width: 766px) {
-  nav ul li {
-    width: 100%;
-    padding: 7px 0;
-    margin: 0;
- }
-}
+
 nav ul a {
   color: #ffffff;
   text-transform: uppercase;
@@ -226,11 +200,7 @@ nav ul a {
   -moz-transition: all 200ms ease-in;
   transition: all 200ms ease-in;
 }
-@media only screen and (max-width: 766px) {
-  .mobile-toggle {
-    display: block;
- }
-}
+
 .mobile-toggle span {
   width: 30px;
   height: 4px;
@@ -277,7 +247,7 @@ p {
   opacity:.8;
 }
 #homepagebuildalgo{
-  font-size:18px;
+  font-size:16px;
 }
 #homepagebuildalgo-bottom{
   font-size:18px;
@@ -424,7 +394,7 @@ section {
 
 /* carousel */
 .carousel {
-  display: flex;
+  display: flex !important;
   width: 100%;
   height: 100%;
   align-items: center;
@@ -566,44 +536,179 @@ video{
 }
 
 
-@media screen and (max-width: 500px) {
-  p {
-    font-size: 24px;
-  }
+/*slide show for mobile*/
+.slide-item {
+	width: 300px;
+	height: 30px;
+	display: flex;
+	text-align: center;
+	line-height: 30px;
+	background: orange;
+	margin: 0;
+	position: relative;
+	float: left;
 }
- /* 
-  body {
-      width: 100%;
-      margin: 0;
-      height:100%;
-  }
-  .glowbutton{
-    font-size: 20px;
-  }
-  .hero h1{
-    font-size: 69px;
-  }
-  #herotext{
-    font-size: 40px;
-  }
+.slide-wrap-2 img {
+	float: left;
+	user-drag: none;
+	user-select: none;
+}
+.slide-wrap {
+	position: relative;
+	background: yellow;
+}
+#slideshow {
+  display:none !important;
+  /*
+	left: 50%;
+	transform: translateX(-50%);
+  position: absolute;
+  */
+	width: 100vw;
 
-  p{
+	
+	overflow: hidden;
+}
+.slide-wrap-2 {
+	position: relative;
+}
+.slide-wrap-2-not-dragging {
+	transition: left .3s ease-out;
+
+	
+}
+#slideshow-outer {
+	width: 100vw;
+	position: relative;
+	overflow: hidden;
+}
+.rightBtn i {
+	position: absolute;
+	left: 50%;
+
+
+	transform: translate(-50%,-50%);
+}
+.rightBtn:active, .leftBtn:active {
+	filter: opacity(90%);
+	border: none;
+}
+.rightBtn:focus, .leftBtn:focus {
+	outline: 0;
+	border: 2px solid #81ecec;
+}
+.rightBtn:hover, .leftBtn:hover {
+}
+.rightBtn, .leftBtn {
+	cursor: pointer;
+	border-radius: 50%;
+	border: none;
+	background: #bac2d1;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	position: absolute;
+	z-index: 5;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 5px;
+}
+.rightBtn {
+	right: 5px;
+	left: unset;
+}
+.idPos {
+	width: 100%;
+	background: yellow;
+	position: absolute;
+	top: unset;
+	left: 0;
+	z-index: 98;
+}
+.spam {
+	position: absolute;
+	z-index: 111;
+	width: 100%;
+	height: 100%;
+
+}
+.idPosItem {
+	background: #81ecec;
+	width: 12px;
+	border: 2px solid rgba(0,0,0,0.3);
+	border-radius: 50%;
+	height: 12px;
+	cursor: pointer;
+	float: left;
+	margin: 3.5px;
+	position: relative;
+	top: 0;
+	
+	transition: all .3s cubic-bezier(.58,1.49,.68,.53);
+
+	z-index: 99;
+}
+.idPos2 {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+
+
+@media screen and (max-width: 780px) {
+  nav{
+    display:none !important;
+  }
+  #menu-cards{
+    display:none !important;
+  }
+  body{
+    min-width: fit-content;
+    width:100%;
+    height: 100%;
+
+  }
+  h1{
     font-size:25px;
   }
+  p{
+    font-size:16px;
+  }
+  .hero{
+    padding-top:10px;
+    min-height:320px;
+  }
+  #slideshow{
+    visibility:hidden;
+    display:block !important;
+  }
+  #homepagebuildalgo{
+    font-size: 16px;
+  }
+  #whatis{
+    height:158px;
+  }
+  #howdoesitwork{
+    height:280px;
+  }
+  #utube{
+    width:90vw;
+    height:279px;
+  }
+  #frontandback-img{width:350px;}
 
-
-  #howtochoose{
-    height:300px;
-  }
-  #ifunsure{
-    height:1200px;
-  }
-  .anchors{
-    font-size:40px;
-  }
-  video{
-    border: 6px outset #ddd;
-    width:370px;
-  
 }
-    */
+
+
+
+
+
+
+
+
+
+
+
+
