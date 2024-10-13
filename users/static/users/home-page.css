@@ -659,7 +659,7 @@ video{
 
 @media screen and (max-width: 780px) {
   nav{
-    display:none !important;
+    width: 100vw;
   }
   #menu-cards{
     display:none !important;
